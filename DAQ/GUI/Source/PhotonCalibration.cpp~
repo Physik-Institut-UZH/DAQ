@@ -1,0 +1,240 @@
+
+using namespace std;
+
+PhotonCalibration::PhotonCalibration(){
+
+}
+
+string Common::GetTime(){
+
+	time_t current_time;
+	current_time = time(NULL);
+	buffer = ctime(&current_time);
+        t = std::string(buffer);
+	return t;
+}
+
+int Common::GetUnixTime(){
+
+	time_t current_time;
+	current_time = time(NULL);
+	return current_time;
+}
+
+string Common::GetDayYear(){
+	
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer [80];
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+	strftime(buffer,80,"%H",timeinfo);
+	t = std::string(buffer);
+	return t;
+}
+
+string Common::GetDay(){
+	
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer [80];
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+	strftime(buffer,80,"%F",timeinfo);
+	t = std::string(buffer);
+	return t;
+}
+
+
+string Common::EstablishSSHConnection(){
+    	 my_ssh_session = ssh_new();
+    	 ssh_options_set(my_ssh_session, SSH_OPTIONS_HOST, target.c_str());
+   	 rc = ssh_connect(my_ssh_session);
+   	 if (rc != SSH_OK)
+   	 {	
+		Message = "Error connecting to GPUCluster: " ;
+    	    	Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		ssh_free(my_ssh_session);
+		status = false;
+		return Message;
+   	 }
+
+   	 rc = ssh_userauth_password(my_ssh_session, NULL, password.c_str());
+   	 if (rc != SSH_AUTH_SUCCESS)
+   	 { 	
+		Message = "Error authenticating with password: " ;
+     		Message = Message + ssh_get_error(my_ssh_session);
+		ssh_disconnect(my_ssh_session);
+		ssh_free(my_ssh_session);
+		status = false;
+		return Message;
+   	 }
+    	Message = "Established SSH Connection Sucesfull! (GPU Cluster) \n";
+    	status = true;
+    	return Message;
+	
+}
+
+string Common::DestroySSHConnection(){
+	status = false;
+    	ssh_disconnect(my_ssh_session);
+   	ssh_free(my_ssh_session);
+    	Message = "Disconnected from GPU Cluster! \n" ;
+   	return Message;
+}
+
+string Common::SubmitCommand(string command, bool application)
+{
+	submit = ssh_channel_new(my_ssh_session);
+	if (submit == NULL){
+		Message="Cannot execute command on GPU Cluster \n";
+		return Message;
+	}
+
+	rc = ssh_channel_open_session(submit);
+	if (rc != SSH_OK)
+	{
+		ssh_channel_free(submit);
+		Message="Cannot execute command on GPU Cluster \n";
+		return Message;
+	}
+	rc = ssh_channel_request_exec(submit, command.c_str() );
+	if(!application){
+		std::ofstream outfile ("tmp/SlowControlPID.txt",ios_base::out);
+		char buffer[1024];
+		unsigned int nbytes;
+		nbytes = ssh_channel_read(submit, buffer, sizeof(buffer), 0);
+		while (nbytes > 0)
+		{
+			outfile.write (buffer,nbytes);
+			nbytes = ssh_channel_read(submit, buffer, sizeof(buffer), 0);
+		}
+	}
+
+	ssh_channel_close(submit);
+	ssh_channel_free(submit);
+	Message = "Sucesfull executed command on GPU Cluster \n";
+	return Message;
+}
+
+string Common::DataRead(string read, string save)
+{
+	sftp = sftp_new(my_ssh_session);
+	if (sftp == NULL)
+	{
+		Message = "Error allocating SFTP session: ";
+		Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		return Message;
+	}
+	rc = sftp_init(sftp);
+	if (rc != SSH_OK)
+	{
+		Message = "Error initializing SFTP session. \n ";
+		sftp_free(sftp);
+		return Message;
+	}
+	int access_type;
+	sftp_file file;
+	char buffer[MAX_XFER_BUF_SIZE];
+	int nbytes, nwritten, rc;
+	int fd;
+	access_type = O_RDONLY;
+	file = sftp_open(sftp, read.c_str(), access_type, 0);
+	if (file == NULL) {
+		Message = "Can't open file for reading: ";
+		Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		sftp_free(sftp);
+		return Message;
+	}
+	fd = open(save.c_str(), O_RDWR | O_TRUNC);
+	if (fd < 0) {
+		Message = "Can't open file for writing";
+		Message = Message + strerror(errno) +" \n";
+		sftp_free(sftp);
+		return Message;
+	}
+	for (;;) {
+		nbytes = sftp_read(file, buffer, sizeof(buffer));
+		if (nbytes == 0) {
+			break; // EOF
+		} else if (nbytes < 0) {
+			Message = "Error while reading file: ";
+			Message = Message + ssh_get_error(my_ssh_session) +" \n";
+			sftp_close(file);
+			sftp_free(sftp);
+			return Message;
+		}
+		nwritten = write(fd,buffer, nbytes);
+		if (nwritten != nbytes) {
+			Message = "Error writing: ";
+			Message = Message + strerror(errno) +" \n";
+			sftp_close(file);
+			sftp_free(sftp);
+			return Message;
+		}
+	}
+	rc = sftp_close(file);
+	if (rc != SSH_OK) {
+		Message = "Can't close the read file: ";
+		Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		return Message;
+	}	
+	Message = "Data sucessfull read!!";
+	sftp_free(sftp);
+	return Message;
+}
+
+string Common::DataSave(string save, string read)
+{
+	sftp = sftp_new(my_ssh_session);
+	if (sftp == NULL)
+	{
+		Message = "Error allocating SFTP session: ";
+		Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		return Message;
+	}
+	rc = sftp_init(sftp);
+	if (rc != SSH_OK)
+	{
+		Message = "Error initializing SFTP session. \n ";
+		sftp_free(sftp);
+		return Message;
+	}
+
+	int access_type = O_WRONLY | O_CREAT | O_TRUNC;
+	sftp_file file;
+	//const char *helloworld = "Hello, World!\n";
+	//int length = strlen(helloworld);
+	int nwritten;
+	file = sftp_open(sftp, save.c_str(),access_type, S_IRWXU);
+	if (file == NULL)
+	{
+		Message = "Can't open file for writing: ";
+		Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		sftp_free(sftp);
+		return Message;
+	}
+	ifstream fin(read.c_str(), ios::binary);
+	if (fin) {
+ 		 fin.seekg(0, ios::end);
+ 		 ios::pos_type bufsize = fin.tellg();   // get file size in bytes
+  		 fin.seekg(0); 				// rewind to beginning of file
+ 		 char* buf = new char[bufsize];
+  		 fin.read(buf, bufsize); 		// read file contents into buffer
+  		 sftp_write(file, buf, bufsize); 	// write to remote file
+	}	
+	rc = sftp_close(file);
+	if (rc != SSH_OK)
+	{
+		Message = "Can't close the written file: ";
+		Message = Message + ssh_get_error(my_ssh_session) +" \n";
+		return Message;
+	}
+	Message = "Data sucessfull written!!";
+	sftp_free(sftp);
+	return Message;
+}
+
+
+
+
