@@ -3,12 +3,12 @@
 <settings author="Last additions by JW" date="24/03/2015">
   <!-- global Settings for the measurement--> 
   <global>
-    <source>LED+Laser</source>			<!-- What is measured? -->
-    <notes>Linearity_1000Hz</notes>			<!-- Comments -->
-    <path>/home/sandbox/GPU_PC/Linearity/Raw_Data/Amplifier/Run_1_50Hz/</path> <!-- **Path to files-->
+    <source>Laser</source>			<!-- What is measured? -->
+    <notes>Scan_KB0281</notes>			<!-- Comments -->
+    <path>/home/sandbox/GPU_PC/Scans/Raw_Data_Laser/KB0281-20_18000P/</path> <!-- **Path to files-->
     <daq_version>2.0.0</daq_version>		<!-- 24/03/2015 modified by Julien -->
-    <nb_evts>500000</nb_evts>			<!-- **Evts to be measured; -1 is infinity -->	
-    <nb_evts_per_file>500000</nb_evts_per_file> 	<!-- **No of Events stored in one file -->	
+    <nb_evts>10000</nb_evts>			<!-- **Evts to be measured; -1 is infinity -->	
+    <nb_evts_per_file>10000</nb_evts_per_file> 	<!-- **No of Events stored in one file -->	
     <store_data>7</store_data>			<!-- **0: no,  tests 7: save waveforms only (standard)-->
     <displaytime>1</displaytime>		<!-- **Display measured triggers, MBs, etc. every x sec -->
     <user>Julien</user>				<!-- Who started the measurement? -->
@@ -30,8 +30,8 @@
       	<ch_7>0</ch_7>                            
 
       <nb_samples_per_evt>16</nb_samples_per_evt>  	<!-- **max nb. samples/event in k-->
-      <custom_size>500</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>450</posttrigger> 		<!-- **samples after trigger -->
+      <custom_size>300</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>150</posttrigger> 		<!-- **samples after trigger -->
       <trigger>0</trigger>			<!-- **0:ext trig, 1:S1 trig, 2:S2 trig -->
       <s1_thresh>50</s1_thresh>			<!-- **ADC threshold to generate S1 trigger -->
       <sampling_freq>100000000</sampling_freq>	<!-- **sampling frequency -->

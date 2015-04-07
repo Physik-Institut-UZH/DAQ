@@ -343,14 +343,14 @@ int xml_readsettings(char filename[100], crate& crt, digitizer& adc, scaler& s,
   if (xstr) {
 	strcpy(txt,xstr); 
     adc.sampling_freq=atoi(txt);
-     printf("  Frequency:   %s Hz\n",txt); 
+    col((char*)"gray"); printf("  Frequency:   %s Hz\n",txt); 
   } else xml_error((char*)"sampling_freq");
   
   xstr=xNode.getChildNode("sample_size").getText();
   if (xstr) {
 	strcpy(txt,xstr); 
     adc.sample_size=atoi(txt);
-     printf("  Sample Size: %s bit\n",txt); 
+    col((char*)"gray"); printf("  Sample Size: %s bit\n",txt); 
   } else xml_error((char*)"sample_size");
 
   xstr=xNode.getChildNode("voltage_range").getText();

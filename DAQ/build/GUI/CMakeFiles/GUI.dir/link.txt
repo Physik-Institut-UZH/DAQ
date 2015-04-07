@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -DLINUX   -shared -Wl,-soname,libGUI.so -o ../lib/libGUI.so CMakeFiles/GUI.dir/Source/graph.cpp.o ../lib/libCore.so ../lib/libPlugins.so -lCAENVME -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -ldl -Wl,-rpath,/home/sandbox/DAQ_2.0/DAQ/build/lib 

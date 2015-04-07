@@ -382,7 +382,7 @@ int control_cmdline( int argc, char *argv[], char *envp[], int& time, u_int32_t&
       printf("\t-o show help for oscilloscope mode\n");
       printf("\t-h display this help\n\n" );
       exit( 2 );
-      printf(RESET);
+      printf(KYEL);
   }
         
   if (graphics.on) errormsg(0,(char *)":::: WARNING: Graphics output is slow! ::::\n"); 

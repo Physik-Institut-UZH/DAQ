@@ -432,7 +432,7 @@ int main(int argc, char *argv[], char *envp[] )
        if (time>0 && t.MeasSeconds>=time) quit=1;
        
     } // end: readout-loop ------------------------------------------------------
-    printf(KGRN);
+    
     // print summary and update logfile
     ms = get_time()-t.PreviousTime;
     control_calctime(t,ms,text);
@@ -442,7 +442,7 @@ int main(int argc, char *argv[], char *envp[] )
     sprintf(text,"Total Number of Events Measured = %d", t.tottrg);
     printf("  %s\n\n",text); 
     control_printlog(logfile,0,text);    
-     printf(RESET);
+    
     // close data-file(s)
     if (WriteToFile>0 && quit && FileEvtCounter>=0) {
 		if ((WriteToFile==1)||(WriteToFile==2)||(WriteToFile==4)){	
