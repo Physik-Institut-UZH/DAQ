@@ -35,7 +35,7 @@
       <sampling_freq>100000000</sampling_freq>	<!-- **sampling frequency -->
       <sample_size>14</sample_size>		<!-- **sampling width in bits -->
       <voltage_range>2.25</voltage_range>	<!-- **voltage range of ADC -->
-      <baseline>16000</baseline>  		<!-- **position of baseline (channels) -->	
+      <baseline>7000</baseline>  		<!-- **position of baseline (channels) -->	
       <busy>0</busy>				<!-- **ADC busy on (1) or off (0) --> 
       <ttl>1</ttl>	
     </global>
@@ -52,8 +52,8 @@
     <graphics>
       <xdisplay>1</xdisplay>			<!-- ** 0:standard, 1:manual, 2:auto -->
       <ydisplay>2</ydisplay>			<!-- ** 0:standard, 1:manual, 2:auto -->
-      <xaxis_low>15900</xaxis_low>		<!-- ** lower border x-axis -->
-      <xaxis_high>19000</xaxis_high>		<!-- ** upper border x-axis -->
+      <xaxis_low>0</xaxis_low>		<!-- ** lower border x-axis -->
+      <xaxis_high>2000</xaxis_high>		<!-- ** upper border x-axis -->
       <yaxis_low>0</yaxis_low>		<!-- ** lower border of y-axis display -->
       <yaxis_high>16383</yaxis_high>		<!-- ** upper border -->
       <xautorange>30</xautorange>		<!-- ** x-display of y-minimum +- this value -->

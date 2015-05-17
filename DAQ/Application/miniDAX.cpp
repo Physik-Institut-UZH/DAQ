@@ -106,7 +106,6 @@ extern "C" {
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
-
 //--------------------------------------------------------------------------
 // catch CTRL-C, otherwise files etc. are not closed properly
 void sigproc(int sig)
@@ -162,6 +161,7 @@ int main(int argc, char *argv[], char *envp[] )
     // Variables for Program Options
     int WriteToFile=5;		// specify data format (default=ROOT tree format) 
     int time, baseline;
+
     var_graphics graphics;
     u_int32_t NoE;
     char text[100];
@@ -300,8 +300,8 @@ int main(int argc, char *argv[], char *envp[] )
 		int wf5[adc.EventLength]; // DM
 		int wf6[adc.EventLength]; // DM
 		int wf7[adc.EventLength]; // DM 
-
-
+		double freq;  
+		freq=0;
 //}
 
     printf(RESET);
@@ -316,7 +316,7 @@ int main(int argc, char *argv[], char *envp[] )
 // 	    if (control_openxdio(&xfile,&xatt, OutFileName,FileCounter,WriteToFile,adc,logfile,EventsPerFile,t)<0) goto exit_prog;	
 	  }
 	  else if(WriteToFile==7) {
-		if (control_openrawrootfile(&orootfile,&t1,OutFileName,FileCounter,WriteToFile,adc,logfile,wf0,wf1,wf2,wf3,wf4,wf5,wf6,wf7)<0) goto exit_prog;	    
+		if (control_openrawrootfile(&orootfile,&t1,OutFileName,FileCounter,WriteToFile,adc,logfile,wf0,wf1,wf2,wf3,wf4,wf5,wf6,wf7,freq)<0) goto exit_prog;	    
 	  }
 	  FileCounter++;
 	  FileEvtCounter=0;
@@ -329,7 +329,7 @@ int main(int argc, char *argv[], char *envp[] )
 	if (graphics.on) graph_checkkey(graphics, adc, c, g, OutFileName);
 
 	// Calculate throughput rate (every second) and read scaler
-	if (control_calcrate(t, s, FileEvtCounter)<0) goto exit_prog;
+	if (control_calcrate(t, s, FileEvtCounter,freq)<0) goto exit_prog;
 		        	    	   	    
 	// Interrupts: 
         // If enabled, wait for the interrupt request from the digitizer. In this mode,
@@ -386,7 +386,7 @@ int main(int argc, char *argv[], char *envp[] )
 	  }
 	  
 	  else if(WriteToFile==7){ //Root tree only raw waveforms
-	    ret=control_writerootrawdata(adc,i,orootfile,t1,WriteToFile,blt_bytes,buff[i],wf0,wf1,wf2,wf3,wf4,wf5,wf6,wf7);
+	    ret=control_writerootrawdata(adc,i,orootfile,t1,WriteToFile,blt_bytes,buff[i],wf0,wf1,wf2,wf3,wf4,wf5,wf6,wf7,freq);
 		if (ret>=0) {
 			t.tottrg+=ret; FileEvtCounter+=ret;
 		} 	
@@ -418,8 +418,8 @@ int main(int argc, char *argv[], char *envp[] )
 //			else if (WriteToFile==3) xdio_close(xfile);  //====================== AB ======================//
 			else if ((WriteToFile==5)||(WriteToFile==6)||(WriteToFile==7)){
 				orootfile->cd();
-    			t1->Write();
-    			orootfile->Close();   	
+    				t1->Write();
+    				orootfile->Close();   	
 	   		}
 
 				

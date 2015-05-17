@@ -21,7 +21,7 @@
 
 extern "C" {
 
-int sand=-1;
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -37,6 +37,9 @@ int sand=-1;
 //    #include <unistd.h>
     #include <sys/time.h>
 #endif
+int sand=-1;
+int jul=1;
+char OutPutFolder[100]="";
 }
 
 #include "global.h"
@@ -62,7 +65,6 @@ int sand=-1;
 #include <TSystem.h>
 #include <TFile.h>
 #include <TCanvas.h>
-
 int control_printlog(FILE *logfile, int time, char *text);
 
 //-------------------------------------------------------------------
@@ -197,6 +199,7 @@ int control_gettimestring(char *timestr, char format)
 
   curtime = time (NULL);		// Get the current time. 
   loctime = localtime (&curtime);	// Convert it to local time representation. 
+
   if(sand==-1){
   	if (format=='f')
    	  strftime(timestr, 100, "%y%m%d_%H%M", loctime);	// formatted print for filenames
@@ -302,7 +305,7 @@ int control_cmdline( int argc, char *argv[], char *envp[], int& time, u_int32_t&
   baseline=0;
   adc.BoardInfo=0;  
   //  search for possible options 
-  while ( ( c = getopt( argc, argv, "t:n:f:g:m:x:s:ibahow" ) ) != -1 )  {
+  while ( ( c = getopt( argc, argv, "t:n:f:g:m:j:x:s:ibahow" ) ) != -1 )  {
       someArgs=1;
       switch ( c ) {
         case 'f': 
@@ -315,6 +318,10 @@ int control_cmdline( int argc, char *argv[], char *envp[], int& time, u_int32_t&
 	  sand=atoi(optarg);
 	  //sprintf(sand,"%s",optarg.);
           break;
+	case 'j':
+	  sprintf(OutPutFolder,"%s",optarg);
+	  jul=-1;
+	  break;
         case 't': 
           time = atoi( optarg );
           if ( time <= 0 ) { errormsg(0,(char *)"Measuring Time must be greater than 0"); errflag++; }
@@ -631,7 +638,7 @@ int control_openfile(FILE **ofile, char *FileName, int& FileCounter, int WriteTo
 
 // ======================== ROOT file for mode 7, DM version ===============================//
  
-int control_openrawrootfile( TFile **orootfile, TTree **t1, char *FileName, int& FileCounter, int WriteToFile, digitizer& adc, FILE *logfile,int wf0[],int wf1[],int wf2[],int wf3[],int wf4[],int wf5[],int wf6[],int wf7[])
+int control_openrawrootfile( TFile **orootfile, TTree **t1, char *FileName, int& FileCounter, int WriteToFile, digitizer& adc, FILE *logfile,int wf0[],int wf1[],int wf2[],int wf3[],int wf4[],int wf5[],int wf6[],int wf7[], double& freq)
 {    
   	char OutFileName[100];
   	char text[120];
@@ -639,6 +646,7 @@ int control_openrawrootfile( TFile **orootfile, TTree **t1, char *FileName, int&
   	sprintf(OutFileName,"%s_%05d.root",FileName,FileCounter);	    
 	*orootfile = new TFile(OutFileName,"RECREATE");
 	*t1 = new TTree("t1","t1");
+//	(*t1)->Branch("freq", &freq, "freq/D");
 	if (adc.channel[0]) (*t1)->Branch("wf0", wf0, TString::Format("wf0[%i]/I", adc.EventLength));
 	if (adc.channel[1]) (*t1)->Branch("wf1", wf1, TString::Format("wf1[%i]/I", adc.EventLength));
 	if (adc.channel[2]) (*t1)->Branch("wf2", wf2, TString::Format("wf2[%i]/I", adc.EventLength));
@@ -693,7 +701,7 @@ int control_scfile(int time, float average, int stopped)
 
 //-------------------------------------------------------------------
 // calculate and print count and trigger rates
-int control_calcrate(timeandtrigger& t, scaler &s, int FileEvtCounter)
+int control_calcrate(timeandtrigger& t, scaler &s, int FileEvtCounter, double& freq)
 {
   int32_t ElapsedTime;
   float TPrate, TRGrate, av10;
@@ -704,7 +712,7 @@ int control_calcrate(timeandtrigger& t, scaler &s, int FileEvtCounter)
 			
   t.CurrentTime = get_time(); // Time in milliseconds
   ElapsedTime = t.CurrentTime - t.PreviousTime;
-  
+  freq= 0 ;
   if (ElapsedTime > 1000) {
     t.MeasSeconds++;
     s.timecnt++;
@@ -739,7 +747,7 @@ int control_calcrate(timeandtrigger& t, scaler &s, int FileEvtCounter)
 //                t.totnb/1048576, Rate/display/1048576, Trgs/display, t.DisplayTime*10, av10, t.tottrg);
       printf(RESET);
       control_scfile(t.DisplayTime*10,av10,0);
-
+	freq= Trgs/display;
       display=0;
       t.last_ave=t.tottrg;
       Rate=0.;
@@ -825,11 +833,8 @@ int control_writedata(	digitizer& adc, int i, FILE *ofile,
 
 //=============== Write to root option 7, DM version ================= 
 	 //save only waveforms in root tree format
-int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1, int WriteToFile, int blt_bytes,	u_int32_t *buff, int wf0[], int wf1[], int wf2[], int wf3[], int wf4[], int wf5[], int wf6[], int wf7[])	
+int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1, int WriteToFile, int blt_bytes,	u_int32_t *buff, int wf0[], int wf1[], int wf2[], int wf3[], int wf4[], int wf5[], int wf6[], int wf7[], double& freq)	
 {
-
-	//int channelnumber=2; // DM use icnt instead
-
 	int retval=0;
 	int32_t pnt;
 	int cnt,icnt;
@@ -878,8 +883,6 @@ int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1,
 			if (adc.channel[6]) wf6[ii]=wvf[6][ii];
 			if (adc.channel[7]) wf7[ii]=wvf[7][ii];
 		}
-	
-
 		t1->Fill();
 	}  // end write option 7
 	   
@@ -895,13 +898,24 @@ int control_generatefilename(char *OutFileName, char *path, int baseline)
   if(!baseline){
   	char timestr[100];
   	char cmnd[300];
-  
-  	control_gettimestring(timestr,'f');
+  	if(jul==1){
+  		control_gettimestring(timestr,'f');
+		sprintf(cmnd,"mkdir %s%s",path,timestr);
+		if (system(cmnd)!=0) errormsg(0,(char *)":::: WARNING: Could not create data directory ::::");
+  		sprintf(OutFileName,"%s%s/%s_%s",path,timestr,FILE_ID,timestr);
+	}
+	else{
+		std::cout << OutPutFolder << std::endl;
+		sprintf(cmnd,"mkdir %s%s",path,OutPutFolder);
+		std::cout << cmnd << std::endl;
+		if (system(cmnd)!=0) errormsg(0,(char *)":::: WARNING: Could not create data directory ::::");
+  		sprintf(OutFileName,"%s%s/%s_%s",path,OutPutFolder,FILE_ID,OutPutFolder);
 
-  	sprintf(cmnd,"mkdir %s%s",path,timestr);
-  	if (system(cmnd)!=0) errormsg(0,(char *)":::: WARNING: Could not create data directory ::::");
+	}
+ 
 
-  	sprintf(OutFileName,"%s%s/%s_%s",path,timestr,FILE_ID,timestr);
+  	
+ 
   }
   else{
 

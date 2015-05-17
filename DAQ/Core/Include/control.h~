@@ -152,7 +152,7 @@ int control_scfile(	int time, 		// time to calculate average
 // returns -1 if measurement should be stopped since no data is seen
 int control_calcrate(	timeandtrigger& t,	// holds time and trigger info
 			scaler& s,		// scaler info
-			int FileEvtCounter,double& freq);	// number of Events in the current file
+			int FileEvtCounter,,double& freq);	// number of Events in the current file
 
 //-------------------------------------------------------------------
 // writes data to file
