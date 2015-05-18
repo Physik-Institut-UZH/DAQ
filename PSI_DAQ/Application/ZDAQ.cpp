@@ -267,29 +267,29 @@ int main(int argc, char *argv[])
     command= container->GetOutputDir() + "/" + OutputFolder + "/ZDAQ_" + OutputFolder +".root";
  
     //Setting up a tree
-    TTree* tree = new TTree("T1P","");
-    float waveChn1[1024];
-    float waveChn2[1024];
-    float waveChn3[1024];
-    float waveChn4[1024];
+    TTree* tree = new TTree("t1","");
+    float wf1[1024];
+    float wf2[1024];
+    float wf3[1024];
+    float wf4[1024];
     float timeChn1[1024];
     float timeChn2[1024];
     float timeChn3[1024];
     float timeChn4[1024];
     if(container->GetChannel0()){
-    	tree -> Branch("wf1",&waveChn1,"waveChn1[1024]/F");
+    	tree -> Branch("wf1",&wf1,"wf1[1024]/F");
 //	tree -> Branch("TimeChn1",&timeChn1,"timeChn1[1024]/F");
     }
     if(container->GetChannel1()){
-    	tree -> Branch("wf2",&waveChn2,"waveChn2[1024]/F");
+    	tree -> Branch("wf2",&wf2,"wf2[1024]/F");
 //	tree -> Branch("TimeChn2",&timeChn2,"timeChn2[1024]/F");
     }
     if(container->GetChannel2()){
-    	tree -> Branch("wf3",&waveChn3,"waveChn3[1024]/F");
+    	tree -> Branch("wf3",&wf3,"wf3[1024]/F");
 //	tree -> Branch("TimeChn3",&timeChn3,"timeChn3[1024]/F");
     }
     if(container->GetChannel3()){
-   	tree -> Branch("wf4",&waveChn4,"waveChn4[1024]/F");
+   	tree -> Branch("wf4",&wf4,"wf4[1024]/F");
 //        tree -> Branch("TimeChn4",&timeChn4,"timeChn4[1024]/F");
     }
 
@@ -353,10 +353,10 @@ int main(int argc, char *argv[])
       /* Save waveform: X=time_array[i], Yn=wave_array[n][i] */
        for (i=0 ; i<1024 ; i++){
 	  if(container->GetSaveType()==1){
-		 waveChn1[i]=wave_array[0][i];
-		 waveChn2[i]=wave_array[1][i];
-		 waveChn3[i]=wave_array[2][i];
-		 waveChn4[i]=wave_array[3][i];
+		 wf1[i]=wave_array[0][i];
+		 wf2[i]=wave_array[1][i];
+		 wf3[i]=wave_array[2][i];
+		 wf4[i]=wave_array[3][i];
 		 timeChn1[i]=time_array[0][i];
 		 timeChn2[i]=time_array[1][i];
 		 timeChn3[i]=time_array[2][i];
@@ -407,8 +407,7 @@ int main(int argc, char *argv[])
 	if (kbhit()) c = getch();
         if (c == 'q' || c == 'Q'){ quit = 1; c=0;}
 
-   
-   }	
+   }
    if(container->GetSaveType()==1){
    	gROOTFile ->cd();
   	tree ->Write();

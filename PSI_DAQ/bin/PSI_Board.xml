@@ -5,10 +5,10 @@
   <global>
     <source>PMT</source>					                <!-- What is measured? -->
     <notes>PMT_WITH_NEW_DAQ</notes>					 		<!-- Comments -->
-    <path>/data/Software/ZDAQ/bin/</path>					<!-- **Path to files-->
+    <path>/home/julien/Raw_Data_PSI/</path>					<!-- **Path to files-->
     <daq_version>1.0.0</daq_version>						<!-- DAQ Version -->
-    <nb_evts>500</nb_evts>							<!-- **Evts to be measured; -1 is infinity -->	
-    <nb_evts_per_file>500</nb_evts_per_file> 					<!-- **No of Events stored in one file (Not working right now)-->	
+    <nb_evts>500000</nb_evts>							<!-- **Evts to be measured; -1 is infinity -->	
+    <nb_evts_per_file>500000</nb_evts_per_file> 					<!-- **No of Events stored in one file (Not working right now)-->	
     <store_data>1</store_data>							<!-- **0: no 1: save waveforms only (standard,root)-->
     <displaytime>1</displaytime>						<!-- **Display measured triggers, MBs, etc. every x sec -->
     <user>Julien</user>								<!-- Who started the measurement? -->
@@ -20,11 +20,11 @@
     <global>				          <!-- Alway 1024 Samples/Event --> 
       <!-- Activate channels to read out-->
       	<ch_0>1</ch_0>                            <!-- 0 = off  -->
-      	<ch_1>0</ch_1>                            <!-- 1 = on   -->
-      	<ch_2>0</ch_2>                            
+      	<ch_1>1</ch_1>                            <!-- 1 = on   -->
+      	<ch_2>1</ch_2>                            
     	<ch_3>0</ch_3>                                                       
-        <sampling_freq>5000</sampling_freq>             <!-- ** (700-5000)MHz -->
-        <voltage_range>0</voltage_range>         	<!-- **voltage range is 1V. Set the midpoint of the range here in mV. E.g 0 -> -0.5 - 0.5 etc  -->
+        <sampling_freq>1000</sampling_freq>             <!-- ** (700-5000)MHz -->
+        <voltage_range>400</voltage_range>         	<!-- **voltage range is 1V. Set the midpoint of the range here in mV. E.g 0 -> -0.5 - 0.5 etc  -->
         <internal_clock>0</internal_clock>		<!-- **0:Conect 100MHZ Clock to every Channel 1: Not   (Maybe only interesting for checking the board)--> 
     </global>
 
@@ -43,7 +43,7 @@
         <TriggerLvlCh_3>44</TriggerLvlCh_3>
 
 							<!--- This Section is only needed if the Software trigger is selected-->
-	<SoftwareTriggerRate>100</SoftwareTriggerRate>  <!---**Trigger Rate of the Software Trigger in Hz-->
+	<SoftwareTriggerRate>5000</SoftwareTriggerRate>  <!---**Trigger Rate of the Software Trigger in Hz-->
 
         <triggerpolarity>0</triggerpolarity>            <!-- **Trgger edge 0: positiv 1:negative -->
         <triggerdelay>0</triggerdelay>			<!-- **Trigger Delay in ns -->
