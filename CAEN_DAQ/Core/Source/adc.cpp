@@ -6,6 +6,7 @@
 //  29.11.2007 MS  (09.04.08)
 //  -----------------
 //  26.08.2008 MS	miniDAX version
+//  30.05.2015 JW A lot of changes in order to make everything more easy
 //-------------------------------------------------------------------
 
 extern "C" {
@@ -32,7 +33,15 @@ extern "C" {
 #include <TStyle.h>
 #include <TFile.h>
 #include <TLatex.h>
-
+ #define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+#define RESET "\033[0m"
 //-------------------------------------------------------------------
 // performs a single VME write
 //   returns -1 on failure, 0 on success
@@ -251,9 +260,10 @@ int adc_mblt(crate& crt, digitizer& adc, int i, u_int32_t *buff)
 //   Board must be configured in non ZLE mode
 int adc_getbaseline(crate& crt,	digitizer& adc)
 {
-  int blt_bytes; 
-  int maxval, minval, val, pnt;
-  int maxIteration=35;		// number of iterations to adjust baseline
+
+  int blt_bytes,pnt,Size,cnt; 
+  int maxval, minval, val;
+  int maxIteration=50;		// number of iterations to adjust baseline
   double mean;  
   u_int32_t *base;
   float diff;
@@ -264,7 +274,7 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
   char msg[100];
   float MaxDev=2.0;			// maximal accepted deviation of baseline
   int samples=8192;    			// lenght of waveforms in samples
-
+ 
   for (int i=0; i<adc.NumberOfADCs; i++) 
     for (int j=0; j<8; j++)  {
       meanVal[i][j]=0;
@@ -279,16 +289,17 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
     return -1;
   }
   
-  col((char*)"green"); 
+  col("green"); 
   printf("\nBaseline determination started...\n  Set baseline to %d\n",adc.baseline); 
-  col((char*)"blue"); // DM changed black to blue
+  printf(RESET);
 
   int iteration=0;
   while (stillToDo>0 && iteration<=maxIteration) {  
+	pnt=0;
     iteration++; 
     printf("  Iteration %d: \n",iteration);
     printf("  still %d channels to adjust...\n",stillToDo);
-    if (iteration==(int)(maxIteration*0.66)) MaxDev=MaxDev*2.5;	    
+   // if (iteration==(int)(maxIteration*0.66)) MaxDev=MaxDev*2.5;	    
 
     // here starts the part to determine the baseline ----------------------
     usleep(50000);
@@ -310,23 +321,33 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
       // Read data from module i in MBLT mode into buff
       blt_bytes=adc_mblt(crt,adc,i,base);
       if (blt_bytes<0) return -1;
-
-// printf("%d: %08x %08x %08x %08x %08x\n",i, base[0],base[1],base[2],base[3],base[4]);
+	 // error handling if there is an invalid entry after an event
+    if (base[0]==0xFFFFFFFF) pnt++;
+    
+    // check header
+    if ((base[pnt]>>20)==0xA00 && (base[pnt+1]>>28)==0x0) {
+      Size=((base[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
+      pnt++;
+ 
+      int ChannelMask=base[pnt] & 0xFF;                 pnt++;    
+    
+      // Get size of one waveform by dividing through the number of channels
+      cnt=0;
+      for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+      Size=Size/cnt;
+      pnt+=2; // ignore EventConter and TTT
+      
+      
 	    	  	  
-	// analyze Event and calculate Baseline
-	if ((base[0]&0xFFFFFFF)!=0x8004) {
-		col((char*)"red"); 
-		printf(":::: ERROR: module %d\n",i); 
-		col((char*)"blue"); // DM changed black to blue
-		errormsg(0,(char*)":::: ERROR: wrong Buffer Organization setting (expect 8192 samples) ::::");
-		std::cout << "Buffer size (in B): " << adc.BufferSize << std::endl;
-		std::cout << "Block size (in kB): " << adc.BltSize << std::endl;
-		std::cout << "Expected event size (in kB): " << 4*adc.ExpectedEvSize/1024 << std::endl;
-	for (int tmp=0; tmp<8192; tmp++) {	// DEBUG
-  	  printf("%d %08X\n",tmp,base[tmp]);
-	}
-        return -1;
+      // analyze Event and calculate Baseline
+      if (Size==8192) {
+       
       } 
+	  else{
+	       col("red"); printf(":::: ERROR: module %d\n",i);  printf(RESET);
+           errormsg(0,":::: ERROR: wrong Buffer Organization setting (expect 8192 samples) ::::");
+	       return -1;
+	  }
     
       pnt=4;
       for (int channel=0; channel<8; channel++) {
@@ -342,8 +363,7 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
         } 
         pnt=pnt+(int)(samples/2);		    
         mean=mean/(float)samples;	// baseline mean value
-//printf("%d.%d = %.1f  max = %.1f  min = %.1f\n",i,channel,mean,maxval-mean,mean-minval);
-//continue;
+
 
 	if (okFlag[i][channel]) continue;
 	
@@ -359,13 +379,13 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
 	  } else { // adjust baseline	    
 	    if (diff>MaxDev) { 
  	      if (diff>8) {                  
-		if (diff>50) newDAC=(data+diff/(-0.264)); // coarse adjustment
+		  if (diff>50) newDAC=(data+diff/(-0.264)); // coarse adjustment
 	 	  	else newDAC=data-30;
 	      } else newDAC=data-15;
 	    }  
 	    else if (diff<MaxDev*(-1.)) {
 	      if (diff<-8) {
-		if (diff<-50) newDAC=(data+diff/(-0.264)); // coarse adjustment
+		if (diff<-50) newDAC=(data+diff/(+0.264)); // coarse adjustment
                          else newDAC=data+30;
 	      } else newDAC=data+15;
 	    }  
@@ -373,19 +393,19 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
 	  }  
            
 	  // printf intermediate step for remaining channels
-	  if (!okFlag[i][channel] && iteration>15) {
-            col((char*)"blue");
-			printf("  ToDo: Baseline %3d.%d: %5.1f, DAC = 0x%04X, diff = %3.1f\n",
+	  if (!okFlag[i][channel]) {
+            printf(KMAG);
+	    printf("  ToDo: Baseline %3d.%d: %5.1f, DAC = 0x%04X, diff = %3.1f\n",
  	    	adc.Id[i],channel,mean,(int)data,diff); 
-			col((char*)"blue"); // DM changed black to blue
+	    printf(RESET);
           }
  
 	  // print result if channel was successful
 	  if (okFlag[i][channel] || iteration==maxIteration) {
-		col((char*)"dark gray");
+            col("green");
 	    printf("Baseline %3d.%d: %5.1f, DAC = 0x%04X, diff = %3.1f\n",
-		adc.Id[i],channel,mean,(int)data,diff); 
-		col((char*)"blue"); // DM changed black to blue
+ 	    	adc.Id[i],channel,mean,(int)data,diff); 
+	    printf(RESET);
 	    if (iteration==maxIteration) {
 	      okFlag[i][channel]=data;  // store all DAC settings
 	      stillToDo--;
@@ -401,7 +421,9 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
 	data=(int)newDAC;
         adc_writereg(crt,adc,i,DACRegister+(channel*0x100),data);  
       
-      } // end: for (channel)          
+      } // end: for (channel)       
+      } // end Check Header 
+    else return -1;    
     } // end: for loop over boards	
   } // end iteration
     	  
@@ -420,7 +442,7 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
   }
   
   fprintf(dacfile,"#***************************************************************\n");
-  fprintf(dacfile,"# miniDAX_2  --  DAQ for UZH XENON\n#\n"); // DM version 2
+  fprintf(dacfile,"# ZDAQ --  DAQ for UZH XENON\n#\n"); //
   fprintf(dacfile,"# This is the baseline configuration file. The information\n");
   fprintf(dacfile,"# here sets all ADC channels to the same baseline level.\n#\n");
   fprintf(dacfile,"# generated: %s\n",timestr);
@@ -545,7 +567,7 @@ int adc_analyzebaseline(crate& crt, digitizer& adc)
   } 
   
   fprintf(basefile,"#***************************************************************\n");
-  fprintf(basefile,"# DAX  --  DAQ for XENON100\n#\n");
+  fprintf(basefile,"# ZDAQ --  DAQ for UZH XENON\n#\n");
   fprintf(basefile,"# This file contains baseline information in the format\n");
   fprintf(basefile,"#   PMT mean RMS spike\n#\n");
   fprintf(basefile,"# generated: %s\n",timestr);

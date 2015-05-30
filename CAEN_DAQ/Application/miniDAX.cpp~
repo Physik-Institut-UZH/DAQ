@@ -145,10 +145,6 @@ int main(int argc, char *argv[], char *envp[] )
     FILE *ofile;		// file to store data
     FILE *logfile;		// log information (times, scalers, etc)
 
-    // when XE100 data file format is used
-//    xdio_file_t *xfile;		
-//    xdio_chunk_att_t *xatt;
-
     // stuff for reading data
     u_int32_t *buff[ADC_MAX];
     int EnableInt, EnableOLIrq, EnableBerr, EvAlign; // to read from VME Control Register
@@ -197,8 +193,8 @@ int main(int argc, char *argv[], char *envp[] )
         adc_closecrates(crt);   
  	exit(-1);
       }
-      if (strlen(OutFileName)==0) control_generatefilename(OutFileName, path,baseline);
-      xml_storefile(XmlFileName, OutFileName);
+      if (strlen(OutFileName)==0) control_generatefilename(OutFileName, path);
+      xml_storefile(XmlFileName, OutFileName, path);
     } else if (strlen(OutFileName)==0) strcpy(OutFileName, "dummy");
 
     if (WriteToFile == 0) errormsg(0,(char *)":::: WARNING: No data is written! ::::");
@@ -329,7 +325,7 @@ int main(int argc, char *argv[], char *envp[] )
 	if (graphics.on) graph_checkkey(graphics, adc, c, g, OutFileName);
 
 	// Calculate throughput rate (every second) and read scaler
-	if (control_calcrate(t, s, FileEvtCounter)<0) goto exit_prog;
+	if (control_calcrate(t, s, FileEvtCounter,freq)<0) goto exit_prog;
 		        	    	   	    
 	// Interrupts: 
         // If enabled, wait for the interrupt request from the digitizer. In this mode,

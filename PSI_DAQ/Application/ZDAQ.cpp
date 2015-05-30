@@ -56,21 +56,10 @@ void gettimestring(char* buffer)
 {
   time_t curtime;
   struct tm *loctime;
-  curtime = time (NULL);                // Get the current time.
-  loctime = localtime (&curtime);       // Convert it to local time representation.
- //if (format=='f')
+  curtime = time (NULL);                		// Get the current time.
+  loctime = localtime (&curtime);      			 // Convert it to local time representation.
   strftime(buffer, 100, "%y%m%d_%H%M", loctime);       // formatted print for filenames
-//  std::string t=std::string(buffer);
-  /* 
-  if (format=='l')
-    strftime(timestr, 100, "%a %b %d %Y, %X", loctime); // long format for logfile
-  if (format=='s')
-    strftime(timestr, 100, "%X", loctime);      // short format for logfile
-  if (format=='u')
-    ret=timegm(loctime);                // Unix Time Format
 
-  srand(curtime);                       // random generator seed
-  */
 }
 /*------------------------------------------------------------------*/
 int main(int argc, char *argv[])
@@ -339,16 +328,16 @@ int main(int argc, char *argv[])
       b->GetWave(0, 2, wave_array[1]);
 
        /* read time (X) array of third channel in ns*/
-      b->GetTime(0, 3, b->GetTriggerCell(0), time_array[2]);
+      b->GetTime(0, 4, b->GetTriggerCell(0), time_array[2]);
 
       /* decode waveform (Y) array of third channel in mV */
-      b->GetWave(0, 3, wave_array[2]);
+      b->GetWave(0, 4, wave_array[2]);
 
       /* read time (X) array of fourth channel in ns*/
-      b->GetTime(0, 4, b->GetTriggerCell(0), time_array[3]);
+      b->GetTime(0, 6, b->GetTriggerCell(0), time_array[3]);
 
       /* decode waveform (Y) array of fourth channel in mV */
-      b->GetWave(0, 4, wave_array[3]);
+      b->GetWave(0, 6, wave_array[3]);
 
       /* Save waveform: X=time_array[i], Yn=wave_array[n][i] */
        for (i=0 ; i<1024 ; i++){

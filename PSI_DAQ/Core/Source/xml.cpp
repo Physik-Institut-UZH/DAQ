@@ -190,9 +190,9 @@ int xml_readsettings(char filename[100], DRSBoard *b,DAQContainer* c)
   if (xstr) {
 	strcpy(txt,xstr); 
  	temp=atoi(txt); 
-    	printf("  Voltage Range: %f",temp/1000.);
+    	printf("  Voltage Midpoint: %f V\n",temp/1000.);
 	/* set input range to -0.5V ... +0.5V */
-	b->SetInputRange(temp/1000);
+	b->SetInputRange(temp/1000.);
   } else xml_error((char*)"sampling_freq");
 
   xstr=xNode.getChildNode("internal_clock").getText();

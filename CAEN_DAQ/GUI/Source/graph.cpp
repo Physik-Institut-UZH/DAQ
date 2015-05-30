@@ -5,6 +5,7 @@
 //
 //  modified: 17.09.2008 MS for miniDAX
 //  modified: 29.11.2010 MS allow CustomLength DAQ window
+//  30.05.2015 JW A lot of changes in order to make everything more easy
 //-------------------------------------------------------------------
 
 extern "C" {

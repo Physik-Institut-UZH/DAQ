@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<settings author="Last additions by JW" date="24/03/2015">
+  <!-- global Settings for the measurement--> 
+  <global>
+    <source>MPPCs</source>                      <!-- What is measured? -->
+    <notes>MPPCs</notes>                  <!-- Comments -->
+    <path>/data/SandBox/Amplifier/Raw_Data/</path> 
+    <daq_version>2.0.0</daq_version>            
+    <nb_evts>1000000</nb_evts>                  
+    <nb_evts_per_file>1000000</nb_evts_per_file>
+    <store_data>7</store_data>                 
+    <displaytime>1</displaytime>                
+    <user>Julien</user>                         
+  </global>
+
+  <!--*************************************************************************************************** -->
+  <!-- ADC CAEN v1720 specific settings -->
+  <adc>	
+    <!-- global ADC settings -->
+    <global>
+      <nb_chs>8</nb_chs>			<!-- **Total number of channels --> 
+      <!-- Activate channels to read out-->
+      	<ch_0>1</ch_0>                            <!-- 0 = off  -->
+      	<ch_1>1</ch_1>                            <!-- 1 = on   -->
+      	<ch_2>1</ch_2>                            
+      	<ch_3>1</ch_3>                           
+      	<ch_4>1</ch_4>                          
+      	<ch_5>1</ch_5>                         
+      	<ch_6>1</ch_6>                        
+      	<ch_7>1</ch_7>                            
+
+      <nb_samples_per_evt>16</nb_samples_per_evt>  	<!-- **max nb. samples/event in k-->
+      <custom_size>500</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>450</posttrigger> 		<!-- **samples after trigger -->
+      <trigger>0</trigger>			<!-- **0:ext trig, 1:S1 trig, 2:S2 trig -->
+      <s1_thresh>50</s1_thresh>			<!-- **ADC threshold to generate S1 trigger -->
+      <sampling_freq>250000000</sampling_freq>	<!-- **sampling frequency -->
+      <sample_size>12</sample_size>		<!-- **sampling width in bits -->
+      <voltage_range>2.00</voltage_range>	<!-- **voltage range of ADC -->
+      <baseline>96</baseline>  		<!-- **position of baseline (channels) -->	
+      <busy>0</busy>				<!-- **ADC busy on (1) or off (0) --> 
+      <ttl>1</ttl>				<!-- **TTL On (1) or NIM On (0) -->
+    </global>
+    <!-- Settings for Zero Length Encoding (ZLE)-->
+    <zle_settings>
+      <zle>0</zle>                              <!-- **Zero Length Encoding? (1..yes, 0..no) -->
+      <threshold>100</threshold>                        <!-- **channels below baseline (neg. signals!) -->
+      <n_pre>50</n_pre>                         <!-- **baseline samples before peak -->
+      <n_post>50</n_post>                       <!-- **baseline samples behind peak -->
+      <special_thresholds>                      <!-- **set individual ZLE threshold for some PMTs -->
+      </special_thresholds>
+    </zle_settings>
+    <!-- Settings for graphical display "Oscilloscope mode" -->
+    <graphics>
+      <xdisplay>1</xdisplay>			<!-- ** 0:standard, 1:manual, 2:auto -->
+      <ydisplay>2</ydisplay>			<!-- ** 0:standard, 1:manual, 2:auto -->
+      <xaxis_low>15900</xaxis_low>		<!-- ** lower border x-axis -->
+      <xaxis_high>16100</xaxis_high>		<!-- ** upper border x-axis -->
+      <yaxis_low>0</yaxis_low>		<!-- ** lower border of y-axis display -->
+      <yaxis_high>200</yaxis_high>		<!-- ** upper border -->
+      <xautorange>30</xautorange>		<!-- ** x-display of y-minimum +- this value -->
+    </graphics>
+  </adc>
+</settings>

@@ -32,10 +32,10 @@
       <posttrigger>8150</posttrigger> 		<!-- **samples after trigger -->
       <trigger>1</trigger>			<!-- **0:ext trig, 1:S1 trig, 2:S2 trig -->
       <s1_thresh>50</s1_thresh>			<!-- **ADC threshold to generate S1 trigger -->
-      <sampling_freq>100000000</sampling_freq>	<!-- **sampling frequency -->
-      <sample_size>14</sample_size>		<!-- **sampling width in bits -->
-      <voltage_range>2.25</voltage_range>	<!-- **voltage range of ADC -->
-      <baseline>7000</baseline>  		<!-- **position of baseline (channels) -->	
+      <sampling_freq>250000000</sampling_freq>	<!-- **sampling frequency -->
+      <sample_size>12</sample_size>		<!-- **sampling width in bits -->
+      <voltage_range>2.00</voltage_range>	<!-- **voltage range of ADC -->
+      <baseline>50</baseline>  		<!-- **position of baseline (channels) -->	
       <busy>0</busy>				<!-- **ADC busy on (1) or off (0) --> 
       <ttl>1</ttl>	
     </global>

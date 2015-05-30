@@ -12,7 +12,8 @@
 //  modified: 21.07.2008 MS  -	read discriminator settings and 
 //				set discriminator
 //  modified: 29.11.2010 MS  -  Custom Event length
-//  modified: 15.08.2013 DM  .  Read out several channels
+//   30.05.2015 JW A lot of changes in order to make everything more easy
+
 //-------------------------------------------------------------------
 
 extern "C" {

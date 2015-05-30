@@ -13,8 +13,8 @@
 //  -----------------
 //    26.08.2008 MS	miniDAX version
 //    29.11.2010 MS	cosmetics
-
-//    15.08.2013 DM     Worked on AB version. Simplified and modified to read several channels.			
+//    30.05.2015 JW A lot of changes in order to make everything more easy
+		
 
 
 //-------------------------------------------------------------------
@@ -30,11 +30,9 @@ extern "C" {
 #include <sys/stat.h>
 #include <unistd.h>
 #ifdef WIN32
-  //  #include <time.h>
     #include <sys/timeb.h>
     #include <conio.h>
 #else
-//    #include <unistd.h>
     #include <sys/time.h>
 #endif
 int sand=-1;
@@ -54,8 +52,6 @@ char OutPutFolder[100]="";
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
-//#include <libxdio.h>	// for Xe100 Data Storage
-
 #include <TH1D.h>
 //==================== AB ========================//
 #include <Riostream.h>
@@ -91,7 +87,6 @@ int32_t get_time()
 
 //-------------------------------------------------------------------
 // changes the screen output color
-// (you have to reset it to "black" manually afterwards)
 void col(char *str)
 {
   if (strstr(str, "black")!=NULL) printf("\033[22;30m");
@@ -101,7 +96,6 @@ void col(char *str)
   if (strstr(str, "blue")!=NULL) printf("\033[22;34m");
   if (strstr(str, "magenta")!=NULL) printf("\033[22;35m");
   if (strstr(str, "cyan")!=NULL) printf("\033[22;36m");
- // if (strstr(str, "gray")!=NULL) printf("\033[22;37m");
   if (strstr(str, "gray")!=NULL) printf("\033[01;30m"); // only dark grey!
   if (strstr(str, "dark gray")!=NULL) printf("\033[01;30m");
   if (strstr(str, "light red")!=NULL) printf("\033[01;31m");
@@ -152,9 +146,8 @@ int control_printtitle(char *SwRelease)//, digitizer& adc)
   printf(KGRN);
   printf("\n");
   printf("*****************************************************************\n");
-  printf("                 miniDAX  --  DAQ for UZH   (SandBox)            \n"); 
-  printf("                   version: %s                             \n",SwRelease);
-  //printf("                    adc.EventLength: %i                             \n",adc.EventLength);
+  printf("                 ZDAQ  --  DAQ for UZH                           \n"); 
+  printf("                    version: %s                                  \n",SwRelease);
   printf("*****************************************************************\n");
   printf(RESET);
   return 0;
@@ -235,8 +228,8 @@ int control_openlog(FILE **logfile, char *FileName, char *SwRelease)
   
   control_gettimestring(timestr,'l');
   fprintf(*logfile,"**Logfile********************************************************\n");
-  fprintf(*logfile,"                 miniDAX -- DAQ for UZH   (SandBox)              \n"); 
-  fprintf(*logfile,"                    version: %s                             \n",SwRelease);
+  fprintf(*logfile,"                 ZDAQ -- DAQ for UZH   				             \n"); 
+  fprintf(*logfile,"                    version: %s                                  \n",SwRelease);
   fprintf(*logfile,"*****************************************************************\n");  
   fprintf(*logfile,"program started: %s\n",timestr);
   return 0;
@@ -669,10 +662,6 @@ int control_openrawrootfile( TFile **orootfile, TTree **t1, char *FileName, int&
 	return 0;
 }
 
-// ===============================
-// DM deleted // open xdio-file to store data (XENON100 format)
-// ===============================
-
 //-------------------------------------------------------------------
 // generate file with basic information to be read by Slow Control
 int control_scfile(int time, float average, int stopped)
@@ -743,8 +732,6 @@ int control_calcrate(timeandtrigger& t, scaler &s, int FileEvtCounter, double& f
       printf(KCYN);	
       printf("%d MB @ %.4fMB/s  DAQ = %.1f Hz  %ds Ave = %.1f Hz  Evts = %d\n", 
         	t.totnb/1048576, Rate/display/1048576, Trgs/display, t.DisplayTime*10, av10, t.tottrg);
-//      printf("%6ld MB @ %.4fMB/s  DAQ = %.1f Hz  %ds Ave = %.1f Hz  Evts = %d\n",
-//                t.totnb/1048576, Rate/display/1048576, Trgs/display, t.DisplayTime*10, av10, t.tottrg);
       printf(RESET);
       control_scfile(t.DisplayTime*10,av10,0);
 	freq= Trgs/display;
@@ -818,9 +805,6 @@ int control_writedata(	digitizer& adc, int i, FILE *ofile,
     } // end: Analyze-Data while-loop 
   }
 
-//================================
-// DM cut out WriteTeoFile==4
-//================================
  
     else { // store nothing but record triggers
     if ((buff[0]>>20)==0xA00 && (buff[1]>>28)==0x0 && i==0 && blt_bytes>0) retval++;
@@ -835,45 +819,52 @@ int control_writedata(	digitizer& adc, int i, FILE *ofile,
 	 //save only waveforms in root tree format
 int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1, int WriteToFile, int blt_bytes,	u_int32_t *buff, int wf0[], int wf1[], int wf2[], int wf3[], int wf4[], int wf5[], int wf6[], int wf7[], double& freq)	
 {
-	int retval=0;
-	int32_t pnt;
-	int cnt,icnt;
-	
+    int reduce;
+    int retval=0;
+  
+  
 	float wvf[8][adc.EventLength];
 	for(int jj=0; jj<8;jj++) for(int ii=0; ii<adc.EventLength; ii++) wvf[jj][ii]=0;
  
  
- 	if (WriteToFile==7) { 
-			     					// note: works currently only in non-ZLE mode
+     int pnt=0; 
+     int CurrentChannel;
+     int Size, cnt, wavecnt;
+  
+    // error handling if there is an invalid entry after an event
+    if (buff[0]==0xFFFFFFFF) pnt++;
+    
+    // check header
+    if ((buff[pnt]>>20)==0xA00 && (buff[pnt+1]>>28)==0x0) {
+      Size=((buff[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
+      pnt++;
+      if (i==0) { // count only triggers on one board
+        retval++;
+      }  
+      int ChannelMask=buff[pnt] & 0xFF;                 pnt++;    
+    
+      // Get size of one waveform by dividing through the number of channels
+      cnt=0;
+      for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+      Size=Size/cnt;
+      pnt+=2; // ignore EventConter and TTT
 
-		if (i!=0) return retval; 			     
-		
-		pnt = 0;
-		cnt=0;   
-		icnt=0; 
-		
-		while ((pnt < (blt_bytes/4)) && (buff[pnt] != FILLER)) {
-		
-			if ((buff[pnt]>>20)==0xA00 && (buff[pnt+1]>>28)==0x0) { // TTT can also start with 0xA	
-				retval++;    // to count triggers
-				//pnt=pnt+(icnt*(adc.EventLength/2))+4; // jump immediately to first channel (ignore EventCounter and TTT)
-				pnt=pnt+4; // DM
-			}
-			
-			wvf[icnt][cnt]=(buff[pnt]&0xFFFF);
-			wvf[icnt][cnt+1]=((buff[pnt]>>16)&0xFFFF);
+      for (int j=0; j<8; j++) { // read all channels
+        // read only the channels given in ChannelMask
+        if ((ChannelMask>>j)&1) CurrentChannel=j;
 
-			cnt=cnt+2;
-			pnt++;	 
-			
-			//if (cnt==channelnumber*adc.EventLength) {
-			if (cnt==adc.EventLength) {
-				cnt=0;
-				icnt++;
-			}	            
-		} // end: write data loop    
+        cnt=0;                              // counter of waveform data
+        wavecnt=0;                          // counter to reconstruct times within waveform
+        while (cnt<Size)
+        {
+          // save waveform in array
+     	  wvf[j][cnt]=(double)((buff[pnt]&0xFFFF));
+          wvf[j][cnt+1]=(double)(((buff[pnt]>>16)&0xFFFF));
+          pnt++; wavecnt+=2; cnt++;
+        } // end while(cnt...)
 		
-		for (int ii=0; ii<adc.EventLength; ii++) {
+      } // end for-loop
+      	for (int ii=0; ii<adc.EventLength; ii++) {
 			if (adc.channel[0]) wf0[ii]=wvf[0][ii];
 			if (adc.channel[1]) wf1[ii]=wvf[1][ii];
 			if (adc.channel[2]) wf2[ii]=wvf[2][ii];
@@ -884,8 +875,10 @@ int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1,
 			if (adc.channel[7]) wf7[ii]=wvf[7][ii];
 		}
 		t1->Fill();
-	}  // end write option 7
-	   
+    } // end Check Header 
+    else return -1; 
+    
+ 
   	return retval;
 } // end write root raw data
 

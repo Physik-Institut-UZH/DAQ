@@ -53,11 +53,14 @@
     20.11.2010  MS --   v1.0.9 cosmetics
     13.01.2012  AB --   v1.1.0 root tree, more data handling variants, shifting some settings from hard code to xml file
     02.03.2012	AB --	v1.2.0 save full waveforms in root format
-    15.08.2013  DM --   v1.3.0 read out several channels. Simplified and window length de-hardcoded.	
+    15.08.2013  DM --   v1.3.0 read out several channels. Simplified and window length de-hardcoded.
+    30.05.2015  JW --   v2.0.0 A lot of changes in order to make everything more easy
+	
 	
   MS -- Marc Schumann, Zurich University, marc.schumann@@gmx.net    
   AB -- Annika Behrens
   DM -- Daniel Mayani
+  JW -- Julien Wulf
 
  *****************************************************************************
   Based on: miniDAX with root readout by AB
@@ -129,7 +132,7 @@ int main(int argc, char *argv[], char *envp[] )
     char PMTMappingFileName[100] = "miniDAXPMT.ini";
     char OutFileName[100]="";
     char XmlFileName[100]="";
-    char SwRelease [100] = "1.2.0 (03/02/2012)";
+    char SwRelease [100] = "2.0.0 (30/05/2015)";
     
     // variables to hold information
     crate crt;			// variable to store information on Crates    
@@ -144,10 +147,6 @@ int main(int argc, char *argv[], char *envp[] )
     int EventsPerFile=100;
     FILE *ofile;		// file to store data
     FILE *logfile;		// log information (times, scalers, etc)
-
-    // when XE100 data file format is used
-//    xdio_file_t *xfile;		
-//    xdio_chunk_att_t *xatt;
 
     // stuff for reading data
     u_int32_t *buff[ADC_MAX];
@@ -228,7 +227,6 @@ int main(int argc, char *argv[], char *envp[] )
     if (graphics.on) {
       theApp = new TApplication("App", &argc, argv);
       win = new TCanvas("win","SanDaq -- DAQ for SandBox",1);
-//      g = new TH1D("g","g",adc.NbSamplesEvt-1,0,adc.NbSamplesEvt-1);
       g = new TH1D("g","g",adc.EventLength-1,0,adc.EventLength-1);
       if (graphics.pmtNb>0) control_getadc(adc, graphics.pmtNb, graphics.module, graphics.channel); 
       graph_init(theApp, win, g, graphics);
@@ -291,18 +289,16 @@ int main(int argc, char *argv[], char *envp[] )
 	//ROOT data file    
 		TFile *orootfile;
 		TTree *t1;
-		// DM deleted some of AB varables
-		int wf0[adc.EventLength]; // DM changed from 500 hardcoded
-		int wf1[adc.EventLength]; // DM 
-		int wf2[adc.EventLength]; // DM
-		int wf3[adc.EventLength]; // DM
-		int wf4[adc.EventLength]; // DM
-		int wf5[adc.EventLength]; // DM
-		int wf6[adc.EventLength]; // DM
-		int wf7[adc.EventLength]; // DM 
+		int wf0[adc.EventLength]; 
+		int wf1[adc.EventLength]; 
+		int wf2[adc.EventLength]; 
+		int wf3[adc.EventLength]; 
+		int wf4[adc.EventLength]; 
+		int wf5[adc.EventLength]; 
+		int wf6[adc.EventLength]; 
+		int wf7[adc.EventLength];  
 		double freq;  
 		freq=0;
-//}
 
     printf(RESET);
     // Readout Loop ----------------------------------------------------------
@@ -312,9 +308,7 @@ int main(int argc, char *argv[], char *envp[] )
 	if (WriteToFile>0 && FileEvtCounter==-1) {
 	  if ((WriteToFile==1)||(WriteToFile==2)||(WriteToFile==4)) {
  	    if (control_openfile(&ofile,OutFileName,FileCounter,WriteToFile,adc,logfile)<0) goto exit_prog;	  
-	  } else if (WriteToFile==3) {
-// 	    if (control_openxdio(&xfile,&xatt, OutFileName,FileCounter,WriteToFile,adc,logfile,EventsPerFile,t)<0) goto exit_prog;	
-	  }
+	  } 
 	  else if(WriteToFile==7) {
 		if (control_openrawrootfile(&orootfile,&t1,OutFileName,FileCounter,WriteToFile,adc,logfile,wf0,wf1,wf2,wf3,wf4,wf5,wf6,wf7,freq)<0) goto exit_prog;	    
 	  }
@@ -377,14 +371,7 @@ int main(int argc, char *argv[], char *envp[] )
   	    }
 		else goto exit_prog;
 	  } 
-	  else if(WriteToFile==3) { // Xe100 files
-//	    ret=control_writexdio(adc,i,xfile,xatt,WriteToFile,blt_bytes,buff[i]);	
-	    if (ret>=0) {
-	      t.tottrg+=ret; FileEvtCounter+=ret;
-  	    }
-		else goto exit_prog; 	
-	  }
-	  
+  
 	  else if(WriteToFile==7){ //Root tree only raw waveforms
 	    ret=control_writerootrawdata(adc,i,orootfile,t1,WriteToFile,blt_bytes,buff[i],wf0,wf1,wf2,wf3,wf4,wf5,wf6,wf7,freq);
 		if (ret>=0) {
@@ -415,7 +402,6 @@ int main(int argc, char *argv[], char *envp[] )
 					goto exit_prog;
 				}
 			} 
-//			else if (WriteToFile==3) xdio_close(xfile);  //====================== AB ======================//
 			else if ((WriteToFile==5)||(WriteToFile==6)||(WriteToFile==7)){
 				orootfile->cd();
     				t1->Write();
@@ -448,7 +434,6 @@ int main(int argc, char *argv[], char *envp[] )
 		if ((WriteToFile==1)||(WriteToFile==2)||(WriteToFile==4)){	
 			if (fclose(ofile)!=0) errormsg(1,(char *)":::: ERROR: cannot close data file! ::::\n");
 		} 
-//		else if (WriteToFile==3) xdio_close(xfile); //=================== AB ==================//
 		else if ((WriteToFile==5)||(WriteToFile==6)||(WriteToFile==7)){
 			if (orootfile==NULL) errormsg(1,(char*)":::: output ROOT file does not exist ::::\n");
 			else {
