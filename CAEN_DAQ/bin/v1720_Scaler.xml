@@ -7,8 +7,8 @@
     <notes>MPPCs</notes>                  <!-- Comments -->
     <path>/data/LArSetup/Raw_Data/Run1/T299K_250MHz_ADC/</path> 
     <daq_version>2.0.0</daq_version>            
-    <nb_evts>500000</nb_evts>                  
-    <nb_evts_per_file>500000</nb_evts_per_file>
+    <nb_evts>10000</nb_evts>                  
+    <nb_evts_per_file>10000</nb_evts_per_file>
     <store_data>7</store_data>                 
     <displaytime>1</displaytime>                
     <user>Julien</user>                         
@@ -30,9 +30,9 @@
       	<ch_6>0</ch_6>                        
       	<ch_7>0</ch_7>                            
 
-      <nb_samples_per_evt>16</nb_samples_per_evt>  	<!-- **max nb. samples/event in k-->
-      <custom_size>2000</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>1000</posttrigger> 		<!-- **samples after trigger -->
+      <nb_samples_per_evt>128</nb_samples_per_evt>  	<!-- **max nb. samples/event in k-->
+      <custom_size>128000</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>127000</posttrigger> 		<!-- **samples after trigger -->
       <trigger>0</trigger>			<!-- **0:ext trig, 1:S1 trig, 2:S2 trig -->
       <s1_thresh>50</s1_thresh>			<!-- **ADC threshold to generate S1 trigger -->
       <sampling_freq>250000000</sampling_freq>	<!-- **sampling frequency -->

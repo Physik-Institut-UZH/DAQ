@@ -145,7 +145,7 @@ int xml_readsettings(char filename[100], DRSBoard *b,DAQContainer* c)
   
   //--- Active channels -------
 
-  xstr=xNode.getChildNode("ch_0").getText();
+ xstr=xNode.getChildNode("ch_0").getText();
   if (xstr) {
        strcpy(txt,xstr); 
        temp=atoi(txt); 
@@ -252,7 +252,7 @@ int xml_readsettings(char filename[100], DRSBoard *b,DAQContainer* c)
 			strcpy(txt,xstr); 
 			temp=atoi(txt);
 			b->SetTriggerLevel((temp/1000.));            
-     			printf("  Trigger Level: %smV\n",txt);
+     			printf("  Trigger Level: %fV\n",temp/1000.);
 		}
 		else xml_error((char*)"triggerlvl");
 		break;

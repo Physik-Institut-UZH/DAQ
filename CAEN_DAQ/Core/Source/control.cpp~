@@ -861,6 +861,7 @@ int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1,
 			      
       cnt=0;                              // counter of waveform data
       wavecnt=0;                          // counter to reconstruct times within waveform
+	std::cout << Size << std::endl;
       while (cnt<Size)
       {
 

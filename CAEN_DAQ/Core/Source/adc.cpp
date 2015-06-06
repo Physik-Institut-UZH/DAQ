@@ -340,14 +340,14 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
       
 	    	  	  
       // analyze Event and calculate Baseline
-      if (Size==8192) {
-       
-      } 
-	  else{
-	       col("red"); printf(":::: ERROR: module %d\n",i);  printf(RESET);
-           errormsg(0,":::: ERROR: wrong Buffer Organization setting (expect 8192 samples) ::::");
-	       return -1;
-	  }
+//      if (Size==8192) {
+  //     
+ //     } 
+//	  else{
+//	       col("red"); printf(":::: ERROR: module %d\n",i);  printf(RESET);
+  //         errormsg(0,":::: ERROR: wrong Buffer Organization setting (expect 8192 samples) ::::");
+//	       return -1;
+//	  }
     
       pnt=4;
       for (int channel=0; channel<8; channel++) {
