@@ -5,10 +5,10 @@
   <global>
     <source>MPPCs</source>                      <!-- What is measured? -->
     <notes>MPPCs</notes>                  <!-- Comments -->
-    <path>/data/LArSetup/Raw_Data/Run1/Crosstalk/170K/</path> 
+    <path>/data/LArSetup/Raw_Data/Run2/T299K/Long/</path> 
     <daq_version>2.0.0</daq_version>            
-    <nb_evts>50000</nb_evts>                  
-    <nb_evts_per_file>50000</nb_evts_per_file>
+    <nb_evts>10000</nb_evts>                  
+    <nb_evts_per_file>10000</nb_evts_per_file>
     <store_data>7</store_data>                 
     <displaytime>1</displaytime>                
     <user>Julien,Yuehuan</user>                         
@@ -23,7 +23,7 @@
       <!-- Activate channels to read out-->
       	<ch_0>1</ch_0>                            <!-- 0 = off  -->
       	<ch_1>1</ch_1>                            <!-- 1 = on   -->
-      	<ch_2>1</ch_2>                            
+      	<ch_2>0</ch_2>                            
       	<ch_3>0</ch_3>                           
       	<ch_4>0</ch_4>                          
       	<ch_5>0</ch_5>                         

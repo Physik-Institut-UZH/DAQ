@@ -182,7 +182,6 @@ int graph_displayNoZLE(TH1D *g, u_int32_t *buff, int channel)
 			      
       cnt=0;                              // counter of waveform data
       wavecnt=0;                          // counter to reconstruct times within waveform
-		std::cout << Size << std::endl;
       while (cnt<Size)
       {
         // save waveform in histogram

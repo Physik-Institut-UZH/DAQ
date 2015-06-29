@@ -42,6 +42,7 @@ if (MPI_FOUND)
         set (CMAKE_EXECUTABLE_SUFFIX _mpi) 
 endif (MPI_FOUND)
 set(CMAKE_CXX_FLAGS -DLINUX)
+add_definitions("-std=c++0x") 
 #Global Headers
 include_directories(MPI_INCLUDE_PATH ${DAQ_INCLUDE_DIRS})
 add_subdirectory(Core)
