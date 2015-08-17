@@ -55,14 +55,14 @@ int graph_init(	TApplication *theApp, TCanvas *win,
 
   // configure histogram 
   char str[50];
-  sprintf(str,"SandBox: PMT %d (Module %d.%d)",graphics.pmtNb, graphics.module, graphics.channel);
+  sprintf(str,"DAQ: PMT %d (Module %d.%d)",graphics.pmtNb, graphics.module, graphics.channel);
   g->SetTitle(str);
   g->SetLineColor(4);
   g->GetXaxis()->SetTitle("Sample");
   g->GetYaxis()->SetTitle("ADC Counts");
   
   // Startup Window
-  TLatex * tex = new TLatex(0.0556465,0.379562,"DAX");
+  TLatex * tex = new TLatex(0.0556465,0.379562,"DAQ");
   tex->SetTextColor(2);
   tex->SetTextFont(112);
   tex->SetTextSize(0.729927);
@@ -74,7 +74,7 @@ int graph_init(	TApplication *theApp, TCanvas *win,
   tex->SetTextSize(0.1216545);
   tex->SetLineWidth(2);
   tex->Draw();
-  tex = new TLatex(0.0900164,0.233577," DAQ for SandBox");
+  tex = new TLatex(0.0900164,0.233577," DAQ for Zuerich");
   tex->SetTextSize(0.136253);
   tex->SetLineWidth(2);
   tex->Draw();
@@ -263,7 +263,7 @@ int graph_checkkey(var_graphics& graphics, digitizer& adc, char c, TH1D *g, char
       if (graphics.pmtNb>adc.pmtmax) graphics.pmtNb=0;
       control_getadc(adc, graphics.pmtNb, graphics.module, graphics.channel);
     } 
-    sprintf(str,"SandBox: PMT %d (Module %d.%d)",graphics.pmtNb, graphics.module, graphics.channel);
+    sprintf(str,"DAQ: PMT %d (Module %d.%d)",graphics.pmtNb, graphics.module, graphics.channel);
     g->SetTitle(str);
   }
   
@@ -283,7 +283,7 @@ int graph_checkkey(var_graphics& graphics, digitizer& adc, char c, TH1D *g, char
       if (graphics.pmtNb<1) graphics.pmtNb=adc.pmtmax;
       control_getadc(adc, graphics.pmtNb, graphics.module, graphics.channel);
     }
-    sprintf(str,"XENON100: PMT %d (Module %d.%d)",graphics.pmtNb, graphics.module, graphics.channel);
+    sprintf(str,"DAQ: PMT %d (Module %d.%d)",graphics.pmtNb, graphics.module, graphics.channel);
     g->SetTitle(str);
   } 
 

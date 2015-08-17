@@ -19,7 +19,7 @@
     <global>
       <nb_chs>8</nb_chs>			<!-- **Total number of channels --> 
       <!-- Activate channels to read out-->
-      	<ch_0>0</ch_0>                            <!-- 0 = off  -->
+      	<ch_0>1</ch_0>                            <!-- 0 = off  -->
       	<ch_1>0</ch_1>                            <!-- 1 = on   -->
       	<ch_2>0</ch_2>                            
       	<ch_3>0</ch_3>                           
@@ -35,7 +35,7 @@
       <sampling_freq>100000000</sampling_freq>	<!-- **sampling frequency -->
       <sample_size>14</sample_size>		<!-- **sampling width in bits -->
       <voltage_range>2.25</voltage_range>	<!-- **voltage range of ADC -->
-      <baseline>7000</baseline>  		<!-- **position of baseline (channels) -->	
+      <baseline>9000</baseline>  		<!-- **position of baseline (channels) -->	
       <busy>0</busy>				<!-- **ADC busy on (1) or off (0) --> 
       <ttl>1</ttl>	
     </global>

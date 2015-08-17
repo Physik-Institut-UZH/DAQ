@@ -369,7 +369,7 @@ int main(int argc, char *argv[])
       if(mtime>1000){
         /* print some progress indication */
 	printf(KCYN);
-	std::cout <<"	DAQ-Rate: " << round(((events-lastevents)/mtime)*1000)<< "Hz" << " Board Temperature: " << round(b->GetTemperature()) << "Degrees" << " Total Events: " << events << std::endl;
+	std::cout <<"	DAQ-Rate: " << round(((events-lastevents)/mtime)*1000)<< "Hz" << " Board Temperature: " << round(b->GetTemperature()) << " Degrees" << " Total Events: " << events << std::endl;
 	lastevents=events;
 	gettimeofday(&begin, NULL);
        printf(RESET);

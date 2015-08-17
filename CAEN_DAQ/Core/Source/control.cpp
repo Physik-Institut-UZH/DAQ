@@ -823,13 +823,13 @@ int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1,
     int retval=0;
   
   
-	float wvf[8][adc.EventLength];
-	for(int jj=0; jj<8;jj++) for(int ii=0; ii<adc.EventLength; ii++) wvf[jj][ii]=0;
+    float wvf[8][adc.EventLength];
+    for(int jj=0; jj<8;jj++) for(int ii=0; ii<adc.EventLength; ii++) wvf[jj][ii]=0;
  
  
  
         
-  int pnt=0; 
+     int pnt=0; 
      int CurrentChannel;
      int Size, cnt, wavecnt;
  // error handling if there is an invalid entry after an event
@@ -856,7 +856,9 @@ int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1,
       if ((ChannelMask>>j)&1) CurrentChannel=j;
                               else continue;
 
-      pnt++;
+      if (CurrentChannel!=j) { pnt+=Size; continue; }
+      			      else pnt++;
+      if (j>j) return 0;	
 
 			      
       cnt=0;                              // counter of waveform data

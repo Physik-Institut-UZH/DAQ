@@ -226,7 +226,7 @@ int main(int argc, char *argv[], char *envp[] )
 
     if (graphics.on) {
       theApp = new TApplication("App", &argc, argv);
-      win = new TCanvas("win","SanDaq -- DAQ for SandBox",1);
+      win = new TCanvas("win","ZDaq -- DAQ for Zuerich",1);
       g = new TH1D("g","g",adc.EventLength-1,0,adc.EventLength-1);
       if (graphics.pmtNb>0) control_getadc(adc, graphics.pmtNb, graphics.module, graphics.channel); 
       graph_init(theApp, win, g, graphics);
