@@ -21,15 +21,24 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 set (SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 set (DAQ_INCLUDE_DIRS
   ${SOURCE}/Core/Include
+  ${SOURCE}/Plugins/Include
+  ${SOURCE}/IO/Include
 )
 
 #Find external libaries and headers
 find_package(ROOT REQUIRED)
 find_library(CAEN NAMES CAENVME)
 
+#Compiler Flags
 set(CMAKE_CXX_FLAGS -DLINUX)
 add_definitions("-std=c++0x") 
+
 #Global Headers
 include_directories(${DAQ_INCLUDE_DIRS})
+
+#Subdirectories
 add_subdirectory(Core)
 add_subdirectory(Application)
+add_subdirectory(Plugins)
+add_subdirectory(IO)
+

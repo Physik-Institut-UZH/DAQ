@@ -1,58 +1,99 @@
-// Julien W. Rizalina M.
-// Program to set the threshold for the v895 Leding Edge Discriminator
+// Julien W.
+// Program to set the the v895 Leding Edge Discriminator and Scaler
 
 //C++ Libraries
 #include <iostream>
 #include <unistd.h>
 #include <fstream>
 #include <sstream>
-#include "discriminator.h"
-
 #include <cmath>
 #include <map>
 #include <math.h>
 #include <vector>
 #include <sys/time.h>
+#include <string>
+#include <Riostream.h>
+#include <iostream>
 
-//ROOT Libraries
-#include "TROOT.h"
-#include <TApplication.h>
-#include "TSystem.h"
-#include "TTree.h"
-#include "TNtuple.h"
-#include "TFile.h"
-#include "TRint.h"
-#include "TApplication.h"
+//Some Classes
+#include <xml.h> 
+#include <global.h>
+#include "VMEManager.h"
+#include "DiscriminatorManager.h"
+#include "ScalerManager.h"
 
-
-//const int measurement = 1000;
 
 
 using namespace std;
 
-int main(int argc, char *argv[]){ // argv[1] - name of the main cfg;
-	discriminator fDisc(argv[1]); // read cfg files and thr Files in constructur
-	int fCrateHandle=fDisc.GetfCrateHandle();
-	int Nthr = fDisc.GetNthresholds();
 
-	u_int32_t chHex =0xFFFFFF; // wtf is it? Should be read from cfg?
-	u_int32_t fVMEAddressSca=fDisc.GetVMEAddressSca();
-
-	//Enable All Channels
-	if(CAENVME_WriteCycle(fCrateHandle,fVMEAddressSca+0x1100, &chHex,cvA32_U_DATA,cvD32)!=cvSuccess) //0-31
-		cout << "VME write error" << endl;
-	else
-		cout << "VME write successful" << endl;
-	//Save Directory
+int main(int argc, char *argv[]){ 
 	
-	for(int i=0; i< Nthr; i++){
-		fDisc.SetThresholds2(i);
-		fDisc.DarkCount2Root(i);
+	printf("\n");
+  	printf("%s*****************************************************************\n",KGRN);
+  	printf("%s                   Discriminator Scaler Control                  \n",KGRN); 
+  	printf("%s                          version: 3.0                           \n",KGRN);
+	printf("%s             With Great Force Comes Great Responsibility 	       \n",KGRN);
+	printf("%s                         Julien Wulf (UZH)      	               \n",KGRN);
+  	printf("%s*****************************************************************\n\n",KGRN);
+  	printf(RESET);
+  	
+  	//For Timing
+	struct timeval begin, end;
+    double mtime, seconds, useconds;    
+    gettimeofday(&begin, NULL);
+
+	//Create Managers and read XML File
+
+	VMEManager* vManager = new VMEManager();
+	DiscriminatorManager* dManager = new DiscriminatorManager();
+	ScalerManager* sManager = new ScalerManager();
+
+	xml_readsettings("Settings.xml",vManager,dManager,sManager); 
+
+
+	 //Init all Manager
+	 if(vManager->Init()==-1)
+		return 0;
+
+	 dManager->SetCrateHandle(vManager->GetCrateHandle());
+	 sManager->SetCrateHandle(vManager->GetCrateHandle());
+
+	 if(dManager->Init()==-1)
+        	return 0;
+        
+    	 if(sManager->Init()==-1)
+        	return 0;
+       
+       
+     //Main Program Set only Discriminator or aquire data of the scaler with a certain treshold  
+ 	 if(sManager->GetActive()==1){
+		for(int i=0;i<dManager->GetNthresholds();i++){
+			//Set Tresholds from XML or Treshold File
+			if(dManager->SetThresholdsDisc(i)==-1)
+				return 0;
+			//Read Scaler and save data
+			sManager->ReadMultipleCycles();	 
+		} 
+     }
+     else{
+		for(int i=0;i<dManager->GetNthresholds();i++){
+			//Set Tresholds from XML or Treshold File
+			if(dManager->SetThresholdsDisc(i)==-1)
+				return 0;			 
+		}
 	}
-
-	fDisc.Close();
-	std::cout << endl << endl;
-
+     
+    vManager->Close();
+    gettimeofday(&end, NULL);
+	seconds  = end.tv_sec  - begin.tv_sec;
+	useconds = end.tv_usec - begin.tv_usec;
+	printf(KGRN);
+	std::cout << "	Total Time: " << seconds << "seconds "<< std::endl;
+	printf(RESET);
+	delete vManager;
+	delete dManager;
+	delete sManager;
 	return 0;
 }
 
