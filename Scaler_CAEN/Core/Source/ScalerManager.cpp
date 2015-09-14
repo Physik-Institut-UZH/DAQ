@@ -26,7 +26,7 @@ int ScalerManager::Init()
 {		
 		//16Bit Word
 		chHex =0xFFFFFF;
-		
+
 		//Enable all channels
 		if(CAENVME_WriteCycle(m_CrateHandle,m_scalerAdr+0x1100, &chHex,cvA32_U_DATA,cvD32)!=cvSuccess){ //0-31
 			printf(KRED);

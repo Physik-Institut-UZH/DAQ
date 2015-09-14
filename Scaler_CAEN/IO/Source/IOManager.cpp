@@ -7,6 +7,7 @@
 #include <string>
 #include "IOManager.h"
 #include "global.h"
+#include "common.h"
 
 //ROOT Libraries
 #include "TROOT.h"
@@ -23,16 +24,17 @@ IOManager::IOManager(string path)
 {
 		m_path=path;
 		m_flag=0;
+		gettimestring(m_OutputFolder);
 		printf(KGRN);
   		printf(":::: Message from IOManager (IOManager)::::\n");
-        std::cout << "	Storage Path: " << m_path << std::endl;
-        std::cout << "	Storage File: " << m_path << std::endl << std::endl;; 
+       	        std::cout << "	Storage Path: " << m_path << std::endl;
+       	        std::cout << "	Storage File: " << m_path + m_OutputFolder << std::endl << std::endl;; 
 		printf(RESET);	
-		
+
 		/*Create Output Folder and ROOT Folder*/
 		m_command= "mkdir " + m_path; 
 		system(m_command.c_str());
-		m_command = m_path + "test.root"; 
+		m_command = m_path + m_OutputFolder + ".root";
 		output = new TFile(m_command.c_str(), "RECREATE");
 		tree = new TTree("T1","");
 }
@@ -54,7 +56,7 @@ void IOManager::FillContainer(vector<int> &channel, vector<double> &rates){
 		printf(":::: Message from IOManager (FillContainer)::::\n");
 		for(int i=0;i<channel.size();i++){
 			m_chanels.push_back(channel[i]);
-			
+
 			if(m_chanels[i]==1){
 				cout << "	Counter: " << i << "	Rate: " << m_rates[counter] << " Hz" << std::endl;
 				counter++;

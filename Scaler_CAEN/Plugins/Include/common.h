@@ -17,11 +17,12 @@
 using namespace std;
 class Common
 {
-  public:                            
+  public:
 	  Common();   
 	  virtual ~Common();
 	  int32_t get_time();
 	  int GetUnixTime();
+	  void gettimestring(char* buffer);
 };
 
 #endif

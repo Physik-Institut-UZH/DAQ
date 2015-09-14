@@ -17,6 +17,16 @@ Common::~Common()
 {
 }
 
+void Common::gettimestring(char* buffer)
+{
+  time_t curtime;
+  struct tm *loctime;
+  curtime = time (NULL);                                // Get the current time.
+  loctime = localtime (&curtime);                        // Convert it to local time representation.
+  strftime(buffer, 100, "%y%m%d_%H%M", loctime);       // formatted print for filenames
+
+}
+
 // returns time in milliseconds
 int32_t Common::get_time()
 {
