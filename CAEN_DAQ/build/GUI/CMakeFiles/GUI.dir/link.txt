@@ -1,2 +1,0 @@
-/usr/bin/ar cr ../lib/libGUI.a  CMakeFiles/GUI.dir/Source/graph.cpp.o
-/usr/bin/ranlib ../lib/libGUI.a
