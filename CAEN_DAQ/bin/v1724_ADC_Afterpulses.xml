@@ -5,13 +5,13 @@
   <global>
     <source>Afterpulses</source>                      <!-- What is measured? -->
     <notes>MgF_PMT</notes>                  <!-- Comments -->
-    <path>/data/LArSetup/Rizalina/Lar_PMT/RoomTempr/Afterpulses/</path> 
+    <path>/data1/SandBox/1Inch_Xenon1T/Afterpulses/Raw_Data/LV0278/</path> 
     <daq_version>2.0.0</daq_version>            
-    <nb_evts>10000000</nb_evts>                  
+    <nb_evts>20000000</nb_evts>                  
     <nb_evts_per_file>1000000</nb_evts_per_file>
     <store_data>7</store_data>                 
     <displaytime>1</displaytime>                
-    <user>Rizalina,Julien</user>                         
+    <user>Sandro,Julien</user>                         
   </global>
 
   <!--*************************************************************************************************** -->
@@ -21,9 +21,9 @@
     <global>
       <nb_chs>8</nb_chs>			<!-- **Total number of channels --> 
       <!-- Activate channels to read out-->
-      	<ch_0>0</ch_0>                            <!-- 0 = off  -->
+      	<ch_0>1</ch_0>                            <!-- 0 = off  -->
       	<ch_1>0</ch_1>                            <!-- 1 = on   -->
-      	<ch_2>1</ch_2>                            
+      	<ch_2>0</ch_2>                            
       	<ch_3>0</ch_3>                           
       	<ch_4>0</ch_4>                          
       	<ch_5>0</ch_5>                         

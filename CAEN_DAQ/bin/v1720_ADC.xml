@@ -5,17 +5,17 @@
   <global>
     <source>MgF_PMT</source>                      <!-- What is measured? -->
     <notes>GAr</notes>                  <!-- Comments -->
-    <path>/data/LArSetup/Rizalina/Lar_PMT/Lars/GAr/Run2/Second_Set/Raw_Data/</path> 
+    <path>/data1/SandBox/1Inch_Xenon1T/Darkcount/</path> 
     <daq_version>2.0.0</daq_version>            
-    <nb_evts>20000</nb_evts>                  
-    <nb_evts_per_file>20000</nb_evts_per_file>
+    <nb_evts>20000000</nb_evts>                  
+    <nb_evts_per_file>1000000</nb_evts_per_file>
     <store_data>7</store_data>                 
     <displaytime>1</displaytime>                
     <user>Rizalina,Julien</user>                         
   </global>
 
   <!--*************************************************************************************************** -->
-  <!-- ADC CAEN v1724 specific settings -->
+  <!-- ADC CAEN v1720 specific settings -->
   <adc>	
     <!-- global ADC settings -->
     <global>
@@ -31,8 +31,8 @@
       	<ch_7>0</ch_7>                            
 
       <nb_samples_per_evt>128</nb_samples_per_evt>  	<!-- **max nb. samples/event in k-->
-      <custom_size>2000</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>1800</posttrigger> 		<!-- **samples after trigger -->
+      <custom_size>3000</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>2800</posttrigger> 		<!-- **samples after trigger -->
       <trigger>0</trigger>			<!-- **0:ext trig, 1:S1 trig, 2:S2 trig -->
       <s1_thresh>50</s1_thresh>			<!-- **ADC threshold to generate S1 trigger -->
       <sampling_freq>250000000</sampling_freq>	<!-- **sampling frequency -->

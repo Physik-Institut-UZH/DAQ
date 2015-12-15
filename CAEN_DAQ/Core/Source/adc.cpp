@@ -182,6 +182,7 @@ int adc_init(crate& crt, digitizer& adc, int& EnableInt,
 	// Read DAC Status
 	if (adc.BoardInfo){
 	  adc_readreg(crt,adc,i,0x1788,data);
+	  std::cout << std::hex << data << std::endl;
 	  if (data&4) printf("  DAC Status: busy\n");
 	         else printf("  DAC Status: ok\n");
 	}
@@ -379,13 +380,13 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
 	  } else { // adjust baseline	    
 	    if (diff>MaxDev) { 
  	      if (diff>8) {                  
-		  if (diff>50) newDAC=(data+diff/(-0.264)); // coarse adjustment
+		  if (diff>50) newDAC=(data+diff/(-0.0264)); 
 	 	  	else newDAC=data-30;
 	      } else newDAC=data-15;
 	    }  
 	    else if (diff<MaxDev*(-1.)) {
 	      if (diff<-8) {
-		if (diff<-50) newDAC=(data+diff/(+0.264)); // coarse adjustment
+		if (diff<-50) newDAC=(data+diff/(+0.0264)); 
                          else newDAC=data+30;
 	      } else newDAC=data+15;
 	    }  
@@ -419,6 +420,7 @@ int adc_getbaseline(crate& crt,	digitizer& adc)
         
 	// Set new DAC setting
 	data=(int)newDAC;
+	std::cout << std::dec <<  data << std::endl;
         adc_writereg(crt,adc,i,DACRegister+(channel*0x100),data);  
       
       } // end: for (channel)       

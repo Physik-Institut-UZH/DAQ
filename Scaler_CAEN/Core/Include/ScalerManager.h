@@ -10,7 +10,7 @@
 #include <vector>
 #include <memory>
 #include <typeinfo>
-
+#include "keyb.h"
 
 #include "common.h"
 
@@ -38,13 +38,14 @@ class ScalerManager: public Common
 	int m_CrateHandle;					//VME-Bus Object
 	int m_cycles;						//Number of measurements Points
 	int m_rate;						//Time between measurements
-	int m_active;					//Scaler active
+	int m_active;						//Scaler active
 	vector<int> m_chanels;					//Store and show which channel stored. Length: 0-15
 	u_int32_t chHex;					//Variable to write to the VME bus
 	u_int32_t m_scalerAdr;					//Scaler hex adress
 	int32_t  currenttime, previoustime; 			//For timing
 	vector<double> m_rates;					//Storage of the Scaler
 	string m_path;						//Path for storage
+	char m_exc;						//keyboard handling
 
 };	
 

@@ -3,15 +3,15 @@
 <settings author="Last additions by JW" date="24/03/2015">
   <!-- global Settings for the measurement--> 
   <global>
-    <source>SiPMs</source>                      <!-- What is measured? -->
-    <notes>SiPms</notes>                  <!-- Comments -->
-    <path>/data/LArSetup/Julien/Raw_Data/Run3/T87K/</path> 
+    <source>PMT</source>                       <!-- What is measured? -->
+    <notes>PMT First Dynode</notes>            <!-- Comments -->
+    <path>/data1/SandBox/1Inch_Xenon1T/Darkcount/</path> 
     <daq_version>2.0.0</daq_version>            
-    <nb_evts>500000</nb_evts>                  
+    <nb_evts>500000</nb_evts>                  <!-- Gain Measurement: 500k Afterpuleses:10M -->
     <nb_evts_per_file>500000</nb_evts_per_file>
     <store_data>7</store_data>                 
     <displaytime>1</displaytime>                
-    <user>Rizalina,Julien</user>                         
+    <user>Sandro,Julien</user>                         
   </global>
 
   <!--*************************************************************************************************** -->
@@ -31,8 +31,8 @@
       	<ch_7>0</ch_7>                            
 
       <nb_samples_per_evt>128</nb_samples_per_evt>  	<!-- **max nb. samples/event in k-->
-      <custom_size>1000</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>850</posttrigger> 		<!-- **samples after trigger -->
+      <custom_size>300</custom_size>      	<!-- Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>200</posttrigger> 		<!-- **samples after trigger -->
       <trigger>0</trigger>			<!-- **0:ext trig, 1:S1 trig, 2:S2 trig -->
       <s1_thresh>50</s1_thresh>			<!-- **ADC threshold to generate S1 trigger -->
       <sampling_freq>100000000</sampling_freq>	<!-- **sampling frequency -->
@@ -40,7 +40,7 @@
       <voltage_range>2.25</voltage_range>	<!-- **voltage range of ADC -->
       <baseline>10000</baseline>  		<!-- **position of baseline (channels) -->	
       <busy>0</busy>				<!-- **ADC busy on (1) or off (0) --> 
-      <ttl>0</ttl>				<!-- **TTL On (1) or NIM On (0) -->
+      <ttl>1</ttl>				<!-- **TTL On (1) or NIM On (0) -->
     </global>
     <!-- Settings for Zero Length Encoding (ZLE)-->
     <zle_settings>

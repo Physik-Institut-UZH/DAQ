@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<settings author="Last additions by JW" date="24/03/2015">
+  <!-- global Settings for the measurement--> 
+  <global>
+    <source>SiPM</source>					                <!-- What is measured? -->
+    <notes>SiPM</notes>					 		<!-- Comments -->
+    <path>/data1/SandBox/SiPM/</path>					<!-- **Path to files-->
+    <daq_version>1.0.0</daq_version>						<!-- DAQ Version -->
+    <nb_evts>500000</nb_evts>							<!-- **Evts to be measured; -1 is infinity -->	
+    <nb_evts_per_file>500000</nb_evts_per_file> 					<!-- **No of Events stored in one file (Not working right now)-->	
+    <store_data>1</store_data>							<!-- **0: no 1: save waveforms only (standard,root)-->
+    <displaytime>1</displaytime>						<!-- **Display measured triggers, MBs, etc. every x sec -->
+    <user>Juan</user>								<!-- Who started the measurement? -->
+  </global>
+  <!--*************************************************************************************************** -->
+  <!-- DRS4 PSI Board specific settings -->
+  <DRS4>	
+    <!-- global Board settings -->
+    <global>				          <!-- Alway 1024 Samples/Event --> 
+      <!-- Activate channels to read out-->
+      	<ch_0>1</ch_0>                            <!-- 0 = off  -->
+      	<ch_1>0</ch_1>                            <!-- 1 = on   -->
+      	<ch_2>0</ch_2>                            
+    	<ch_3>0</ch_3>                                                       
+        <sampling_freq>2000</sampling_freq>             <!-- ** (700-5000)MHz -->
+        <voltage_range>0</voltage_range>         	<!-- **voltage range is 1V. Set the midpoint of the range here in mV. E.g 0 -> -0.5 - 0.5 etc  -->
+        <internal_clock>0</internal_clock>		<!-- **0:Conect 100MHZ Clock to every Channel 1: Not   (Maybe only interesting for checking the board)--> 
+    </global>
+
+    <!-- Trigger Settings -->
+    <trigger_settings>
+	<trigger>1</trigger>                            <!-- **0:ext trig, 1: Source Specific Channel 2: Individual Channel (Discriminator) 3:Software Trigger -->
+
+							<!-- This Section is only needed if a specific channel is selected as Trigger-->
+        <SourceChn>0</SourceChn>			<!-- **Channel trigger 0, 1, 2, 3-->
+        <triggerlvl>1.5</triggerlvl>			<!-- **Trigger LvL in mV -->
+        
+							<!-- This Section is only needed if every channel should trigger on their signals-->
+        <TriggerLvlCh_0>0.4</TriggerLvlCh_0>		<!-- **Individual Trigger Levels in mV -->
+        <TriggerLvlCh_1>40</TriggerLvlCh_1>
+        <TriggerLvlCh_2>400</TriggerLvlCh_2>
+        <TriggerLvlCh_3>44</TriggerLvlCh_3>
+
+							<!--- This Section is only needed if the Software trigger is selected-->
+	<SoftwareTriggerRate>5000</SoftwareTriggerRate>  <!---**Trigger Rate of the Software Trigger in Hz-->
+
+        <triggerpolarity>1</triggerpolarity>            <!-- **Trgger edge 0: positiv 1:negative -->
+        <triggerdelay>250</triggerdelay>			<!-- **Trigger Delay in ns -->
+    </trigger_settings>
+
+    <!-- Settings for graphical display "Oscilloscope mode" -->
+    <graphics>
+      <ydisplay>1</ydisplay>			<!-- ** 0:standard, 1:manual, 2:auto -->
+      <yaxis_low>-150</yaxis_low>	       	<!-- ** lower border of y-axis display (mV)-->
+      <yaxis_high>150</yaxis_high>		<!-- ** upper border (mV)-->
+    </graphics>
+  </DRS4>
+</settings>

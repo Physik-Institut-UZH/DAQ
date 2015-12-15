@@ -30,18 +30,19 @@ Class to manage the Input and Output.
 
 class IOManager: public Common
 {
- public:
+public:
 	IOManager();
     IOManager(string path);
     virtual ~IOManager();
     
     void FillContainer(vector<int> &channel, vector<double> &rates);
+    void SaveContainer();
 
    
- private:
+private:
 	int m_flag;							//Flag for first object call
 	double m_time=0;						//Storage of the current time
-         string m_command;					//tmp variable
+        string m_command;					//tmp variable
 	vector<double> m_rates;				//Storage of the Scaler
 	vector<int> m_chanels;				//Store and show which channel. Length: 0-15
 	string m_path;						//Path for storage

@@ -851,7 +851,7 @@ int control_writerootrawdata(digitizer& adc, int i, TFile *orootfile, TTree *t1,
     
     pnt+=2; // ignore EventConter and TTT
 
-    for (int j=0; j<8; j++) { // read all channels
+    for (int j=0; j<1; j++) { // read all channels
       // read only the channels given in ChannelMask
       if ((ChannelMask>>j)&1) CurrentChannel=j;
                               else continue;

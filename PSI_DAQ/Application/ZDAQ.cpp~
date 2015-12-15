@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 
   printf("\n");
   printf("%s*****************************************************************\n",KGRN);
-  printf("%s           ZDAQ  --  Alternative DAQ for UZH (PSI Board)         \n",KGRN); 
+  printf("%s           DAQ  --  Alternative DAQ for UZH (PSI Board)          \n",KGRN); 
   printf("%s                          version: 1.0                           \n",KGRN);
   printf("%s*****************************************************************\n\n",KGRN);
   printf(RESET);
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 
     if(container->GetGraphicMode()){ 
    	 theApp = new TApplication("App", &argc, argv);
-  	 win = new TCanvas("win","ZDAQ -- DAQ for Laura Baudis Group",1);
+  	 win = new TCanvas("win","DAQ -- DAQ for PSI Board DRS4",1);
   	 g1 = new TH1D("ZDAQ - Channel 1","ZDAQ - Channel 1",1023,0,1023);
          g2 = new TH1D("ZDAQ - Channel 2","ZDAQ - Channel 2",1023,0,1023);
          g3 = new TH1D("ZDAQ - Channel 3","ZDAQ - Channel 3",1023,0,1023);
@@ -200,12 +200,12 @@ int main(int argc, char *argv[])
   	 win->SetFillColor(0);
   	 win->SetBorderMode(0);
 
-  	 // configure histogram 
+  	 // configure histogram
   	 g1->SetLineColor(2);
    	 g1->GetXaxis()->SetTitle("Sample");
    	 g1->GetYaxis()->SetTitle("mV");
 	 g1->GetYaxis()->SetRangeUser(container->GetGraphicYLow(),container->GetGraphicYHigh());
-    
+
          g2->SetLineColor(3);
    	 g2->GetXaxis()->SetTitle("Sample");
    	 g2->GetYaxis()->SetTitle("mV");
@@ -220,9 +220,9 @@ int main(int argc, char *argv[])
    	 g4->GetXaxis()->SetTitle("Sample");
    	 g4->GetYaxis()->SetTitle("mV");
 	 g4->GetYaxis()->SetRangeUser(container->GetGraphicYLow(),container->GetGraphicYHigh());
-  
+
     	 // Startup Window
-   	 TLatex * tex = new TLatex(0.0,0.379562,"ZDAQ");
+   	 TLatex * tex = new TLatex(0.0,0.379562,"DAQ");
    	 tex->SetTextColor(2);
    	 tex->SetTextFont(112);
    	 tex->SetTextSize(0.629927);
@@ -297,13 +297,36 @@ int main(int argc, char *argv[])
     printf(KGRN);
     std::cout << "Start Data Aquistion" << std::endl << std::endl;
     printf(RESET);
- 
+
+    int counter;	//General Purpose Counter
    while(events!=container->GetNumberOfEvens() && quit==0) {
 
       /* start board (activate domino wave) */
+
       b->StartDomino();
 
       while (b->IsBusy() && quit==0){
+		gettimeofday(&end, NULL);
+    		seconds  = end.tv_sec  - begin.tv_sec;
+      		useconds = end.tv_usec - begin.tv_usec;
+      		mtime = ((seconds) * 1000 + useconds/1000.0) + 0.5;
+		if(mtime>4000){
+			/* print some progress indication */
+			printf(KRED);
+			std::cout <<"	No Trigger since a long time " <<  std::endl;
+			gettimeofday(&begin, NULL);
+      			printf(RESET);
+		}
+		if (kbhit()) c = getch();
+        	if (c == 'q' || c == 'Q'){ 
+			if(container->GetSaveType()==1){
+   				gROOTFile ->cd();
+  				tree ->Write();
+  				gROOTFile ->Close();
+   			}
+			delete drs;
+			return 0;
+		}
 		if(container->GetTriggerType()==3){
                 	usleep((1./(container->GetTriggerRate()))*1000000.);
 			b->SoftTrigger();
@@ -369,7 +392,7 @@ int main(int argc, char *argv[])
       if(mtime>1000){
         /* print some progress indication */
 	printf(KCYN);
-	std::cout <<"	DAQ-Rate: " << round(((events-lastevents)/mtime)*1000)<< "Hz" << " Board Temperature: " << round(b->GetTemperature()) << "Degrees" << " Total Events: " << events << std::endl;
+	std::cout <<"	DAQ-Rate: " << round(((events-lastevents)/mtime)*1000)<< "Hz" << " Board Temperature: " << round(b->GetTemperature()) << " Degrees" << " Total Events: " << events << std::endl;
 	lastevents=events;
 	gettimeofday(&begin, NULL);
        printf(RESET);

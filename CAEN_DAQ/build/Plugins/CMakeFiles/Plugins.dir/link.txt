@@ -1,0 +1,2 @@
+/usr/bin/ar cr ../lib/libPlugins.a  CMakeFiles/Plugins.dir/Source/keyb.cpp.o CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o
+/usr/bin/ranlib ../lib/libPlugins.a

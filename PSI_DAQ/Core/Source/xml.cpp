@@ -217,7 +217,7 @@ int xml_readsettings(char filename[100], DRSBoard *b,DAQContainer* c)
       switch (temp) {
       case 0: printf("External\n");
    	      /* enable transparent mode needed for analog trigger */
-   	      b->SetTranspMode(0);
+     	      b->SetTranspMode(0);
 	      /* use following lines to enable the external trigger */
    	     if (b->GetBoardType() == 8) {        // Evaluaiton Board V4
              	b->EnableTrigger(1, 0);           // enable hardware trigger
@@ -251,7 +251,7 @@ int xml_readsettings(char filename[100], DRSBoard *b,DAQContainer* c)
 		if (xstr) {
 			strcpy(txt,xstr); 
 			temp=atoi(txt);
-			b->SetTriggerLevel((temp/1000.));            
+			b->SetTriggerLevel((temp/1000.)); 
      			printf("  Trigger Level: %fV\n",temp/1000.);
 		}
 		else xml_error((char*)"triggerlvl");

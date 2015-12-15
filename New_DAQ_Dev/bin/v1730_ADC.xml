@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<settings author="Last additions by JW" date="15/12/2015">
+  <!-- global Settings for the measurement--> 
+  <global>
+    <source>MgF_PMT</source>       			    <!-- What is measured? -->
+    <notes>GAr</notes>                  		    <!-- Comments -->
+    <user>Julien</user>                                     <!-- Last user which used the ADC-->
+    <path>/data/Software/DAQ/New_DAQ_Dev/bin/</path>        <!-- Path -->
+    <daq_version>1.0.0</daq_version>                        <!-- DAQ Version-->
+    <nb_evts>1000000</nb_evts>                                <!-- Number of events-->
+    <nb_evts_per_file>1000000</nb_evts_per_file>              <!-- Number of events/file-->
+    <store_data>1</store_data>                              <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
+    <displaytime>1</displaytime>                            <!-- Status output -->
+  </global>
+
+  <!--*************************************************************************************************** -->
+  <!-- ADC CAEN v1730 specific settings -->
+  <adc>	
+    <!-- global ADC settings -->
+    <global>
+      <nb_chs>8</nb_chs>			   <!-- **Total number of channels --> 
+      <!-- Activate channels to read out -->
+      	<ch_0>9970</ch_0>                          <!-- 0 = off, Number = treshold for trigger setting 2 & 3 and activated -->
+      	<ch_1>10000</ch_1>
+     	<ch_2>0000</ch_2>                            
+      	<ch_3>0000</ch_3>                           
+      	<ch_4>0000</ch_4>                          
+      	<ch_5>0000</ch_5>                         
+      	<ch_6>0000</ch_6>                        
+      	<ch_7>0000</ch_7>                            
+
+      <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
+      <memoryorganisation>32</memoryorganisation>  				<!-- **Blockorganisation of the ADC-->
+      <custom_size>500</custom_size>      					<!-- **Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>250</posttrigger> 						<!-- **samples after trigger -->
+      <sampling_freq>500000000</sampling_freq>					<!-- **sampling frequency -->
+      <voltage_range>2.0</voltage_range>					<!-- **voltage range of ADC/DAC -->
+      <sample_size_ADC>14</sample_size_ADC>					<!-- **sampling width in bits (ADC) -->
+      <sample_size_DAC>16</sample_size_DAC>					<!-- **sampling width in bits (DAC) -->
+      <baseline>10000</baseline>  						<!-- **position of baseline (channels) -->	
+    </global>
+    
+    <!--Trigger Settings -->
+    <triggerSettings>
+	
+	<trigger>1</trigger>							<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
+	   
+	<!-- Option external trig-->
+	<TTL>1</TTL>							<!-- **TTL On (1) or NIM On (0) -->
+   
+	<!-- Option Software Trig-->
+	<SoftwareRate>500</SoftwareRate>				<!-- **Rate of the Software Trigger in Hz -->
+    
+	<!-- Option Channel Trig-->
+									<!-- (coupled channels for board trigger: two adjacent channels)-->
+    	<logic0>0</logic0>						<!-- How to proceed if channel is above treshold: 0: Or : 1: only CH(n) 2:only CH(n+1) 3: And -->
+    	<logic1>0</logic1>
+    	<logic2>0</logic2>  
+    	<logic3>0</logic3>
+      
+         <!-- Option Coinciddence Trigger-->
+       	<coincidencelength>0</coincidencelength>				<!-- window for a coincidence event units: 125MHz Clock-->
+        <numberChannels>1</numberChannels>					<!-- how many channels should be over the programmed treshold -->
+   </triggerSettings>
+ </adc>  
+ 
+   <!-- Settings for graphical display "Oscilloscope mode" -->
+ <graphics>
+   <ydisplay>2</ydisplay>		<!-- ** 0:standard, 1:manual, 2:auto -->
+   <yaxis_low>9980</yaxis_low>		<!-- ** lower border of y-axis display -->
+   <yaxis_high>10020</yaxis_high>	<!-- ** upper border -->
+ </graphics>
+</settings>

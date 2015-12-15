@@ -2332,7 +2332,6 @@ int DRSBoard::SetTriggerSource(int source)
 
       Write(T_CTRL, REG_CTRL, &fCtrlBits, 4);
    } else if (fBoardType == 8 || fBoardType == 9) {
-		std::cout << "hier" <<std::endl;
       // Set trigger configuration
       // OR  0=CH1, 1=CH2, 2=CH3, 3=CH4, 4=EXT
       // AND 8=CH1, 9=CH2, 10=CH3, 11=CH4, 12=EXT
@@ -3293,7 +3292,7 @@ int DRSBoard::TransferWaves(int firstChannel, int lastChannel)
       offset = firstChannel * sizeof(short int) * kNumberOfBins;
    else
       offset = 0;               //in VME and USB2, always start from zero
-
+std::cout << "Read Trigger cells1" << std::endl;
    return TransferWaves(fWaveforms + offset, firstChannel, lastChannel);
 }
 
@@ -3306,7 +3305,7 @@ int DRSBoard::TransferWaves(unsigned char *p, int firstChannel, int lastChannel)
    unsigned int   dw;
    unsigned short w;
    unsigned char *ptr;
-
+std::cout << "Read Trigger cells1" << std::endl;
    if (lastChannel >= fNumberOfChips * fNumberOfChannels)
       lastChannel = fNumberOfChips * fNumberOfChannels - 1;
    if (lastChannel < 0) {
@@ -3341,7 +3340,7 @@ int DRSBoard::TransferWaves(unsigned char *p, int firstChannel, int lastChannel)
       if (lastChannel > 15)
          lastChannel = 15;
    }
-
+std::cout << "Read Trigger cells1" << std::endl;
    n_bins = fDecimation ? kNumberOfBins/2 : kNumberOfBins;
    n_requested = (lastChannel - firstChannel + 1) * sizeof(short int) * n_bins;
    offset = firstChannel * sizeof(short int) * n_bins;
@@ -3364,7 +3363,7 @@ int DRSBoard::TransferWaves(unsigned char *p, int firstChannel, int lastChannel)
       printf("Error: only %d bytes read instead of %d\n", n, n_requested);
       return n;
    }
-
+	std::cout << "Read Trigger cells" << std::endl;
    // read trigger cells
    if (fDRSType == 4) {
       if (fBoardType == 5 || fBoardType == 7 || fBoardType == 8 || fBoardType == 9) {

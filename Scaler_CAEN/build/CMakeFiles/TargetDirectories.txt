@@ -1,0 +1,4 @@
+/data/Software/DAQ/Scaler_CAEN/build/Core/CMakeFiles/Core.dir
+/data/Software/DAQ/Scaler_CAEN/build/IO/CMakeFiles/IO.dir
+/data/Software/DAQ/Scaler_CAEN/build/Plugins/CMakeFiles/Plugins.dir
+/data/Software/DAQ/Scaler_CAEN/build/Application/CMakeFiles/Scaler.dir

@@ -73,7 +73,12 @@ int main(int argc, char *argv[]){
 			if(dManager->SetThresholdsDisc(i)==-1)
 				return 0;
 			//Read Scaler and save data
-			sManager->ReadMultipleCycles();	 
+			if(sManager->ReadMultipleCycles()==1){
+				break;
+			}
+			else{
+				return 0;
+			}
 		} 
      }
      else{

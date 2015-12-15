@@ -10,6 +10,7 @@
 #include "global.h"
 #include <sys/time.h>
 #include <unistd.h>
+#include "keyb.h"
 
 ScalerManager::ScalerManager()
 {
@@ -24,7 +25,7 @@ ScalerManager::~ScalerManager()
 
 int ScalerManager::Init()
 {		
-		//16Bit Word
+		//32Bit Word
 		chHex =0xFFFFFF;
 
 		//Enable all channels
@@ -102,13 +103,16 @@ int ScalerManager::ReadMultipleCycles(){
 					}
 			}
 			
-			//FillContainer
+			//FillContainer and check for abort
 			ioManager->FillContainer(m_chanels,m_rates);
-			
+
+			if (kbhit()) m_exc = getch();
+           		if (m_exc == 'q') {ioManager->SaveContainer();m_exc=0;return 1;}
+
 			std::cout << std::endl << std::endl;
 			counter++;
 	}
-		delete ioManager;	
+	delete ioManager;	
         std::cout << std::endl;
         return 1;
 }

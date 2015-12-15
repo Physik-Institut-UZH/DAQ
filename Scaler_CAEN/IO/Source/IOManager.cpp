@@ -18,7 +18,7 @@
 #include "TFile.h"
 #include "TRint.h"
 #include "TApplication.h"
-
+#include "keyb.h"
 
 IOManager::IOManager(string path)
 {
@@ -29,7 +29,7 @@ IOManager::IOManager(string path)
   		printf(":::: Message from IOManager (IOManager)::::\n");
        	        std::cout << "	Storage Path: " << m_path << std::endl;
        	        std::cout << "	Storage File: " << m_path + m_OutputFolder << std::endl << std::endl;; 
-		printf(RESET);	
+		printf(RESET);
 
 		/*Create Output Folder and ROOT Folder*/
 		m_command= "mkdir " + m_path; 
@@ -41,11 +41,11 @@ IOManager::IOManager(string path)
 
 IOManager::~IOManager()
 {
+	output->cd();
 	tree->Write();
 	output->Close();
 }
 void IOManager::FillContainer(vector<int> &channel, vector<double> &rates){
-		
 		m_chanels.clear();
 		m_rates.clear();
 		for(int i=0;i<rates.size();i++){
@@ -58,7 +58,7 @@ void IOManager::FillContainer(vector<int> &channel, vector<double> &rates){
 			m_chanels.push_back(channel[i]);
 
 			if(m_chanels[i]==1){
-				cout << "	Counter: " << i << "	Rate: " << m_rates[counter] << " Hz" << std::endl;
+				cout << "	Channel: " << i << "	Rate: " << m_rates[counter] << " Hz" << std::endl;
 				counter++;
 				if(m_flag==0)
 					tree->Branch(Form("Ch%iRate",i),&m_rates[i],Form("Ch%iRate/D",i));
@@ -68,11 +68,16 @@ void IOManager::FillContainer(vector<int> &channel, vector<double> &rates){
 			m_flag=1;
 			tree->Branch("Time",&m_time,"Time/D");
 		}
-				
 		m_time=GetUnixTime();
 		tree->Fill();
 		printf(RESET);
 
+}
+
+void IOManager::SaveContainer(){
+	output->cd();
+	tree->Write();
+        output->Close();
 }
 
 
