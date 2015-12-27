@@ -6,6 +6,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
 SET(CMAKE_DEPENDS_CHECK_CXX
   "/data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager.cpp" "/data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir/Source/ADCManager.cpp.o"
   "/data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager1720.cpp" "/data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir/Source/ADCManager1720.cpp.o"
+  "/data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager1730.cpp" "/data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o"
   "/data/Software/DAQ/New_DAQ_Dev/Core/Source/ScopeManager.cpp" "/data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o"
   "/data/Software/DAQ/New_DAQ_Dev/Core/Source/SlowcontrolManager.cpp" "/data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o"
   "/data/Software/DAQ/New_DAQ_Dev/Core/Source/StorageManager.cpp" "/data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o"

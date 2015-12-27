@@ -3,6 +3,8 @@
 
 Application/CMakeFiles/DAQ.dir/DAQ.cpp.o
  ../Core/Include/ADCManager.h
+ ../Core/Include/ADCManager1720.h
+ ../Core/Include/ADCManager1730.h
  ../Core/Include/ScopeManager.h
  ../Core/Include/SlowcontrolManager.h
  ../Core/Include/StorageManager.h

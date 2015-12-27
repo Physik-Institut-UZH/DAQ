@@ -54,5 +54,6 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 SET(CMAKE_DEPEND_INFO_FILES
   "Core/CMakeFiles/Core.dir/DependInfo.cmake"
   "Application/CMakeFiles/DAQ.dir/DependInfo.cmake"
+  "Application/CMakeFiles/Test.dir/DependInfo.cmake"
   "Plugins/CMakeFiles/Plugins.dir/DependInfo.cmake"
   )

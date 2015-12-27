@@ -77,7 +77,7 @@ Core/preinstall:
 Core/CMakeFiles/Core.dir/all: Plugins/CMakeFiles/Plugins.dir/all
 	$(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/depend
 	$(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  1 2 3 4 5 6
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  1 2 3 4 5 6 7
 	@echo "Built target Core"
 .PHONY : Core/CMakeFiles/Core.dir/all
 
@@ -87,7 +87,7 @@ all: Core/CMakeFiles/Core.dir/all
 
 # Build rule for subdir invocation for target.
 Core/CMakeFiles/Core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 10
 	$(MAKE) -f CMakeFiles/Makefile2 Core/CMakeFiles/Core.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 0
 .PHONY : Core/CMakeFiles/Core.dir/rule
@@ -110,10 +110,12 @@ clean: Core/CMakeFiles/Core.dir/clean
 
 # Convenience name for "all" pass in the directory.
 Application/all: Application/CMakeFiles/DAQ.dir/all
+Application/all: Application/CMakeFiles/Test.dir/all
 .PHONY : Application/all
 
 # Convenience name for "clean" pass in the directory.
 Application/clean: Application/CMakeFiles/DAQ.dir/clean
+Application/clean: Application/CMakeFiles/Test.dir/clean
 .PHONY : Application/clean
 
 # Convenience name for "preinstall" pass in the directory.
@@ -124,11 +126,11 @@ Application/preinstall:
 # Target rules for target Application/CMakeFiles/DAQ.dir
 
 # All Build rule for target.
-Application/CMakeFiles/DAQ.dir/all: Plugins/CMakeFiles/Plugins.dir/all
 Application/CMakeFiles/DAQ.dir/all: Core/CMakeFiles/Core.dir/all
+Application/CMakeFiles/DAQ.dir/all: Plugins/CMakeFiles/Plugins.dir/all
 	$(MAKE) -f Application/CMakeFiles/DAQ.dir/build.make Application/CMakeFiles/DAQ.dir/depend
 	$(MAKE) -f Application/CMakeFiles/DAQ.dir/build.make Application/CMakeFiles/DAQ.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  7
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  8
 	@echo "Built target DAQ"
 .PHONY : Application/CMakeFiles/DAQ.dir/all
 
@@ -138,7 +140,7 @@ all: Application/CMakeFiles/DAQ.dir/all
 
 # Build rule for subdir invocation for target.
 Application/CMakeFiles/DAQ.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 11
 	$(MAKE) -f CMakeFiles/Makefile2 Application/CMakeFiles/DAQ.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 0
 .PHONY : Application/CMakeFiles/DAQ.dir/rule
@@ -154,6 +156,42 @@ Application/CMakeFiles/DAQ.dir/clean:
 
 # clean rule for target.
 clean: Application/CMakeFiles/DAQ.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target Application/CMakeFiles/Test.dir
+
+# All Build rule for target.
+Application/CMakeFiles/Test.dir/all: Core/CMakeFiles/Core.dir/all
+Application/CMakeFiles/Test.dir/all: Plugins/CMakeFiles/Plugins.dir/all
+	$(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/depend
+	$(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  12
+	@echo "Built target Test"
+.PHONY : Application/CMakeFiles/Test.dir/all
+
+# Include target in all.
+all: Application/CMakeFiles/Test.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+Application/CMakeFiles/Test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 11
+	$(MAKE) -f CMakeFiles/Makefile2 Application/CMakeFiles/Test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles 0
+.PHONY : Application/CMakeFiles/Test.dir/rule
+
+# Convenience name for target.
+Test: Application/CMakeFiles/Test.dir/rule
+.PHONY : Test
+
+# clean rule for target.
+Application/CMakeFiles/Test.dir/clean:
+	$(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/clean
+.PHONY : Application/CMakeFiles/Test.dir/clean
+
+# clean rule for target.
+clean: Application/CMakeFiles/Test.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -178,7 +216,7 @@ Plugins/preinstall:
 Plugins/CMakeFiles/Plugins.dir/all:
 	$(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/depend
 	$(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  8 9 10
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles  9 10 11
 	@echo "Built target Plugins"
 .PHONY : Plugins/CMakeFiles/Plugins.dir/all
 

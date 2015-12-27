@@ -11,11 +11,11 @@
 
 SlowcontrolManager::SlowcontrolManager()
 {
-	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB=0;
+	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_module,m_triggertype=m_type=0;
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
 	printf("%s                   DAQ  --  Data Aquistion Program 		           \n",KGRN); 
-	printf("%s                            version: 1.0                           \n",KGRN);
+	printf("%s                            version: 3.0                           \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
 	sleep(1);
@@ -218,14 +218,12 @@ int SlowcontrolManager::ApplyXMLFile(){
 		strcpy(txt,xstr); 
     if (strstr(txt, "-1")!=NULL) printf("	NoF Events:  infinite\n");
        		            else printf("	NoF Events:  %s\n",txt);
-		//NoE=atoi(txt); 
 	} else error((char*)"XML-nb_evts");
 	
 	xstr=xNode.getChildNode("nb_evts_per_file").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		printf("	Events/File: %s\n",txt);
-		//EventsPerFile=atoi(txt);
 	} else error((char*)"XML-nb_evts_per_file");
 
 	xstr=xNode.getChildNode("store_data").getText();
@@ -252,6 +250,25 @@ int SlowcontrolManager::ApplyXMLFile(){
 	 // parse global ADC settings -----------------------------------------------
 	xNode=xMainNode.getChildNode("adc").getChildNode("global");
 	printf("	ADC: Global settings:\n\n");
+	
+	xstr=xNode.getChildNode("ADCType").getText();
+	if (xstr) {
+		strcpy(txt,xstr);
+		m_type=atoi(txt);
+		if(m_type==0)
+				printf("	ADC: v1720  \n");  
+		else if(m_type==1)
+				printf("	ADC: v1724    \n"); 
+		else if(m_type==2)
+				printf("	ADC: v1730    \n"); 
+	} else error((char*)"XML-ADCType");
+	
+	xstr=xNode.getChildNode("address").getText();
+	if (xstr) {
+		strcpy(txt,xstr);
+		printf("	ADC Address:    %s\n",txt);  
+		m_address=txt;
+	} else error((char*)"XML-address");
   
 	xstr=xNode.getChildNode("nb_chs").getText();
 	if (xstr) {
@@ -268,7 +285,9 @@ int SlowcontrolManager::ApplyXMLFile(){
      if (xstr) {
         strcpy(txt,xstr);
         temp=atoi(txt);
-        printf("	Channel %i Active. Threshold: %i\n",i,temp);
+         if(temp!=0){
+			printf("	Channel %i Active. Threshold: %i\n",i,temp);
+		}
      } else error((char*)channel);
   }
 
@@ -319,8 +338,16 @@ int SlowcontrolManager::ApplyXMLFile(){
 	if (xstr) {
 		strcpy(txt,xstr);
 		printf("	Baseline:    %s ADC-Counts\n",txt);
-
+		
 	} else error((char*)"XML-baseline");
+	
+	xstr=xNode.getChildNode("baselineiteration").getText();
+	if (xstr) {
+		strcpy(txt,xstr);
+		printf("	Baseline Iterations:	%s \n",txt);
+		
+	} else error((char*)"XML-baselineiteration");
+	
 	
 	xstr=xNode.getChildNode("sampling_freq").getText();
 	if (xstr) {
@@ -354,25 +381,31 @@ int SlowcontrolManager::ApplyXMLFile(){
 	if (xstr) {
 		strcpy(txt,xstr); 
 		temp=atoi(txt);
-    if (temp==0) printf("	Trigger: External\n");
-  	else if (temp==1) printf("	Trigger: Softwarel\n");
-    else if (temp==2) printf("	Trigger: Channel Treshold\n");
-    else {printf("	Trigger: Channel Coincidence\n");}
+    if (temp==0){ printf("	Trigger: External\n");
+			xstr=xNode.getChildNode("TTL").getText();
+			if(xstr) {
+				strcpy(txt,xstr);
+				temp=(int)(atoi(txt));
+				if(temp==1)
+					printf("	Trigger Logic: TTL\n\n");
+				else
+					printf("	Trigger Logic: NIM\n\n");
+			} else error((char*)"XML-TTL");
+	}
+  	else if (temp==1){ 
+		printf("	Trigger: Software\n");
+		xstr=xNode.getChildNode("SoftwareRate").getText();;
+		if (xstr) {
+				strcpy(txt,xstr); 
+				printf("	Software Rate: %s Hz\n\n",txt); 
+		}
+		else error((char*)"XML-SoftwareRate");
+	}
+    else if (temp==2) printf("	Trigger: Channel Treshold\n\n");
+    else {printf("	Trigger: Channel Coincidence\n\n");}
   } else error((char*)"XML-trigger");
 
-	xstr=xNode.getChildNode("TTL").getText();
-	if (xstr) {
-		strcpy(txt,xstr);
-		temp=(int)(atoi(txt));
-		if(temp==1)
-			printf("	Trigger Logic: TTL\n");
-		else
-			printf("	Trigger Logic: NIM\n");
-	} else error((char*)"XML-TTL");
 	
-
-
-
 	// ADC: parse waveform display options
 	xNode=xMainNode.getChildNode("graphics");
 	printf("	Graphics Settings:\n\n");

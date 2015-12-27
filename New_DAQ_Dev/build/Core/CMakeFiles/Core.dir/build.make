@@ -98,9 +98,32 @@ Core/CMakeFiles/Core.dir/Source/ADCManager.cpp.o.provides: Core/CMakeFiles/Core.
 
 Core/CMakeFiles/Core.dir/Source/ADCManager.cpp.o.provides.build: Core/CMakeFiles/Core.dir/Source/ADCManager.cpp.o
 
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o: Core/CMakeFiles/Core.dir/flags.make
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o: ../Core/Source/ADCManager1730.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o"
+	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o -c /data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager1730.cpp
+
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Core.dir/Source/ADCManager1730.cpp.i"
+	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager1730.cpp > CMakeFiles/Core.dir/Source/ADCManager1730.cpp.i
+
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Core.dir/Source/ADCManager1730.cpp.s"
+	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager1730.cpp -o CMakeFiles/Core.dir/Source/ADCManager1730.cpp.s
+
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.requires:
+.PHONY : Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.requires
+
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.provides: Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.requires
+	$(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.provides.build
+.PHONY : Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.provides
+
+Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.provides.build: Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o
+
 Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o: ../Core/Source/ScopeManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o"
 	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/ScopeManager.cpp.o -c /data/Software/DAQ/New_DAQ_Dev/Core/Source/ScopeManager.cpp
 
@@ -123,7 +146,7 @@ Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o.provides.build: Core/CMakeFil
 
 Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o: ../Core/Source/StorageManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o"
 	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/StorageManager.cpp.o -c /data/Software/DAQ/New_DAQ_Dev/Core/Source/StorageManager.cpp
 
@@ -146,7 +169,7 @@ Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o.provides.build: Core/CMakeF
 
 Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o: ../Core/Source/SlowcontrolManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o"
 	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o -c /data/Software/DAQ/New_DAQ_Dev/Core/Source/SlowcontrolManager.cpp
 
@@ -169,7 +192,7 @@ Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o.provides.build: Core/CM
 
 Core/CMakeFiles/Core.dir/Source/ADCManager1720.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/ADCManager1720.cpp.o: ../Core/Source/ADCManager1720.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /data/Software/DAQ/New_DAQ_Dev/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/ADCManager1720.cpp.o"
 	cd /data/Software/DAQ/New_DAQ_Dev/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/ADCManager1720.cpp.o -c /data/Software/DAQ/New_DAQ_Dev/Core/Source/ADCManager1720.cpp
 
@@ -194,6 +217,7 @@ Core/CMakeFiles/Core.dir/Source/ADCManager1720.cpp.o.provides.build: Core/CMakeF
 Core_OBJECTS = \
 "CMakeFiles/Core.dir/Source/VMEManager.cpp.o" \
 "CMakeFiles/Core.dir/Source/ADCManager.cpp.o" \
+"CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o" \
 "CMakeFiles/Core.dir/Source/ScopeManager.cpp.o" \
 "CMakeFiles/Core.dir/Source/StorageManager.cpp.o" \
 "CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o" \
@@ -204,6 +228,7 @@ Core_EXTERNAL_OBJECTS =
 
 lib/libCore.a: Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o
 lib/libCore.a: Core/CMakeFiles/Core.dir/Source/ADCManager.cpp.o
+lib/libCore.a: Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o
 lib/libCore.a: Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o
 lib/libCore.a: Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o
 lib/libCore.a: Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o
@@ -220,6 +245,7 @@ Core/CMakeFiles/Core.dir/build: lib/libCore.a
 
 Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o.requires
 Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/ADCManager.cpp.o.requires
+Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o.requires
 Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/ScopeManager.cpp.o.requires
 Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/StorageManager.cpp.o.requires
 Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o.requires

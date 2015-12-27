@@ -12,7 +12,7 @@
 
 ScopeManager::ScopeManager()
 {
-	m_mode=m_channel=0;
+	m_mode=m_channel=m_triggertype=m_module=0;
 }
 
 ScopeManager::~ScopeManager()
@@ -22,27 +22,30 @@ ScopeManager::~ScopeManager()
 int ScopeManager::Init(){
 	m_length=m_length+10;
 	ApplyXMLFile();
-	win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1024,1700);
+	//win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1024,1700);
+	
 	single = new TCanvas("single","JDAQ -- DAQ for Zuerich (single)",1700,768);
   	gStyle->SetOptStat(0000000);
   	gStyle->SetOptFit(1100);
   	gStyle->SetTitleFillColor(0);
   	gStyle->SetTitleBorderSize(0);
   	gStyle->SetStatColor(0);
-  	win->SetFillColor(0);
-  	win->SetBorderMode(0);
+  	
+  	//win->SetFillColor(0);
+  	//win->SetBorderMode(0);
+	
 	single->SetFillColor(0);
   	single->SetBorderMode(0);
 
 	//Init Graphs
 	 for(Int_t j=0; j<8;j++){
  		g.push_back(new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),m_length-1,0,m_length-1));
-         }
+     }
 
 	for(Int_t j=0; j<8;j++){
 	
 		g[j]->SetLineColor(2);
-   		g[j]->GetXaxis()->SetTitle("Sample (2ns)");
+   		g[j]->GetXaxis()->SetTitle("Samples");
    		g[j]->GetYaxis()->SetTitle("ADC-Counts");
    		g[j]->GetXaxis()->SetTitleFont(72);
        	g[j]->GetXaxis()->SetLabelFont(72);
@@ -56,7 +59,7 @@ int ScopeManager::Init(){
 	// Startup Window
 	single->cd();
 
-	 TImage *img = TImage::Open("splash.jpg");
+	 TImage *img = TImage::Open("splash.png");
 
    	if (!img) {
       		printf("Could not create an image... exit\n");
@@ -67,40 +70,20 @@ int ScopeManager::Init(){
    	img->SetImageQuality(TAttImage::kImgBest);
 	img->Draw("");
    	img->SetEditable(kTRUE);
-
-	  TLatex * tex = new TLatex(-0.1,0.379562,"DAQ");
-  	tex->SetTextColor(2);
-  	tex->SetTextFont(112);
-  	tex->SetTextSize(0.729927);
-  	tex->SetLineWidth(2);
- 	tex->Draw();
-
-  	tex = new TLatex(0.0402128,0.9053528,"Written by Julien Wulf");
-  	tex->SetTextColor(4);
-  	tex->SetTextFont(72);
-  	tex->SetTextSize(0.1216545);
-  	tex->SetLineWidth(2);
-  	tex->Draw();
-
-  	tex = new TLatex(0.0900164,0.233577," DAQ for Zuerich");
-  	tex->SetTextSize(0.136253);
-  	tex->SetLineWidth(2);
-  	tex->Draw();
-
    	
-   	win->Modified();
-   	win->cd();
-    win->SetSelected(win);  
-    win->Update();
-	win->cd();
-	win->Divide(4,2,0,0);
+   	//win->Modified();
+   	//win->cd();
+    //win->SetSelected(win);  
+    //win->Update();
+	//win->cd();
+	//win->Divide(4,2,0,0);
 
 	single->Modified();
    	single->cd();
     single->SetSelected(win);  
     single->Update();
 	single->cd();
-	sleep(1);
+	sleep(4);
 
 
     return 0;
@@ -119,10 +102,10 @@ int ScopeManager::ShowEvent(){
        	 Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
        	 pnt++;
  
-	//Read ChannelMask (Handbook)
+		//Read ChannelMask (Handbook)
         int ChannelMask=buffer[pnt] & 0xFF;                 
 
-	pnt++;    
+		pnt++;    
     
         // Get size of one waveform by dividing through the number of channels
         cnt=0;
@@ -164,16 +147,22 @@ int ScopeManager::ShowEvent(){
      single->cd();
     
     //Treshhold level
+    
 	TLine treshhigh = TLine(0, m_tresh[m_channel],m_length-1, m_tresh[m_channel]);
-	//treshhigh->SetLineWidth(3);
+	treshhigh.SetLineWidth(4);
+	treshhigh.SetLineStyle(3);
 	treshhigh.SetLineColor(kOrange);
-	//treshhigh.Draw("");
-	//single->Modified();
-    //single->Update();
+	
 	
 	//Event
-    graph_edit(g[0]);
+    graph_edit(g[m_channel]);
     g[m_channel]->Draw();
+    if(m_triggertype==2)
+		g[m_channel]->SetTitle(Form("Channel:  %i , Threshold: %i",m_channel,m_tresh[m_channel]));
+	else
+		g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
+	if(m_triggertype==2)
+		treshhigh.Draw("same");
     single->Modified();
     single->SetSelected(single);
     single->Update();
@@ -185,9 +174,7 @@ int ScopeManager::ShowEvent(){
 //-------------------------------------------------------------------
 // prepare graph for display
 int ScopeManager::graph_edit( TH1D *g)
-{
-
-  // y-axis
+{  // y-axis
   switch (m_mode) {
     case 1:  // set manually (via xml-file) 
       g->GetYaxis()->SetRangeUser(m_min,m_max);
@@ -219,8 +206,17 @@ int ScopeManager::ApplyXMLFile(){
 	// open the XML file -------------------------------------------------------
 	XMLNode xMainNode=XMLNode::openFileHelper(m_XmlFileName,"settings");
 	
+	
+	 // parse global ADC settings -----------------------------------------------
+	XMLNode xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
+	xstr=xNode.getChildNode("trigger").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+		m_triggertype=atoi(txt);
+	} else error((char*)"XML-trigger");
+	
 	// ADC: parse waveform display options
-	XMLNode xNode=xMainNode.getChildNode("graphics");
+	xNode=xMainNode.getChildNode("graphics");
 
 	xstr=xNode.getChildNode("ydisplay").getText();
 	if (xstr) {

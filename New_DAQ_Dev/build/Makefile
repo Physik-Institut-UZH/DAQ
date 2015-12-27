@@ -128,6 +128,19 @@ DAQ/fast:
 .PHONY : DAQ/fast
 
 #=============================================================================
+# Target rules for targets named Test
+
+# Build rule for target.
+Test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Test
+.PHONY : Test
+
+# fast build rule for target.
+Test/fast:
+	$(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/build
+.PHONY : Test/fast
+
+#=============================================================================
 # Target rules for targets named Plugins
 
 # Build rule for target.
@@ -150,6 +163,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Core"
 	@echo "... DAQ"
+	@echo "... Test"
 	@echo "... Plugins"
 .PHONY : help
 

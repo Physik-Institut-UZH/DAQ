@@ -1,3 +1,4 @@
 /data/Software/DAQ/New_DAQ_Dev/build/Core/CMakeFiles/Core.dir
 /data/Software/DAQ/New_DAQ_Dev/build/Application/CMakeFiles/DAQ.dir
 /data/Software/DAQ/New_DAQ_Dev/build/Plugins/CMakeFiles/Plugins.dir
+/data/Software/DAQ/New_DAQ_Dev/build/Application/CMakeFiles/Test.dir

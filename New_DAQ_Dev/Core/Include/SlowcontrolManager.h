@@ -53,7 +53,9 @@ class SlowcontrolManager: public Common
    int GetChannelNumber(){return m_pmtNb;}				//GetPMTNumber to visualize
    int GetNumberEvents(){return m_events;}				//Current stored number of events
    char* GetFolderName(){return m_OutputFolder;}		//Get the outputfolder from comandline
-   int GetADCInformation(){return m_BoardInfo;};
+   int GetADCInformation(){return m_BoardInfo;};		//SHow only configuration
+   string GetAddress(){return m_address;}				//Get ADC adress from xml-file
+   int GetADCType(){return m_type;}						//Which ADC is connected
    
    
    //Interaction Functions
@@ -73,9 +75,12 @@ class SlowcontrolManager: public Common
 	struct timeval m_begin, m_end, m_total;				//Timing of the DAQ 
     double m_time, m_seconds, m_useconds;    			//mili, mikro and mili seconds
     int m_lastevents; 									//Last events since call 	
-    int m_events;											//Total events
-    u_int32_t m_bytes,m_totalB;											//Total bytes
-	int m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics ;
+    int m_events;										//Total events
+    u_int32_t m_bytes,m_totalB;							//Total bytes
+	int m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_module ; 
+	int m_triggertype;									//Trigger type
+	string m_address;									//ADC Address
+	int m_type;											//ADC type
   
 };
 

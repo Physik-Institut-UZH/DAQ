@@ -163,6 +163,30 @@ Source/ADCManager1720.cpp.s:
 	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ADCManager1720.cpp.s
 .PHONY : Source/ADCManager1720.cpp.s
 
+Source/ADCManager1730.o: Source/ADCManager1730.cpp.o
+.PHONY : Source/ADCManager1730.o
+
+# target to build an object file
+Source/ADCManager1730.cpp.o:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o
+.PHONY : Source/ADCManager1730.cpp.o
+
+Source/ADCManager1730.i: Source/ADCManager1730.cpp.i
+.PHONY : Source/ADCManager1730.i
+
+# target to preprocess a source file
+Source/ADCManager1730.cpp.i:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.i
+.PHONY : Source/ADCManager1730.cpp.i
+
+Source/ADCManager1730.s: Source/ADCManager1730.cpp.s
+.PHONY : Source/ADCManager1730.s
+
+# target to generate assembly for a file
+Source/ADCManager1730.cpp.s:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ADCManager1730.cpp.s
+.PHONY : Source/ADCManager1730.cpp.s
+
 Source/ScopeManager.o: Source/ScopeManager.cpp.o
 .PHONY : Source/ScopeManager.o
 
@@ -274,6 +298,9 @@ help:
 	@echo "... Source/ADCManager1720.o"
 	@echo "... Source/ADCManager1720.i"
 	@echo "... Source/ADCManager1720.s"
+	@echo "... Source/ADCManager1730.o"
+	@echo "... Source/ADCManager1730.i"
+	@echo "... Source/ADCManager1730.s"
 	@echo "... Source/ScopeManager.o"
 	@echo "... Source/ScopeManager.i"
 	@echo "... Source/ScopeManager.s"

@@ -18,7 +18,8 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include "ADCManager1720.h"
+#include "ADCManager1730.h"
+#include "ADCManager.h"
 #include "global.h"
 
 //Root Libaries
@@ -33,7 +34,7 @@
 #include "TROOT.h"
 
 
-ADCManager1720::ADCManager1720()
+ADCManager1730::ADCManager1730()
 {
 	m_CrateHandle= m_ADCaddr=0;
 	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=0;
@@ -42,14 +43,15 @@ ADCManager1720::ADCManager1720()
 	}
 }
 
-ADCManager1720::~ADCManager1720()
+ADCManager1730::~ADCManager1730()
 {
 }
 
-int ADCManager1720::Init(){
+int ADCManager1730::Init(){
 
+	
 	printf(KYEL);
-	printf("\nReset the ADC . . .\n\n");
+	printf("\nReset the ADC . . .\n");
 	printf(RESET);
 
 	//Reset the board first
@@ -65,13 +67,23 @@ int ADCManager1720::Init(){
 
 	//Read Settings
 	RegisterReading();
+
+	printf(KYEL);
+	printf("\nCalibrate the ADC . . .\n\n");
+	printf(RESET);
+
+	//calibration of the Channels with the current Setting
+    m_hex=0x1;
+    adc_writereg(ChannelCalibrationReg,m_hex);
+    sleep(3);	
 	
 	return 0;
 }
 
 //-------------------------------------------------------------------
 // Reading some Register Settings from the ADC
-int ADCManager1720::RegisterReading(){
+int ADCManager1730::RegisterReading(){
+	
 	printf(KYEL);
 	printf("Reading ADC Configurations\n\n");
 	printf(RESET);
@@ -82,35 +94,35 @@ int ADCManager1720::RegisterReading(){
 	// Read Board Type and Memory Size
  	adc_readreg(0x8140,data);
 	m_MemorySize=(int)((data >> 8) & 0xFF);
-	printf("	Board Type: %s;  Memory Size: %d MByte per channel\n", "v1720",m_MemorySize);
+	printf("	Board Type: %s;  Memory Size: %d MByte per channel\n", "v1730D",m_MemorySize);
 
-    	// Read Firmware Revisions
+    // Read Firmware Revisions
 	adc_readreg(FirmwareRegN,data);	
-    	printf("	Firmware: Mezzanine: %d.%d (%x/%d/%d), ", data>>8 & 0xFF, data & 0xFF, data>>16 & 0xFF, data>>24 & 0xF, 2000 + (data>>28 & 0xF));
+    printf("	Firmware: Mezzanine: %d.%d (%x/%d/%d), ", data>>8 & 0xFF, data & 0xFF, data>>16 & 0xFF, data>>24 & 0xF, 2000 + (data>>28 & 0xF));
 
 	adc_readreg(MotherBoardFWRevision,data);	
-    	printf("	Mother Board: %d.%d (%x/%d/%d)\n", data>>8 & 0xFF, data & 0xFF, data>>16 & 0xFF, data>>24 & 0xF, 2000 + (data>>28 & 0xF));
+    printf("	Mother Board: %d.%d (%x/%d/%d)\n", data>>8 & 0xFF, data & 0xFF, data>>16 & 0xFF, data>>24 & 0xF, 2000 + (data>>28 & 0xF));
 
 	adc_readreg(BlockOrganizationReg,data);
-	 printf("	Block Organization: %i\n",data);
+	printf("	Block Organization: %i\n",data);
 
-    	// Expected Event Size in Words (32Bit including Header)
+   	// Expected Event Size in Words (32Bit including Header)
 	m_ExpectedEvSize = (int)((((m_MemorySize*pow(2,20))/(int)pow(2,data))*8+16)/4);			//From the Handbook  
   	m_BufferSize = (m_EvAlign&&m_EnableBerr) ? (m_ExpectedEvSize* m_EvAlign*4):(m_ExpectedEvSize*4);
    	m_BufferSize += 524288;
 
-        // allocate memory for buffer
-    	if ( (buffer = (u_int32_t*)malloc(m_BufferSize)) == NULL) {  
-		printf(KRED);
-		printf(":::: ERROR: Can't allocate memory buffer of %d kB ::::", m_BufferSize/1024);
-		printf(RESET);
-		return -1;
+   // allocate memory for buffer
+   	if ( (buffer = (u_int32_t*)malloc(m_BufferSize)) == NULL) {  
+			printf(KRED);
+			printf(":::: ERROR: Can't allocate memory buffer of %d kB ::::", m_BufferSize/1024);
+			printf(RESET);
+			return -1;
   	}
 
 	// Read DAC Status
 	for(int i=0;i<8;i++){
 		adc_readreg( StatusRegN+(i*0x100), data);
-       	        if (data&4) printf("	Channel %i DAC Status: busy\n",i);
+       	    if (data&4) printf("	Channel %i DAC Status: busy\n",i);
        		else printf("	Channel %i DAC Status: ok\n",i);
 	}
 
@@ -128,18 +140,18 @@ int ADCManager1720::RegisterReading(){
     m_EvAlign = data;
 	
 	//Read VME Control Register
-	adc_readreg(0xEF00,data);	  
+	adc_readreg(VMEControlReg,data);	  
     m_EnableBerr = (data>>4) & 1;
 	m_EnableOLIrq  = (data & 0x8);
 	m_EnableVMEIrq = (data & 0x7);
 	m_EnableInt =  m_EnableVMEIrq | m_EnableOLIrq;
-    	m_Align64   = (data>>5) & 1;
+    m_Align64   = (data>>5) & 1;
 
-      if (m_EnableOLIrq)  printf("	OLINK Interrupt enabled.\n");
-      if (m_EnableVMEIrq) printf("	VME Interrupt %d enabled.\n", m_EnableVMEIrq);
-	  if (!m_EnableInt)   printf(" 	No interrupts enabled.\n");
+    if (m_EnableOLIrq)  printf("	OLINK Interrupt enabled.\n");
+    if (m_EnableVMEIrq) printf("	VME Interrupt %d enabled.\n", m_EnableVMEIrq);
+	if (!m_EnableInt)   printf(" 	No interrupts enabled.\n");
 
-    // Read Monitor Configuration and DAC
+    	// Read Monitor Configuration and DAC
 	adc_readreg(MonitorModeReg,data);	
 	  switch (data&0xFFF) {
 	    case 0: printf("	Monitor: Trigger Majority Mode\n");
@@ -154,19 +166,19 @@ int ADCManager1720::RegisterReading(){
 	      break;
 	  } 
 
-    // Read FrontPanel Input Data Settings (NIM/TTL)
+    	// Read FrontPanel Input Data Settings (NIM/TTL)
  	adc_readreg(FrontPanelIODataReg,data);	
 	 if (data & 1) printf("	Front Panel Input Signal: TTL\n"); 
      	           else printf("	Front Panel Input Signal: NIM\n"); 
 
 	//Read customsize window
 	adc_readreg(CustomWindowReg,data);
-	printf("	Customsize window: %d\n", (int)data*4);
-	m_length=(int)data*4-CORRECTION;								//Correction of the Event (last 10 Samples are broken
+	printf("	Customsize window: %d\n", (int)data*10);
+	m_length=(int)data*10-CORRECTION;								//Correction of the Event (last 10 Samples are broken
 
 	//read Posttrigger Settings
 	adc_readreg(PostTriggerReg,data);	
-    printf("	PostTrigger Setting: %d samples = %.2f us\n", (int)(data)*4,(4*data)*0.004);
+    printf("	PostTrigger Setting: %d samples = %.2f us\n", (int)(data)*8,(8*data)*0.002);
 
 	printf(RESET);
 	
@@ -178,7 +190,8 @@ int ADCManager1720::RegisterReading(){
 	return 0;
 }
 
-int ADCManager1720::ApplyXMLFile(){
+int ADCManager1730::ApplyXMLFile(){
+	
 	int temp;  
 	char txt[100];
 	const char *xstr;
@@ -196,6 +209,8 @@ int ADCManager1720::ApplyXMLFile(){
 		strcpy(txt,xstr); 
 		m_nbCh=(int)(atoi(txt));
 	} else error((char*)"XML-nb_chs");
+	
+
 
 	m_hex=0x0;
 	channelTresh = new int[m_nbCh];
@@ -210,12 +225,17 @@ int ADCManager1720::ApplyXMLFile(){
         if(temp!=0){
 			m_hex=m_hex+pow(2,i);
 			adc_writereg(TresholdRegN+(i*0x0100),temp);
+			//Input Range 0-2V!
+			adc_writereg(GainRegN+(i*0x0100),0);
 		}
      } else error((char*)channel);
     }
     adc_writereg(ChannelEnableMaskReg,m_hex);
     
-    xstr=xNode.getChildNode("memoryorganisation").getText();
+
+	
+
+	xstr=xNode.getChildNode("memoryorganisation").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		switch (atoi(txt)) {
@@ -239,16 +259,16 @@ int ADCManager1720::ApplyXMLFile(){
 	xstr=xNode.getChildNode("custom_size").getText();
 	if (xstr) {
         strcpy(txt,xstr);
-        temp=(int)(atoi(txt)/4.);       // 4 samples per memory location
+        temp=(int)(atoi(txt)/10.);       // 10 samples per memory location
 	adc_writereg(CustomWindowReg,temp);
 	} else error((char*)"XML-custom_size");
-	
-	
+
 	xstr=xNode.getChildNode("posttrigger").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
-		temp=((int)atoi(txt)-50)/4;
+		temp=((int)atoi(txt)-80)/8;
 		m_posttrigger=temp;
+		//m_hex=StringToHex(IntToString(temp));
 		adc_writereg(PostTriggerReg,temp);
 	} else error((char*)"XML-posttrigger");
 		
@@ -290,7 +310,7 @@ int ADCManager1720::ApplyXMLFile(){
 		strcpy(txt,xstr); 
 		m_resDAC=(int)atoi(txt); 
 	} else error((char*)"Sample_size_DAC");
-	
+  
 	// ADC: parse ADC Trigger Settings
 	xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
 
@@ -318,22 +338,25 @@ int ADCManager1720::ApplyXMLFile(){
 		}
 		else error((char*)"SoftwareRate");
 	}
-    else if(temp==2){
+    else if(temp=2){
 		m_hex=0;
-		for(int i=0;i<8;i++){
+		
+		for(int i=0;i<4;i++){
 			char logic[300];
-			sprintf(logic,"trig%i",i);
+			sprintf(logic,"logic%i",i);
 			xstr=xNode.getChildNode(logic).getText();
 			
 			if (xstr) {
 				strcpy(txt,xstr); 
-				if(atoi(txt)==1){
+				if(atoi(txt)>=0){
 					m_hex=m_hex+pow(2,i);
+					adc_writereg(LogicRegN+(i*0x200),5);
 				}
 			}
 			else error((char*)logic);
 		}
-		//Software + Channel Trigger 
+		
+		//Software + Channel Trigger by default 
 		m_hex=m_hex+pow(2,31);
 		adc_writereg(FrontPanelTriggerOutReg,m_hex);
 		adc_writereg(TriggerSourceMaskReg,m_hex);
@@ -356,9 +379,9 @@ int ADCManager1720::ApplyXMLFile(){
 		}
 	} else error((char*)"ADC-Manager-XML-TTL");
 	
- 
 	return 0;
 }
+
 
 
 

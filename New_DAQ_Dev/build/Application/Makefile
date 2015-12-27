@@ -115,6 +115,20 @@ DAQ/fast:
 	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Application/CMakeFiles/DAQ.dir/build.make Application/CMakeFiles/DAQ.dir/build
 .PHONY : DAQ/fast
 
+# Convenience name for target.
+Application/CMakeFiles/Test.dir/rule:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f CMakeFiles/Makefile2 Application/CMakeFiles/Test.dir/rule
+.PHONY : Application/CMakeFiles/Test.dir/rule
+
+# Convenience name for target.
+Test: Application/CMakeFiles/Test.dir/rule
+.PHONY : Test
+
+# fast build rule for target.
+Test/fast:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/build
+.PHONY : Test/fast
+
 DAQ.o: DAQ.cpp.o
 .PHONY : DAQ.o
 
@@ -139,6 +153,30 @@ DAQ.cpp.s:
 	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Application/CMakeFiles/DAQ.dir/build.make Application/CMakeFiles/DAQ.dir/DAQ.cpp.s
 .PHONY : DAQ.cpp.s
 
+test.o: test.cpp.o
+.PHONY : test.o
+
+# target to build an object file
+test.cpp.o:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/test.cpp.o
+.PHONY : test.cpp.o
+
+test.i: test.cpp.i
+.PHONY : test.i
+
+# target to preprocess a source file
+test.cpp.i:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/test.cpp.i
+.PHONY : test.cpp.i
+
+test.s: test.cpp.s
+.PHONY : test.s
+
+# target to generate assembly for a file
+test.cpp.s:
+	cd /data/Software/DAQ/New_DAQ_Dev/build && $(MAKE) -f Application/CMakeFiles/Test.dir/build.make Application/CMakeFiles/Test.dir/test.cpp.s
+.PHONY : test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -146,11 +184,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... DAQ"
+	@echo "... Test"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... DAQ.o"
 	@echo "... DAQ.i"
 	@echo "... DAQ.s"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

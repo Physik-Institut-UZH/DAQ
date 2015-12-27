@@ -72,6 +72,8 @@ class ScopeManager: public Common
 	char* m_XmlFileName;				//XML-File
 	int m_channel;						//Channel to visuliaze
 	int* m_tresh;
+	int m_triggertype;					//Triggertype
+	int m_module;						//Module
 	
 
 };

@@ -5,7 +5,7 @@
   <global>
     <notes>Awesome Scaler Program</notes>					 							<!-- Comments for the XML-File -->
     <vmelink>0</vmelink>												<!-- 0-3 for A3232 otherwise 0 -->
-    <outpath>/data1/SandBox/1Inch_Xenon1T/Darkcount/LV1037_40-42/</outpath>				<!-- Path for the output files-->
+    <outpath>/data/LArSetup/Rizalina/Lar_PMT/Lars/Nitrogen/DarkCount/1500V_0.5PE/</outpath>				<!-- Path for the output files-->
     <Scaler>1</Scaler>                                                                                                  <!-- Activate Scaler or only set Discriminator -->    
   </global>
   
@@ -14,7 +14,7 @@
     <address>EEEE0000</address>												<!--  Adress of the Discriminator -->
     <SpecificThreshold>0</SpecificThreshold>                                                                            <!--  0: OFF; 1:ON  -->
     <thresholdpath>SpecificTreshold.txt</thresholdpath>                                                                       <!--  Threshold Specific File Path -->
-    <t0>1</t0>
+    <t0>5</t0>
     <t1>0</t1>	    												        <!--  0: Channel OFF; 1-255: ON (Getting ignored if SpecificThreshold active)-->
     <t2>0</t2>
     <t3>0</t3>
@@ -35,7 +35,7 @@
  <!-- Settings for Scaler -->
  <Scaler>
     <address>DDDD0000</address>                                                                                         <!--  Adress of the Scaler -->
-    <rate>5</rate>													<!--  DAQ Rate of the scaler in seconds -->
+    <rate>30</rate>													<!--  DAQ Rate of the scaler in seconds -->
     <cycles>-1</cycles>												<!--  Number of aquisition cycles. -1: Infinity --> 
     <s0>1</s0>                                                                                                          <!--  0: Channel OFF; 1: ON-->
     <s1>0</s1>                                                                                                          <!--  0: Channel OFF; 1: ON-->

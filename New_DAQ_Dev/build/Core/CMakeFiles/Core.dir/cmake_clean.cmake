@@ -1,6 +1,7 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/Core.dir/Source/VMEManager.cpp.o"
   "CMakeFiles/Core.dir/Source/ADCManager.cpp.o"
+  "CMakeFiles/Core.dir/Source/ADCManager1730.cpp.o"
   "CMakeFiles/Core.dir/Source/ScopeManager.cpp.o"
   "CMakeFiles/Core.dir/Source/StorageManager.cpp.o"
   "CMakeFiles/Core.dir/Source/SlowcontrolManager.cpp.o"

@@ -30,9 +30,7 @@
 #include <signal.h>	// to catch for Ctrl-C 
 #include <global.h>
 #include <VMEManager.h>
-#include <ADCManager1730.h>
 #include <ADCManager1720.h>
-#include "ADCManager.h"
 #include <ScopeManager.h>
 #include <StorageManager.h>
 #include <SlowcontrolManager.h>
@@ -80,21 +78,15 @@ int main(int argc, char *argv[], char *envp[] )
 		return 0;
 
 	//ADC-Manger
-	ADCManager* adcManager = new ADCManager();
-	if(slowcontrolManager->GetADCType()==0)
-		adcManager = new ADCManager1720();
-	else if(slowcontrolManager->GetADCType()==1)
-		adcManager = new ADCManager1730();
-	else if(slowcontrolManager->GetADCType()==2)
-		adcManager = new ADCManager1730();
+	ADCManager1720* adcManager = new ADCManager1720();
 	adcManager->SetCrateHandle(vManager->GetCrateHandle());
-	adcManager->SetADCAddress(slowcontrolManager->GetAddress());
+	adcManager->SetADCAddress("12340000");
 	adcManager->SetRegisterFile("RegisterConfig.ini");
-	adcManager->SetBaselineFile("Module_0_DACBaseline.ini");
+	adcManager->SetBaselineFile("DACBaseline.ini");
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()==-1);
-	if(slowcontrolManager->GetADCInformation()) return 0;
+	
 	if(slowcontrolManager->GetBaselineCalculation()){
 		adcManager->CalculateBaseLine();
 		return 0;
@@ -108,7 +100,6 @@ int main(int argc, char *argv[], char *envp[] )
 	scopeManager->SetEventLength(adcManager->GetEventLength());
 	scopeManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 	scopeManager->SetChannelNumber(slowcontrolManager->GetChannelNumber());
-	scopeManager->SetChannelTresh(adcManager->GetTreshold());
 	if(slowcontrolManager->GetGraphicsActive()){
 		//ROOT Manager
 		TApplication *theApp;
@@ -116,38 +107,26 @@ int main(int argc, char *argv[], char *envp[] )
 		if(scopeManager->Init()==-1)
 			return 0;
 	}
-
-	//StorageManager
-	StorageManager* storageManager = new StorageManager();
-	storageManager->SetBuffer(adcManager->GetBuffer());
-	storageManager->SetEventLength(adcManager->GetEventLength());
-	storageManager->SetXMLFile(slowcontrolManager->GetXMLFile());
-	storageManager->SetFolderName(slowcontrolManager->GetFolderName());
-	if(storageManager->Init()==-1);
-
-
+	
+	
     /*Stuff for the keyboard*/
     char c;
     int quit=0; 
     int counter=0; 
     c=0;
-    
-    slowcontrolManager->StartAquistion();
+  //   slowcontrolManager->StartAquistion();
     adcManager->Enable();
 	adcManager->CheckEventBuffer();		//Read Buffer before start aquisition
+    
 	
-	while(slowcontrolManager->GetNumberEvents()!=storageManager->GetNumberEvents() && quit!=1){
-		
-		// Check keyboard commands in every loop   
+	while(quit!=1){
+			// Check keyboard commands in every loop   
 		c = 0;  
 		if (kbhit()) c = getch();
 		if (c == 'q' || c == 'Q') quit = 1;	
 		
-		if(slowcontrolManager->GetGraphicsActive())	
+			if(slowcontrolManager->GetGraphicsActive())	
 			scopeManager->graph_checkkey(c);
-					
-		//Check keys to change adc settings
-		adcManager->Checkkeyboard(c);
 		
 		//Get Event
 		if(adcManager->GetTriggerType()==1){
@@ -159,36 +138,32 @@ int main(int argc, char *argv[], char *envp[] )
 			if(adcManager->CheckEventBuffer()<-1) return 0;			
 		}
 
-		//Skipp events with 0-bytes
+		/*Skipp events with 0-bytes*/
 		if(adcManager->GetTransferedBytes()<=0){
-			slowcontrolManager->ShowStatus(-1);
+		//	slowcontrolManager->ShowStatus(-1);
 			continue;
 		}
 		
-		slowcontrolManager->AddBytes(adcManager->GetTransferedBytes());
 		
-		//status output, Slowcontrol etc
-		slowcontrolManager->ShowStatus();
-
-		//Save the events or not :)
-		storageManager->FillContainer();	
-		
-		//Show Event if checked
+			//Show Event if checked
 		if(slowcontrolManager->GetGraphicsActive())
 			scopeManager->ShowEvent();
-			
-		counter++;
-		//Create new file if noE is bigger than noEF
-		if(counter==storageManager->GetEventsPerFile() && storageManager->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
-			counter=0;
-			storageManager->NewFile();
-		}
-	}
+		
+		
+	} 
 	
-	slowcontrolManager->StopAquistion();
+	/*
+	if(slowcontrolManager->GetADCInformation()) return 0;
+	if(slowcontrolManager->GetBaselineCalculation()){
+		adcManager->CalculateBaseLine();
+		return 0;
+	}
+	else
+		adcManager->ReadBaseLine();
+		
+		*/
+	//		slowcontrolManager->StopAquistion();
 	adcManager->Disable();
-	storageManager->SaveContainer();
-
     return 0;
 }
 
