@@ -1,4 +1,0 @@
-/data/Software/DAQ/CAEN_DAQ/build/Core/CMakeFiles/Core.dir
-/data/Software/DAQ/CAEN_DAQ/build/Application/CMakeFiles/DAQ.dir
-/data/Software/DAQ/CAEN_DAQ/build/GUI/CMakeFiles/GUI.dir
-/data/Software/DAQ/CAEN_DAQ/build/Plugins/CMakeFiles/Plugins.dir
