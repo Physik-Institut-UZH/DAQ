@@ -1,0 +1,6 @@
+<map id="ResponseCalibration::ReadCalibrationV4" name="ResponseCalibration::ReadCalibrationV4">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a6a358b6f6b0c284287ab5004330ae206" title="DRSBoard::GetBoardSerial\lNumber" alt="" coords="219,5,400,46"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#a1b5b15eac0905fe0e7c449518c923a74" title="DRSBoard::GetCalibration\lDirectory" alt="" coords="221,70,397,111"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#a249af1f87c0f77a1950a7701cf9781a2" title="DRSBoard::GetDRSType" alt="" coords="223,136,395,163"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a3d2ca1fcaaf96e270dd51df9cfd6d560" title="DRSBoard::GetNominalFrequency" alt="" coords="198,187,421,213"/>
+</map>

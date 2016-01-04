@@ -1,0 +1,5 @@
+<map id="ADCManager::Checkkeyboard" name="ADCManager::Checkkeyboard">
+<area shape="rect" id="node2" href="$class_a_d_c_manager.xhtml#ac6c08ec08e60b52125f463422f0abdf2" title="ADCManager::adc_writereg" alt="" coords="457,22,639,49"/>
+<area shape="rect" id="node3" href="$class_a_d_c_manager.xhtml#a5b1f8aac9d8552b1bc42ed17b1442688" title="ADCManager::Disable" alt="" coords="254,22,407,49"/>
+<area shape="rect" id="node4" href="$class_a_d_c_manager.xhtml#a8719c7eb8b3adf2ec42cc64c270a00c3" title="ADCManager::Enable" alt="" coords="256,73,405,99"/>
+</map>

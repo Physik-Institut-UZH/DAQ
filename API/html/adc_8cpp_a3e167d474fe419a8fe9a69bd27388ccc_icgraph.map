@@ -1,0 +1,9 @@
+<map id="adc_readreg" name="adc_readreg">
+<area shape="rect" id="node2" href="$_g_u_i_2_include_2adc_8h.xhtml#a8e0f9bdd9b130dd38116dfaba6e94795" title="adc_disable" alt="" coords="184,56,275,83"/>
+<area shape="rect" id="node4" href="$_g_u_i_2_include_2adc_8h.xhtml#a25f6f40f42d10a2ecc7b970155d9eb53" title="adc_getbaseline" alt="" coords="374,56,490,83"/>
+<area shape="rect" id="node5" href="$_g_u_i_2_include_2adc_8h.xhtml#a94f95e39919b3b5969d4231bf5103079" title="adc_enable" alt="" coords="185,5,273,32"/>
+<area shape="rect" id="node6" href="$_g_u_i_2_include_2adc_8h.xhtml#ad4af88f42a1f3b3bc615ab5543f614a3" title="adc_init" alt="" coords="196,157,263,184"/>
+<area shape="rect" id="node7" href="$class_a_d_c_manager.xhtml#a8900454c77298be0c3c81d61c92604a4" title="ADCManager::GetBuffer" alt="" coords="147,208,312,235"/>
+<area shape="rect" id="node3" href="$_g_u_i_2_include_2adc_8h.xhtml#a99fcc8dfc3bb71a3cd06f7e6968c12c3" title="adc_analyzebaseline" alt="" coords="361,5,503,32"/>
+<area shape="rect" id="node8" href="$_multi_d_a_q_8cpp.xhtml#adedb285b02c41bde2158ded9cc9fd7ac" title="main" alt="" coords="407,208,457,235"/>
+</map>

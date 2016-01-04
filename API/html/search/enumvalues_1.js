@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['kbsplineorder',['kBSplineOrder',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a2af6283887f7d7cc5416d296a7b8ea38',1,'DRS.h']]],
+  ['kbsplinexminoffset',['kBSplineXMinOffset',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a88502ce12cd19c05490e1dbe882860f2',1,'DRS.h']]],
+  ['kfrequencycachesize',['kFrequencyCacheSize',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a466a91ab36a4a9c29f6f546fc603e9e7',1,'DRS.h']]],
+  ['kinvalidtransport',['kInvalidTransport',['../_d_r_s_8h.xhtml#ab7dcc7278f8e703da53de2ee769ce2f6a0bafed6cc38e331cd36c0fb27e99bca4',1,'DRS.h']]],
+  ['kinvalidtriggersignal',['kInvalidTriggerSignal',['../_d_r_s_8h.xhtml#ab7dcc7278f8e703da53de2ee769ce2f6ac8b12b6cbec0edae80530c9b87f10c3c',1,'DRS.h']]],
+  ['kmaxnumberofboards',['kMaxNumberOfBoards',['../class_d_r_s.xhtml#ae6f18f5c178afdf0f5bbd3bafb7b79e5a3a3cd0cecfbb9c209e5f813a7152eccb',1,'DRS']]],
+  ['kmaxnumberofclockcycles',['kMaxNumberOfClockCycles',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a130e6d9cc9437042a1323958eddc98e1',1,'DRS.h']]],
+  ['kmaxnumberoffrequencies',['kMaxNumberOfFrequencies',['../class_d_r_s_board_1_1_time_data.xhtml#a3f2a7d940916eb89063dac7b20ed484ca0f0efb747e3021880059c4c091edb7be',1,'DRSBoard::TimeData']]],
+  ['knumberofadcbins',['kNumberOfADCBins',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a8c257ca44001dafddacded37e1e312d2',1,'DRS.h']]],
+  ['knumberofbins',['kNumberOfBins',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a20b4a8f5cdfc2a3ce90c3f32af999fa0',1,'DRS.h']]],
+  ['knumberofcalibchannelsv3',['kNumberOfCalibChannelsV3',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a38c04ee9cee7cd75405c297dc96437c7',1,'DRS.h']]],
+  ['knumberofcalibchannelsv4',['kNumberOfCalibChannelsV4',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769ab65e5bf61f0666846ffc2622537bfef1',1,'DRS.h']]],
+  ['knumberofchannelsmax',['kNumberOfChannelsMax',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a512db8a7a36c74c34c3282af213bac24',1,'DRS.h']]],
+  ['knumberofchipsmax',['kNumberOfChipsMax',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769af3c9ba00b7ed6f0b7291c9723d9fabb2',1,'DRS.h']]],
+  ['kprecaliculatedbsplinegroups',['kPreCaliculatedBSplineGroups',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a958e04d79e2efa0f9c86814aaa2a4967',1,'DRS.h']]],
+  ['kprecaliculatedbsplines',['kPreCaliculatedBSplines',['../_d_r_s_8h.xhtml#a3b714eaad5c2b209326b5055e0cfb769a700bed1ad61d9981bb01ded0858c960a',1,'DRS.h']]],
+  ['ksuccess',['kSuccess',['../_d_r_s_8h.xhtml#ab7dcc7278f8e703da53de2ee769ce2f6af0536797208144380691e2b376ffc1d1',1,'DRS.h']]],
+  ['kwavenotavailable',['kWaveNotAvailable',['../_d_r_s_8h.xhtml#ab7dcc7278f8e703da53de2ee769ce2f6a99e337e5fc0ce0b637934203bb383eb8',1,'DRS.h']]],
+  ['kwrongchannelorchip',['kWrongChannelOrChip',['../_d_r_s_8h.xhtml#ab7dcc7278f8e703da53de2ee769ce2f6a939c49bc077470033c6ed00508128f6c',1,'DRS.h']]],
+  ['kzerosuppression',['kZeroSuppression',['../_d_r_s_8h.xhtml#ab7dcc7278f8e703da53de2ee769ce2f6a1025b7f454dbc127c2a52b796550eaba',1,'DRS.h']]]
+];

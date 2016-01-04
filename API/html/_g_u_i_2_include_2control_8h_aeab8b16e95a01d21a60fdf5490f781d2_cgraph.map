@@ -1,0 +1,8 @@
+<map id="control_configfile" name="control_configfile">
+<area shape="rect" id="node2" href="$_core_2_include_2adc_8h.xhtml#ab2c5b38244f3ea85067f83b5d94409f7" title="adc_writereg" alt="" coords="173,5,269,32"/>
+<area shape="rect" id="node3" href="$control_8cpp.xhtml#a48a6baefa46edb93b59bb0f76385052a" title="errormsg" alt="" coords="185,56,258,83"/>
+<area shape="rect" id="node7" href="$control_8cpp.xhtml#aee4072f52ae76435a626b818498e3e27" title="power" alt="" coords="193,107,250,133"/>
+<area shape="rect" id="node4" href="$control_8cpp.xhtml#a42c6ce88a95e362f9f257d90bbf8de32" title="control_log" alt="" coords="317,56,403,83"/>
+<area shape="rect" id="node5" href="$control_8cpp.xhtml#a6d31350db95da2e061ef2ef9ad11402e" title="control_printlog" alt="" coords="451,56,562,83"/>
+<area shape="rect" id="node6" href="$control_8cpp.xhtml#a03b1d46384ed092ca3bc35eeb9c47e02" title="control_gettimestring" alt="" coords="611,56,754,83"/>
+</map>

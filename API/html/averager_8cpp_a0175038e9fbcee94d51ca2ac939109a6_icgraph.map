@@ -1,0 +1,8 @@
+<map id="compar" name="compar">
+<area shape="rect" id="node2" href="$class_averager.xhtml#a762a787a827f2a2591019abde244f053" title="Averager::Median" alt="" coords="121,71,245,97"/>
+<area shape="rect" id="node7" href="$class_averager.xhtml#ac5cb7d2e7eaf4ae7aa3eacff6f9b8401" title="Averager::Reset" alt="" coords="124,121,241,148"/>
+<area shape="rect" id="node3" href="$class_averager.xhtml#a9dc816c41ccae2bb908061c8a0eff363" title="Averager::RobustAverage" alt="" coords="297,71,469,97"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a8bab7dfd4d23b8721274dbad343fe980" title="DRSBoard::AnalyzeSlope" alt="" coords="559,108,732,135"/>
+<area shape="rect" id="node6" href="$class_averager.xhtml#a4cafa76ff8897c99b8647d93cc35eb03" title="Averager::SaveNormalized\lDistribution" alt="" coords="293,5,472,46"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#a6e16736c059a10a958a692aefc5dda48" title="DRSBoard::RobustAverageWaveforms" alt="" coords="520,45,771,72"/>
+</map>

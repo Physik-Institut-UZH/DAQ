@@ -1,0 +1,5 @@
+<map id="musb_read" name="musb_read">
+<area shape="rect" id="node2" href="$class_d_r_s.xhtml#acf352402176698daf1d3c96fcff8a7d5" title="DRS::DRS" alt="" coords="160,5,248,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#aa02e77fccd230cc6437c3c1978f73b4d" title="DRSBoard::Read" alt="" coords="142,56,266,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#af018974f1eba4c58a9e2571db12ffea4" title="DRSBoard::Write" alt="" coords="142,107,266,133"/>
+</map>

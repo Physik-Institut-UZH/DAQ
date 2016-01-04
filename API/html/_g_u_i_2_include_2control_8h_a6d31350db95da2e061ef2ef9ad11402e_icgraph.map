@@ -1,0 +1,14 @@
+<map id="control_printlog" name="control_printlog">
+<area shape="rect" id="node2" href="$_g_u_i_2_include_2control_8h.xhtml#a11fd8ef2164efa9242cf82c35c240992" title="control_cnts2log" alt="" coords="165,208,283,235"/>
+<area shape="rect" id="node3" href="$_g_u_i_2_include_2control_8h.xhtml#a42c6ce88a95e362f9f257d90bbf8de32" title="control_log" alt="" coords="181,259,267,285"/>
+<area shape="rect" id="node8" href="$_g_u_i_2_include_2control_8h.xhtml#ab54cec1fc7617fbb69ba6258f0a9f827" title="control_openfile" alt="" coords="475,309,589,336"/>
+<area shape="rect" id="node9" href="$control_8cpp.xhtml#a9ed3ffa0b795893db43aac7d83f9cd87" title="control_openrawrootfile" alt="" coords="454,360,610,387"/>
+<area shape="rect" id="node4" href="$_g_u_i_2_include_2control_8h.xhtml#a48a6baefa46edb93b59bb0f76385052a" title="errormsg" alt="" coords="331,208,405,235"/>
+<area shape="rect" id="node5" href="$_g_u_i_2_include_2control_8h.xhtml#a3ea9dadf648f70197ec522fb6fedc393" title="control_openlog" alt="" coords="475,5,589,32"/>
+<area shape="rect" id="node6" href="$_g_u_i_2_include_2control_8h.xhtml#ac97643773a87a0ab2f3310730174824f" title="control_cmdline" alt="" coords="475,56,589,83"/>
+<area shape="rect" id="node7" href="$_g_u_i_2_include_2control_8h.xhtml#aeab8b16e95a01d21a60fdf5490f781d2" title="control_configfile" alt="" coords="472,107,592,133"/>
+<area shape="rect" id="node10" href="$_g_u_i_2_include_2control_8h.xhtml#ab5bd42385627821b5bbe8f172adc9d10" title="control_scfile" alt="" coords="483,259,581,285"/>
+<area shape="rect" id="node11" href="$control_8cpp.xhtml#a05821af400d34bbf265b0eb929f4cee8" title="control_calcrate" alt="" coords="685,208,800,235"/>
+<area shape="rect" id="node13" href="$control_8cpp.xhtml#aa8ca64af815f670c76cdb23c3d1af7b4" title="control_generatefilename" alt="" coords="659,157,826,184"/>
+<area shape="rect" id="node12" href="$mini_d_a_x_8cpp.xhtml#adedb285b02c41bde2158ded9cc9fd7ac" title="main" alt="" coords="875,183,925,209"/>
+</map>

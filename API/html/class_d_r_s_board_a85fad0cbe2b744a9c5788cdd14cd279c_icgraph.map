@@ -1,0 +1,7 @@
+<map id="DRSBoard::SoftTrigger" name="DRSBoard::SoftTrigger">
+<area shape="rect" id="node2" href="$class_response_calibration.xhtml#a7141e2ac553d65d9f67c2915cbb3ce2e" title="ResponseCalibration\l::CalibrationTrigger" alt="" coords="233,5,375,46"/>
+<area shape="rect" id="node3" href="$_z_d_a_q_8cpp.xhtml#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="279,71,329,97"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#ab55e5806b1f701cfc40c6ea237e98a80" title="ResponseCalibration\l::OffsetCalibrationV3" alt="" coords="232,122,376,163"/>
+<area shape="rect" id="node5" href="$class_response_calibration.xhtml#a77c769a4e2d346cbbe331ec7bb938f16" title="ResponseCalibration\l::OffsetCalibrationV4" alt="" coords="232,187,376,229"/>
+<area shape="rect" id="node6" href="$class_response_calibration.xhtml#a6d720e4941fbc7e511bc389688d7d229" title="ResponseCalibration\l::RecordCalibrationPointsV4" alt="" coords="211,253,397,294"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="DRSBoard::AnalyzeSlope" name="DRSBoard::AnalyzeSlope">
+<area shape="rect" id="node2" href="$class_averager.xhtml#a54f782d24315b52034c2badd434a615f" title="Averager::Add" alt="" coords="261,5,366,32"/>
+<area shape="rect" id="node3" href="$class_averager.xhtml#a762a787a827f2a2591019abde244f053" title="Averager::Median" alt="" coords="449,81,573,108"/>
+<area shape="rect" id="node5" href="$class_averager.xhtml#a9dc816c41ccae2bb908061c8a0eff363" title="Averager::RobustAverage" alt="" coords="227,107,399,133"/>
+<area shape="rect" id="node4" href="$averager_8cpp.xhtml#a0175038e9fbcee94d51ca2ac939109a6" title="compar" alt="" coords="622,81,687,108"/>
+</map>

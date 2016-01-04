@@ -1,0 +1,13 @@
+<map id="ResponseCalibration::RecordCalibrationPointsV4" name="ResponseCalibration::RecordCalibrationPointsV4">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a476bcdf1ad85be42f67858d3dbb57361" title="DRSBoard::Debug" alt="" coords="271,5,401,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#a95d34a77cb2c7b806e306890a097398d" title="DRSBoard::EnableAcal" alt="" coords="257,56,415,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#a0666bf4bad85ee2556a34e195f2e2d3a" title="DRSBoard::GetRawWave" alt="" coords="249,107,423,133"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a3330a6f560520d2046a976666188d5ed" title="DRSBoard::GetTemperature" alt="" coords="243,157,429,184"/>
+<area shape="rect" id="node6" href="$class_d_r_s_board.xhtml#a69328e822828c454b02ac3e0e3423193" title="DRSBoard::IsBusy" alt="" coords="269,208,403,235"/>
+<area shape="rect" id="node7" href="$class_d_r_s_board.xhtml#a710d3d1719d71c900a150694c1229852" title="DRSBoard::SetCalibVoltage" alt="" coords="243,259,429,285"/>
+<area shape="rect" id="node8" href="$class_d_r_s_board.xhtml#a3c315a05cf220a90340a88b26979fc04" title="DRSBoard::SetDominoMode" alt="" coords="241,309,431,336"/>
+<area shape="rect" id="node9" href="$_d_r_s_8cpp.xhtml#a434cf9bf0f0628d03b924189ceab42e8" title="Sleep" alt="" coords="309,360,363,387"/>
+<area shape="rect" id="node10" href="$class_d_r_s_board.xhtml#a85fad0cbe2b744a9c5788cdd14cd279c" title="DRSBoard::SoftTrigger" alt="" coords="257,411,415,437"/>
+<area shape="rect" id="node11" href="$class_d_r_s_board.xhtml#aa1f458803cbed423b2f45dec50d7548e" title="DRSBoard::StartDomino" alt="" coords="253,461,419,488"/>
+<area shape="rect" id="node12" href="$class_d_r_s_board.xhtml#a541a06b9bbc5baa4d2e495c598ea8146" title="DRSBoard::TransferWaves" alt="" coords="245,512,427,539"/>
+</map>

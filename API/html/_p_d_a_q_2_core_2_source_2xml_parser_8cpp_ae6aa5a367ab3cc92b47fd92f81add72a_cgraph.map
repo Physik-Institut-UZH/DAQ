@@ -1,0 +1,26 @@
+<map id="CountLinesAndColumns" name="CountLinesAndColumns">
+<area shape="rect" id="node2" href="$struct_x_m_l_node.xhtml#a77a21438b6d48a52cf8a1270f82f4475" title="XMLNode::getChildNode" alt="" coords="609,5,775,32"/>
+<area shape="rect" id="node3" href="$struct_x_m_l_node.xhtml#a7e07715aa0ed894da96bd66c90d423f0" title="XMLNode::getName" alt="" coords="621,56,763,83"/>
+<area shape="rect" id="node4" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#af03c1c87ed4ddb95f7b49d53d9117c53" title="getNextChar" alt="" coords="239,563,335,589"/>
+<area shape="rect" id="node5" href="$struct_x_m_l_node.xhtml#a71df27d54a2dc09b0a456406a7e8c6d3" title="XMLNode::isDeclaration" alt="" coords="610,107,774,133"/>
+<area shape="rect" id="node6" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#ad9a5c911a8e21bb89427d29d33e2797e" title="myIsTextWideChar" alt="" coords="415,639,550,665"/>
+<area shape="rect" id="node9" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#ad7ec02a171e7641c1d364d5d367199a3" title="myWideCharToMultiByte" alt="" coords="608,563,776,589"/>
+<area shape="rect" id="node17" href="$struct_x_m_l_node.xhtml#a8e52198f258167cd796dae21f1ffc352" title="XMLNode::nChildNode" alt="" coords="614,259,770,285"/>
+<area shape="rect" id="node18" href="$struct_x_m_l_node.xhtml#a8e9538deb9144dcab39b3a510a8202f1" title="XMLNode::nElement" alt="" coords="621,360,763,387"/>
+<area shape="rect" id="node19" href="$struct_x_m_l_node.xhtml#a5e5968e052d58350918cd91e3535624b" title="XMLNode::parseFile" alt="" coords="216,411,357,437"/>
+<area shape="rect" id="node20" href="$struct_x_m_l_node.xhtml#acb95f4f00e4cf3756aac0e3a53765248" title="XMLNode::parseString" alt="" coords="405,259,560,285"/>
+<area shape="rect" id="node23" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a8dd6e6cada28ea03e5cacd075b1be7f6" title="xfopen" alt="" coords="256,613,317,640"/>
+<area shape="rect" id="node24" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a2e64ea95685df2d289c31a50419b532d" title="xstricmp" alt="" coords="251,664,323,691"/>
+<area shape="rect" id="node25" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a49fa66f65d2d28ce7b7e0b1752425915" title="xstrlen" alt="" coords="256,715,317,741"/>
+<area shape="rect" id="node7" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#af77e3e2685487b9c492b20c36f3b864a" title="_strnicmp" alt="" coords="653,715,731,741"/>
+<area shape="rect" id="node8" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#ae4635e3ac4b32772021240a9c16864ee" title="mmin" alt="" coords="665,765,719,792"/>
+<area shape="rect" id="node10" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a8dd6e6cada28ea03e5cacd075b1be7f6" title="xfopen" alt="" coords="841,563,903,589"/>
+<area shape="rect" id="node11" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a73c2349b2f386ee50130a3961bd2dbab" title="xstrcpy" alt="" coords="839,721,905,748"/>
+<area shape="rect" id="node12" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a2e64ea95685df2d289c31a50419b532d" title="xstricmp" alt="" coords="836,360,908,387"/>
+<area shape="rect" id="node13" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a49fa66f65d2d28ce7b7e0b1752425915" title="xstrlen" alt="" coords="841,512,903,539"/>
+<area shape="rect" id="node14" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a3165858f70cd74ffab31ebc2ddc9e104" title="xstrncmp" alt="" coords="834,917,910,944"/>
+<area shape="rect" id="node15" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a17c9570640aed10b61deec9047cb0940" title="xstrnicmp" alt="" coords="833,639,911,665"/>
+<area shape="rect" id="node16" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a696ca59a310359980c57de039f137697" title="xstrstr" alt="" coords="843,835,901,861"/>
+<area shape="rect" id="node21" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#ae6aa5a367ab3cc92b47fd92f81add72a" title="CountLinesAndColumns" alt="" coords="611,157,773,184"/>
+<area shape="rect" id="node22" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#af03c1c87ed4ddb95f7b49d53d9117c53" title="getNextChar" alt="" coords="824,157,920,184"/>
+</map>

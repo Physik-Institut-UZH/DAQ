@@ -1,0 +1,6 @@
+<map id="DRSBoard::SetCalibVoltage" name="DRSBoard::SetCalibVoltage">
+<area shape="rect" id="node2" href="$class_response_calibration.xhtml#ab55e5806b1f701cfc40c6ea237e98a80" title="ResponseCalibration\l::OffsetCalibrationV3" alt="" coords="261,5,405,46"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#a77c769a4e2d346cbbe331ec7bb938f16" title="ResponseCalibration\l::OffsetCalibrationV4" alt="" coords="261,70,405,111"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#a95f165d2ea84d31af62da2018926951c" title="ResponseCalibration\l::RecordCalibrationPointsV3" alt="" coords="240,135,427,177"/>
+<area shape="rect" id="node5" href="$class_response_calibration.xhtml#a6d720e4941fbc7e511bc389688d7d229" title="ResponseCalibration\l::RecordCalibrationPointsV4" alt="" coords="240,201,427,242"/>
+</map>

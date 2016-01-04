@@ -1,0 +1,5 @@
+<map id="DRSBoard::Debug" name="DRSBoard::Debug">
+<area shape="rect" id="node2" href="$class_response_calibration.xhtml#a882b4f8ebf939e5b2643ac23f90daadb" title="ResponseCalibration\l::FitCalibrationPointsV4" alt="" coords="197,5,357,46"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#a77c769a4e2d346cbbe331ec7bb938f16" title="ResponseCalibration\l::OffsetCalibrationV4" alt="" coords="205,70,349,111"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#a6d720e4941fbc7e511bc389688d7d229" title="ResponseCalibration\l::RecordCalibrationPointsV4" alt="" coords="184,135,371,177"/>
+</map>

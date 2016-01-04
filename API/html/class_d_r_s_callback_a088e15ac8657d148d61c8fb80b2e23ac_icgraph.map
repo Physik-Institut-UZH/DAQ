@@ -1,0 +1,7 @@
+<map id="DRSCallback::Progress" name="DRSCallback::Progress">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a4b1710a4ba88874522b7a9de742a6f40" title="DRSBoard::AverageWaveforms" alt="" coords="237,5,445,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#ac4774a4b6d692d3064c08c49f3581edb" title="DRSBoard::CalibrateTiming" alt="" coords="249,56,433,83"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#ab7e60716836fd4ac6707e446d498bbd1" title="DRSBoard::CalibrateVolt" alt="" coords="257,107,425,133"/>
+<area shape="rect" id="node6" href="$class_d_r_s_board.xhtml#a6e16736c059a10a958a692aefc5dda48" title="DRSBoard::RobustAverageWaveforms" alt="" coords="216,157,467,184"/>
+<area shape="rect" id="node4" href="$_z_d_a_q_8cpp.xhtml#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="515,81,565,108"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="ResponseCalibration::OffsetCalibrationV4" name="ResponseCalibration::OffsetCalibrationV4">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a476bcdf1ad85be42f67858d3dbb57361" title="DRSBoard::Debug" alt="" coords="225,5,356,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#a95d34a77cb2c7b806e306890a097398d" title="DRSBoard::EnableAcal" alt="" coords="211,56,370,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#a0666bf4bad85ee2556a34e195f2e2d3a" title="DRSBoard::GetRawWave" alt="" coords="203,107,378,133"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a69328e822828c454b02ac3e0e3423193" title="DRSBoard::IsBusy" alt="" coords="223,157,358,184"/>
+<area shape="rect" id="node6" href="$class_d_r_s_board.xhtml#a710d3d1719d71c900a150694c1229852" title="DRSBoard::SetCalibVoltage" alt="" coords="197,208,384,235"/>
+<area shape="rect" id="node7" href="$_d_r_s_8cpp.xhtml#a434cf9bf0f0628d03b924189ceab42e8" title="Sleep" alt="" coords="263,259,318,285"/>
+<area shape="rect" id="node8" href="$class_d_r_s_board.xhtml#a85fad0cbe2b744a9c5788cdd14cd279c" title="DRSBoard::SoftTrigger" alt="" coords="212,309,369,336"/>
+<area shape="rect" id="node9" href="$class_d_r_s_board.xhtml#aa1f458803cbed423b2f45dec50d7548e" title="DRSBoard::StartDomino" alt="" coords="207,360,374,387"/>
+<area shape="rect" id="node10" href="$class_d_r_s_board.xhtml#a541a06b9bbc5baa4d2e495c598ea8146" title="DRSBoard::TransferWaves" alt="" coords="199,411,382,437"/>
+</map>

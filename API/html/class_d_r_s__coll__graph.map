@@ -1,0 +1,8 @@
+<map id="DRS" name="DRS">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml" title="DRSBoard" alt="" coords="960,756,1045,783"/>
+<area shape="rect" id="node10" href="$class_response_calibration.xhtml" title="ResponseCalibration" alt="" coords="1254,968,1397,995"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board_1_1_time_data_1_1_frequency_data.xhtml" title="DRSBoard::TimeData\l::FrequencyData" alt="" coords="185,694,335,735"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board_1_1_time_data.xhtml" title="DRSBoard::TimeData" alt="" coords="570,728,721,755"/>
+<area shape="rect" id="node14" href="$class_response_calibration_1_1_calibration_data.xhtml" title="ResponseCalibration\l::CalibrationData" alt="" coords="931,1273,1074,1314"/>
+<area shape="rect" id="node15" href="$class_response_calibration_1_1_calibration_data_1_1_calibration_data_channel.xhtml" title="ResponseCalibration\l::CalibrationData::Calibration\lDataChannel" alt="" coords="550,1399,741,1455"/>
+</map>

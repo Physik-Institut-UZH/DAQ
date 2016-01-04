@@ -1,0 +1,4 @@
+<map id="ADCManager::GetBuffer" name="ADCManager::GetBuffer">
+<area shape="rect" id="node2" href="$_core_2_include_2adc_8h.xhtml#a3e167d474fe419a8fe9a69bd27388ccc" title="adc_readreg" alt="" coords="220,5,313,32"/>
+<area shape="rect" id="node3" href="$_core_2_include_2adc_8h.xhtml#ab2c5b38244f3ea85067f83b5d94409f7" title="adc_writereg" alt="" coords="219,56,315,83"/>
+</map>

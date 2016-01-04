@@ -1,0 +1,10 @@
+<map id="adc_getbaseline" name="adc_getbaseline">
+<area shape="rect" id="node2" href="$adc_8cpp.xhtml#a8e0f9bdd9b130dd38116dfaba6e94795" title="adc_disable" alt="" coords="197,69,288,96"/>
+<area shape="rect" id="node3" href="$adc_8cpp.xhtml#a3e167d474fe419a8fe9a69bd27388ccc" title="adc_readreg" alt="" coords="364,69,457,96"/>
+<area shape="rect" id="node4" href="$_core_2_include_2control_8h.xhtml#a48a6baefa46edb93b59bb0f76385052a" title="errormsg" alt="" coords="507,95,581,121"/>
+<area shape="rect" id="node5" href="$adc_8cpp.xhtml#ab2c5b38244f3ea85067f83b5d94409f7" title="adc_writereg" alt="" coords="363,120,459,147"/>
+<area shape="rect" id="node6" href="$adc_8cpp.xhtml#a94f95e39919b3b5969d4231bf5103079" title="adc_enable" alt="" coords="199,120,287,147"/>
+<area shape="rect" id="node7" href="$adc_8cpp.xhtml#aa357272f6eac8b5f8104ea1237f2e65c" title="adc_mblt" alt="" coords="205,221,280,248"/>
+<area shape="rect" id="node8" href="$_core_2_include_2control_8h.xhtml#a3a545ba21c1d05570512e20917c021cf" title="col" alt="" coords="391,260,430,287"/>
+<area shape="rect" id="node9" href="$_core_2_include_2control_8h.xhtml#a03b1d46384ed092ca3bc35eeb9c47e02" title="control_gettimestring" alt="" coords="171,323,314,349"/>
+</map>

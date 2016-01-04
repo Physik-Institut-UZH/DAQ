@@ -1,0 +1,13 @@
+<map id="ADCManager::adc_writereg" name="ADCManager::adc_writereg">
+<area shape="rect" id="node2" href="$class_a_d_c_manager.xhtml#a100d37f7db5f56057b31ab77fdc83238" title="ADCManager::ApplySoftware\lTrigger" alt="" coords="240,198,435,239"/>
+<area shape="rect" id="node4" href="$class_a_d_c_manager.xhtml#a6284754ca6f683aaf3db3da92179aab2" title="ADCManager::CalculateBaseLine" alt="" coords="485,146,704,173"/>
+<area shape="rect" id="node5" href="$class_a_d_c_manager.xhtml#ac0420e065913926d59eb3f6d69971ab7" title="ADCManager::Checkkeyboard" alt="" coords="495,45,695,72"/>
+<area shape="rect" id="node6" href="$class_a_d_c_manager.xhtml#a5b1f8aac9d8552b1bc42ed17b1442688" title="ADCManager::Disable" alt="" coords="261,45,414,72"/>
+<area shape="rect" id="node7" href="$class_a_d_c_manager.xhtml#a8719c7eb8b3adf2ec42cc64c270a00c3" title="ADCManager::Enable" alt="" coords="263,96,412,122"/>
+<area shape="rect" id="node8" href="$class_a_d_c_manager1724.xhtml#a6de2521b9c793edcf14aeaeefeb62787" title="ADCManager1724::Init" alt="" coords="517,264,672,290"/>
+<area shape="rect" id="node9" href="$class_a_d_c_manager1720.xhtml#aae342ccd8bf1c253c455e195bfd82dfe" title="ADCManager1720::Init" alt="" coords="517,365,672,392"/>
+<area shape="rect" id="node10" href="$class_a_d_c_manager1730.xhtml#adb6d45f2024f4a52d366a88d1c7f229d" title="ADCManager1730::Init" alt="" coords="517,416,672,442"/>
+<area shape="rect" id="node11" href="$class_a_d_c_manager.xhtml#ab189b058424a8bb47cb921d3d7e31e07" title="ADCManager::RegisterWriting" alt="" coords="238,314,437,341"/>
+<area shape="rect" id="node3" href="$_multi_d_a_q_8cpp.xhtml#adedb285b02c41bde2158ded9cc9fd7ac" title="main" alt="" coords="752,121,803,148"/>
+<area shape="rect" id="node12" href="$class_a_d_c_manager.xhtml#a5ae6f692e22135ccd5c4b00f1bc70e59" title="ADCManager::ReadBaseLine" alt="" coords="497,314,692,341"/>
+</map>

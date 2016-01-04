@@ -1,0 +1,6 @@
+<map id="DRSBoard::GetNominalFrequency" name="DRSBoard::GetNominalFrequency">
+<area shape="rect" id="node2" href="$class_response_calibration.xhtml#a42aae8f641a6c12c6866c76a151767dc" title="ResponseCalibration\l::ReadCalibrationV3" alt="" coords="278,5,421,46"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#a2e17dc6f1ba961b5f2ce626c08277155" title="ResponseCalibration\l::ReadCalibrationV4" alt="" coords="278,70,421,111"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#a41b50602ac62ccff04c0629d06f75319" title="ResponseCalibration\l::WriteCalibrationV3" alt="" coords="278,135,421,177"/>
+<area shape="rect" id="node5" href="$class_response_calibration.xhtml#a7bd46c76810988350d28ddc0e70972c6" title="ResponseCalibration\l::WriteCalibrationV4" alt="" coords="278,201,421,242"/>
+</map>

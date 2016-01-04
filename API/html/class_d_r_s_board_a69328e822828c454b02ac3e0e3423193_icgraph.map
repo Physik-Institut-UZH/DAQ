@@ -1,0 +1,8 @@
+<map id="DRSBoard::IsBusy" name="DRSBoard::IsBusy">
+<area shape="rect" id="node2" href="$class_response_calibration.xhtml#ab4abea5900cfec91116bb7782798fa77" title="ResponseCalibration\l::CalibrationStart" alt="" coords="211,5,354,46"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#a7141e2ac553d65d9f67c2915cbb3ce2e" title="ResponseCalibration\l::CalibrationTrigger" alt="" coords="211,70,354,111"/>
+<area shape="rect" id="node4" href="$test_8cpp.xhtml#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="257,136,308,163"/>
+<area shape="rect" id="node5" href="$class_response_calibration.xhtml#ab55e5806b1f701cfc40c6ea237e98a80" title="ResponseCalibration\l::OffsetCalibrationV3" alt="" coords="211,187,355,229"/>
+<area shape="rect" id="node6" href="$class_response_calibration.xhtml#a77c769a4e2d346cbbe331ec7bb938f16" title="ResponseCalibration\l::OffsetCalibrationV4" alt="" coords="211,253,355,294"/>
+<area shape="rect" id="node7" href="$class_response_calibration.xhtml#a6d720e4941fbc7e511bc389688d7d229" title="ResponseCalibration\l::RecordCalibrationPointsV4" alt="" coords="189,318,376,359"/>
+</map>

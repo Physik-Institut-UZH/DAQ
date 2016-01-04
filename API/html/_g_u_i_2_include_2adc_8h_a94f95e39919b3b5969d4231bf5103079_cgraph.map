@@ -1,0 +1,5 @@
+<map id="adc_enable" name="adc_enable">
+<area shape="rect" id="node2" href="$adc_8cpp.xhtml#a3e167d474fe419a8fe9a69bd27388ccc" title="adc_readreg" alt="" coords="143,5,236,32"/>
+<area shape="rect" id="node4" href="$adc_8cpp.xhtml#ab2c5b38244f3ea85067f83b5d94409f7" title="adc_writereg" alt="" coords="141,56,237,83"/>
+<area shape="rect" id="node3" href="$_core_2_include_2control_8h.xhtml#a48a6baefa46edb93b59bb0f76385052a" title="errormsg" alt="" coords="286,31,359,57"/>
+</map>

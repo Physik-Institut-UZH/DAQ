@@ -1,0 +1,10 @@
+<map id="GetNextToken" name="GetNextToken">
+<area shape="rect" id="node2" href="$struct_x_m_l_node.xhtml#a6fe7676c3f08c3dab3faec106264d50d" title="XMLNode::createXMLTopNode" alt="" coords="185,146,389,172"/>
+<area shape="rect" id="node3" href="$struct_x_m_l_node.xhtml#a719b115adfb642594107854189559ff2" title="XMLNode::XMLNode" alt="" coords="471,70,617,96"/>
+<area shape="rect" id="node4" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a5ba11fcf2496bd498e46fc958dba3d06" title="stringDup" alt="" coords="505,222,583,248"/>
+<area shape="rect" id="node5" href="$struct_x_m_l_node.xhtml#ab80f3739b26ae3f826f99769158e7bea" title="XMLNode::createXMLTopNode_WOSD" alt="" coords="160,44,413,71"/>
+<area shape="rect" id="node6" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#af03c1c87ed4ddb95f7b49d53d9117c53" title="getNextChar" alt="" coords="239,298,335,324"/>
+<area shape="rect" id="node7" href="$struct_x_m_l_node.xhtml#a71df27d54a2dc09b0a456406a7e8c6d3" title="XMLNode::isDeclaration" alt="" coords="462,171,626,198"/>
+<area shape="rect" id="node8" href="$struct_x_m_l_node.xhtml#a5f35571651c6b629f5c8e5d02942a1c7" title="XMLNode::updateName_WOSD" alt="" coords="181,95,392,122"/>
+<area shape="rect" id="node9" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a3165858f70cd74ffab31ebc2ddc9e104" title="xstrncmp" alt="" coords="249,348,325,375"/>
+</map>

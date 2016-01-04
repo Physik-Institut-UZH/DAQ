@@ -1,0 +1,9 @@
+<map id="DRS::DRS" name="DRS::DRS">
+<area shape="rect" id="node2" href="$musbstd_8h.xhtml#af9e37952b5569bacdac7a10b5f14466a" title="musb_close" alt="" coords="158,5,250,32"/>
+<area shape="rect" id="node4" href="$musbstd_8h.xhtml#ac436afdc808c58827d2c9e051b7aec29" title="musb_get_device" alt="" coords="142,56,266,83"/>
+<area shape="rect" id="node5" href="$musbstd_8h.xhtml#ae500259e10511f08da6799b274fe2c44" title="musb_open" alt="" coords="159,107,249,133"/>
+<area shape="rect" id="node6" href="$musbstd_8h.xhtml#add40af613c41eb274367a0342232a4eb" title="musb_read" alt="" coords="161,157,247,184"/>
+<area shape="rect" id="node7" href="$musbstd_8h.xhtml#ac5b10b5150589f81a5da66792fc4cd93" title="musb_write" alt="" coords="159,208,249,235"/>
+<area shape="rect" id="node8" href="$_d_r_s_8cpp.xhtml#a434cf9bf0f0628d03b924189ceab42e8" title="Sleep" alt="" coords="177,259,231,285"/>
+<area shape="rect" id="node3" href="$musbstd_8c.xhtml#a89a4600dac16bea89237f9084d632183" title="musb_reset" alt="" coords="315,5,405,32"/>
+</map>

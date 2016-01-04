@@ -1,0 +1,17 @@
+<map id="stringDup" name="stringDup">
+<area shape="rect" id="node2" href="$struct_x_m_l_node.xhtml#a7938c43648ce7ed32efc9f0a5e3b5d2c" title="XMLNode::addAttribute" alt="" coords="167,208,326,235"/>
+<area shape="rect" id="node3" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a9a625f17c09a36e3ad532cdf16072609" title="charmemset" alt="" coords="414,233,509,260"/>
+<area shape="rect" id="node4" href="$struct_x_m_l_node.xhtml#a51baa56a48f69cdea6f41ed38a2cbadd" title="XMLNode::addChild" alt="" coords="177,309,316,336"/>
+<area shape="rect" id="node5" href="$struct_x_m_l_node.xhtml#ab933d009523f94a4fd1dee09e1a3c931" title="XMLNode::addClear" alt="" coords="177,360,317,387"/>
+<area shape="rect" id="node6" href="$struct_x_m_l_node.xhtml#a1de718e237befa215381d294fc644f11" title="XMLNode::addText" alt="" coords="179,461,314,488"/>
+<area shape="rect" id="node7" href="$struct_x_m_l_node.xhtml#a6fe7676c3f08c3dab3faec106264d50d" title="XMLNode::createXMLTopNode" alt="" coords="145,613,349,640"/>
+<area shape="rect" id="node8" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#acf103e2756ced6c7d3f14f38f198c920" title="GetNextToken" alt="" coords="408,639,515,665"/>
+<area shape="rect" id="node10" href="$struct_x_m_l_node.xhtml#adb69f8d2db5997d84590ce3380e210f1" title="XMLNode::deepCopy" alt="" coords="173,563,320,589"/>
+<area shape="rect" id="node11" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#a8415cb910267a0487e1003a34069d012" title="myRealloc" alt="" coords="205,411,289,437"/>
+<area shape="rect" id="node12" href="$struct_x_m_l_node.xhtml#adfbd017929a40d6584350e7f3652fcbd" title="XMLNode::updateAttribute" alt="" coords="159,5,335,32"/>
+<area shape="rect" id="node13" href="$struct_x_m_l_node.xhtml#a4e1f2b9413ef0b87a073c861b1400d68" title="XMLNode::updateAttribute_WOSD" alt="" coords="134,512,359,539"/>
+<area shape="rect" id="node14" href="$struct_x_m_l_node.xhtml#a6b48e123943ea53272f6d4be33ca6d04" title="XMLNode::updateClear" alt="" coords="167,56,326,83"/>
+<area shape="rect" id="node15" href="$struct_x_m_l_node.xhtml#ae08b643a2b87a77bad3c70eb57ea3043" title="XMLNode::updateName" alt="" coords="165,107,328,133"/>
+<area shape="rect" id="node16" href="$struct_x_m_l_node.xhtml#aad04ffd86ca67253bbc81f941608f8d2" title="XMLNode::updateText" alt="" coords="170,157,323,184"/>
+<area shape="rect" id="node9" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a8415cb910267a0487e1003a34069d012" title="myRealloc" alt="" coords="563,639,647,665"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="musb_write" name="musb_write">
+<area shape="rect" id="node2" href="$class_d_r_s.xhtml#acf352402176698daf1d3c96fcff8a7d5" title="DRS::DRS" alt="" coords="173,5,261,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#a42406c827703200089892802f88172b1" title="DRSBoard::InitFPGA" alt="" coords="144,56,291,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#aa02e77fccd230cc6437c3c1978f73b4d" title="DRSBoard::Read" alt="" coords="155,107,279,133"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#af018974f1eba4c58a9e2571db12ffea4" title="DRSBoard::Write" alt="" coords="155,157,279,184"/>
+</map>

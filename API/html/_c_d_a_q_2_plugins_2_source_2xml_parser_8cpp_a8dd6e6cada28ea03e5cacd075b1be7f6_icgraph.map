@@ -1,0 +1,23 @@
+<map id="xfopen" name="xfopen">
+<area shape="rect" id="node2" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#ad9a5c911a8e21bb89427d29d33e2797e" title="myIsTextWideChar" alt="" coords="347,486,482,513"/>
+<area shape="rect" id="node6" href="$struct_x_m_l_node.xhtml#acc044148e2b9b8264a320b7b6e398158" title="XMLNode::openFileHelper" alt="" coords="801,334,975,361"/>
+<area shape="rect" id="node19" href="$struct_x_m_l_node.xhtml#a5e5968e052d58350918cd91e3535624b" title="XMLNode::parseFile" alt="" coords="579,537,720,564"/>
+<area shape="rect" id="node20" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml#ad7ec02a171e7641c1d364d5d367199a3" title="myWideCharToMultiByte" alt="" coords="115,588,283,614"/>
+<area shape="rect" id="node22" href="$struct_x_m_l_node.xhtml#ab8d92d057c0072cc195b1935b2f53d80" title="XMLNode::writeToFile" alt="" coords="123,638,275,665"/>
+<area shape="rect" id="node3" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#a9a625f17c09a36e3ad532cdf16072609" title="charmemset" alt="" coords="1303,14,1398,41"/>
+<area shape="rect" id="node4" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#ae6aa5a367ab3cc92b47fd92f81add72a" title="CountLinesAndColumns" alt="" coords="807,588,969,614"/>
+<area shape="rect" id="node5" href="$struct_x_m_l_node.xhtml#a4496629c7a268db5435946c7bdd4eb28" title="XMLNode::getError" alt="" coords="582,436,717,462"/>
+<area shape="rect" id="node15" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#ad9a5c911a8e21bb89427d29d33e2797e" title="myIsTextWideChar" alt="" coords="1283,461,1418,488"/>
+<area shape="rect" id="node18" href="$struct_x_m_l_node.xhtml#ac7af7e3bab8d21722dd4f191a4aa7c1d" title="XMLNode::guessCharEncoding" alt="" coords="547,385,752,412"/>
+<area shape="rect" id="node14" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#af77e3e2685487b9c492b20c36f3b864a" title="_strnicmp" alt="" coords="1090,436,1169,462"/>
+<area shape="rect" id="node7" href="$class_a_d_c_manager1720.xhtml#aae342ccd8bf1c253c455e195bfd82dfe" title="ADCManager1720::Init" alt="" coords="1052,65,1207,92"/>
+<area shape="rect" id="node8" href="$class_a_d_c_manager1724.xhtml#a6de2521b9c793edcf14aeaeefeb62787" title="ADCManager1724::Init" alt="" coords="1052,166,1207,193"/>
+<area shape="rect" id="node9" href="$class_a_d_c_manager1730.xhtml#adb6d45f2024f4a52d366a88d1c7f229d" title="ADCManager1730::Init" alt="" coords="1052,217,1207,244"/>
+<area shape="rect" id="node10" href="$class_scope_manager.xhtml#abe246d1b817d85a9cba7af3441a4df04" title="ScopeManager::ShowEvent" alt="" coords="1037,385,1221,412"/>
+<area shape="rect" id="node12" href="$class_slowcontrol_manager.xhtml#a36ab5157f5a740b9058517b77d1ce38f" title="SlowcontrolManager\l::ShowStatus" alt="" coords="1059,268,1199,310"/>
+<area shape="rect" id="node13" href="$class_storage_manager.xhtml#ab16a945d003852d02556daf3610a9aac" title="StorageManager::SaveContainer" alt="" coords="1024,334,1235,361"/>
+<area shape="rect" id="node16" href="$_p_d_a_q_2_core_2_source_2xml_8cpp.xhtml#a8251b051736c5146c1985edc6cb357e6" title="xml_readsettings" alt="" coords="1069,116,1190,142"/>
+<area shape="rect" id="node11" href="$_multi_d_a_q_8cpp.xhtml#adedb285b02c41bde2158ded9cc9fd7ac" title="main" alt="" coords="1325,334,1376,361"/>
+<area shape="rect" id="node17" href="$_z_d_a_q_8cpp.xhtml#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="1325,116,1376,142"/>
+<area shape="rect" id="node21" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml#ad7ec02a171e7641c1d364d5d367199a3" title="myWideCharToMultiByte" alt="" coords="331,689,499,716"/>
+</map>

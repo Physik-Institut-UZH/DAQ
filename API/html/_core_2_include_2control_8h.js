@@ -1,0 +1,26 @@
+var _core_2_include_2control_8h =
+[
+    [ "col", "_core_2_include_2control_8h.xhtml#a3a545ba21c1d05570512e20917c021cf", null ],
+    [ "control_calcrate", "_core_2_include_2control_8h.xhtml#a05821af400d34bbf265b0eb929f4cee8", null ],
+    [ "control_calctime", "_core_2_include_2control_8h.xhtml#a640ccd0e485986d0cd3766f53e86af34", null ],
+    [ "control_cmdline", "_core_2_include_2control_8h.xhtml#ac97643773a87a0ab2f3310730174824f", null ],
+    [ "control_cnts2log", "_core_2_include_2control_8h.xhtml#a11fd8ef2164efa9242cf82c35c240992", null ],
+    [ "control_configbaseline", "_core_2_include_2control_8h.xhtml#af7203d6482025349821e2764d08e103c", null ],
+    [ "control_configfile", "_core_2_include_2control_8h.xhtml#aeab8b16e95a01d21a60fdf5490f781d2", null ],
+    [ "control_generatefilename", "_core_2_include_2control_8h.xhtml#aa8ca64af815f670c76cdb23c3d1af7b4", null ],
+    [ "control_getadc", "_core_2_include_2control_8h.xhtml#a870a5f7c8f98fa5b52edfc9210ac20ac", null ],
+    [ "control_gettimestring", "_core_2_include_2control_8h.xhtml#a03b1d46384ed092ca3bc35eeb9c47e02", null ],
+    [ "control_log", "_core_2_include_2control_8h.xhtml#a42c6ce88a95e362f9f257d90bbf8de32", null ],
+    [ "control_openfile", "_core_2_include_2control_8h.xhtml#ab54cec1fc7617fbb69ba6258f0a9f827", null ],
+    [ "control_openlog", "_core_2_include_2control_8h.xhtml#a3ea9dadf648f70197ec522fb6fedc393", null ],
+    [ "control_openrawrootfile", "_core_2_include_2control_8h.xhtml#a965edc610f926d6cb4987d5aeee13d4a", null ],
+    [ "control_printlog", "_core_2_include_2control_8h.xhtml#a6d31350db95da2e061ef2ef9ad11402e", null ],
+    [ "control_printtitle", "_core_2_include_2control_8h.xhtml#a21a3f1c86f11bb9fb4dafd8fed32840f", null ],
+    [ "control_scfile", "_core_2_include_2control_8h.xhtml#ab5bd42385627821b5bbe8f172adc9d10", null ],
+    [ "control_scopehelp", "_core_2_include_2control_8h.xhtml#a1a91b66f68a4ba6cdf2ed9f75c6df947", null ],
+    [ "control_setdefault", "_core_2_include_2control_8h.xhtml#a6131d9649b5714f14df156cad02682d8", null ],
+    [ "control_writedata", "_core_2_include_2control_8h.xhtml#ace4f5698e0ba0d90b0cc7addf2573b00", null ],
+    [ "control_writerootrawdata", "_core_2_include_2control_8h.xhtml#a081b3a65ba13f7644819d673c1ba3798", null ],
+    [ "errormsg", "_core_2_include_2control_8h.xhtml#a48a6baefa46edb93b59bb0f76385052a", null ],
+    [ "get_time", "_core_2_include_2control_8h.xhtml#a949384828bc972aa1da4192e169f2c49", null ]
+];

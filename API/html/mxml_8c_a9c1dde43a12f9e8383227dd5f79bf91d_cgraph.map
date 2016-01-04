@@ -1,0 +1,12 @@
+<map id="mxml_parse_entity" name="mxml_parse_entity">
+<area shape="rect" id="node2" href="$mxml_8c.xhtml#a9527b7a643d61316ef74abf5bdc713d9" title="mxml_create_root_node" alt="" coords="187,5,349,32"/>
+<area shape="rect" id="node3" href="$mxml_8c.xhtml#a7afd3209bc7e21e1d797e49190bf2a58" title="mxml_decode" alt="" coords="217,56,319,83"/>
+<area shape="rect" id="node4" href="$mxml_8c.xhtml#a3e179d427c1fac226fff12d8ae75fd63" title="mxml_dirname" alt="" coords="215,107,321,133"/>
+<area shape="rect" id="node5" href="$mxml_8c.xhtml#abca607b102fe0f2c063f39eb0259994c" title="mxml_free" alt="" coords="557,259,640,285"/>
+<area shape="rect" id="node6" href="$mxml_8c.xhtml#a4b4f0fef6a18999e79e85a0bff15f122" title="mxml_malloc" alt="" coords="404,208,503,235"/>
+<area shape="rect" id="node7" href="$mxml_8c.xhtml#a2bbe1e8a7d3c830714bdfa50d3658ef8" title="mxml_realloc" alt="" coords="219,259,317,285"/>
+<area shape="rect" id="node8" href="$mxml_8c.xhtml#a7a11f9a05fffb677a2d8d189f4b3f370" title="read_error" alt="" coords="228,309,308,336"/>
+<area shape="rect" id="node9" href="$strlcpy_8h.xhtml#af8c865b1f481801d8d1f0a8644be4bbc" title="strlcpy" alt="" coords="423,309,484,336"/>
+<area shape="rect" id="node10" href="$strlcpy_8h.xhtml#aa031012870e97fea95c0b78d51b4471b" title="strlcat" alt="" coords="424,360,483,387"/>
+<area shape="rect" id="node11" href="$mxml_8c.xhtml#a028673d16c059e7ee6f012941b0ce54b" title="mxml_free_tree" alt="" coords="397,411,509,437"/>
+</map>

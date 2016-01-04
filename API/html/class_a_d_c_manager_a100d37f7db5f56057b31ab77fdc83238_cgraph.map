@@ -1,0 +1,4 @@
+<map id="ADCManager::ApplySoftwareTrigger" name="ADCManager::ApplySoftwareTrigger">
+<area shape="rect" id="node2" href="$class_a_d_c_manager.xhtml#a78f606243a80046c92271de226c3f4ad" title="ADCManager::adc_readblt" alt="" coords="252,5,428,32"/>
+<area shape="rect" id="node3" href="$class_a_d_c_manager.xhtml#ac6c08ec08e60b52125f463422f0abdf2" title="ADCManager::adc_writereg" alt="" coords="249,56,431,83"/>
+</map>

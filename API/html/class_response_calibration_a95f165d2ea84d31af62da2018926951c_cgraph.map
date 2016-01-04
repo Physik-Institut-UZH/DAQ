@@ -1,0 +1,8 @@
+<map id="ResponseCalibration::RecordCalibrationPointsV3" name="ResponseCalibration::RecordCalibrationPointsV3">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a95d34a77cb2c7b806e306890a097398d" title="DRSBoard::EnableAcal" alt="" coords="254,5,413,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#a0666bf4bad85ee2556a34e195f2e2d3a" title="DRSBoard::GetRawWave" alt="" coords="246,56,421,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#a3330a6f560520d2046a976666188d5ed" title="DRSBoard::GetTemperature" alt="" coords="240,107,427,133"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a710d3d1719d71c900a150694c1229852" title="DRSBoard::SetCalibVoltage" alt="" coords="240,157,427,184"/>
+<area shape="rect" id="node6" href="$class_d_r_s_board.xhtml#abf1eef66d932d3b3b0e74b409385f508" title="DRSBoard::SetDAC" alt="" coords="262,208,405,235"/>
+<area shape="rect" id="node7" href="$class_d_r_s_board.xhtml#a541a06b9bbc5baa4d2e495c598ea8146" title="DRSBoard::TransferWaves" alt="" coords="242,259,425,285"/>
+</map>

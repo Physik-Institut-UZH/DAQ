@@ -1,0 +1,7 @@
+<map id="ResponseCalibration::CalibrationTrigger" name="ResponseCalibration::CalibrationTrigger">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a95d34a77cb2c7b806e306890a097398d" title="DRSBoard::EnableAcal" alt="" coords="202,5,361,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#a69328e822828c454b02ac3e0e3423193" title="DRSBoard::IsBusy" alt="" coords="214,56,349,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s_board.xhtml#a125b88d648467d76be28f33ce6829150" title="DRSBoard::Reinit" alt="" coords="218,107,345,133"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a85fad0cbe2b744a9c5788cdd14cd279c" title="DRSBoard::SoftTrigger" alt="" coords="203,157,360,184"/>
+<area shape="rect" id="node6" href="$class_d_r_s_board.xhtml#aa1f458803cbed423b2f45dec50d7548e" title="DRSBoard::StartDomino" alt="" coords="198,208,365,235"/>
+</map>

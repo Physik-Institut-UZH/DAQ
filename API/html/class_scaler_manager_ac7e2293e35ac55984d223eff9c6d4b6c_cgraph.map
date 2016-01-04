@@ -1,0 +1,7 @@
+<map id="ScalerManager::ReadMultipleCycles" name="ScalerManager::ReadMultipleCycles">
+<area shape="rect" id="node2" href="$class_i_o_manager.xhtml#a2b106680fee9901a2501ad4128195858" title="IOManager::FillContainer" alt="" coords="255,5,422,32"/>
+<area shape="rect" id="node4" href="$class_common.xhtml#ac9abf0903e33d0fc910cf17685b3063d" title="Common::get_time" alt="" coords="272,56,405,83"/>
+<area shape="rect" id="node5" href="$_d_r_s_8cpp.xhtml#aca8ac8de5202a8aa092f29c97b845fd4" title="getch" alt="" coords="311,107,366,133"/>
+<area shape="rect" id="node6" href="$class_i_o_manager.xhtml#a704dcea90caae5af7e03fc9355c81637" title="IOManager::SaveContainer" alt="" coords="249,157,429,184"/>
+<area shape="rect" id="node3" href="$class_common.xhtml#ac61de06bc876a8ae68021065daacf71a" title="Common::GetUnixTime" alt="" coords="477,5,637,32"/>
+</map>

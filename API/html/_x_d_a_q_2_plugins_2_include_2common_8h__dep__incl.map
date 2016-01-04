@@ -1,0 +1,27 @@
+<map id="/data/Software/DAQ/XDAQ/Plugins/Include/common.h" name="/data/Software/DAQ/XDAQ/Plugins/Include/common.h">
+<area shape="rect" id="node2" href="$_a_d_c_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager.h" alt="" coords="641,117,877,158"/>
+<area shape="rect" id="node5" href="$_a_d_c_manager1720_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager1720.h" alt="" coords="1374,221,1639,262"/>
+<area shape="rect" id="node7" href="$_a_d_c_manager1724_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager1724.h" alt="" coords="713,221,977,262"/>
+<area shape="rect" id="node9" href="$_a_d_c_manager1730_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager1730.h" alt="" coords="97,221,361,262"/>
+<area shape="rect" id="node12" href="$_scope_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ScopeManager.h" alt="" coords="1053,221,1299,262"/>
+<area shape="rect" id="node14" href="$_slowcontrol_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/Slowcontrol\lManager.h" alt="" coords="1663,213,1877,269"/>
+<area shape="rect" id="node16" href="$_storage_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/Storage\lManager.h" alt="" coords="1816,109,2008,165"/>
+<area shape="rect" id="node17" href="$_storage_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/StorageManager.cpp" alt="" coords="1953,221,2220,262"/>
+<area shape="rect" id="node18" href="$_c_d_a_q_2_plugins_2_source_2common_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Plugins/Source\l/common.cpp" alt="" coords="2083,109,2240,165"/>
+<area shape="rect" id="node19" href="$_scaler_manager_8h.xhtml" title="/data/Software/DAQ\l/Scaler/Core/Include\l/ScalerManager.h" alt="" coords="2445,109,2585,165"/>
+<area shape="rect" id="node24" href="$_i_o_manager_8h.xhtml" title="/data/Software/DAQ\l/Scaler/IO/Include/IOManager.h" alt="" coords="2675,117,2881,158"/>
+<area shape="rect" id="node25" href="$_i_o_manager_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/IO/Source/IOManager.cpp" alt="" coords="2939,221,3157,262"/>
+<area shape="rect" id="node26" href="$_scaler_2_plugins_2_source_2common_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/Plugins/Source\l/common.cpp" alt="" coords="2957,109,3111,165"/>
+<area shape="rect" id="node3" href="$_multi_d_a_q_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Application/MultiDAQ.cpp" alt="" coords="1297,325,1516,366"/>
+<area shape="rect" id="node4" href="$_single_d_a_q_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Application/SingleDAQ.cpp" alt="" coords="764,325,991,366"/>
+<area shape="rect" id="node10" href="$_a_d_c_manager1730_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager1730.cpp" alt="" coords="5,325,283,366"/>
+<area shape="rect" id="node11" href="$_a_d_c_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager.cpp" alt="" coords="387,221,637,262"/>
+<area shape="rect" id="node6" href="$_a_d_c_manager1720_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager1720.cpp" alt="" coords="1541,325,1819,366"/>
+<area shape="rect" id="node8" href="$_a_d_c_manager1724_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager1724.cpp" alt="" coords="461,325,739,366"/>
+<area shape="rect" id="node13" href="$_scope_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ScopeManager.cpp" alt="" coords="1015,325,1272,366"/>
+<area shape="rect" id="node15" href="$_slowcontrol_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/Slowcontrol\lManager.cpp" alt="" coords="1843,317,2057,373"/>
+<area shape="rect" id="node20" href="$scaler_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/Application\l/scaler.cpp" alt="" coords="2610,213,2749,269"/>
+<area shape="rect" id="node21" href="$_scaler_2_core_2_include_2xml_8h.xhtml" title="/data/Software/DAQ\l/Scaler/Core/Include/xml.h" alt="" coords="2245,221,2421,262"/>
+<area shape="rect" id="node22" href="$_scaler_manager_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/Core/Source\l/ScalerManager.cpp" alt="" coords="2774,213,2913,269"/>
+<area shape="rect" id="node23" href="$_scaler_2_core_2_source_2xml_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/Core/Source\l/xml.cpp" alt="" coords="2446,213,2585,269"/>
+</map>

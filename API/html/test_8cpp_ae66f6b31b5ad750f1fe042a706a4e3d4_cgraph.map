@@ -1,0 +1,23 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$class_d_r_s_board.xhtml#a66bb03b3ba56cec84d6092768ba33a28" title="DRSBoard::EnableTcal" alt="" coords="131,5,290,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_board.xhtml#afa180ff89a95f97dee9aa7b2e5c7c70d" title="DRSBoard::EnableTrigger" alt="" coords="124,56,297,83"/>
+<area shape="rect" id="node4" href="$class_d_r_s.xhtml#a9b31c73ee163ae51d2e490f6dfdf839d" title="DRS::GetBoard" alt="" coords="153,107,268,133"/>
+<area shape="rect" id="node5" href="$class_d_r_s_board.xhtml#a6a358b6f6b0c284287ab5004330ae206" title="DRSBoard::GetBoardSerial\lNumber" alt="" coords="120,158,301,199"/>
+<area shape="rect" id="node6" href="$class_d_r_s_board.xhtml#a650cf228e0fd1b42e1063bce9426e8d9" title="DRSBoard::GetBoardType" alt="" coords="122,224,299,251"/>
+<area shape="rect" id="node7" href="$class_d_r_s_board.xhtml#a9d17f829582742178f2a3eefe894c4a4" title="DRSBoard::GetFirmwareVersion" alt="" coords="105,275,317,301"/>
+<area shape="rect" id="node8" href="$class_d_r_s.xhtml#ae3609194596df0942d1e67e8c518d72e" title="DRS::GetNumberOfBoards" alt="" coords="120,325,301,352"/>
+<area shape="rect" id="node9" href="$class_d_r_s_board.xhtml#a3ee99da1412575a35de9e6b42f8d40ce" title="DRSBoard::GetTime" alt="" coords="139,376,282,403"/>
+<area shape="rect" id="node10" href="$class_d_r_s_board.xhtml#a139bebade5a6a4697ac4180f40945850" title="DRSBoard::GetTriggerCell" alt="" coords="122,427,299,453"/>
+<area shape="rect" id="node11" href="$class_d_r_s_board.xhtml#a0ab55a915705169c35a9771169cfbfab" title="DRSBoard::GetWave" alt="" coords="137,477,285,504"/>
+<area shape="rect" id="node12" href="$class_d_r_s_board.xhtml#a69328e822828c454b02ac3e0e3423193" title="DRSBoard::IsBusy" alt="" coords="143,528,278,555"/>
+<area shape="rect" id="node13" href="$class_d_r_s_board.xhtml#ad03f8e0db5e5089ffd9d946cb5cd8fe3" title="DRSBoard::SetFrequency" alt="" coords="123,579,298,605"/>
+<area shape="rect" id="node15" href="$class_d_r_s_board.xhtml#a76c09f56ecfafc6343a7dc3eefb56eb9" title="DRSBoard::SetInputRange" alt="" coords="121,629,301,656"/>
+<area shape="rect" id="node16" href="$class_d_r_s_board.xhtml#a520fa0808fb8669a8b1bc802a6b9937b" title="DRSBoard::SetTranspMode" alt="" coords="118,680,303,707"/>
+<area shape="rect" id="node17" href="$class_d_r_s_board.xhtml#a20c3700f4039b494015fb35f2e043c24" title="DRSBoard::SetTriggerDelayNs" alt="" coords="109,731,313,757"/>
+<area shape="rect" id="node18" href="$class_d_r_s_board.xhtml#ad850d978ccd56a8f012ec1efb5e1aa19" title="DRSBoard::SetTriggerLevel" alt="" coords="119,781,303,808"/>
+<area shape="rect" id="node19" href="$class_d_r_s_board.xhtml#ac7659769a8e15ad6cb468394f786d899" title="DRSBoard::SetTriggerPolarity" alt="" coords="112,832,309,859"/>
+<area shape="rect" id="node20" href="$class_d_r_s_board.xhtml#a8e73241c9de2ccd85a4d2e18af80e843" title="DRSBoard::SetTriggerSource" alt="" coords="113,883,308,909"/>
+<area shape="rect" id="node21" href="$class_d_r_s_board.xhtml#aa1f458803cbed423b2f45dec50d7548e" title="DRSBoard::StartDomino" alt="" coords="127,933,294,960"/>
+<area shape="rect" id="node22" href="$class_d_r_s_board.xhtml#a541a06b9bbc5baa4d2e495c598ea8146" title="DRSBoard::TransferWaves" alt="" coords="119,984,302,1011"/>
+<area shape="rect" id="node14" href="$_d_r_s_8cpp.xhtml#a434cf9bf0f0628d03b924189ceab42e8" title="Sleep" alt="" coords="366,579,421,605"/>
+</map>

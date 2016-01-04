@@ -1,0 +1,8 @@
+<map id="DRSBoard::RobustAverageWaveforms" name="DRSBoard::RobustAverageWaveforms">
+<area shape="rect" id="node2" href="$class_averager.xhtml#a54f782d24315b52034c2badd434a615f" title="Averager::Add" alt="" coords="341,5,446,32"/>
+<area shape="rect" id="node3" href="$class_d_r_s_callback.xhtml#a088e15ac8657d148d61c8fb80b2e23ac" title="DRSCallback::Progress" alt="" coords="312,56,475,83"/>
+<area shape="rect" id="node4" href="$class_averager.xhtml#a9dc816c41ccae2bb908061c8a0eff363" title="Averager::RobustAverage" alt="" coords="307,107,479,133"/>
+<area shape="rect" id="node7" href="$class_averager.xhtml#a4cafa76ff8897c99b8647d93cc35eb03" title="Averager::SaveNormalized\lDistribution" alt="" coords="304,158,483,199"/>
+<area shape="rect" id="node5" href="$class_averager.xhtml#a762a787a827f2a2591019abde244f053" title="Averager::Median" alt="" coords="531,136,655,163"/>
+<area shape="rect" id="node6" href="$averager_8cpp.xhtml#a0175038e9fbcee94d51ca2ac939109a6" title="compar" alt="" coords="705,136,770,163"/>
+</map>

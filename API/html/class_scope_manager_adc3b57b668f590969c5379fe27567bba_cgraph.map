@@ -1,0 +1,7 @@
+<map id="ScopeManager::SetChannelTresh" name="ScopeManager::SetChannelTresh">
+<area shape="rect" id="node2" href="$graph_8h.xhtml#a47ba0a65658fc0ac6b76a02e4bb0918e" title="graph_checkkey" alt="" coords="240,81,357,108"/>
+<area shape="rect" id="node3" href="$_core_2_include_2control_8h.xhtml#a3a545ba21c1d05570512e20917c021cf" title="col" alt="" coords="450,5,489,32"/>
+<area shape="rect" id="node4" href="$_core_2_include_2control_8h.xhtml#a870a5f7c8f98fa5b52edfc9210ac20ac" title="control_getadc" alt="" coords="416,56,523,83"/>
+<area shape="rect" id="node5" href="$_core_2_include_2control_8h.xhtml#a1a91b66f68a4ba6cdf2ed9f75c6df947" title="control_scopehelp" alt="" coords="406,107,533,133"/>
+<area shape="rect" id="node6" href="$_core_2_include_2control_8h.xhtml#a48a6baefa46edb93b59bb0f76385052a" title="errormsg" alt="" coords="433,157,506,184"/>
+</map>

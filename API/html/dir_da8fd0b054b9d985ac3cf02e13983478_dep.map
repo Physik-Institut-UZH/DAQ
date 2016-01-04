@@ -1,0 +1,9 @@
+<map id="/data/Software/DAQ/XDAQ" name="/data/Software/DAQ/XDAQ">
+<area shape="rect" id="node2" href="dir_99df9da9855802a0f6508dae2455dec3.xhtml" title="Application" alt="" coords="230,63,316,111"/>
+<area shape="rect" id="node4" href="dir_472dbd665ce4ca34dfa11ac3b9472011.xhtml" title="GUI" alt="" coords="237,159,309,207"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000036_000021.xhtml" title="1" alt="" coords="278,133,286,148"/>
+<area shape="rect" id="node3" href="dir_e7f45838860ffcdbcbebb6eb575a2ab2.xhtml" title="Core" alt="" coords="133,63,205,111"/>
+<area shape="rect" id="node5" href="dir_00bac926296180d4257ccc29efa2052a.xhtml" title="Plugins" alt="" coords="37,63,109,111"/>
+<area shape="rect" id="clust2" href="dir_da8fd0b054b9d985ac3cf02e13983478.xhtml" alt="" coords="27,52,424,217"/>
+<area shape="rect" id="clust1" href="dir_b7037f21e3066119b95b62c0b145af72.xhtml" title="DAQ" alt="" coords="16,16,435,228"/>
+</map>

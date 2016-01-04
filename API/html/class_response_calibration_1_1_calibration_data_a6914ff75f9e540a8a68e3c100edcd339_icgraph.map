@@ -1,0 +1,5 @@
+<map id="ResponseCalibration::CalibrationData::CalculateBSpline" name="ResponseCalibration::CalibrationData::CalculateBSpline">
+<area shape="rect" id="node2" href="$class_response_calibration_1_1_calibration_data.xhtml#acda3f23fc022b5a4880861cb1f5a3f54" title="ResponseCalibration\l::CalibrationData::PreCalculate\lBSpline" alt="" coords="237,31,440,87"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#abf11919dd8f5b0b1670c06e762fb793b" title="ResponseCalibration\l::FitCalibrationPointsV3" alt="" coords="488,5,648,46"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#a42aae8f641a6c12c6866c76a151767dc" title="ResponseCalibration\l::ReadCalibrationV3" alt="" coords="497,70,639,111"/>
+</map>

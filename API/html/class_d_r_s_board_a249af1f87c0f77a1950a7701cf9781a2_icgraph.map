@@ -1,0 +1,11 @@
+<map id="DRSBoard::GetDRSType" name="DRSBoard::GetDRSType">
+<area shape="rect" id="node2" href="$class_response_calibration.xhtml#af568442b7e05154b10d1479e5b657df9" title="ResponseCalibration\l::Calibrate" alt="" coords="241,5,383,46"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#a018d31bf8aaf11e782462410d0c5edd6" title="ResponseCalibration\l::FitCalibrationPoints" alt="" coords="240,70,384,111"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#a0b30209e8c276dc2b70e10e7e3284a45" title="ResponseCalibration\l::OffsetCalibration" alt="" coords="241,135,383,177"/>
+<area shape="rect" id="node5" href="$class_response_calibration.xhtml#a5e4e3d280ffadb1ae8268e5443bc6939" title="ResponseCalibration\l::ReadCalibration" alt="" coords="241,201,383,242"/>
+<area shape="rect" id="node6" href="$class_response_calibration.xhtml#a42aae8f641a6c12c6866c76a151767dc" title="ResponseCalibration\l::ReadCalibrationV3" alt="" coords="241,266,383,307"/>
+<area shape="rect" id="node7" href="$class_response_calibration.xhtml#a2e17dc6f1ba961b5f2ce626c08277155" title="ResponseCalibration\l::ReadCalibrationV4" alt="" coords="241,331,383,373"/>
+<area shape="rect" id="node8" href="$class_response_calibration.xhtml#a53f5ee5acfea35f235f8872ffff63cf7" title="ResponseCalibration\l::RecordCalibrationPoints" alt="" coords="227,397,397,438"/>
+<area shape="rect" id="node9" href="$class_response_calibration.xhtml#a2449f53593142242c7e802085cb5f5e5" title="ResponseCalibration\l::SubtractADCOffset" alt="" coords="240,462,384,503"/>
+<area shape="rect" id="node10" href="$class_response_calibration.xhtml#a55ce07bb6db6aa9867d1c3599801aefc" title="ResponseCalibration\l::WriteCalibration" alt="" coords="241,527,383,569"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="ADCManager::CalculateBaseLine" name="ADCManager::CalculateBaseLine">
+<area shape="rect" id="node2" href="$class_a_d_c_manager.xhtml#adc849df09611badc183129d26187bc74" title="ADCManager::adc_readreg" alt="" coords="279,5,459,32"/>
+<area shape="rect" id="node3" href="$class_a_d_c_manager.xhtml#ac6c08ec08e60b52125f463422f0abdf2" title="ADCManager::adc_writereg" alt="" coords="515,132,698,159"/>
+<area shape="rect" id="node4" href="$class_a_d_c_manager.xhtml#a100d37f7db5f56057b31ab77fdc83238" title="ADCManager::ApplySoftware\lTrigger" alt="" coords="272,209,467,250"/>
+<area shape="rect" id="node6" href="$class_a_d_c_manager.xhtml#a5b1f8aac9d8552b1bc42ed17b1442688" title="ADCManager::Disable" alt="" coords="293,107,446,133"/>
+<area shape="rect" id="node7" href="$class_a_d_c_manager.xhtml#a8719c7eb8b3adf2ec42cc64c270a00c3" title="ADCManager::Enable" alt="" coords="295,157,444,184"/>
+<area shape="rect" id="node5" href="$class_a_d_c_manager.xhtml#a78f606243a80046c92271de226c3f4ad" title="ADCManager::adc_readblt" alt="" coords="519,216,695,243"/>
+</map>

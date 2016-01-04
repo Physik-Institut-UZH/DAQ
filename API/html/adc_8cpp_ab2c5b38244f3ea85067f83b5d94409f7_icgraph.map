@@ -1,0 +1,11 @@
+<map id="adc_writereg" name="adc_writereg">
+<area shape="rect" id="node2" href="$_g_u_i_2_include_2adc_8h.xhtml#a99fcc8dfc3bb71a3cd06f7e6968c12c3" title="adc_analyzebaseline" alt="" coords="363,40,506,66"/>
+<area shape="rect" id="node3" href="$_g_u_i_2_include_2adc_8h.xhtml#a8e0f9bdd9b130dd38116dfaba6e94795" title="adc_disable" alt="" coords="187,40,277,66"/>
+<area shape="rect" id="node4" href="$_g_u_i_2_include_2adc_8h.xhtml#a25f6f40f42d10a2ecc7b970155d9eb53" title="adc_getbaseline" alt="" coords="377,90,493,117"/>
+<area shape="rect" id="node5" href="$_g_u_i_2_include_2adc_8h.xhtml#a94f95e39919b3b5969d4231bf5103079" title="adc_enable" alt="" coords="188,90,276,117"/>
+<area shape="rect" id="node6" href="$_g_u_i_2_include_2control_8h.xhtml#af7203d6482025349821e2764d08e103c" title="control_configbaseline" alt="" coords="157,192,307,218"/>
+<area shape="rect" id="node7" href="$_g_u_i_2_include_2control_8h.xhtml#aeab8b16e95a01d21a60fdf5490f781d2" title="control_configfile" alt="" coords="172,242,292,269"/>
+<area shape="rect" id="node8" href="$class_a_d_c_manager.xhtml#a8900454c77298be0c3c81d61c92604a4" title="ADCManager::GetBuffer" alt="" coords="149,293,315,320"/>
+<area shape="rect" id="node10" href="$_x_d_a_q_2_core_2_source_2xml_8cpp.xhtml#a529bbf1c65c6dd055ba0620b7e7000ed" title="xml_readsettings" alt="" coords="171,344,293,370"/>
+<area shape="rect" id="node9" href="$_multi_d_a_q_8cpp.xhtml#adedb285b02c41bde2158ded9cc9fd7ac" title="main" alt="" coords="409,293,460,320"/>
+</map>

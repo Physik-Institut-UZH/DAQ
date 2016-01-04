@@ -1,0 +1,7 @@
+<map id="DRSBoard::GetBoardSerialNumber" name="DRSBoard::GetBoardSerialNumber">
+<area shape="rect" id="node2" href="$test_8cpp.xhtml#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="281,5,332,32"/>
+<area shape="rect" id="node3" href="$class_response_calibration.xhtml#a42aae8f641a6c12c6866c76a151767dc" title="ResponseCalibration\l::ReadCalibrationV3" alt="" coords="235,57,378,98"/>
+<area shape="rect" id="node4" href="$class_response_calibration.xhtml#a2e17dc6f1ba961b5f2ce626c08277155" title="ResponseCalibration\l::ReadCalibrationV4" alt="" coords="235,122,378,163"/>
+<area shape="rect" id="node5" href="$class_response_calibration.xhtml#a41b50602ac62ccff04c0629d06f75319" title="ResponseCalibration\l::WriteCalibrationV3" alt="" coords="235,187,378,229"/>
+<area shape="rect" id="node6" href="$class_response_calibration.xhtml#a7bd46c76810988350d28ddc0e70972c6" title="ResponseCalibration\l::WriteCalibrationV4" alt="" coords="235,253,378,294"/>
+</map>

@@ -1,0 +1,25 @@
+<map id="/data/Software/DAQ/XDAQ/Plugins/Include/xmlParser.h" name="/data/Software/DAQ/XDAQ/Plugins/Include/xmlParser.h">
+<area shape="rect" id="node2" href="$_a_d_c_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager.h" alt="" coords="507,117,743,158"/>
+<area shape="rect" id="node5" href="$_a_d_c_manager1720_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager1720.h" alt="" coords="1002,221,1267,262"/>
+<area shape="rect" id="node7" href="$_a_d_c_manager1724_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager1724.h" alt="" coords="713,221,977,262"/>
+<area shape="rect" id="node9" href="$_a_d_c_manager1730_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ADCManager1730.h" alt="" coords="97,221,361,262"/>
+<area shape="rect" id="node12" href="$_scope_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/ScopeManager.h" alt="" coords="1799,221,2044,262"/>
+<area shape="rect" id="node14" href="$_slowcontrol_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/Slowcontrol\lManager.h" alt="" coords="1343,213,1557,269"/>
+<area shape="rect" id="node16" href="$_storage_manager_8h.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Include/Storage\lManager.h" alt="" coords="1583,213,1775,269"/>
+<area shape="rect" id="node18" href="$_c_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Plugins/Source\l/xmlParser.cpp" alt="" coords="1324,109,1481,165"/>
+<area shape="rect" id="node19" href="$_p_d_a_q_2_core_2_source_2xml_8cpp.xhtml" title="/data/Software/DAQ\l/PDAQ/Core/Source/xml.cpp" alt="" coords="1506,117,1696,158"/>
+<area shape="rect" id="node20" href="$_p_d_a_q_2_core_2_source_2xml_parser_8cpp.xhtml" title="/data/Software/DAQ\l/PDAQ/Core/Source/xmlParser.cpp" alt="" coords="1721,117,1951,158"/>
+<area shape="rect" id="node21" href="$_scaler_2_core_2_source_2xml_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/Core/Source\l/xml.cpp" alt="" coords="1975,109,2115,165"/>
+<area shape="rect" id="node22" href="$_scaler_2_plugins_2_source_2xml_parser_8cpp.xhtml" title="/data/Software/DAQ\l/Scaler/Plugins/Source\l/xmlParser.cpp" alt="" coords="2140,109,2293,165"/>
+<area shape="rect" id="node23" href="$_x_d_a_q_2_core_2_source_2xml_8cpp.xhtml" title="/data/Software/DAQ\l/XDAQ/Core/Source/xml.cpp" alt="" coords="2319,117,2509,158"/>
+<area shape="rect" id="node24" href="$_x_d_a_q_2_plugins_2_source_2xml_parser_8cpp.xhtml" title="/data/Software/DAQ\l/XDAQ/Plugins/Source\l/xmlParser.cpp" alt="" coords="2534,109,2689,165"/>
+<area shape="rect" id="node3" href="$_multi_d_a_q_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Application/MultiDAQ.cpp" alt="" coords="736,325,955,366"/>
+<area shape="rect" id="node4" href="$_single_d_a_q_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Application/SingleDAQ.cpp" alt="" coords="1283,325,1509,366"/>
+<area shape="rect" id="node10" href="$_a_d_c_manager1730_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager1730.cpp" alt="" coords="5,325,283,366"/>
+<area shape="rect" id="node11" href="$_a_d_c_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager.cpp" alt="" coords="437,221,688,262"/>
+<area shape="rect" id="node6" href="$_a_d_c_manager1720_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager1720.cpp" alt="" coords="979,325,1257,366"/>
+<area shape="rect" id="node8" href="$_a_d_c_manager1724_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ADCManager1724.cpp" alt="" coords="433,325,711,366"/>
+<area shape="rect" id="node13" href="$_scope_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/ScopeManager.cpp" alt="" coords="2064,325,2321,366"/>
+<area shape="rect" id="node15" href="$_slowcontrol_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/Slowcontrol\lManager.cpp" alt="" coords="1534,317,1748,373"/>
+<area shape="rect" id="node17" href="$_storage_manager_8cpp.xhtml" title="/data/Software/DAQ\l/CDAQ/Core/Source/StorageManager.cpp" alt="" coords="1773,325,2040,366"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="Common" name="Common">
+<area shape="rect" id="node2" href="$class_a_d_c_manager1720.xhtml" title="ADCManager1720" alt="" coords="134,5,263,32"/>
+<area shape="rect" id="node3" href="$class_a_d_c_manager1724.xhtml" title="ADCManager1724" alt="" coords="134,56,263,83"/>
+<area shape="rect" id="node4" href="$class_a_d_c_manager1730.xhtml" title="ADCManager1730" alt="" coords="134,107,263,133"/>
+<area shape="rect" id="node5" href="$class_i_o_manager.xhtml" title="IOManager" alt="" coords="155,157,242,184"/>
+<area shape="rect" id="node6" href="$class_scaler_manager.xhtml" title="ScalerManager" alt="" coords="144,208,253,235"/>
+<area shape="rect" id="node7" href="$class_scope_manager.xhtml" title="ScopeManager" alt="" coords="144,259,253,285"/>
+<area shape="rect" id="node8" href="$class_slowcontrol_manager.xhtml" title="SlowcontrolManager" alt="" coords="129,309,269,336"/>
+<area shape="rect" id="node9" href="$class_storage_manager.xhtml" title="StorageManager" alt="" coords="140,360,257,387"/>
+</map>
