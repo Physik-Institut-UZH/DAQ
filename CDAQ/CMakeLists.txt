@@ -33,7 +33,7 @@ set(CMAKE_CXX_FLAGS -DLINUX)
 add_definitions("-std=c++0x") 
 
 #Global Headers
-include_directories(${DAQ_INCLUDE_DIRS})
+include_directories(${DAQ_INCLUDE_DIRS} /opt/CAENVME/include/)
 
 #Subdirectories
 add_subdirectory(Core)
