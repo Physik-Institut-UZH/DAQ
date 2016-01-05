@@ -26,7 +26,7 @@ set (DAQ_INCLUDE_DIRS
 
 #Find external libaries and headers
 find_package(ROOT REQUIRED)
-find_library(CAEN NAMES CAENVME)
+find_library(CAEN NAMES CAENVME PATHS /opt/CAENVME/lib  )
 
 #Compiler Flags
 set(CMAKE_CXX_FLAGS -DLINUX)
