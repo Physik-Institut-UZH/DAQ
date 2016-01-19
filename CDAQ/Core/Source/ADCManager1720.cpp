@@ -49,7 +49,7 @@ ADCManager1720::~ADCManager1720()
 int ADCManager1720::Init(){
 
 	printf(KYEL);
-	printf("\nReset the ADC . . .\n\n");
+	printf("\nReset the ADC Module %i . . .\n\n",m_module);
 	printf(RESET);
 
 	//Reset the board first
@@ -200,19 +200,19 @@ int ADCManager1720::ApplyXMLFile(){
 	m_hex=0x0;
 	channelTresh = new int[m_nbCh];
 	for(int i=0;i<8;i++){
-        char channel[300];
-        sprintf(channel,"ch_%i",i);
-        xstr=xNode.getChildNode(channel).getText();
-     if (xstr) {
-        strcpy(txt,xstr);
-        temp=atoi(txt);
-		channelTresh[i]=temp;
-        if(temp!=0){
-			m_hex=m_hex+pow(2,i);
-			adc_writereg(TresholdRegN+(i*0x0100),temp);
-		}
-     } else error((char*)channel);
-    }
+			char channel[300];
+			sprintf(channel,"ch_%i",i+m_module*m_nbCh);
+			xstr=xNode.getChildNode(channel).getText();
+			if (xstr) {
+				strcpy(txt,xstr);
+				temp=atoi(txt);
+				channelTresh[i]=temp;
+				if(temp!=0){
+					m_hex=m_hex+pow(2,i);
+					adc_writereg(TresholdRegN+(i*0x0100),temp);
+				}
+			} else error((char*)channel);
+	}
     adc_writereg(ChannelEnableMaskReg,m_hex);
     
     xstr=xNode.getChildNode("memoryorganisation").getText();
@@ -322,7 +322,7 @@ int ADCManager1720::ApplyXMLFile(){
 		m_hex=0;
 		for(int i=0;i<8;i++){
 			char logic[300];
-			sprintf(logic,"trig%i",i);
+			sprintf(logic,"trig%i",i+m_nbCh*m_module);
 			xstr=xNode.getChildNode(logic).getText();
 			
 			if (xstr) {

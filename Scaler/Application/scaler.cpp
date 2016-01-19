@@ -70,14 +70,13 @@ int main(int argc, char *argv[]){
  	 if(sManager->GetActive()==1){
 		for(int i=0;i<dManager->GetNthresholds();i++){
 			//Set Tresholds from XML or Treshold File
+			
 			if(dManager->SetThresholdsDisc(i)==-1)
 				return 0;
 			//Read Scaler and save data
+			
 			if(sManager->ReadMultipleCycles()==1){
-				break;
-			}
-			else{
-				return 0;
+
 			}
 		} 
      }

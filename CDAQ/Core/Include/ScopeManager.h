@@ -43,6 +43,10 @@ class ScopeManager: public Common
 	void SetEventLength(int length){m_length=length;}
     void SetXMLFile(char* file){m_XmlFileName=file;}
     void SetChannelTresh(int* channel){m_tresh=channel;}
+    void SetModuleNumber(int module){m_nbmodule=module;}
+    
+    //GetFunction
+    int GetModule(){return m_module;}
 
 	//Visuliaze Event
 	int ShowEvent();
@@ -51,7 +55,7 @@ class ScopeManager: public Common
 	int graph_checkkey(char c);
 	
 	//Set Channel number
-	void SetChannelNumber(int channeL){if(channeL<0)m_channel=0;else if(channeL>7)m_channel=0; else m_channel=channeL;}
+	void SetChannelNumber(int channeL){if(channeL<0)m_channel=0;else if(channeL>7){m_channel=channeL%8; m_module=channeL/8;} else m_channel=channeL;}
 
 
  private:
@@ -74,6 +78,7 @@ class ScopeManager: public Common
 	int* m_tresh;
 	int m_triggertype;					//Triggertype
 	int m_module;						//Module
+	int m_nbmodule;
 	
 
 };

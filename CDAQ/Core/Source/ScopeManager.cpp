@@ -20,7 +20,7 @@ ScopeManager::~ScopeManager()
 }
 
 int ScopeManager::Init(){
-	m_length=m_length+10;
+	//m_length=m_length+10;
 	ApplyXMLFile();
 	//win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1024,1700);
 	
@@ -59,7 +59,7 @@ int ScopeManager::Init(){
 	// Startup Window
 	single->cd();
 
-	 TImage *img = TImage::Open("splash.png");
+	 TImage *img = TImage::Open("../Macro/splash.png");
 
    	if (!img) {
       		printf("Could not create an image... exit\n");
@@ -79,10 +79,8 @@ int ScopeManager::Init(){
 	//win->Divide(4,2,0,0);
 
 	single->Modified();
-   	single->cd();
-    single->SetSelected(win);  
     single->Update();
-	single->cd();
+ 
 	sleep(4);
 
 
@@ -91,6 +89,7 @@ int ScopeManager::Init(){
 
 int ScopeManager::ShowEvent(){
 
+	
 	//Start from the first word
     	pnt =0;
 
@@ -119,7 +118,7 @@ int ScopeManager::ShowEvent(){
 	
 		// read only the channels given in ChannelMask
 		if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else continue;
+                else{ continue;}
 		
 		if (CurrentChannel!=j) { pnt+=Size; continue; }
       		else pnt++;
@@ -128,7 +127,7 @@ int ScopeManager::ShowEvent(){
 	      
 		cnt=0;                              // counter of waveform data
 		wavecnt=0;                          // counter to reconstruct times within waveform
-      		while (cnt<Size)
+      		while (cnt<(Size-(CORRECTION/2)))
       		{	g[j]->SetBinContent(wavecnt,(double)((buffer[pnt]&0xFFFF)));	
 				g[j]->SetBinContent(wavecnt+1,(double)(((buffer[pnt]>>16)&0xFFFF)));	
           		pnt++; wavecnt+=2; cnt++;
@@ -235,9 +234,7 @@ int ScopeManager::ApplyXMLFile(){
 		strcpy(txt,xstr); 
 		m_max=atoi(txt); 
 	} else error((char*)"XML-yaxis_high");
-	
-
-	
+		
 	return 0;
 }
 
@@ -252,6 +249,10 @@ int ScopeManager::graph_checkkey(char c){
       m_channel++;  
       if (m_channel>7) {
         m_channel=0;       
+        if(m_module<m_nbmodule-1)
+			m_module++;
+		else
+			m_module=0;
       }
    }
 
@@ -261,6 +262,10 @@ int ScopeManager::graph_checkkey(char c){
       m_channel--;  
       if (m_channel<0) {
         m_channel=7;
+        if(m_module>0)
+			m_module--;
+		else
+			m_module=m_nbmodule-1;
     } 
    }
     

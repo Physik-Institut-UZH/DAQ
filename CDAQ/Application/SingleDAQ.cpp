@@ -89,7 +89,7 @@ int main(int argc, char *argv[], char *envp[] )
 	else if(slowcontrolManager->GetADCType()==2)
 		adcManager = new ADCManager1730();
 	adcManager->SetCrateHandle(vManager->GetCrateHandle());
-	adcManager->SetADCAddress(slowcontrolManager->GetAddress());
+	adcManager->SetADCAddress(slowcontrolManager->GetAddress(0));
 	adcManager->SetRegisterFile("RegisterConfig.ini");
 	adcManager->SetBaselineFile("Module_0_DACBaseline.ini");
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());

@@ -41,7 +41,7 @@ int DiscriminatorManager::Init()
 	//Enable 4-Bit Word
 	chHex =0xFF;
 
-	//Set Output-Width of all Channels to 40ns
+	//Set Output-Width of all Channels to 5ns
     if(CAENVME_WriteCycle(m_CrateHandle,m_discAdr+0x40, &chHex,cvA32_U_DATA,cvD16)!=cvSuccess){ //0-7
       printf(KRED);
   		printf(":::: VME write error!!! (DiscriminatorManager::Init()) ::::\n");

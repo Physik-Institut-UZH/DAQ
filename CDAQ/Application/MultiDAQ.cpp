@@ -79,37 +79,45 @@ int main(int argc, char *argv[], char *envp[] )
 	vManager->SetPCILink(0);
     if(vManager->Init()==-1)
 		return 0;
-
-	//ADC-Manger
-	ADCManager* adcManager = new ADCManager();
-	if(slowcontrolManager->GetADCType()==0)
-		adcManager = new ADCManager1720();
-	else if(slowcontrolManager->GetADCType()==1)
-		adcManager = new ADCManager1724();
-	else if(slowcontrolManager->GetADCType()==2)
-		adcManager = new ADCManager1730();
-	adcManager->SetCrateHandle(vManager->GetCrateHandle());
-	adcManager->SetADCAddress(slowcontrolManager->GetAddress());
-	adcManager->SetRegisterFile("RegisterConfig.ini");
-	adcManager->SetBaselineFile("Module_0_DACBaseline.ini");
-	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
-
-	if(adcManager->Init()==-1);
+	
+	std::vector <ADCManager*> adcs;
+	std::vector <StorageManager*> storages;
+	char baseline[50];
+	for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		if(slowcontrolManager->GetADCType()==0)
+			adcs.push_back(new ADCManager1720());	
+		else if(slowcontrolManager->GetADCType()==1)
+			adcs.push_back(new ADCManager1724());	
+		else if(slowcontrolManager->GetADCType()==2)
+			adcs.push_back(new ADCManager1730());	
+			
+		adcs[i]->SetCrateHandle(vManager->GetCrateHandle());
+		adcs[i]->SetADCAddress(slowcontrolManager->GetAddress(i));
+		adcs[i]->SetModuleNumber(i);
+		adcs[i]->SetRegisterFile("RegisterConfig.ini");				//Shpuld be the same for all modules
+		sprintf(baseline, "Module_%i_DACBaseline.ini", i); 
+		adcs[i]->SetBaselineFile(baseline);
+		adcs[i]->SetXMLFile(slowcontrolManager->GetXMLFile());	
+		if(adcs[i]->Init()==-1);
+	}
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	if(slowcontrolManager->GetBaselineCalculation()){
-		adcManager->CalculateBaseLine();
+		for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+			adcs[i]->CalculateBaseLine();	
+		}
 		return 0;
 	}
-	else
-		adcManager->ReadBaseLine();
-
+	else{
+		for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+				adcs[i]->ReadBaseLine();
+		}
+	}
 	//Scope-Manager
 	ScopeManager* scopeManager = new ScopeManager();
-	scopeManager->SetBuffer(adcManager->GetBuffer());
-	scopeManager->SetEventLength(adcManager->GetEventLength());
+	scopeManager->SetEventLength(adcs[0]->GetEventLength());				//Master Board
 	scopeManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 	scopeManager->SetChannelNumber(slowcontrolManager->GetChannelNumber());
-	scopeManager->SetChannelTresh(adcManager->GetTreshold());
+	scopeManager->SetModuleNumber(slowcontrolManager->GetNbModules());
 	if(slowcontrolManager->GetGraphicsActive()){
 		//ROOT Manager
 		TApplication *theApp;
@@ -117,78 +125,91 @@ int main(int argc, char *argv[], char *envp[] )
 		if(scopeManager->Init()==-1)
 			return 0;
 	}
-
+	
 	//StorageManager
-	StorageManager* storageManager = new StorageManager();
-	storageManager->SetBuffer(adcManager->GetBuffer());
-	storageManager->SetEventLength(adcManager->GetEventLength());
-	storageManager->SetXMLFile(slowcontrolManager->GetXMLFile());
-	storageManager->SetFolderName(slowcontrolManager->GetFolderName());
-	if(storageManager->Init()==-1);
+	for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		storages.push_back(new StorageManager());	
+		storages[i]->SetBuffer(adcs[i]->GetBuffer());
+		storages[i]->SetEventLength(adcs[i]->GetEventLength());
+		storages[i]->SetXMLFile(slowcontrolManager->GetXMLFile());
+		storages[i]->SetFolderName(slowcontrolManager->GetFolderName());
+		storages[i]->SetModuleNumber(i);
+		if(storages[i]->Init()==-1);	
+	}
+	
 
-
-    /*Stuff for the keyboard*/
+	//Stuff for the keyboard
     char c;
     int quit=0; 
     int counter=0; 
     c=0;
     
     slowcontrolManager->StartAquistion();
-    adcManager->Enable();
-	adcManager->CheckEventBuffer();		//Read Buffer before start aquisition
+    for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		adcs[i]->Enable();
+		adcs[i]->CheckEventBuffer();		//Read Buffer before start aquisition
+	}
 	
-	while(slowcontrolManager->GetNumberEvents()!=storageManager->GetNumberEvents() && quit!=1){
-		
-		// Check keyboard commands in every loop   
+	while(quit!=1){
 		c = 0;  
 		if (kbhit()) c = getch();
 		if (c == 'q' || c == 'Q') quit = 1;	
 		
 		if(slowcontrolManager->GetGraphicsActive())	
 			scopeManager->graph_checkkey(c);
-					
-		//Check keys to change adc settings
-		adcManager->Checkkeyboard(c);
 		
-		//Get Event
-		if(adcManager->GetTriggerType()==1){
-			if(adcManager->ApplySoftwareTrigger()<-1) return 0;
-			usleep(adcManager->GetSoftwareRate());
-		}
-		else
-		{
-			if(adcManager->CheckEventBuffer()<-1) return 0;			
+		if(adcs[0]->GetTriggerType()==1){					
+				usleep(adcs[0]->GetSoftwareRate());
 		}
 
-		//Skipp events with 0-bytes
-		if(adcManager->GetTransferedBytes()<=0){
-			slowcontrolManager->ShowStatus(-1);
-			continue;
-		}
-		
-		slowcontrolManager->AddBytes(adcManager->GetTransferedBytes());
-		
-		//status output, Slowcontrol etc
-		slowcontrolManager->ShowStatus();
-
-		//Save the events or not :)
-		storageManager->FillContainer();	
-		
-		//Show Event if checked
-		if(slowcontrolManager->GetGraphicsActive())
-			scopeManager->ShowEvent();
+		//Get Event Check all ADCs always
+		for(int i=0;i<slowcontrolManager->GetNbModules();i++){
 			
-		counter++;
-		//Create new file if noE is bigger than noEF
-		if(counter==storageManager->GetEventsPerFile() && storageManager->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
-			counter=0;
-			storageManager->NewFile();
+			if(adcs[0]->GetTriggerType()==1 && i==0){											//software trigger from the master board
+				if(adcs[i]->SoftwareTrigger()<-1) return 0;						
+			}
+			
+			if(adcs[i]->CheckEventBuffer()<-1) return 0;							
+		
+
+			//Skipp events with 0-bytes
+			if(adcs[i]->GetTransferedBytes()<=0 && (i==0)){
+				slowcontrolManager->ShowStatus(-1);
+				break;
+			}
+			
+			slowcontrolManager->AddBytes(adcs[i]->GetTransferedBytes());
+			
+			//Show Event if checked
+			if(slowcontrolManager->GetGraphicsActive() && scopeManager->GetModule()==i){
+				adcs[i]->Checkkeyboard(c);
+				scopeManager->SetBuffer(adcs[i]->GetBuffer());
+				scopeManager->SetChannelTresh(adcs[i]->GetTreshold());
+				scopeManager->ShowEvent();
+			}
+			
+			//Save the events or not :)
+				storages[i]->FillContainer();	
+			
+			//status output, Slowcontrol etc
+			if((i==0))
+				slowcontrolManager->ShowStatus();	
+				
+			counter++;
+			//Create new file if noE is bigger than noEF
+			if(counter==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
+				counter=0;
+				storages[i]->NewFile();
+			}			
 		}
 	}
-	
+
+    for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		adcs[i]->Disable();
+		storages[i]->SaveContainer();
+	}
 	slowcontrolManager->StopAquistion();
-	adcManager->Disable();
-	storageManager->SaveContainer();
+
 
     return 0;
 }

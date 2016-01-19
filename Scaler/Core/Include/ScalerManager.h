@@ -32,6 +32,7 @@ class ScalerManager: public Common
 	int  GetActive(){return m_active;}
 	void SetPath(string path){m_path=path;}
 	int  ReadMultipleCycles();
+	void SpecificThreshold(){m_Tactiv=1;}
 
  private:
 	u_int32_t StringToHex(const string &str);
@@ -46,7 +47,8 @@ class ScalerManager: public Common
 	vector<double> m_rates;					//Storage of the Scaler
 	string m_path;						//Path for storage
 	char m_exc;						//keyboard handling
-
+	int m_Tactiv;						//Several tresholds
+	int m_global;						//How many files if active
 };	
 
 #endif

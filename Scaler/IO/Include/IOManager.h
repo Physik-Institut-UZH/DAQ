@@ -32,16 +32,18 @@ class IOManager: public Common
 {
 public:
 	IOManager();
-    IOManager(string path);
+	IOManager(string path);
+    IOManager(string path, int Filenumber);
     virtual ~IOManager();
     
-    void FillContainer(vector<int> &channel, vector<double> &rates);
+    void FillContainer(vector<int> &channel, vector<double> &rates,  int &event);
     void SaveContainer();
 
    
 private:
 	int m_flag;							//Flag for first object call
 	double m_time=0;						//Storage of the current time
+	int m_event;						//Event Number
         string m_command;					//tmp variable
 	vector<double> m_rates;				//Storage of the Scaler
 	vector<int> m_chanels;				//Store and show which channel. Length: 0-15

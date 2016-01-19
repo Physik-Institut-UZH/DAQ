@@ -114,7 +114,8 @@ int xml_readsettings(char filename[100],VMEManager* VME,DiscriminatorManager* di
 		   if (xstr) {
 				strcpy(txt,xstr); 
 				printf("	Specific Threshold Path: %s\n",txt);
-		        	disc->FillThresholds(txt);
+		        disc->FillThresholds(txt);
+		        scaler->SpecificThreshold();
 		  }
 		  else xml_error((char*)"SpecificThreshold");
 	  }

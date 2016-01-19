@@ -14,7 +14,7 @@
 
 ScalerManager::ScalerManager()
 {
-	m_scalerAdr=m_CrateHandle=chHex=0;
+	m_scalerAdr=m_CrateHandle=chHex=m_Tactiv=m_global=0;
 	m_chanels.clear();
 	m_rates.clear();
 }
@@ -71,7 +71,11 @@ int ScalerManager::ReadMultipleCycles(){
 		printf(RESET);
 		
 		//IOManager
-		IOManager* ioManager = new IOManager(m_path);
+		IOManager* ioManager;
+		if(m_Tactiv==0)
+			ioManager = new IOManager(m_path);
+		else
+			ioManager = new IOManager(m_path,m_global);
 		
 		int counter=0;
 		while(counter!=m_cycles){
@@ -104,7 +108,7 @@ int ScalerManager::ReadMultipleCycles(){
 			}
 			
 			//FillContainer and check for abort
-			ioManager->FillContainer(m_chanels,m_rates);
+			ioManager->FillContainer(m_chanels,m_rates, counter);
 
 			if (kbhit()) m_exc = getch();
            		if (m_exc == 'q') {ioManager->SaveContainer();m_exc=0;return 1;}
@@ -113,6 +117,7 @@ int ScalerManager::ReadMultipleCycles(){
 			counter++;
 	}
 	delete ioManager;	
+		m_global++;
         std::cout << std::endl;
         return 1;
 }

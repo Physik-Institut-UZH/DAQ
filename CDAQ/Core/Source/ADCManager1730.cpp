@@ -51,7 +51,7 @@ int ADCManager1730::Init(){
 
 	
 	printf(KYEL);
-	printf("\nReset the ADC . . .\n");
+	printf("\nReset the ADC Module %i . . .\n\n",m_module);
 	printf(RESET);
 
 	//Reset the board first
@@ -216,7 +216,7 @@ int ADCManager1730::ApplyXMLFile(){
 	channelTresh = new int[m_nbCh];
 	for(int i=0;i<8;i++){
         char channel[300];
-        sprintf(channel,"ch_%i",i);
+        sprintf(channel,"ch_%i",i+m_module*m_nbCh);
         xstr=xNode.getChildNode(channel).getText();
      if (xstr) {
         strcpy(txt,xstr);
@@ -343,7 +343,7 @@ int ADCManager1730::ApplyXMLFile(){
 		
 		for(int i=0;i<4;i++){
 			char logic[300];
-			sprintf(logic,"logic%i",i);
+			sprintf(logic,"trig%i",i+4*m_module);
 			xstr=xNode.getChildNode(logic).getText();
 			
 			if (xstr) {

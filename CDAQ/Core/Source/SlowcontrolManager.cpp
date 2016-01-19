@@ -11,7 +11,7 @@
 
 SlowcontrolManager::SlowcontrolManager()
 {
-	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_module,m_triggertype=m_type=0;
+	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_type=0;
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
 	printf("%s                   DAQ  --  Data Aquistion Program 		           \n",KGRN); 
@@ -117,7 +117,7 @@ int SlowcontrolManager::StopAquistion(){
 	printf(KGRN);
 	printf("	\n");    
     printf("	DAQ stopped\n"); 
-     printf("	Total Measuring time: %.2f s = %f h\n",m_seconds,m_seconds/(60*60));   
+    printf("	Total Measuring time: %.2f s = %f h\n",m_seconds,m_seconds/(60*60));   
     printf("	Total Number of Events Measured = %i\n",m_events);
     printf("	\n\n");   
     printf(RESET);
@@ -144,9 +144,7 @@ int SlowcontrolManager::ShowStatus(int status ){
 			printf(RESET);
 			m_bytes=0;
 		}
-	
-	
-	
+
 	return 0;
 }
 
@@ -262,34 +260,46 @@ int SlowcontrolManager::ApplyXMLFile(){
 		else if(m_type==2)
 				printf("	ADC: v1730    \n"); 
 	} else error((char*)"XML-ADCType");
+	 
 	
-	xstr=xNode.getChildNode("address").getText();
-	if (xstr) {
-		strcpy(txt,xstr);
-		printf("	ADC Address:    %s\n",txt);  
-		m_address=txt;
-	} else error((char*)"XML-address");
-  
-	xstr=xNode.getChildNode("nb_chs").getText();
+	xstr=xNode.getChildNode("nb_modules").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
-		printf("	Channels:    %s\n",txt); 
-	} else error((char*)"XML-nb_chs");
+		m_Nbmodule=atoi(txt);
+		printf("	Number Modules: %s\n",txt); 
+	} else error((char*)"XML-nb_modules");
+	
+	m_address=new string[m_Nbmodule];
+	
+	for(int i=0;i<m_Nbmodule;i++){
+		char modules[300];
+		sprintf(modules,"address_%i",i);
+		xstr=xNode.getChildNode(modules).getText();
+		if (xstr) {
+			strcpy(txt,xstr);
+			stringstream ss;
+			ss << txt;
+			ss >> m_address[i];
+			printf("	ADC %i Address: %s\n",i,txt);
+		} else error((char*)modules);
+	}
 
-	//--- Active channels -------
-
-	for(int i=0;i<8;i++){
-        char channel[300];
-        sprintf(channel,"ch_%i",i);
-        xstr=xNode.getChildNode(channel).getText();
-     if (xstr) {
-        strcpy(txt,xstr);
-        temp=atoi(txt);
-         if(temp!=0){
-			printf("	Channel %i Active. Threshold: %i\n",i,temp);
-		}
-     } else error((char*)channel);
-  }
+	//--- Active channels of Modules-------
+	for(int j=0;j<m_Nbmodule;j++){
+		printf("	Module: %i\n",j);
+		for(int i=0;i<8;i++){
+			char channel[300];
+			sprintf(channel,"ch_%i",i+j*8);
+			xstr=xNode.getChildNode(channel).getText();
+			if (xstr) {
+				strcpy(txt,xstr);
+				temp=atoi(txt);
+				if(temp!=0){
+					printf("	Channel %i Active. Threshold: %i\n",i,temp);
+				}
+		   } else error((char*)channel);
+	  }
+	}
 
 
 	xstr=xNode.getChildNode("memoryorganisation").getText();

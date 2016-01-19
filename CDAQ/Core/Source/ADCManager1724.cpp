@@ -36,7 +36,7 @@
 ADCManager1724::ADCManager1724()
 {
 	m_CrateHandle= m_ADCaddr=0;
-	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=0;
+	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=m_module=0;
 	for(int i=0;i<8;i++){
 		m_DACTarget[i]=0;
 	}
@@ -49,7 +49,7 @@ ADCManager1724::~ADCManager1724()
 int ADCManager1724::Init(){
 
 	printf(KYEL);
-	printf("\nReset the ADC . . .\n\n");
+	printf("\nReset the ADC Module %i . . .\n\n",m_module);
 	printf(RESET);
 
 	//Reset the board first
@@ -199,20 +199,21 @@ int ADCManager1724::ApplyXMLFile(){
 
 	m_hex=0x0;
 	channelTresh = new int[m_nbCh];
+	
 	for(int i=0;i<8;i++){
-        char channel[300];
-        sprintf(channel,"ch_%i",i);
-        xstr=xNode.getChildNode(channel).getText();
-     if (xstr) {
-        strcpy(txt,xstr);
-        temp=atoi(txt);
-		channelTresh[i]=temp;
-        if(temp!=0){
-			m_hex=m_hex+pow(2,i);
-			adc_writereg(TresholdRegN+(i*0x0100),temp);
-		}
-     } else error((char*)channel);
-    }
+			char channel[300];
+			sprintf(channel,"ch_%i",i+m_module*m_nbCh);
+			xstr=xNode.getChildNode(channel).getText();
+			if (xstr) {
+				strcpy(txt,xstr);
+				temp=atoi(txt);
+				channelTresh[i]=temp;
+				if(temp!=0){
+					m_hex=m_hex+pow(2,i);
+					adc_writereg(TresholdRegN+(i*0x0100),temp);
+				}
+			} else error((char*)channel);
+	}
     adc_writereg(ChannelEnableMaskReg,m_hex);
     
     xstr=xNode.getChildNode("memoryorganisation").getText();
@@ -322,7 +323,7 @@ int ADCManager1724::ApplyXMLFile(){
 		m_hex=0;
 		for(int i=0;i<8;i++){
 			char logic[300];
-			sprintf(logic,"trig%i",i);
+			sprintf(logic,"trig%i",i+m_nbCh*m_module);
 			xstr=xNode.getChildNode(logic).getText();
 			
 			if (xstr) {

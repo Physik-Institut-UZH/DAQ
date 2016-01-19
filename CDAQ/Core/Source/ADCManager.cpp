@@ -40,6 +40,7 @@ ADCManager::ADCManager()
 	for(int i=0;i<8;i++){
 		m_DACTarget[i]=0;
 		m_DACLevel[i]=0;
+		m_DACFinished[i]=0;
 	}
 }
 
@@ -73,7 +74,7 @@ int ADCManager::Disable(){
 
 
 //-------------------------------------------------------------------
-// Function to generate a Software Trigger
+// Function to generate a Software Trigger + readout
 int ADCManager::ApplySoftwareTrigger(){
 
 		    
@@ -84,10 +85,18 @@ int ADCManager::ApplySoftwareTrigger(){
         // Read data from module i in MBLT mode into buff
 		blt_bytes = adc_readblt();
 
-	// error handling if there is an invalid entry after an event
+		// error handling if there is an invalid entry after an event
     	if (blt_bytes<0) return -1;   
   
    return 0;
+}
+
+int ADCManager::SoftwareTrigger(){
+	
+	//internal trigger
+	m_hex = 1;
+	adc_writereg(SoftTriggerReg,m_hex);  
+	return 0;
 }
 
 
@@ -99,87 +108,120 @@ int ADCManager::ReadBaseLine(){
 }
 
 
+/* Special Daisy Chain options */
+
+
+
+//Syncronize Boards (v1730D)
+int ADCManager::SyncBoards(){
+	adc_writereg(m_ADCaddr+ClockSyncReg,1);
+	sleep(1);
+}
+
+//Delay between boards (v1730D)
+int ADCManager::DelayBoards(u_int32_t data){
+	adc_writereg(m_ADCaddr+DelayReg,data);
+	sleep(1);
+}
+
+
+//Board Position
+int ADCManager::MCSTBoards(u_int32_t data){
+	adc_writereg(m_ADCaddr+MCSTBaseControlReg,data);
+	sleep(1);
+}
+
+/* END */
+
+
+
 //-------------------------------------------------------------------
 // Calculate BaseLine 
 int ADCManager::CalculateBaseLine(){
 	
 	printf(KYEL);
-	std::cout <<  "Calculate Baseline " << std::endl << std::endl;
+	std::cout <<  "Calculate Baseline of Module: " <<  m_module << std::endl << std::endl;
 	printf(KGRN);
+
+	//Disable Triggerout independet baseline calculation 
+	adc_writereg(FrontPanelTriggerOutReg,0);
 
 	//Several Baseline iterations
    	for(int i=0;i<m_iteration;i++){
 
-	std::cout << std::endl << "	Iteration: " << i << std::endl << std::endl;
-	this->Enable();
-	this->ApplySoftwareTrigger();
-	this->Disable();
+		std::cout << std::endl << "	Iteration: " << i << std::endl << std::endl;
+		this->Enable();
+		this->ApplySoftwareTrigger();
+		this->Disable();
 
-    //Start from the first word
-    pnt =0;
+		//Start from the first word
+		pnt =0;
 
-    //Check first Word
-    if (buffer[0]==0xFFFFFFFF) pnt++;
+		//Check first Word
+		if (buffer[0]==0xFFFFFFFF) pnt++;
 
-    // check header
-    if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
-        Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
-        pnt++;
- 
-	//Read ChannelMask (Handbook)
-        int ChannelMask=buffer[pnt] & 0xFF;                 
+		// check header
+		if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
+			Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
+			pnt++;
+	 
+			//Read ChannelMask (Handbook)
+			int ChannelMask=buffer[pnt] & 0xFF;                 
 
-	pnt++;    
-    
-        // Get size of one waveform by dividing through the number of channels
-        cnt=0;
-        for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
-        Size=Size/cnt;
-
- 	// ignore EventConter and TTT
-        pnt+=2;
-      	
-        for (int j=0; j<8; j++) { // read all channels
-		m_mean=0;
-	
-		// read only the channels given in ChannelMask
-		if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else continue;
+			pnt++;    
 		
-		if (CurrentChannel!=j) { pnt+=Size; continue; }
-      		else pnt++;
+			// Get size of one waveform by dividing through the number of channels
+			cnt=0;
+			for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+			Size=Size/cnt;
 
-		if (j>j) return 0;	
-	      
-		cnt=0;                              // counter of waveform data
-		wavecnt=0;                          // counter to reconstruct times within waveform
-      	while (cnt<(Size-(CORRECTION/2)))
-      	{		
-			m_mean+= (double)((buffer[pnt]&0xFFFF));
-			m_mean+= (double)(((buffer[pnt]>>16)&0xFFFF));
-          	pnt++; wavecnt+=2; cnt++;
-      	} // end while(cnt...
-      	
-		m_mean=m_mean/wavecnt;
-		m_diff=m_mean-m_DACTarget[j];
-		if(abs(m_diff)<3.0)continue;
-		m_correction= ((m_Voltage/pow(2.0,m_resADC))*m_diff)/((m_Voltage)/pow(2,m_resDAC));		//(mV of one Count ADC * difference)/mV of one Count of DAC
-		adc_readreg(DACRegN+(j*0x100),m_hex);	
-		m_hex=m_hex+m_correction;
-		m_DACLevel[j]=m_hex;
-		std::cout << "::::::: Channel: " << j << " :::::::" << std::endl ;
-		std::cout << "	Mean: " << m_mean << " Target : " << m_DACTarget[i] << " Diff: " <<  m_diff << " DAC: " << m_DACLevel[j] <<  std::endl << std::endl;
-		adc_writereg(DACRegN+(j*0x100),m_hex);
-		
-     	} // end for-loop
-    }
-    else{
-		printf(KRED);
-    	std::cout << "	Error in Reading the Event" << std::endl;
-    	printf(RESET);
-	return -1;
-    }
-	sleep(3);
+			// ignore EventConter and TTT
+			pnt+=2;
+			
+			for (int j=0; j<8; j++) { // read all activated channels
+				m_mean=0;
+			
+				// read only the channels given in ChannelMask
+				if ((ChannelMask>>j)&1 && m_DACFinished[j]==0) CurrentChannel=j;
+						else continue;
+				
+				if (CurrentChannel!=j) { pnt+=Size; continue; }
+					else pnt++;
+
+				if (j>j) return 0;	
+				  
+				cnt=0;                              // counter of waveform data
+				wavecnt=0;                          // counter to reconstruct times within waveform
+				while (cnt<(Size-(CORRECTION/2)))
+				{		
+					m_mean+= (double)((buffer[pnt]&0xFFFF));
+					m_mean+= (double)(((buffer[pnt]>>16)&0xFFFF));
+					pnt++; wavecnt+=2; cnt++;
+				} // end while(cnt...
+				
+				m_mean=m_mean/wavecnt;
+				m_diff=m_mean-m_DACTarget[j];
+				if(abs(m_diff)<3.0){
+					m_DACFinished[j]=1;
+					continue;
+				}
+				m_correction= ((m_Voltage/pow(2.0,m_resADC))*m_diff)/((m_Voltage)/pow(2,m_resDAC));		//(mV of one Count ADC * difference)/mV of one Count of DAC
+				adc_readreg(DACRegN+(j*0x100),m_hex);	
+				m_hex=m_hex+m_correction;
+				m_DACLevel[j]=m_hex;
+				std::cout << "::::::: Module: " << m_module << " Channel: " << j << " :::::::" << std::endl ;
+				std::cout << "	Mean: " << m_mean << " Target : " << m_DACTarget[i] << " Diff: " <<  m_diff << " DAC: " << m_DACLevel[j] <<  std::endl << std::endl;
+				adc_writereg(DACRegN+(j*0x100),m_hex);
+			
+			} // end for-loop
+		}
+		else{
+			printf(KRED);
+			std::cout << "	Error in Reading the Event" << std::endl;
+			printf(RESET);
+		return -1;
+		}
+		sleep(3);
     }
     printf(RESET);
     
@@ -208,7 +250,7 @@ int ADCManager::CalculateBaseLine(){
     		  
     fclose(dacfile);
     printf(KYEL);
-    std::cout <<  dacfile <<  " successfully written" << std::endl << std::endl;
+    std::cout <<  fn <<  " successfully written" << std::endl << std::endl;
     printf(RESET);
 
 
@@ -367,6 +409,7 @@ string ADCManager::IntToString(const int num)
    convert<<num;
    return convert.str();
 }
+
 
 int ADCManager::Checkkeyboard(char c){
 	

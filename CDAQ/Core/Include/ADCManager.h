@@ -211,6 +211,7 @@ public:
 	void SetRegisterFile(string file){m_RegisterFileName=file;}
 	void SetBaselineFile(string file="DACBaseline.ini"){m_BaselineFileName=file;}
     void SetXMLFile(char* file){m_XmlFileName=file;}
+	void SetModuleNumber(int i){m_module=i;}										    	//Set ADC Module in the Chain
 
 	//Get Functions
 	int GetCrateHandle(){return m_CrateHandle;};
@@ -231,6 +232,9 @@ public:
 	//Trigger Software trigger
 	int ApplySoftwareTrigger();
 	
+	//Triggerr Software
+	int SoftwareTrigger();
+	
 	//Aquire Data if there is some in the eventbuffer
 	int CheckEventBuffer();
 	
@@ -242,6 +246,15 @@ public:
 	
 	//Check Keyboard
 	int Checkkeyboard(char c);
+	
+	//Sync Boards
+	int SyncBoards();
+	
+	//Positon of the board in the chain
+	int MCSTBoards(u_int32_t data);
+	
+	//Delay Between the boards
+	int DelayBoards(u_int32_t data);
 	
 	
 
@@ -290,6 +303,7 @@ protected:
 	double m_mean, m_diff, m_std, m_correction;			//Baseline properties
 	u_int32_t m_DACLevel[8];							//DAC Level Current Value
 	u_int32_t m_DACTarget[8];							//DAC Level Set Value
+	int m_DACFinished[8];
 	
 	//ADC Properties
 	int m_Frequency;									//Sampling frequency
@@ -303,7 +317,7 @@ protected:
 	int m_nbchs;										//Channel Number
 	int* channelTresh;									//Treshold of the channels
 	int m_SoftwareRate;									//SoftwaretriggerRate 
-	int m_module;										//Module
+	int m_module;										//Module Number
 	u_int32_t m_posttrigger;							//Postrigger
 
 };

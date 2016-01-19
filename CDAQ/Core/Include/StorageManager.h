@@ -48,6 +48,7 @@ public:
 	void SetTransferedBytes(int bytes){blt_bytes=bytes;}
 	void SetXMLFile(char* file){m_XmlFileName=file;}
 	void SetFolderName(char* file){m_OutputFolder=file;}
+	void SetModuleNumber(int i){m_module=i;}
 	
 	//Get Function
 	int GetNumberEvents(){return m_NoE;} 
@@ -82,7 +83,7 @@ int FillROOTContainer();
  	int* wf7;							//Storage for waveform
  	char* m_XmlFileName;				//XML-File
  	int ApplyXMLFile();					//Read XML-Config for the Storage Manager
- 	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber;			//Number of events
+ 	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber,m_module;			//Number of events
  	int *channelActive;					//Channel active
 };
 

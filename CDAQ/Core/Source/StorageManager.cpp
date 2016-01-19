@@ -22,7 +22,7 @@
 
 StorageManager::StorageManager()
 {
-	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=0;
+	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=0;
 	m_path="test/";
 }
 
@@ -64,7 +64,11 @@ int StorageManager::InitROOT(){
 		string data;
 		ss << m_filenumber;
 		ss >> data;
-		m_command = m_path + m_OutputFolder + "/" + m_OutputFolder + "_" + data + ".root";
+		stringstream tt;
+		tt << m_module;
+		string t;
+		tt >> t;
+		m_command = m_path + m_OutputFolder + "/" + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
 		m_filenumber++;
 		std::cout << std::endl << m_command << std::endl << std::endl;
 		output = new TFile(m_command.c_str(), "RECREATE");
@@ -102,7 +106,11 @@ int StorageManager::NewFile(){
 			string data;
 			ss << m_filenumber;
 			ss >> data;
-			m_command = m_path + m_OutputFolder + "/" + m_OutputFolder + "_" + data + ".root";
+			stringstream tt;
+			tt << m_module;
+			string t;
+			tt >> t;
+			m_command = m_path + m_OutputFolder + "/" + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
 			m_filenumber++;
 			std::cout  << std::endl << m_command << std::endl << std::endl;
 			output = new TFile(m_command.c_str(), "RECREATE");
@@ -261,7 +269,7 @@ int StorageManager::ApplyXMLFile(){
 	
 	for(int i=0;i<m_nbchs;i++){
         char channel[300];
-        sprintf(channel,"ch_%i",i);
+        sprintf(channel,"ch_%i",i+m_module*m_nbchs);
         xstr=xNode.getChildNode(channel).getText();
      if (xstr) {
         strcpy(txt,xstr);
