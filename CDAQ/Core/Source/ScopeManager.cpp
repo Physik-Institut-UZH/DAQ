@@ -12,7 +12,7 @@
 
 ScopeManager::ScopeManager()
 {
-	m_mode=m_channel=m_triggertype=m_module=0;
+	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=0;
 }
 
 ScopeManager::~ScopeManager()

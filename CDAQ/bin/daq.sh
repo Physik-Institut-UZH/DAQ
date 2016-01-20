@@ -4,7 +4,7 @@ spechChar="_"
 spechChar1="/"
 #alias sandaq='cd /data/Software/DAQ/CDAQ/bin/'
 
-for i in {1..300}
+for i in {41..300}
 do
 #	print sandaq_dir
 #	sandaq_dir

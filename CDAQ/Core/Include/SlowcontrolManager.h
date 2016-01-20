@@ -20,7 +20,8 @@
 #include "TNtuple.h"
 #include "TFile.h"
 #include "TRint.h"
-
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -82,7 +83,7 @@ class SlowcontrolManager: public Common
 	int m_triggertype;									//Trigger type
 	string* m_address;									//ADC Address
 	int m_type;											//ADC type
-  
+   ofstream m_DAQStatus;
 };
 
 #endif

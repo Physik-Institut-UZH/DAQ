@@ -20,6 +20,12 @@ SlowcontrolManager::SlowcontrolManager()
 	printf(RESET);
 	sleep(1);
 	gettimestring(m_OutputFolder); //Standart save format
+	stringstream ss;
+	string s;
+	ss << GetUnixTime();
+	ss >> s;
+	string status = "SlowControl/" + s +  ".txt" ; 
+	m_DAQStatus.open(status.c_str());
 }
 
 SlowcontrolManager::~SlowcontrolManager()
@@ -121,7 +127,7 @@ int SlowcontrolManager::StopAquistion(){
     printf("	Total Number of Events Measured = %i\n",m_events);
     printf("	\n\n");   
     printf(RESET);
-	
+	m_DAQStatus.close();
 	return 0;
 }
 
@@ -139,12 +145,12 @@ int SlowcontrolManager::ShowStatus(int status ){
 			/* print some progress indication */
 			printf(KCYN);
 			std::cout << "	" << (m_totalB/1048576)  << " MB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
+			m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/1048576) << "\n";
 			m_lastevents=m_events;
 			gettimeofday(&m_begin, NULL);
 			printf(RESET);
 			m_bytes=0;
 		}
-
 	return 0;
 }
 

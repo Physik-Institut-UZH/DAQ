@@ -25,7 +25,7 @@
       <nb_chs>8</nb_chs>			  		   <!-- **Total number of channels --> 
       <!-- Activate channels to read out -->
       	<ch_0>4000</ch_0>                       		   <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>3400</ch_1>
+      	<ch_1>3000</ch_1>
      	<ch_2>0</ch_2>                            
       	<ch_3>0</ch_3>                           
       	<ch_4>0</ch_4>                          
