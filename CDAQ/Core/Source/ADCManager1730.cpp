@@ -358,7 +358,8 @@ int ADCManager1730::ApplyXMLFile(){
 		
 		//Software + Channel Trigger by default 
 		m_hex=m_hex+pow(2,31);
-		adc_writereg(FrontPanelTriggerOutReg,m_hex);
+		m_hex=m_hex+pow(2,1);				//Channel one also generates trigger
+		adc_writereg(FrontPanelTriggerOutReg,1);
 		adc_writereg(TriggerSourceMaskReg,m_hex);
 	}
     else{

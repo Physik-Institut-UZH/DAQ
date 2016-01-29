@@ -27,23 +27,23 @@
       <address_1>43210000</address_1>
 
       <!-- Activate channels to read out. Every module starts from 0 -->
-      	<ch_0>4000</ch_0>                       		  		   <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>3970</ch_1>
-     	<ch_2>0</ch_2>                            
-      	<ch_3>0</ch_3>                           
-      	<ch_4>0</ch_4>                          
-      	<ch_5>0</ch_5>                         
-      	<ch_6>0</ch_6>                        
-      	<ch_7>0</ch_7>
+      	<ch_0>1</ch_0>                       		  		<!-- 0 = off, 1 =On -->
+      	<ch_1>1</ch_1>
+     	<ch_2>1</ch_2>                            
+      	<ch_3>1</ch_3>                           
+      	<ch_4>1</ch_4>                          
+      	<ch_5>1</ch_5>                         
+      	<ch_6>1</ch_6>                        
+      	<ch_7>1</ch_7>
 
-	<ch_8>4000</ch_8>                                          <!-- 0 = off, Number = treshold for trigger setting -->
-        <ch_9>3975</ch_9>
-        <ch_10>333</ch_10>
-        <ch_11>0</ch_11>
-        <ch_12>0</ch_12>
-        <ch_13>0</ch_13>
-        <ch_14>0</ch_14>
-        <ch_15>0</ch_15>
+	<ch_8>1</ch_8>                                          		<!-- 0 = off, 1 =On -->
+        <ch_9>1</ch_9>
+        <ch_10>1</ch_10>
+        <ch_11>1</ch_11>
+        <ch_12>1</ch_12>
+        <ch_13>1</ch_13>
+        <ch_14>1</ch_14>
+        <ch_15>1</ch_15>
                             
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
@@ -62,7 +62,7 @@
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-		<trigger>0</trigger>							<!-- **0:ext trig, 1:Software trig-->
+		<trigger>1</trigger>							<!-- **0:ext trig, 1:Software trig-->
 	   
 		<!-- Option external trig and trg-out-->
 		<TTL>1</TTL>								<!-- **TTL On (1) or NIM On (0) -->

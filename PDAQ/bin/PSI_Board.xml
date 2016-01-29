@@ -5,7 +5,7 @@
   <global>
     <source>SiPM</source>					                <!-- What is measured? -->
     <notes>SiPM</notes>					 			<!-- Comments -->
-    <path>/data/Software/DAQ/PDAQ/bin/</path>						<!-- **Path to files-->
+    <path>/data3/Heftige_Messung/PSI/Krypton2/</path>						<!-- **Path to files-->
     <daq_version>1.0.0</daq_version>						<!-- DAQ Version -->
     <nb_evts>500000</nb_evts>							<!-- **Evts to be measured; -1 is infinity -->	
     <nb_evts_per_file>500000</nb_evts_per_file> 				<!-- **No of Events stored in one file (Not working right now)-->	
@@ -24,13 +24,13 @@
       	<ch_2>0</ch_2>                            
     	<ch_3>0</ch_3>                                                       
         <sampling_freq>1000</sampling_freq>             <!-- ** (700-5000)MHz -->
-        <voltage_range>0</voltage_range>         	<!-- **voltage range is 1V. Set the midpoint of the range here in mV. E.g 0 -> -0.5 - 0.5 etc  -->
+        <voltage_range>-0.2</voltage_range>         	<!-- **voltage range is 1V. Set the midpoint of the range here in mV. E.g 0 -> -0.5 - 0.5 etc  -->
         <internal_clock>0</internal_clock>		<!-- **0:Conect 100MHZ Clock to every Channel 1: Note   (Maybe only interesting for checking the board)--> 
     </global>
 
     <!-- Trigger Settings -->
     <trigger_settings>
-	<trigger>1</trigger>                            <!-- **0:ext trig, 1: Source Specific Channel 2: Individual Channel (Discriminator) 3:Software Trigger -->
+	<trigger>0</trigger>                            <!-- **0:ext trig, 1: Source Specific Channel 2: Individual Channel (Discriminator) 3:Software Trigger -->
 
 							<!-- This Section is only needed if a specific channel is selected as Trigger-->
         <SourceChn>0</SourceChn>			<!-- **Channel trigger 0, 1, 2, 3-->
@@ -51,8 +51,8 @@
     <!-- Settings for graphical display "Oscilloscope mode" -->
     <graphics>
       <ydisplay>1</ydisplay>			<!-- ** 0:standard, 1:manual, 2:auto -->
-      <yaxis_low>-50</yaxis_low>	       	<!-- ** lower border of y-axis display (mV)-->
-      <yaxis_high>650</yaxis_high>		<!-- ** upper border (mV)-->
+      <yaxis_low>-700</yaxis_low>	       	<!-- ** lower border of y-axis display (mV)-->
+      <yaxis_high>50</yaxis_high>		<!-- ** upper border (mV)-->
     </graphics>
   </DRS4>
 </settings>

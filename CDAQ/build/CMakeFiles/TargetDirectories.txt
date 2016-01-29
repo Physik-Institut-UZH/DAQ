@@ -1,4 +1,0 @@
-/data/Software/DAQ/CDAQ/build/Core/CMakeFiles/Core.dir
-/data/Software/DAQ/CDAQ/build/Application/CMakeFiles/MultiDAQ.dir
-/data/Software/DAQ/CDAQ/build/Plugins/CMakeFiles/Plugins.dir
-/data/Software/DAQ/CDAQ/build/Application/CMakeFiles/SingleDAQ.dir

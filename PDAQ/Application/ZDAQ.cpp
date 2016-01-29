@@ -70,11 +70,10 @@ int main(int argc, char *argv[])
   int errflag=0;                     /* error flag */
   int someArgs=0;
   int ChannelNum=1;
-  gettimestring(OutputFolder);
   char OutputFolder[100]="";
   char OutFileName[100]="";
   char XmlFileName[100]="";
-
+gettimestring(OutputFolder);
   while ( ( start = getopt( argc, argv, "x:g:f:c" ) ) != -1 )  {
 	someArgs=1;
       	switch ( start ) { 
