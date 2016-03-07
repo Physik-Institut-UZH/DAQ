@@ -48,18 +48,18 @@ int ScopeManager::Init(){
    		g[j]->GetXaxis()->SetTitle("Samples");
    		g[j]->GetYaxis()->SetTitle("ADC-Counts");
    		g[j]->GetXaxis()->SetTitleFont(72);
-       	g[j]->GetXaxis()->SetLabelFont(72);
-        g[j]->GetXaxis()->SetTitleOffset(1.5);
-       	g[j]->GetYaxis()->SetTitleFont(72);
+	       	g[j]->GetXaxis()->SetLabelFont(72);
+	        g[j]->GetXaxis()->SetTitleOffset(1.5);
+       		g[j]->GetYaxis()->SetTitleFont(72);
 	  	g[j]->GetYaxis()->SetLabelFont(72);
-        g[j]->GetYaxis()->SetTitleOffset(1.5);
-        g[j]->SetLineWidth(2);
+	        g[j]->GetYaxis()->SetTitleOffset(1.5);
+	        g[j]->SetLineWidth(2);
 	}
 
 	// Startup Window
 	single->cd();
 
-	 TImage *img = TImage::Open("../Macro/splash.png");
+	 TImage *img = TImage::Open("../Macro/Logo/splash.png");
 
    	if (!img) {
       		printf("Could not create an image... exit\n");
@@ -132,6 +132,13 @@ int ScopeManager::ShowEvent(){
 				g[j]->SetBinContent(wavecnt+1,(double)(((buffer[pnt]>>16)&0xFFFF)));	
           		pnt++; wavecnt+=2; cnt++;
       		} // end while(cnt...)
+      		
+      		//Readout the corrupt bytes
+      		while (cnt<Size){
+				double dummy_1 =(double)((buffer[pnt]&0xFFFF));
+				double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
+				pnt++; wavecnt+=2; cnt++;
+		}
 	}
     }
 	for(int i=0;i<8;i++){
@@ -139,13 +146,13 @@ int ScopeManager::ShowEvent(){
 		graph_edit(g[i]);
    		//g[i]->Draw();
 	}
-    //win->Modified();
-    //win->SetSelected(win);
-    //win->Update();
+	    //win->Modified();
+	    //win->SetSelected(win);
+ 	   //win->Update();
     
-     single->cd();
+   	  single->cd();
     
-    //Treshhold level
+   	 //Treshhold level
     
 	TLine treshhigh = TLine(0, m_tresh[m_channel],m_length-1, m_tresh[m_channel]);
 	treshhigh.SetLineWidth(4);

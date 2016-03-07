@@ -199,6 +199,14 @@ int ADCManager::CalculateBaseLine(){
 					pnt++; wavecnt+=2; cnt++;
 				} // end while(cnt...
 				
+				/*
+				//Readout the corrupt bytes
+				while (cnt<Size){
+					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
+					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
+					pnt++; wavecnt+=2; cnt++;
+				}
+				*/
 				m_mean=m_mean/wavecnt;
 				m_diff=m_mean-m_DACTarget[j];
 				if(abs(m_diff)<3.0){
@@ -229,7 +237,7 @@ int ADCManager::CalculateBaseLine(){
      
     FILE *dacfile;
     char *fn;
-    sprintf(fn, "Module_%i_DACBaseline.ini", m_module); 
+    sprintf(fn, "../Macro/Baseline/Module_%i_DACBaseline.ini", m_module); 
     dacfile=fopen(fn,"w");
     
     if (dacfile==NULL) {

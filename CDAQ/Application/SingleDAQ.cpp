@@ -91,7 +91,7 @@ int main(int argc, char *argv[], char *envp[] )
 	adcManager->SetCrateHandle(vManager->GetCrateHandle());
 	adcManager->SetADCAddress(slowcontrolManager->GetAddress(0));
 	adcManager->SetRegisterFile("RegisterConfig.ini");
-	adcManager->SetBaselineFile("Module_0_DACBaseline.ini");
+	adcManager->SetBaselineFile("../Macro/Baseline/Module_0_DACBaseline.ini");
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()==-1);
@@ -109,6 +109,7 @@ int main(int argc, char *argv[], char *envp[] )
 	scopeManager->SetEventLength(adcManager->GetEventLength());
 	scopeManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 	scopeManager->SetChannelNumber(slowcontrolManager->GetChannelNumber());
+	scopeManager->SetModuleNumber(1);
 	scopeManager->SetChannelTresh(adcManager->GetTreshold());
 	if(slowcontrolManager->GetGraphicsActive()){
 		//ROOT Manager

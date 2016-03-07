@@ -185,6 +185,14 @@ int StorageManager::FillROOTContainer(){
                         wvf[j][wavecnt+1]=(double)(((buffer[pnt]>>16)&0xFFFF));
                         pnt++; wavecnt+=2; cnt++;
                 } // end while(cnt...)
+                
+                //Readout the corrupt bytes
+				while (cnt<Size){
+					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
+					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
+					pnt++; wavecnt+=2; cnt++;
+				}
+                
         }
 			for (int ii=0; ii<m_length; ii++) {
 				if(channelActive[0])wf0[ii]=wvf[0][ii];

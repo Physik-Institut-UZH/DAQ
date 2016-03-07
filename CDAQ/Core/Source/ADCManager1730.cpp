@@ -338,19 +338,34 @@ int ADCManager1730::ApplyXMLFile(){
 		}
 		else error((char*)"SoftwareRate");
 	}
+	//Channel Trigger
     else if(temp=2){
 		m_hex=0;
+		uint32_t m_dat=0;
 		
 		for(int i=0;i<4;i++){
 			char logic[300];
-			sprintf(logic,"trig%i",i+4*m_module);
+			sprintf(logic,"logic%i",i+4*m_module);
 			xstr=xNode.getChildNode(logic).getText();
 			
 			if (xstr) {
 				strcpy(txt,xstr); 
 				if(atoi(txt)>=0){
 					m_hex=m_hex+pow(2,i);
-					adc_writereg(LogicRegN+(i*0x200),5);
+					m_dat=m_dat+pow(2,i);
+					m_dat=m_dat+pow(2,i+1);
+					if(atoi(txt)==1){
+						adc_writereg(LogicRegN+(i*0x200),5);
+					}
+					else if(atoi(txt)==0){
+						adc_writereg(LogicRegN+(i*0x200),7);
+					}
+					else if(atoi(txt)==2){
+						adc_writereg(LogicRegN+(i*0x200),6);
+					}
+					else if(atoi(txt)==3){
+						adc_writereg(LogicRegN+(i*0x200),4);
+					}	
 				}
 			}
 			else error((char*)logic);
@@ -358,14 +373,39 @@ int ADCManager1730::ApplyXMLFile(){
 		
 		//Software + Channel Trigger by default 
 		m_hex=m_hex+pow(2,31);
-		m_hex=m_hex+pow(2,1);				//Channel one also generates trigger
-		adc_writereg(FrontPanelTriggerOutReg,1);
+		m_dat=m_dat+pow(2,31);
+		adc_writereg(FrontPanelTriggerOutReg,m_dat);
 		adc_writereg(TriggerSourceMaskReg,m_hex);
 	}
+	//Coincidence Trigger
     else{
-		//Coincidence Trigger
+		m_hex=0;
+		uint32_t m_dat=0;
+
+		for(int i=0;i<4;i++){
+			char logic[300];
+			sprintf(logic,"logic%i",i+4*m_module);
+			xstr=xNode.getChildNode(logic).getText();
+
+			if (xstr) {
+				strcpy(txt,xstr); 
+				if(atoi(txt)>=0){
+					m_hex=m_hex+pow(2,i);
+					m_dat=m_dat+pow(2,i);
+					m_dat=m_dat+pow(2,i+1);
+				}
+				//Software + Channel Trigger by default 
+				m_hex=m_hex+pow(2,31);
+
+				m_hex=m_hex+pow(2,24);							//Means more than 1 channel above treshold
+
+				adc_writereg(FrontPanelTriggerOutReg,m_dat);
+				adc_writereg(TriggerSourceMaskReg,m_hex);
+			}
+			else error((char*)logic);
 	 }
    }
+}
    else error((char*)"XML-trigger");
 
 	xstr=xNode.getChildNode("TTL").getText();
