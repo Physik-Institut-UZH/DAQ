@@ -1,0 +1,17 @@
+#Subsystem of the Scaler
+
+project(Plugins)
+
+set (PLUGINS_HEADERFILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Include/keyb.hh
+)
+
+set (PLUGINS_SOURCEFILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/keyb.cc
+)
+
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/Include)
+add_library(Plugins STATIC ${PLUGINS_SOURCEFILES} ${PLUGINS_HEADERFILES})
+
+

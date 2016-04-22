@@ -1,0 +1,3 @@
+/home/sandbox/DAQ/XScaler/build/Core/CMakeFiles/Core.dir
+/home/sandbox/DAQ/XScaler/build/Plugins/CMakeFiles/Plugins.dir
+/home/sandbox/DAQ/XScaler/build/Application/CMakeFiles/Scaler.dir

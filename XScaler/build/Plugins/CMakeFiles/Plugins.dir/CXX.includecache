@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sandbox/DAQ/XScaler/Plugins/Source/keyb.cc
+sys/time.h
+-
+termios.h
+-
+stdlib.h
+-
+unistd.h
+-
+stdio.h
+-
+string.h
+-
+conio.h
+-
+

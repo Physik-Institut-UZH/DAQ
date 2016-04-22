@@ -1,0 +1,2 @@
+/usr/bin/ar cr ../lib/libCore.a  CMakeFiles/Core.dir/Source/VMEManager.cpp.o CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o CMakeFiles/Core.dir/Source/ScalerManager.cpp.o CMakeFiles/Core.dir/Source/xml.cpp.o
+/usr/bin/ranlib ../lib/libCore.a

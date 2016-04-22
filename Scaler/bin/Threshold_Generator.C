@@ -1,9 +1,10 @@
 #include <fstream>
+#include <string>
 using namespace std;
 
 
 
-Threshold_Generator(){
+int Threshold_Generator(){
     fstream f;
     f.open("SpecificTreshold.txt", ios::out); 
     for(int j=0;j<4;j++){
@@ -14,4 +15,5 @@ Threshold_Generator(){
       f << "\r\n";
    }
     f.close();
+return 0;
 }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
 <settings author="Last additions by JW" date="03/03/2016">
   <!-- global Settings for the measurement--> 
   <global>
     <source>MgF_PMT</source>       			 							 <!-- What is measured? -->
     <notes>Single ADC Readout</notes>                  	    						         <!-- Comments -->
     <user>Julien, Sandro</user>                                     						 <!-- Last user which used the ADC-->
-    <path>/home/sandbox/DAQ/CDAQ/bin/</path>         <!-- Path -->
+    <path>~/Cloud/SandBox/preamp/Gain/</path>            <!-- Path -->
     <daq_version>3.0.0</daq_version>                        							 <!-- DAQ Version-->
     <nb_evts>1000000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>1000000</nb_evts_per_file>           							 <!-- Number of events/file-->
@@ -26,30 +25,30 @@
 
       <!-- Activate channels to read out -->
       	<ch_0>5000</ch_0>                       		   						 <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>5000</ch_1>
-     	<ch_2>5000</ch_2>                            
-      	<ch_3>5000</ch_3>                           
-      	<ch_4>5000</ch_4>                          
-      	<ch_5>5000</ch_5>                         
-      	<ch_6>5000</ch_6>                        
-      	<ch_7>5000</ch_7>                            
+      	<ch_1>000</ch_1>
+     	<ch_2>000</ch_2>                            
+      	<ch_3>000</ch_3>                           
+      	<ch_4>0</ch_4>                          
+      	<ch_5>0</ch_5>                         
+      	<ch_6>0</ch_6>                        
+      	<ch_7>0</ch_7>                            
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
       <memoryorganisation>64</memoryorganisation>  								<!-- **Blockorganisation of the ADC-->
       <custom_size>1000</custom_size>      									<!-- **Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>950</posttrigger> 										<!-- **samples after trigger -->
+      <posttrigger>850</posttrigger> 										<!-- **samples after trigger -->
       <sampling_freq>500000000</sampling_freq>									<!-- **sampling frequency -->
       <voltage_range>2.0</voltage_range>									<!-- **voltage range of ADC/DAC -->
       <sample_size_ADC>14</sample_size_ADC>						 			<!-- **sampling width in bits (ADC) -->
       <sample_size_DAC>16</sample_size_DAC>									<!-- **sampling width in bits (DAC) -->
-      <baseline>5000</baseline>  										<!-- **position of baseline (channels) -->	
+      <baseline>16000</baseline>  										<!-- **position of baseline (channels) -->	
       <baselineiteration>6</baselineiteration>									<!-- **How many iterations for baseline calculation -->
     </global>
     
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-		<trigger>0</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
+		<trigger>1</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
 	  
 		<!-- Option external trig and trg-out-->
 		<TTL>0</TTL>									<!-- **TTL On (1) or NIM On (0) -->
@@ -59,7 +58,7 @@
     
 		<!-- Option Channel Trig v1730D-->	
 												<!-- (coupled channels for board trigger: two adjacent channels) logic0: ch0 and ch1 etc-->
-		<logic0>1</logic0>								<!-- How to proceed if channel is above treshold: 0: Or : 1: only CH(n) 2:only CH(n+1) 3: And  -1:Deactivated-->
+		<logic0>-1</logic0>								<!-- How to proceed if channel is above treshold: 0: Or : 1: only CH(n) 2:only CH(n+1) 3: And  -1:Deactivated-->
 		<logic1>-1</logic1>
 		<logic2>-1</logic2>  
 		<logic3>-1</logic3>

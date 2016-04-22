@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../Core/Include/scaler.hh
+string.h
+-
+time.h
+-
+CAENVMElib.h
+../Core/Include/CAENVMElib.h
+
+/home/sandbox/DAQ/XScaler/Core/Source/scaler.cc
+fstream
+-
+sstream
+-
+vector
+-
+iterator
+-
+algorithm
+-
+iostream
+-
+scaler.hh
+/home/sandbox/DAQ/XScaler/Core/Source/scaler.hh
+

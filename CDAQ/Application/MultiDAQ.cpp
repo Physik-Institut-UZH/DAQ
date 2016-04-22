@@ -83,6 +83,7 @@ int main(int argc, char *argv[], char *envp[] )
 	std::vector <ADCManager*> adcs;
 	std::vector <StorageManager*> storages;
 	char baseline[50];
+	int number=slowcontrolManager->GetNbModules();
 	for(int i=0;i<slowcontrolManager->GetNbModules();i++){
 		if(slowcontrolManager->GetADCType()==0)
 			adcs.push_back(new ADCManager1720());	
@@ -102,14 +103,13 @@ int main(int argc, char *argv[], char *envp[] )
 	}
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	if(slowcontrolManager->GetBaselineCalculation()){
-		for(int i=0;i<2;i++){
+		for(int i=0;i<number;i++){
 			adcs[i]->CalculateBaseLine();
-			std::cout << "finished---" << std::endl;	
 		}
 		return 0;
 	}
 	else{
-		for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		for(int i=0;i<number;i++){
 				adcs[i]->ReadBaseLine();
 		}
 	}
