@@ -236,9 +236,9 @@ int ADCManager::CalculateBaseLine(){
     // create filename for Baseline.ini
      
     FILE *dacfile;
-    char *fn;
-    sprintf(fn, "../Macro/Baseline/Module_%i_DACBaseline.ini", m_module); 
-    dacfile=fopen(fn,"w");
+    std::stringstream fn;
+    fn << "Module_" << m_module << "_DACBaseline.ini";
+    dacfile=fopen(fn.str().c_str(),"w");
     
     if (dacfile==NULL) {
     	std::cout << ":::: ERROR: cannot open file to write baseline settings ::::" << std::endl;
@@ -258,7 +258,7 @@ int ADCManager::CalculateBaseLine(){
     		  
     fclose(dacfile);
     printf(KYEL);
-    std::cout <<  fn <<  " successfully written" << std::endl << std::endl;
+    std::cout << fn.str() <<  " successfully written" << std::endl << std::endl;
     printf(RESET);
 
 

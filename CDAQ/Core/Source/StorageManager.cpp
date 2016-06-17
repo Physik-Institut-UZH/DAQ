@@ -56,6 +56,12 @@ int StorageManager::Init(){
                 std::cout << std::endl;
 
                 if(m_WriteToFile==1){
+					//Copy XML file to the output directory
+					stringstream cmd;
+					cmd.str("");
+					cmd << "cp " << m_XmlFileName << " " << m_path + m_OutputFolder << "/" << m_OutputFolder << ".xml";
+					system(cmd.str().c_str());
+					
 					InitROOT();
 				}
 
