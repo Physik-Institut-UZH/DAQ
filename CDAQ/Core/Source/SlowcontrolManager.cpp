@@ -144,7 +144,7 @@ int SlowcontrolManager::ShowStatus(int status ){
 		 if(m_time>1000){
 			/* print some progress indication */
 			printf(KCYN);
-			std::cout << "	" << (m_totalB/1048576)  << " MB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
+			std::cout << "	" << (m_totalB/(1024*1024))  << " GB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
 			m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/1048576) << "\n";
 			m_lastevents=m_events;
 			gettimeofday(&m_begin, NULL);

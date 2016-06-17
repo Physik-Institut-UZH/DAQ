@@ -1,2 +1,0 @@
-/usr/bin/ar cr ../lib/libCore.a  CMakeFiles/Core.dir/Source/scaler.cc.o
-/usr/bin/ranlib ../lib/libCore.a

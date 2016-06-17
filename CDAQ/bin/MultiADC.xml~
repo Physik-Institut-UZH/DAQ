@@ -6,7 +6,7 @@
     <source>Xenon1T_PMT</source>       			    			<!-- What is measured? -->
     <notes>10PMTs</notes>           <!-- Comments -->
     <user>Julien, Yuehuan</user>                                     <!-- Last user which used the ADC-->
-    <path>/home/marmotx/R11410/Run1/Gain/170K_GXe/Raw/</path>  		    <!-- Path -->
+    <path>/home/marmotx/R11410/Run1/Gain/300K_Before/Raw/</path>  		    <!-- Path -->
     <daq_version>3.0.0</daq_version>                        <!-- DAQ Version-->
     <nb_evts>1000000</nb_evts>                             <!-- Number of events-->
     <nb_evts_per_file>1000000</nb_evts_per_file>            <!-- Number of events/file-->

@@ -64,7 +64,7 @@ class SlowcontrolManager: public Common
    int StartAquistion();
    int StopAquistion();
    int ShowStatus(int status=1);
-   void AddBytes(int bytes){m_bytes=bytes+m_bytes;m_totalB=m_totalB+bytes;}
+   void AddBytes(int bytes){m_bytes=bytes+m_bytes;m_totalB=m_totalB+bytes/1024.;}			//m_total in Mb
 
 
  private:

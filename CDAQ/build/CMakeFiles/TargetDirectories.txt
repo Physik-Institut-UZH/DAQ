@@ -1,4 +1,0 @@
-/home/sandbox/DAQ/CDAQ/build/Core/CMakeFiles/Core.dir
-/home/sandbox/DAQ/CDAQ/build/Application/CMakeFiles/MultiDAQ.dir
-/home/sandbox/DAQ/CDAQ/build/Plugins/CMakeFiles/Plugins.dir
-/home/sandbox/DAQ/CDAQ/build/Application/CMakeFiles/SingleDAQ.dir

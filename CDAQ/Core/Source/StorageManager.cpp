@@ -24,6 +24,7 @@ StorageManager::StorageManager()
 {
 	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=0;
 	m_path="test/";
+	m_moduleName="";
 }
 
 StorageManager::~StorageManager()
@@ -41,14 +42,18 @@ int StorageManager::Init(){
                 printf("Creating Storage path\n\n");
                 printf(RESET);
                 printf(KGRN);
-                std::cout << " 	Storage Path: " << m_path +  m_OutputFolder << std::endl ;
+                std::cout << " 	Storage Path: " << m_path +  m_OutputFolder +"/"+ m_moduleName.c_str()   << std::endl ;
                 printf(RESET);
 
-			/*Create Output Folder and ROOT Folder*/
+				/*Create Output Folder and ROOT Folder*/
                 m_command= "mkdir " + m_path + m_OutputFolder;
                 system(m_command.c_str());
                 std::cout << std::endl;
                 
+                /*Create Module Folder*/
+                m_command= "mkdir " + m_path + m_OutputFolder +"/" + m_moduleName.c_str();
+                system(m_command.c_str());
+                std::cout << std::endl;
 
                 if(m_WriteToFile==1){
 					InitROOT();
@@ -68,7 +73,7 @@ int StorageManager::InitROOT(){
 		tt << m_module;
 		string t;
 		tt >> t;
-		m_command = m_path + m_OutputFolder + "/" + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
+		m_command = m_path + m_OutputFolder + "/" + m_moduleName.c_str() + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
 		m_filenumber++;
 		std::cout << std::endl << m_command << std::endl << std::endl;
 		output = new TFile(m_command.c_str(), "RECREATE");
@@ -110,7 +115,7 @@ int StorageManager::NewFile(){
 			tt << m_module;
 			string t;
 			tt >> t;
-			m_command = m_path + m_OutputFolder + "/" + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
+			m_command = m_path + m_OutputFolder + "/" +  m_moduleName.c_str()  + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
 			m_filenumber++;
 			std::cout  << std::endl << m_command << std::endl << std::endl;
 			output = new TFile(m_command.c_str(), "RECREATE");

@@ -126,7 +126,7 @@ int main(int argc, char *argv[], char *envp[] )
 		if(scopeManager->Init()==-1)
 			return 0;
 	}
-	
+
 	//StorageManager
 	for(int i=0;i<slowcontrolManager->GetNbModules();i++){
 		storages.push_back(new StorageManager());	
@@ -134,6 +134,8 @@ int main(int argc, char *argv[], char *envp[] )
 		storages[i]->SetEventLength(adcs[i]->GetEventLength());
 		storages[i]->SetXMLFile(slowcontrolManager->GetXMLFile());
 		storages[i]->SetFolderName(slowcontrolManager->GetFolderName());
+		string folder=Form("Module%i/",i);
+		storages[i]->SetModuleFolder(folder);
 		storages[i]->SetModuleNumber(i);
 		if(storages[i]->Init()==-1);	
 	}
@@ -151,7 +153,7 @@ int main(int argc, char *argv[], char *envp[] )
 		adcs[i]->CheckEventBuffer();		//Read Buffer before start aquisition
 	}
 	
-	while(quit!=1){
+	while(slowcontrolManager->GetNumberEvents()!=storages[0]->GetNumberEvents() && quit!=1){
 		c = 0;  
 		if (kbhit()) c = getch();
 		if (c == 'q' || c == 'Q') quit = 1;	
@@ -198,10 +200,13 @@ int main(int argc, char *argv[], char *envp[] )
 				
 			counter++;
 			//Create new file if noE is bigger than noEF
+			/*
 			if(counter==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
-				counter=0;
+				if(i==slowcontrolManager->GetNbModules()-1)
+					counter=0;
 				storages[i]->NewFile();
-			}			
+			}
+			*/
 		}
 	}
 

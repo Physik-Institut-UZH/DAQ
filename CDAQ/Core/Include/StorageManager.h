@@ -49,6 +49,7 @@ public:
 	void SetXMLFile(char* file){m_XmlFileName=file;}
 	void SetFolderName(char* file){m_OutputFolder=file;}
 	void SetModuleNumber(int i){m_module=i;}
+	void SetModuleFolder(string message){m_moduleName=message;}
 	
 	//Get Function
 	int GetNumberEvents(){return m_NoE;} 
@@ -64,27 +65,28 @@ private:
 
 int FillROOTContainer();
 	void SaveROOTContainer();
-	double m_time;						//Storage of the current time
-    string m_command;					//tmp variable
-	string m_path;						//Path for storage
-	TFile* output;						//ROOT File
-	TTree* tree;						//ROOT Tree
-    char* m_OutputFolder;			//Output FileName
-	u_int32_t* buffer;					//Buffer of the data to visualize
-	int m_length;						//Set length of the waveform
+	double m_time;							//Storage of the current time
+    string m_command;						//tmp variable
+	string m_path;							//Path for storage
+	string m_moduleName;					//Folder for the differen Modules
+	TFile* output;							//ROOT File
+	TTree* tree;							//ROOT Tree
+    char* m_OutputFolder;					//Output FileName
+	u_int32_t* buffer;						//Buffer of the data to visualize
+	int m_length;							//Set length of the waveform
 	int blt_bytes,pnt,Size,cnt,wavecnt, CurrentChannel;     //readout the channel
-    int* wf0;							//Storage for waveform
-	int* wf1;							//Storage for waveform
-	int* wf2;							//Storage for waveform
- 	int* wf3;							//Storage for waveform
- 	int* wf4;							//Storage for waveform
- 	int* wf5;							//Storage for waveform
- 	int* wf6;							//Storage for waveform
- 	int* wf7;							//Storage for waveform
- 	char* m_XmlFileName;				//XML-File
- 	int ApplyXMLFile();					//Read XML-Config for the Storage Manager
+    int* wf0;								//Storage for waveform
+	int* wf1;								//Storage for waveform
+	int* wf2;								//Storage for waveform
+ 	int* wf3;								//Storage for waveform
+ 	int* wf4;								//Storage for waveform
+ 	int* wf5;								//Storage for waveform
+ 	int* wf6;								//Storage for waveform
+ 	int* wf7;								//Storage for waveform
+ 	char* m_XmlFileName;					//XML-File
+ 	int ApplyXMLFile();						//Read XML-Config for the Storage Manager
  	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber,m_module;			//Number of events
- 	int *channelActive;					//Channel active
+ 	int *channelActive;						//Channel active
 };
 
 #endif
