@@ -218,7 +218,7 @@ int ADCManager::CalculateBaseLine(){
 				m_hex=m_hex+m_correction;
 				m_DACLevel[j]=m_hex;
 				std::cout << "::::::: Module: " << m_module << " Channel: " << j << " :::::::" << std::endl ;
-				std::cout << "	Mean: " << m_mean << " Target : " << m_DACTarget[i] << " Diff: " <<  m_diff << " DAC: " << m_DACLevel[j] <<  std::endl << std::endl;
+				std::cout << "	Mean: " << m_mean << " Target : " << m_DACTarget[j] << " Diff: " <<  m_diff << " DAC: " << m_DACLevel[j] <<  std::endl << std::endl;
 				adc_writereg(DACRegN+(j*0x100),m_hex);
 			
 			} // end for-loop
