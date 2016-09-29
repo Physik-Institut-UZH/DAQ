@@ -83,7 +83,9 @@ class SlowcontrolManager: public Common
 	int m_triggertype;									//Trigger type
 	string* m_address;									//ADC Address
 	int m_type;											//ADC type
-   ofstream m_DAQStatus;
+    ofstream m_DAQStatus;								//Stores the current DAQ rate
+    ofstream m_DAQSummary;								//Stores all relevant parameters
+
 };
 
 #endif

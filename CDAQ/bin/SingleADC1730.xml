@@ -5,7 +5,7 @@
     <source>MgF_PMT</source>       			 							 <!-- What is measured? -->
     <notes>Single ADC Readout</notes>                  	    						         <!-- Comments -->
     <user>Julien, Sandro</user>                                     						 <!-- Last user which used the ADC-->
-    <path>~/Cloud/SandBox/preamp/Gain/</path>            <!-- Path -->
+    <path>/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/</path>  							         <!-- Path -->
     <daq_version>3.0.0</daq_version>                        							 <!-- DAQ Version-->
     <nb_evts>1000000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>1000000</nb_evts_per_file>           							 <!-- Number of events/file-->

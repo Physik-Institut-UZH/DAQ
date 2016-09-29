@@ -24,7 +24,15 @@ SlowcontrolManager::SlowcontrolManager()
 	string s;
 	ss << GetUnixTime();
 	ss >> s;
-	string status = "SlowControl/" + s +  ".txt" ; 
+	
+	/*Slowcontrol Folder*/
+    string command= "mkdir SlowControl";
+    system(command.c_str());
+    std::cout << std::endl;
+    
+    /*Generate Current Rate File*/
+    string OutputFolder = m_OutputFolder;
+	string status = "SlowControl/Rate_" + OutputFolder +  ".txt" ; 
 	m_DAQStatus.open(status.c_str());
 }
 
@@ -127,7 +135,22 @@ int SlowcontrolManager::StopAquistion(){
     printf("	Total Number of Events Measured = %i\n",m_events);
     printf("	\n\n");   
     printf(RESET);
+    stringstream ss;
+	string s;
+	ss << GetUnixTime();
+	ss >> s;
+	/*Generate Summary File*/
+	string OutputPath = m_OutputPath;
+    string OutputFolder = m_OutputFolder;
+    
+	string status =  OutputPath + "/"+ OutputFolder + "/Summary_" + OutputFolder +  ".txt" ; 
+	m_DAQSummary.open(status.c_str());
+	m_DAQSummary << "	DAQ stopped: " << GetUnixTime() <<  "\n" << "	Total Measuring time: "<< m_seconds << " s " << " = " << m_seconds/(60*60) << " h\n " << 	"	Total Number of Events Measured = " <<  m_events  << " \n";
+	//Xurich specific
+	m_DAQSummary << "	Lifetime: " << m_seconds-(m_events*2.289/(1000)) ; 
+
 	m_DAQStatus.close();
+	m_DAQSummary.close();
 	return 0;
 }
 
@@ -144,7 +167,7 @@ int SlowcontrolManager::ShowStatus(int status ){
 		 if(m_time>1000){
 			/* print some progress indication */
 			printf(KCYN);
-			std::cout << "	" << (m_totalB/(1024*1024))  << " GB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
+			std::cout << "	" << (m_totalB/(1024*1024.))  << " GB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
 			m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/1048576) << "\n";
 			m_lastevents=m_events;
 			gettimeofday(&m_begin, NULL);

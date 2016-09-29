@@ -252,13 +252,28 @@ int ADCManager1720::ApplyXMLFile(){
 		adc_writereg(PostTriggerReg,temp);
 	} else error((char*)"XML-posttrigger");
 		
-	xstr=xNode.getChildNode("baseline").getText();
+		xstr=xNode.getChildNode("baseline").getText();
 	if (xstr) {
 		strcpy(txt,xstr);
 		m_Baseline=(int)atoi(txt); 
-		for(int i=0;i<8;i++){
-			m_DACTarget[i]=m_Baseline;
+		if(m_Baseline==0){
+			for(int i=0;i<8;i++){
+				char channel[300];
+				sprintf(channel,"baseline_%i",i);
+				xstr=xNode.getChildNode(channel).getText();
+				if (xstr) {
+					strcpy(txt,xstr);
+					temp=atoi(txt);
+					m_DACTarget[i]=temp;
+				} else error((char*)channel);
+			}
 		}
+		else{
+			for(int i=0;i<8;i++){
+				m_DACTarget[i]=m_Baseline;
+			}		
+		}
+		
 	} else error((char*)"XML-baseline");
 	
 	xstr=xNode.getChildNode("baselineiteration").getText();
