@@ -42,10 +42,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sandbox/DAQ/Scaler
+CMAKE_SOURCE_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sandbox/DAQ/Scaler/build
+CMAKE_BINARY_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -72,14 +72,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ/Scaler/build/CMakeFiles /home/sandbox/DAQ/Scaler/build/IO/CMakeFiles/progress.marks
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ/Scaler/build/CMakeFiles 0
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles /home/sandbox/DAQ_dev/DAQ/Scaler/build/IO/CMakeFiles/progress.marks
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/clean
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/clean
 .PHONY : clean
 
 # The main clean target
@@ -88,22 +88,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/preinstall
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/preinstall
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 IO/CMakeFiles/IO.dir/rule:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/CMakeFiles/IO.dir/rule
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 IO/CMakeFiles/IO.dir/rule
 .PHONY : IO/CMakeFiles/IO.dir/rule
 
 # Convenience name for target.
@@ -112,7 +112,7 @@ IO: IO/CMakeFiles/IO.dir/rule
 
 # fast build rule for target.
 IO/fast:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/build
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/build
 .PHONY : IO/fast
 
 Source/IOManager.o: Source/IOManager.cpp.o
@@ -120,7 +120,7 @@ Source/IOManager.o: Source/IOManager.cpp.o
 
 # target to build an object file
 Source/IOManager.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/Source/IOManager.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/Source/IOManager.cpp.o
 .PHONY : Source/IOManager.cpp.o
 
 Source/IOManager.i: Source/IOManager.cpp.i
@@ -128,7 +128,7 @@ Source/IOManager.i: Source/IOManager.cpp.i
 
 # target to preprocess a source file
 Source/IOManager.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/Source/IOManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/Source/IOManager.cpp.i
 .PHONY : Source/IOManager.cpp.i
 
 Source/IOManager.s: Source/IOManager.cpp.s
@@ -136,7 +136,7 @@ Source/IOManager.s: Source/IOManager.cpp.s
 
 # target to generate assembly for a file
 Source/IOManager.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/Source/IOManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f IO/CMakeFiles/IO.dir/build.make IO/CMakeFiles/IO.dir/Source/IOManager.cpp.s
 .PHONY : Source/IOManager.cpp.s
 
 # Help Target
@@ -162,6 +162,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

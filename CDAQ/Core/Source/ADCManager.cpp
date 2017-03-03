@@ -199,28 +199,32 @@ int ADCManager::CalculateBaseLine(){
 					pnt++; wavecnt+=2; cnt++;
 				} // end while(cnt...
 				
-				/*
+				
 				//Readout the corrupt bytes
-				while (cnt<Size){
+				/*while (cnt<Size){
 					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
 					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
-					pnt++; wavecnt+=2; cnt++;
+					pnt++; cnt++;
 				}
 				*/
-				m_mean=m_mean/wavecnt;
+
+				m_mean=m_mean/(wavecnt+1);
 				m_diff=m_mean-m_DACTarget[j];
-				if(abs(m_diff)<3.0){
-					m_DACFinished[j]=1;
-					continue;
-				}
+
 				m_correction= ((m_Voltage/pow(2.0,m_resADC))*m_diff)/((m_Voltage)/pow(2,m_resDAC));		//(mV of one Count ADC * difference)/mV of one Count of DAC
 				adc_readreg(DACRegN+(j*0x100),m_hex);	
 				m_hex=m_hex+m_correction;
 				m_DACLevel[j]=m_hex;
+
 				std::cout << "::::::: Module: " << m_module << " Channel: " << j << " :::::::" << std::endl ;
 				std::cout << "	Mean: " << m_mean << " Target : " << m_DACTarget[j] << " Diff: " <<  m_diff << " DAC: " << m_DACLevel[j] <<  std::endl << std::endl;
+
 				adc_writereg(DACRegN+(j*0x100),m_hex);
-			
+				if(abs(m_diff)<3.0){
+					m_DACFinished[j]=1;
+					continue;
+				}
+
 			} // end for-loop
 		}
 		else{
@@ -229,7 +233,7 @@ int ADCManager::CalculateBaseLine(){
 			printf(RESET);
 		return -1;
 		}
-		sleep(3);
+		sleep(5);
     }
     printf(RESET);
     
@@ -237,7 +241,7 @@ int ADCManager::CalculateBaseLine(){
      
     FILE *dacfile;
     std::stringstream fn;
-    fn << "Module_" << m_module << "_DACBaseline.ini";
+    fn << "../Macro/Baseline/Module_" << m_module << "_DACBaseline.ini";
     dacfile=fopen(fn.str().c_str(),"w");
     
     if (dacfile==NULL) {

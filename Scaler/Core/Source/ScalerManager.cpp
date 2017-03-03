@@ -6,7 +6,6 @@
 #include <iostream>
 #include <string>
 #include "ScalerManager.h"
-#include "IOManager.h"
 #include "global.h"
 #include <sys/time.h>
 #include <unistd.h>
@@ -70,8 +69,6 @@ int ScalerManager::ReadMultipleCycles(){
 		cout << endl;
 		printf(RESET);
 		
-		//IOManager
-		IOManager* ioManager;
 		if(m_Tactiv==0)
 			ioManager = new IOManager(m_path);
 		else
@@ -111,7 +108,7 @@ int ScalerManager::ReadMultipleCycles(){
 			ioManager->FillContainer(m_chanels,m_rates, counter);
 
 			if (kbhit()) m_exc = getch();
-           		if (m_exc == 'q') {ioManager->SaveContainer();m_exc=0;return 1;}
+           		if (m_exc == 'q') {ioManager->SaveContainer(); m_exc =0; return 1;}
 
 			std::cout << std::endl << std::endl;
 			counter++;
@@ -122,7 +119,9 @@ int ScalerManager::ReadMultipleCycles(){
         return 1;
 }
 
-
+void ScalerManager::Save(){
+		ioManager->SaveContainer();
+}
 
 
 

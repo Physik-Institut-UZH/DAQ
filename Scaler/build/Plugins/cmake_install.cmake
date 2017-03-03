@@ -1,4 +1,4 @@
-# Install script for directory: /home/sandbox/DAQ/Scaler/Plugins
+# Install script for directory: /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)

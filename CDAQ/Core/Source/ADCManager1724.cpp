@@ -323,7 +323,7 @@ int ADCManager1724::ApplyXMLFile(){
 	}
   	else if (temp==1){ 
 		//External + Software Trigger always activated 
-		m_hex=0xC0000000;
+		m_hex=0x80000000;
 		adc_writereg(FrontPanelTriggerOutReg,m_hex);	
 		adc_writereg(TriggerSourceMaskReg,m_hex);
 		
@@ -355,7 +355,37 @@ int ADCManager1724::ApplyXMLFile(){
 		adc_writereg(TriggerSourceMaskReg,m_hex);
 	}
     else{
-		//Coincidence Trigger
+		//Coincidence Trigger TODO
+		m_hex=0;
+		for(int i=0;i<8;i++){
+			char logic[300];
+			sprintf(logic,"trig%i",i+m_nbCh*m_module);
+			xstr=xNode.getChildNode(logic).getText();
+			
+			if (xstr) {
+				strcpy(txt,xstr); 
+				if(atoi(txt)==1){
+					m_hex=m_hex+pow(2,i);
+				}
+			}
+			else error((char*)logic);
+		}
+
+		//Max Coincidence Window
+		//m_hex=m_hex+pow(2,24);
+		m_hex=m_hex+pow(2,20);
+		m_hex=m_hex+pow(2,21);
+		m_hex=m_hex+pow(2,22);
+		m_hex=m_hex+pow(2,23);
+
+		//m_hex=m_hex+pow(2,25);
+		std::cout << "Try my best" << std::endl;
+		m_hex=m_hex+pow(2,24);	
+
+		m_hex=m_hex+pow(2,31);
+		adc_writereg(FrontPanelTriggerOutReg,m_hex);
+		adc_writereg(TriggerSourceMaskReg,m_hex);
+
 	 }
    }
    else error((char*)"XML-trigger");

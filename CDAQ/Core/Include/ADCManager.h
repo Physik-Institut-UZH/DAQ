@@ -297,7 +297,7 @@ protected:
 	char* m_XmlFileName;																		//XML-File
 	
 	// read the event
-    int blt_bytes, pnt, Size, cnt, wavecnt, CurrentChannel, nb, ret;
+    	int blt_bytes, pnt, Size, cnt, wavecnt, CurrentChannel, nb, ret;
 
 	//Baseline calculation
 	double m_mean, m_diff, m_std, m_correction;			//Baseline properties

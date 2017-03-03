@@ -11,8 +11,8 @@
 #include <memory>
 #include <typeinfo>
 #include "keyb.h"
-
 #include "common.h"
+#include "IOManager.h"
 
 using namespace std;
 
@@ -33,20 +33,23 @@ class ScalerManager: public Common
 	void SetPath(string path){m_path=path;}
 	int  ReadMultipleCycles();
 	void SpecificThreshold(){m_Tactiv=1;}
+	void Save();
 
  private:
+ 			
+	IOManager* ioManager;				//IOManager
 	u_int32_t StringToHex(const string &str);
 	int m_CrateHandle;					//VME-Bus Object
 	int m_cycles;						//Number of measurements Points
-	int m_rate;						//Time between measurements
+	int m_rate;							//Time between measurements
 	int m_active;						//Scaler active
-	vector<int> m_chanels;					//Store and show which channel stored. Length: 0-15
+	vector<int> m_chanels;				//Store and show which channel stored. Length: 0-15
 	u_int32_t chHex;					//Variable to write to the VME bus
-	u_int32_t m_scalerAdr;					//Scaler hex adress
-	int32_t  currenttime, previoustime; 			//For timing
-	vector<double> m_rates;					//Storage of the Scaler
+	u_int32_t m_scalerAdr;				//Scaler hex adress
+	int32_t  currenttime, previoustime; //For timing
+	vector<double> m_rates;				//Storage of the Scaler
 	string m_path;						//Path for storage
-	char m_exc;						//keyboard handling
+	char m_exc;							//keyboard handling
 	int m_Tactiv;						//Several tresholds
 	int m_global;						//How many files if active
 };	

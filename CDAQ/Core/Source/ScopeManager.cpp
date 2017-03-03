@@ -12,7 +12,7 @@
 
 ScopeManager::ScopeManager()
 {
-	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=0;
+	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=0;
 }
 
 ScopeManager::~ScopeManager()
@@ -22,7 +22,7 @@ ScopeManager::~ScopeManager()
 int ScopeManager::Init(){
 	//m_length=m_length+10;
 	ApplyXMLFile();
-	//win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1024,1700);
+	win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1700,768);
 	
 	single = new TCanvas("single","JDAQ -- DAQ for Zuerich (single)",1700,768);
   	gStyle->SetOptStat(0000000);
@@ -31,8 +31,8 @@ int ScopeManager::Init(){
   	gStyle->SetTitleBorderSize(0);
   	gStyle->SetStatColor(0);
   	
-  	//win->SetFillColor(0);
-  	//win->SetBorderMode(0);
+  	win->SetFillColor(0);
+  	win->SetBorderMode(0);
 	
 	single->SetFillColor(0);
   	single->SetBorderMode(0);
@@ -71,15 +71,15 @@ int ScopeManager::Init(){
 	img->Draw("");
    	img->SetEditable(kTRUE);
    	
-   	//win->Modified();
-   	//win->cd();
-    //win->SetSelected(win);  
-    //win->Update();
-	//win->cd();
-	//win->Divide(4,2,0,0);
+   	win->Modified();
+   	win->cd();
+    	win->SetSelected(win);  
+    	win->Update();
+	win->cd();
+	win->Divide(4,2,0,0);
 
 	single->Modified();
-    single->Update();
+    	single->Update();
  
 	sleep(4);
 
@@ -111,44 +111,57 @@ int ScopeManager::ShowEvent(){
         for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
         Size=Size/cnt;
 
- 	// ignore EventConter and TTT
-        pnt+=2;
-      	
-        for (int j=0; j<8; j++) { // read all channels
+	 	// ignore EventConter and TTT
+		pnt+=2;
+		m_mean=0;
+		for (int j=0; j<8; j++) { // read all channels
 	
-		// read only the channels given in ChannelMask
-		if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else{ continue;}
+			// read only the channels given in ChannelMask
+			if ((ChannelMask>>j)&1) CurrentChannel=j;
+		        else{ continue;}
 		
-		if (CurrentChannel!=j) { pnt+=Size; continue; }
-      		else pnt++;
-
-		if (j>j) return 0;	
-	      
-		cnt=0;                              // counter of waveform data
-		wavecnt=0;                          // counter to reconstruct times within waveform
-      		while (cnt<(Size-(CORRECTION/2)))
-      		{	g[j]->SetBinContent(wavecnt,(double)((buffer[pnt]&0xFFFF)));	
-				g[j]->SetBinContent(wavecnt+1,(double)(((buffer[pnt]>>16)&0xFFFF)));	
-          		pnt++; wavecnt+=2; cnt++;
-      		} // end while(cnt...)
-      		
-      		//Readout the corrupt bytes
-      		while (cnt<Size){
-				double dummy_1 =(double)((buffer[pnt]&0xFFFF));
-				double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
-				pnt++; wavecnt+=2; cnt++;
+			if (CurrentChannel!=j) { pnt+=Size; continue; }
+	      		else pnt++;
+	
+			if (j>j) return 0;	
+		      
+			cnt=0;                              // counter of waveform data
+			wavecnt=0;                          // counter to reconstruct times within waveform
+	      		while (cnt<(Size))
+	      		{	
+					double wave1=(double)((buffer[pnt]&0xFFFF));
+					double wave2=(double)(((buffer[pnt]>>16)&0xFFFF));
+					m_mean= m_mean+ wave1+ wave2;
+					g[j]->SetBinContent(wavecnt,wave1);	
+					g[j]->SetBinContent(wavecnt+1,wave2);	
+		  		pnt++; wavecnt+=2; cnt++;
+	      		} // end while(cnt...)
+	      		/*
+	      		//Readout the corrupt bytes
+	      		while (cnt<Size){
+					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
+					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
+					pnt++; cnt++;
+			}
+*/
+			m_mean= (m_mean)/(wavecnt);
 		}
-	}
-    }
+    	}
+
 	for(int i=0;i<8;i++){
-		//win->cd(1+i);
+	//	win->cd(1+i);
 		graph_edit(g[i]);
-   		//g[i]->Draw();
+   //		g[i]->Draw();
+/*
+  		if(m_triggertype==2)
+			g[i]->SetTitle(Form("Channel:  %i , Threshold: %i",i,m_tresh[i]));
+		else
+			g[i]->SetTitle(Form("Channel:  %i , Module: %i",i,m_module));
+*/
 	}
-	    //win->Modified();
-	    //win->SetSelected(win);
- 	   //win->Update();
+//	    win->Modified();
+//	    win->SetSelected(win);
+ //	   win->Update();
     
    	  single->cd();
     

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<settings author="Last additions by JW" date="15/09/2015">
+  <!-- global Settings for the Scaler & Discriminator--> 
+  <global>
+    <notes>Awesome TDC Program</notes>					 				<!-- Comments for the XML-File -->
+    <vmelink>0</vmelink>													<!-- 0-3 for A3232 otherwise 0 -->
+    <outpath>~/Cloud/LArSetup/LArS/Run5/110K/DC/46.0V/</outpath>				<!-- Path for the output files-->
+    <Scaler>1</Scaler> 	                                                    <!-- Activate Scaler or only set Discriminator -->    
+  </global>
+  
+ <!-- Settings for Discriminator -->
+  <TDC>
+	<address>AAAA0000</address>
+ </TDC>														
+  
+
+
+
+</settings>
+
+
+
+

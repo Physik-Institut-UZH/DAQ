@@ -1,4 +1,4 @@
-/home/sandbox/DAQ/Scaler/build/Core/CMakeFiles/Core.dir
-/home/sandbox/DAQ/Scaler/build/IO/CMakeFiles/IO.dir
-/home/sandbox/DAQ/Scaler/build/Plugins/CMakeFiles/Plugins.dir
-/home/sandbox/DAQ/Scaler/build/Application/CMakeFiles/Scaler.dir
+/home/sandbox/DAQ_dev/DAQ/Scaler/build/Core/CMakeFiles/Core.dir
+/home/sandbox/DAQ_dev/DAQ/Scaler/build/IO/CMakeFiles/IO.dir
+/home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins/CMakeFiles/Plugins.dir
+/home/sandbox/DAQ_dev/DAQ/Scaler/build/Application/CMakeFiles/Scaler.dir

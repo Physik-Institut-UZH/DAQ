@@ -21,7 +21,7 @@
 #include "VMEManager.h"
 #include "DiscriminatorManager.h"
 #include "ScalerManager.h"
-
+#include "keyb.h"
 
 
 using namespace std;
@@ -42,14 +42,60 @@ int main(int argc, char *argv[]){
 	struct timeval begin, end;
     double mtime, seconds, useconds;    
     gettimeofday(&begin, NULL);
-
+	char m_exc;
+	
 	//Create Managers and read XML File
 
 	VMEManager* vManager = new VMEManager();
 	DiscriminatorManager* dManager = new DiscriminatorManager();
 	ScalerManager* sManager = new ScalerManager();
+	
+	
+	extern char *optarg;               /* options processing */
+	int start;                        /* dummy for options */
+	int someArgs=0;
+	char m_OutputFolder[100];	//Outputfolder name (custom)
+	char m_XmlFileName[100];    //XML-Filename
+	int m_errflag=0;
+	while ( ( start = getopt( argc, argv, "x:f:w" ) ) != -1 )  {
+      someArgs=1;
+      switch (start) {
+        case 'f': 
+          sprintf(m_OutputFolder,"%s",optarg);
+          break;
+        case 'x': 
+          sprintf(m_XmlFileName,"%s",optarg);
+          break;
+        case 'w':   
+	      printf("missed WIMPs protocol:");
+		  int i;
+	      char txt[100];
+          i = (int)((float)rand()/2147483647.*10.);
+          printf("  You missed %d WIMPs since stopping DAQ.\n  Better you start it again...\n",i);
+	      exit(0);	
+	      break;
+			default: 
+          m_errflag++; 
+          break;
+       }
+	   if (m_errflag || someArgs==0) {
+		  printf(KRED);
+		  printf("usage: %s [-f file|-x file||-g p|-b|-i|-h|]\n", argv[1] );
+		  printf("\t-f write to file_ \n" );
+		  printf("\t-x read settings from XML-file file\n");
+		  printf("\t-g Oscilloscope: display PMT p (SLOW!)\n");
+		  printf("\t-i displays hardware information\n" );
+		  printf("\t-b adjust baselines automatically\n" );
+		  printf("\t-o show help for oscilloscope mode\n");
+		  printf("\t-h display this help\n\n" );
+		  printf(RESET);
+		  exit( 2 );
+	   } 
+  }
 
-	xml_readsettings("Settings.xml",vManager,dManager,sManager); 
+	xml_readsettings(m_XmlFileName,vManager,dManager,sManager); 
+
+
 
 
 	 //Init all Manager
@@ -77,6 +123,21 @@ int main(int argc, char *argv[]){
 			
 			if(sManager->ReadMultipleCycles()==1){
 
+			}
+			
+			if (kbhit()) m_exc = getch();
+           	if (m_exc == 's') {
+				vManager->Close();
+				gettimeofday(&end, NULL);
+				seconds  = end.tv_sec  - begin.tv_sec;
+				useconds = end.tv_usec - begin.tv_usec;
+				printf(KGRN);
+				std::cout << "	Total Time: " << seconds << "seconds "<< std::endl;
+				printf(RESET);
+				delete vManager;
+				delete dManager;
+				delete sManager;
+				return 0;
 			}
 		} 
      }

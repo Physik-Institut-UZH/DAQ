@@ -15,7 +15,7 @@ SlowcontrolManager::SlowcontrolManager()
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
 	printf("%s                   DAQ  --  Data Aquistion Program 		           \n",KGRN); 
-	printf("%s                            version: 3.0                           \n",KGRN);
+	printf("%s                            version: 4.0                           \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
 	sleep(1);
@@ -139,6 +139,7 @@ int SlowcontrolManager::StopAquistion(){
 	string s;
 	ss << GetUnixTime();
 	ss >> s;
+	
 	/*Generate Summary File*/
 	string OutputPath = m_OutputPath;
     string OutputFolder = m_OutputFolder;
@@ -146,6 +147,9 @@ int SlowcontrolManager::StopAquistion(){
 	string status =  OutputPath + "/"+ OutputFolder + "/Summary_" + OutputFolder +  ".txt" ; 
 	m_DAQSummary.open(status.c_str());
 	m_DAQSummary << "	DAQ stopped: " << GetUnixTime() <<  "\n" << "	Total Measuring time: "<< m_seconds << " s " << " = " << m_seconds/(60*60) << " h\n " << 	"	Total Number of Events Measured = " <<  m_events  << " \n";
+	m_DAQSummary.flush();
+	
+	
 	//Xurich specific
 	m_DAQSummary << "	Lifetime: " << m_seconds-(m_events*2.289/(1000)) ; 
 
@@ -168,7 +172,7 @@ int SlowcontrolManager::ShowStatus(int status ){
 			/* print some progress indication */
 			printf(KCYN);
 			std::cout << "	" << (m_totalB/(1024*1024.))  << " GB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
-			m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/1048576) << "\n";
+			m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/(1024*1024.)) << "\n";
 			m_lastevents=m_events;
 			gettimeofday(&m_begin, NULL);
 			printf(RESET);

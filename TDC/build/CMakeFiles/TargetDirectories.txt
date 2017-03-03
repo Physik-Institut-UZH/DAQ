@@ -1,0 +1,4 @@
+/home/sandbox/DAQ_dev/DAQ/TDC/build/Core/CMakeFiles/Core.dir
+/home/sandbox/DAQ_dev/DAQ/TDC/build/IO/CMakeFiles/IO.dir
+/home/sandbox/DAQ_dev/DAQ/TDC/build/Plugins/CMakeFiles/Plugins.dir
+/home/sandbox/DAQ_dev/DAQ/TDC/build/Application/CMakeFiles/TDC.dir

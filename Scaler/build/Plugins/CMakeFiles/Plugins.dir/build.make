@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sandbox/DAQ/Scaler
+CMAKE_SOURCE_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sandbox/DAQ/Scaler/build
+CMAKE_BINARY_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler/build
 
 # Include any dependencies generated for this target.
 include Plugins/CMakeFiles/Plugins.dir/depend.make
@@ -54,17 +54,17 @@ include Plugins/CMakeFiles/Plugins.dir/flags.make
 
 Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o: Plugins/CMakeFiles/Plugins.dir/flags.make
 Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o: ../Plugins/Source/common.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Plugins.dir/Source/common.cpp.o -c /home/sandbox/DAQ/Scaler/Plugins/Source/common.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Plugins.dir/Source/common.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/common.cpp
 
 Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Plugins.dir/Source/common.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Plugins/Source/common.cpp > CMakeFiles/Plugins.dir/Source/common.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/common.cpp > CMakeFiles/Plugins.dir/Source/common.cpp.i
 
 Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Plugins.dir/Source/common.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Plugins/Source/common.cpp -o CMakeFiles/Plugins.dir/Source/common.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/common.cpp -o CMakeFiles/Plugins.dir/Source/common.cpp.s
 
 Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o.requires:
 .PHONY : Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o.requires
@@ -77,17 +77,17 @@ Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o.provides.build: Plugins/CMake
 
 Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o: Plugins/CMakeFiles/Plugins.dir/flags.make
 Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o: ../Plugins/Source/keyb.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Plugins.dir/Source/keyb.cpp.o -c /home/sandbox/DAQ/Scaler/Plugins/Source/keyb.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Plugins.dir/Source/keyb.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/keyb.cpp
 
 Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Plugins.dir/Source/keyb.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Plugins/Source/keyb.cpp > CMakeFiles/Plugins.dir/Source/keyb.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/keyb.cpp > CMakeFiles/Plugins.dir/Source/keyb.cpp.i
 
 Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Plugins.dir/Source/keyb.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Plugins/Source/keyb.cpp -o CMakeFiles/Plugins.dir/Source/keyb.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/keyb.cpp -o CMakeFiles/Plugins.dir/Source/keyb.cpp.s
 
 Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o.requires:
 .PHONY : Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o.requires
@@ -100,17 +100,17 @@ Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o.provides.build: Plugins/CMakeFi
 
 Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o: Plugins/CMakeFiles/Plugins.dir/flags.make
 Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o: ../Plugins/Source/xmlParser.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o -c /home/sandbox/DAQ/Scaler/Plugins/Source/xmlParser.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/xmlParser.cpp
 
 Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Plugins.dir/Source/xmlParser.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Plugins/Source/xmlParser.cpp > CMakeFiles/Plugins.dir/Source/xmlParser.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/xmlParser.cpp > CMakeFiles/Plugins.dir/Source/xmlParser.cpp.i
 
 Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Plugins.dir/Source/xmlParser.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Plugins/Source/xmlParser.cpp -o CMakeFiles/Plugins.dir/Source/xmlParser.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins/Source/xmlParser.cpp -o CMakeFiles/Plugins.dir/Source/xmlParser.cpp.s
 
 Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o.requires:
 .PHONY : Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o.requires
@@ -136,8 +136,8 @@ lib/libPlugins.a: Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o
 lib/libPlugins.a: Plugins/CMakeFiles/Plugins.dir/build.make
 lib/libPlugins.a: Plugins/CMakeFiles/Plugins.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library ../lib/libPlugins.a"
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && $(CMAKE_COMMAND) -P CMakeFiles/Plugins.dir/cmake_clean_target.cmake
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Plugins.dir/link.txt --verbose=$(VERBOSE)
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && $(CMAKE_COMMAND) -P CMakeFiles/Plugins.dir/cmake_clean_target.cmake
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Plugins.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 Plugins/CMakeFiles/Plugins.dir/build: lib/libPlugins.a
@@ -149,10 +149,10 @@ Plugins/CMakeFiles/Plugins.dir/requires: Plugins/CMakeFiles/Plugins.dir/Source/x
 .PHONY : Plugins/CMakeFiles/Plugins.dir/requires
 
 Plugins/CMakeFiles/Plugins.dir/clean:
-	cd /home/sandbox/DAQ/Scaler/build/Plugins && $(CMAKE_COMMAND) -P CMakeFiles/Plugins.dir/cmake_clean.cmake
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins && $(CMAKE_COMMAND) -P CMakeFiles/Plugins.dir/cmake_clean.cmake
 .PHONY : Plugins/CMakeFiles/Plugins.dir/clean
 
 Plugins/CMakeFiles/Plugins.dir/depend:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sandbox/DAQ/Scaler /home/sandbox/DAQ/Scaler/Plugins /home/sandbox/DAQ/Scaler/build /home/sandbox/DAQ/Scaler/build/Plugins /home/sandbox/DAQ/Scaler/build/Plugins/CMakeFiles/Plugins.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sandbox/DAQ_dev/DAQ/Scaler /home/sandbox/DAQ_dev/DAQ/Scaler/Plugins /home/sandbox/DAQ_dev/DAQ/Scaler/build /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins/CMakeFiles/Plugins.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : Plugins/CMakeFiles/Plugins.dir/depend
 

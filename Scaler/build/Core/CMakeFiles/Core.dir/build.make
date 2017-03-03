@@ -38,10 +38,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sandbox/DAQ/Scaler
+CMAKE_SOURCE_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sandbox/DAQ/Scaler/build
+CMAKE_BINARY_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler/build
 
 # Include any dependencies generated for this target.
 include Core/CMakeFiles/Core.dir/depend.make
@@ -54,17 +54,17 @@ include Core/CMakeFiles/Core.dir/flags.make
 
 Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o: ../Core/Source/VMEManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/VMEManager.cpp.o -c /home/sandbox/DAQ/Scaler/Core/Source/VMEManager.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/VMEManager.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/VMEManager.cpp
 
 Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Core.dir/Source/VMEManager.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Core/Source/VMEManager.cpp > CMakeFiles/Core.dir/Source/VMEManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/VMEManager.cpp > CMakeFiles/Core.dir/Source/VMEManager.cpp.i
 
 Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Core.dir/Source/VMEManager.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Core/Source/VMEManager.cpp -o CMakeFiles/Core.dir/Source/VMEManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/VMEManager.cpp -o CMakeFiles/Core.dir/Source/VMEManager.cpp.s
 
 Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o.requires:
 .PHONY : Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o.requires
@@ -77,17 +77,17 @@ Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o.provides.build: Core/CMakeFiles
 
 Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o: ../Core/Source/DiscriminatorManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o -c /home/sandbox/DAQ/Scaler/Core/Source/DiscriminatorManager.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/DiscriminatorManager.cpp
 
 Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Core/Source/DiscriminatorManager.cpp > CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/DiscriminatorManager.cpp > CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.i
 
 Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Core/Source/DiscriminatorManager.cpp -o CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/DiscriminatorManager.cpp -o CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.s
 
 Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o.requires:
 .PHONY : Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o.requires
@@ -100,17 +100,17 @@ Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o.provides.build: Core/
 
 Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o: ../Core/Source/ScalerManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/ScalerManager.cpp.o -c /home/sandbox/DAQ/Scaler/Core/Source/ScalerManager.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/ScalerManager.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/ScalerManager.cpp
 
 Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Core.dir/Source/ScalerManager.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Core/Source/ScalerManager.cpp > CMakeFiles/Core.dir/Source/ScalerManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/ScalerManager.cpp > CMakeFiles/Core.dir/Source/ScalerManager.cpp.i
 
 Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Core.dir/Source/ScalerManager.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Core/Source/ScalerManager.cpp -o CMakeFiles/Core.dir/Source/ScalerManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/ScalerManager.cpp -o CMakeFiles/Core.dir/Source/ScalerManager.cpp.s
 
 Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o.requires:
 .PHONY : Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o.requires
@@ -123,17 +123,17 @@ Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o.provides.build: Core/CMakeFi
 
 Core/CMakeFiles/Core.dir/Source/xml.cpp.o: Core/CMakeFiles/Core.dir/flags.make
 Core/CMakeFiles/Core.dir/Source/xml.cpp.o: ../Core/Source/xml.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object Core/CMakeFiles/Core.dir/Source/xml.cpp.o"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/xml.cpp.o -c /home/sandbox/DAQ/Scaler/Core/Source/xml.cpp
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Core.dir/Source/xml.cpp.o -c /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/xml.cpp
 
 Core/CMakeFiles/Core.dir/Source/xml.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Core.dir/Source/xml.cpp.i"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ/Scaler/Core/Source/xml.cpp > CMakeFiles/Core.dir/Source/xml.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/xml.cpp > CMakeFiles/Core.dir/Source/xml.cpp.i
 
 Core/CMakeFiles/Core.dir/Source/xml.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Core.dir/Source/xml.cpp.s"
-	cd /home/sandbox/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ/Scaler/Core/Source/xml.cpp -o CMakeFiles/Core.dir/Source/xml.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/sandbox/DAQ_dev/DAQ/Scaler/Core/Source/xml.cpp -o CMakeFiles/Core.dir/Source/xml.cpp.s
 
 Core/CMakeFiles/Core.dir/Source/xml.cpp.o.requires:
 .PHONY : Core/CMakeFiles/Core.dir/Source/xml.cpp.o.requires
@@ -161,8 +161,8 @@ lib/libCore.a: Core/CMakeFiles/Core.dir/Source/xml.cpp.o
 lib/libCore.a: Core/CMakeFiles/Core.dir/build.make
 lib/libCore.a: Core/CMakeFiles/Core.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library ../lib/libCore.a"
-	cd /home/sandbox/DAQ/Scaler/build/Core && $(CMAKE_COMMAND) -P CMakeFiles/Core.dir/cmake_clean_target.cmake
-	cd /home/sandbox/DAQ/Scaler/build/Core && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Core.dir/link.txt --verbose=$(VERBOSE)
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && $(CMAKE_COMMAND) -P CMakeFiles/Core.dir/cmake_clean_target.cmake
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Core.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 Core/CMakeFiles/Core.dir/build: lib/libCore.a
@@ -175,10 +175,10 @@ Core/CMakeFiles/Core.dir/requires: Core/CMakeFiles/Core.dir/Source/xml.cpp.o.req
 .PHONY : Core/CMakeFiles/Core.dir/requires
 
 Core/CMakeFiles/Core.dir/clean:
-	cd /home/sandbox/DAQ/Scaler/build/Core && $(CMAKE_COMMAND) -P CMakeFiles/Core.dir/cmake_clean.cmake
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core && $(CMAKE_COMMAND) -P CMakeFiles/Core.dir/cmake_clean.cmake
 .PHONY : Core/CMakeFiles/Core.dir/clean
 
 Core/CMakeFiles/Core.dir/depend:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sandbox/DAQ/Scaler /home/sandbox/DAQ/Scaler/Core /home/sandbox/DAQ/Scaler/build /home/sandbox/DAQ/Scaler/build/Core /home/sandbox/DAQ/Scaler/build/Core/CMakeFiles/Core.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sandbox/DAQ_dev/DAQ/Scaler /home/sandbox/DAQ_dev/DAQ/Scaler/Core /home/sandbox/DAQ_dev/DAQ/Scaler/build /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core/CMakeFiles/Core.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : Core/CMakeFiles/Core.dir/depend
 

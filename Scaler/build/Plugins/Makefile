@@ -42,10 +42,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sandbox/DAQ/Scaler
+CMAKE_SOURCE_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sandbox/DAQ/Scaler/build
+CMAKE_BINARY_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -72,14 +72,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ/Scaler/build/CMakeFiles /home/sandbox/DAQ/Scaler/build/Plugins/CMakeFiles/progress.marks
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ/Scaler/build/CMakeFiles 0
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles /home/sandbox/DAQ_dev/DAQ/Scaler/build/Plugins/CMakeFiles/progress.marks
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/clean
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/clean
 .PHONY : clean
 
 # The main clean target
@@ -88,22 +88,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/preinstall
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/preinstall
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 Plugins/CMakeFiles/Plugins.dir/rule:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/CMakeFiles/Plugins.dir/rule
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Plugins/CMakeFiles/Plugins.dir/rule
 .PHONY : Plugins/CMakeFiles/Plugins.dir/rule
 
 # Convenience name for target.
@@ -112,7 +112,7 @@ Plugins: Plugins/CMakeFiles/Plugins.dir/rule
 
 # fast build rule for target.
 Plugins/fast:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/build
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/build
 .PHONY : Plugins/fast
 
 Source/common.o: Source/common.cpp.o
@@ -120,7 +120,7 @@ Source/common.o: Source/common.cpp.o
 
 # target to build an object file
 Source/common.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.o
 .PHONY : Source/common.cpp.o
 
 Source/common.i: Source/common.cpp.i
@@ -128,7 +128,7 @@ Source/common.i: Source/common.cpp.i
 
 # target to preprocess a source file
 Source/common.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.i
 .PHONY : Source/common.cpp.i
 
 Source/common.s: Source/common.cpp.s
@@ -136,7 +136,7 @@ Source/common.s: Source/common.cpp.s
 
 # target to generate assembly for a file
 Source/common.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/common.cpp.s
 .PHONY : Source/common.cpp.s
 
 Source/keyb.o: Source/keyb.cpp.o
@@ -144,7 +144,7 @@ Source/keyb.o: Source/keyb.cpp.o
 
 # target to build an object file
 Source/keyb.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.o
 .PHONY : Source/keyb.cpp.o
 
 Source/keyb.i: Source/keyb.cpp.i
@@ -152,7 +152,7 @@ Source/keyb.i: Source/keyb.cpp.i
 
 # target to preprocess a source file
 Source/keyb.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.i
 .PHONY : Source/keyb.cpp.i
 
 Source/keyb.s: Source/keyb.cpp.s
@@ -160,7 +160,7 @@ Source/keyb.s: Source/keyb.cpp.s
 
 # target to generate assembly for a file
 Source/keyb.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/keyb.cpp.s
 .PHONY : Source/keyb.cpp.s
 
 Source/xmlParser.o: Source/xmlParser.cpp.o
@@ -168,7 +168,7 @@ Source/xmlParser.o: Source/xmlParser.cpp.o
 
 # target to build an object file
 Source/xmlParser.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.o
 .PHONY : Source/xmlParser.cpp.o
 
 Source/xmlParser.i: Source/xmlParser.cpp.i
@@ -176,7 +176,7 @@ Source/xmlParser.i: Source/xmlParser.cpp.i
 
 # target to preprocess a source file
 Source/xmlParser.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.i
 .PHONY : Source/xmlParser.cpp.i
 
 Source/xmlParser.s: Source/xmlParser.cpp.s
@@ -184,7 +184,7 @@ Source/xmlParser.s: Source/xmlParser.cpp.s
 
 # target to generate assembly for a file
 Source/xmlParser.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Plugins/CMakeFiles/Plugins.dir/build.make Plugins/CMakeFiles/Plugins.dir/Source/xmlParser.cpp.s
 .PHONY : Source/xmlParser.cpp.s
 
 # Help Target
@@ -216,6 +216,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

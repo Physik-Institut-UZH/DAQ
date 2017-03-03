@@ -60,7 +60,7 @@ CAENVMElib.h
 
 ../Plugins/Include/keyb.h
 
-/home/sandbox/DAQ/Scaler/IO/Source/IOManager.cpp
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/IOManager.cpp
 fstream
 -
 sstream
@@ -76,29 +76,29 @@ iostream
 string
 -
 IOManager.h
-/home/sandbox/DAQ/Scaler/IO/Source/IOManager.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/IOManager.h
 global.h
-/home/sandbox/DAQ/Scaler/IO/Source/global.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/global.h
 common.h
-/home/sandbox/DAQ/Scaler/IO/Source/common.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/common.h
 TROOT.h
-/home/sandbox/DAQ/Scaler/IO/Source/TROOT.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TROOT.h
 TApplication.h
 -
 TSystem.h
-/home/sandbox/DAQ/Scaler/IO/Source/TSystem.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TSystem.h
 TTree.h
-/home/sandbox/DAQ/Scaler/IO/Source/TTree.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TTree.h
 TNtuple.h
-/home/sandbox/DAQ/Scaler/IO/Source/TNtuple.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TNtuple.h
 TFile.h
-/home/sandbox/DAQ/Scaler/IO/Source/TFile.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TFile.h
 TRint.h
-/home/sandbox/DAQ/Scaler/IO/Source/TRint.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TRint.h
 TApplication.h
-/home/sandbox/DAQ/Scaler/IO/Source/TApplication.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/TApplication.h
 keyb.h
-/home/sandbox/DAQ/Scaler/IO/Source/keyb.h
+/home/sandbox/DAQ_dev/DAQ/Scaler/IO/Source/keyb.h
 
 /opt/root/include/DllImport.h
 

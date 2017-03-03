@@ -79,6 +79,7 @@ class ScopeManager: public Common
 		int m_triggertype;					//Triggertype
 		int m_module;						//Module
 		int m_nbmodule;
+		double m_mean;
 	
 
 };

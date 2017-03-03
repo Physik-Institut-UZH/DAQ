@@ -1,4 +1,4 @@
-# Install script for directory: /home/sandbox/DAQ/Scaler/Core
+# Install script for directory: /home/sandbox/DAQ_dev/DAQ/Scaler/Core
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -42,10 +42,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sandbox/DAQ/Scaler
+CMAKE_SOURCE_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sandbox/DAQ/Scaler/build
+CMAKE_BINARY_DIR = /home/sandbox/DAQ_dev/DAQ/Scaler/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -72,14 +72,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ/Scaler/build/CMakeFiles /home/sandbox/DAQ/Scaler/build/Core/CMakeFiles/progress.marks
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ/Scaler/build/CMakeFiles 0
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles /home/sandbox/DAQ_dev/DAQ/Scaler/build/Core/CMakeFiles/progress.marks
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sandbox/DAQ_dev/DAQ/Scaler/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/clean
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/clean
 .PHONY : clean
 
 # The main clean target
@@ -88,22 +88,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/preinstall
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/preinstall
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 Core/CMakeFiles/Core.dir/rule:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/CMakeFiles/Core.dir/rule
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f CMakeFiles/Makefile2 Core/CMakeFiles/Core.dir/rule
 .PHONY : Core/CMakeFiles/Core.dir/rule
 
 # Convenience name for target.
@@ -112,7 +112,7 @@ Core: Core/CMakeFiles/Core.dir/rule
 
 # fast build rule for target.
 Core/fast:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/build
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/build
 .PHONY : Core/fast
 
 Source/DiscriminatorManager.o: Source/DiscriminatorManager.cpp.o
@@ -120,7 +120,7 @@ Source/DiscriminatorManager.o: Source/DiscriminatorManager.cpp.o
 
 # target to build an object file
 Source/DiscriminatorManager.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.o
 .PHONY : Source/DiscriminatorManager.cpp.o
 
 Source/DiscriminatorManager.i: Source/DiscriminatorManager.cpp.i
@@ -128,7 +128,7 @@ Source/DiscriminatorManager.i: Source/DiscriminatorManager.cpp.i
 
 # target to preprocess a source file
 Source/DiscriminatorManager.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.i
 .PHONY : Source/DiscriminatorManager.cpp.i
 
 Source/DiscriminatorManager.s: Source/DiscriminatorManager.cpp.s
@@ -136,7 +136,7 @@ Source/DiscriminatorManager.s: Source/DiscriminatorManager.cpp.s
 
 # target to generate assembly for a file
 Source/DiscriminatorManager.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/DiscriminatorManager.cpp.s
 .PHONY : Source/DiscriminatorManager.cpp.s
 
 Source/ScalerManager.o: Source/ScalerManager.cpp.o
@@ -144,7 +144,7 @@ Source/ScalerManager.o: Source/ScalerManager.cpp.o
 
 # target to build an object file
 Source/ScalerManager.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.o
 .PHONY : Source/ScalerManager.cpp.o
 
 Source/ScalerManager.i: Source/ScalerManager.cpp.i
@@ -152,7 +152,7 @@ Source/ScalerManager.i: Source/ScalerManager.cpp.i
 
 # target to preprocess a source file
 Source/ScalerManager.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.i
 .PHONY : Source/ScalerManager.cpp.i
 
 Source/ScalerManager.s: Source/ScalerManager.cpp.s
@@ -160,7 +160,7 @@ Source/ScalerManager.s: Source/ScalerManager.cpp.s
 
 # target to generate assembly for a file
 Source/ScalerManager.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/ScalerManager.cpp.s
 .PHONY : Source/ScalerManager.cpp.s
 
 Source/VMEManager.o: Source/VMEManager.cpp.o
@@ -168,7 +168,7 @@ Source/VMEManager.o: Source/VMEManager.cpp.o
 
 # target to build an object file
 Source/VMEManager.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.o
 .PHONY : Source/VMEManager.cpp.o
 
 Source/VMEManager.i: Source/VMEManager.cpp.i
@@ -176,7 +176,7 @@ Source/VMEManager.i: Source/VMEManager.cpp.i
 
 # target to preprocess a source file
 Source/VMEManager.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.i
 .PHONY : Source/VMEManager.cpp.i
 
 Source/VMEManager.s: Source/VMEManager.cpp.s
@@ -184,7 +184,7 @@ Source/VMEManager.s: Source/VMEManager.cpp.s
 
 # target to generate assembly for a file
 Source/VMEManager.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/VMEManager.cpp.s
 .PHONY : Source/VMEManager.cpp.s
 
 Source/xml.o: Source/xml.cpp.o
@@ -192,7 +192,7 @@ Source/xml.o: Source/xml.cpp.o
 
 # target to build an object file
 Source/xml.cpp.o:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/xml.cpp.o
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/xml.cpp.o
 .PHONY : Source/xml.cpp.o
 
 Source/xml.i: Source/xml.cpp.i
@@ -200,7 +200,7 @@ Source/xml.i: Source/xml.cpp.i
 
 # target to preprocess a source file
 Source/xml.cpp.i:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/xml.cpp.i
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/xml.cpp.i
 .PHONY : Source/xml.cpp.i
 
 Source/xml.s: Source/xml.cpp.s
@@ -208,7 +208,7 @@ Source/xml.s: Source/xml.cpp.s
 
 # target to generate assembly for a file
 Source/xml.cpp.s:
-	cd /home/sandbox/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/xml.cpp.s
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(MAKE) -f Core/CMakeFiles/Core.dir/build.make Core/CMakeFiles/Core.dir/Source/xml.cpp.s
 .PHONY : Source/xml.cpp.s
 
 # Help Target
@@ -243,6 +243,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/sandbox/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/sandbox/DAQ_dev/DAQ/Scaler/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
