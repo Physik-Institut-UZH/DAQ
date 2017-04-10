@@ -37,8 +37,8 @@ int main(int argc, char *argv[]){
   	
   	//For Timing
 	struct timeval begin, end;
-    double mtime, seconds, useconds;    
-    gettimeofday(&begin, NULL);
+   	double mtime, seconds, useconds;    
+    	gettimeofday(&begin, NULL);
 
 	//Create Managers and read XML File
 
@@ -77,8 +77,8 @@ int main(int argc, char *argv[]){
 
 
      
-    vManager->Close();
-    gettimeofday(&end, NULL);
+    	vManager->Close();
+    	gettimeofday(&end, NULL);
 	seconds  = end.tv_sec  - begin.tv_sec;
 	useconds = end.tv_usec - begin.tv_usec;
 	printf(KGRN);

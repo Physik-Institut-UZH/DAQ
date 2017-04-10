@@ -49,9 +49,9 @@ int TDCManager::test()
 {
  		  // Get system informations
     
-       		UINT16 firmware_rev;
-      		UINT8  piggy_back_type;
-        	UINT16 serial_number;
+       		//UINT16 firmware_rev;
+      		//UINT8  piggy_back_type;
+        	//UINT16 serial_number;
 		int data;
 		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x100E, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
 			printf(KRED);
@@ -61,13 +61,14 @@ int TDCManager::test()
 		}	
 
 		//Firmware
-
-		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1000, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+		short firmware;
+		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1000, &firmware,cvA32_U_DATA,cvD16)!=cvSuccess){
 			printf(KRED);
 			printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
 			printf(RESET);
 			return -1;
 		}	
+		std::cout<<std::hex << (firmware)<<std::endl;
 		
 		//Bit Set 1 Register
 		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1006, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
@@ -76,7 +77,7 @@ int TDCManager::test()
 			printf(RESET);
 			return -1;
 		}
-
+		std::cout<<std::bitset<8>(data)<<std::endl;
 		
 		//Status Register 1
 		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x100E, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
@@ -85,7 +86,16 @@ int TDCManager::test()
 			printf(RESET);
 			return -1;
 		}		
-		 std::cout<<std::bitset<16>(data)<<std::endl;
+		 std::cout<< "Status Register:" << std::bitset<9>(data)<<std::endl;
+
+		data=pow(2,2)+pow(2,5)+pow(2,6);
+		//Write Control Register 1 
+		if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1010, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+			printf(KRED);
+			printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+			printf(RESET);
+			return -1;
+		}		
 
 		//Control Register 1 
 		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1010, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
@@ -94,27 +104,59 @@ int TDCManager::test()
 			printf(RESET);
 			return -1;
 		}		
-		 std::cout<<std::bitset<16>(data)<<std::endl;
+		 std::cout<< "Control Register:"<<std::bitset<7>(data)<<std::endl;
 
+	//Status Register 2 
+		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1022, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+			printf(KRED);
+			printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+			printf(RESET);
+			return -1;
+		}		
+		 std::cout<< "Status Register2:" <<std::bitset<8>(data)<<std::endl;
 
+	//Event Counter Low Register 
+		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1024, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+			printf(KRED);
+			printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+			printf(RESET);
+			return -1;
+		}		
+		 std::cout<<std::bitset<8>(data)<<std::endl;
+
+	//Event Counter High Register 
+		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1026, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+			printf(KRED);
+			printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+			printf(RESET);
+			return -1;
+		}		
+		 std::cout<<std::bitset<8>(data)<<std::endl;
+		
+
+	//Event Counter High Register 
+		if(CAENVME_ReadCycle(m_CrateHandle,m_TDCAdr+0x1032, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+			printf(KRED);
+			printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+			printf(RESET);
+			return -1;
+		}	
+			 std::cout<<std::bitset<16>(data)<<std::endl;
 
 		// read the event
        	int nb, ret;  
        	   
-      	// Read data from module i in MBLT mode into buff     
-	blt_bytes=0; 
-    	ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle,m_TDCAdr, ((unsigned char*)buffer)+blt_bytes, (1024*1024), cvA32_U_BLT, cvD32, &nb);
-	if ((ret != cvSuccess) && (ret != cvBusError)) {
+   do { 
+    ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_TDCAdr, 
+		((unsigned char*)buffer)+blt_bytes, 524288, cvA32_U_BLT, cvD32, &nb);
+    if ((ret != cvSuccess) && (ret != cvBusError)) {
 		std::cout << "Block read error" << std::endl;   
 		printf("%d bytes read\n",nb);
 		return -1;  
-    	}
-    	blt_bytes += nb;
-    		//	if (blt_bytes > m_BufferSize) { 
-		//	std::cout << "Negativ bytes transfered" << std::endl;
-		//	return -1;  
-    		  // }
-  	std::cout <<  blt_bytes << std::endl;
+    }
+    blt_bytes += nb;
+  } while (ret != cvBusError); 
+	std::cout << blt_bytes << std::endl;
 
    	return  blt_bytes;
 

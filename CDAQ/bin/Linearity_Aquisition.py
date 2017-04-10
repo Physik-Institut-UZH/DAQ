@@ -26,11 +26,11 @@ def isopen(s):
 # Constants
 DAQdir  = "/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/"
 binary  = "/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/SingleDAQ"
-xmlfile = "/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/SingleADC1730_Chris.xml"
-baselinefile = "/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/SingleADC1730_Chris.xml"
+xmlfile = "/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/SingleADC1730_Wulf_Expert.xml"
+baselinefile = "/home/sandbox/DAQ_dev/DAQ/CDAQ/bin/SingleADC1730_Wulf_Expert.xml"
 mapfile = "map"
 
-serialport = "/dev/ttyACM0"        # Pulser
+serialport = "/dev/ttyACM1"        # Pulser
 
 
 #############################################################################
@@ -64,7 +64,7 @@ try:
    for i,j in zip(FileNames,LEDSetting):
 	pulser.write("CHN 1" + '\r\n')
 	time.sleep(5)		
-	pulser.write("AMPL " + j + '\r\n')
+	pulser.write("LOLVL " + j + '\r\n')
         time.sleep(5)
 
         cmd2 = binary + " -x " + xmlfile + " -f " + i
