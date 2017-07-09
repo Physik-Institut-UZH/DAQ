@@ -5,10 +5,10 @@
     <source>Chris_First_Steps</source>       			 							 <!-- What is measured? -->
     <notes>SiPMs 6x6mm SandBox</notes>                  	    					 <!-- Comments -->
     <user>Julien, Chris</user>                                     					 <!-- Last user which used the ADC-->
-    <path>~/Cloud/LArSetup/Run6/LAr/Longterm/Gain/Raw/</path>      							 <!-- Path -->
+    <path>~/Cloud/LArSetup/Run8/Hybrid_170K/Gain/Raw/</path>      							 <!-- Path -->
     <daq_version>4.0.0</daq_version>                        						 <!-- DAQ Version-->
-    <nb_evts>250000</nb_evts>                             							 <!-- Number of events-->
-    <nb_evts_per_file>250000</nb_evts_per_file>           							 <!-- Number of events/file-->
+    <nb_evts>500000</nb_evts>                             							 <!-- Number of events-->
+    <nb_evts_per_file>500000</nb_evts_per_file>           							 <!-- Number of events/file-->
     <store_data>1</store_data>                             							 <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
     <displaytime>1</displaytime>                        							 <!-- Status output -->
   </global>
@@ -24,8 +24,8 @@
       <address_0>55550000</address_0>				  							 <!-- Adress of the module-->
 	
       <!-- Activate channels to read out -->
-      	<ch_0>6000</ch_0>                       		   							 <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>0</ch_1>
+      	<ch_0>16000</ch_0>                       		   							 <!-- 0 = off, Number = treshold for trigger setting -->
+      	<ch_1>16000</ch_1>
      	<ch_2>0</ch_2>                            
       	<ch_3>0</ch_3>                           
       	<ch_4>0</ch_4>                          
@@ -41,14 +41,14 @@
       <voltage_range>2.0</voltage_range>										 <!-- **voltage range of ADC/DAC -->
       <sample_size_ADC>14</sample_size_ADC>						 				 <!-- **sampling width in bits (ADC) -->
       <sample_size_DAC>16</sample_size_DAC>										 <!-- **sampling width in bits (DAC) -->
-      <baseline>6000</baseline>  												 <!-- **position of baseline (channels) -->	
+      <baseline>16000</baseline>  												 <!-- **position of baseline (channels) -->	
       <baselineiteration>6</baselineiteration>									 <!-- **How many iterations for baseline calculation -->
     </global>
     
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-		<trigger>2</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
+		<trigger>0</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
 	  
 		<!-- Option external trig and trg-out-->
 		<TTL>1</TTL>									<!-- **TTL On (1) or NIM On (0) -->

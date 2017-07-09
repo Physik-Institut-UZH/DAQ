@@ -51,13 +51,16 @@ class SlowcontrolManager: public Common
    char* GetXMLFile(){return m_XmlFileName;}			//Get the xmk-file out of the storage
    int GetBaselineCalculation(){return m_baseline;}		//Baseline Calculation active
    int GetGraphicsActive(){return m_graphics;}			//Gaphicmode active
-   int GetChannelNumber(){return m_pmtNb;}				//GetPMTNumber to visualize
-   int GetNumberEvents(){return m_events;}				//Current stored number of events
-   char* GetFolderName(){return m_OutputFolder;}		//Get the outputfolder from comandline
+   int GetChannelNumber(){return m_pmtNb;}			//GetPMTNumber to visualize
+   int GetNumberEvents(){return m_events;}			//Current stored number of events
+   int GetTotaltNumberEvents(){return m_totalevents;}		//Total number of events to be stored
+   char* GetFolderName(){return m_OutputFolder;}		//Get the outputfolder from comandline m_OutputPath
+   char* GetPathName(){return  m_OutputPath;}			//Get the outputfolder from comandline m_OutputPath
+   double GetCurrentUnixTime(){return GetUnixTime();}		//Get Current Unix time
    int GetADCInformation(){return m_BoardInfo;};		//Show only configuration
    string GetAddress(int i){return m_address[i];}		//Get ADC adress from xml-file
-   int GetADCType(){return m_type;}						//Which ADC is connected
-   int GetNbModules(){return m_Nbmodule;}				//How many modules in the daisy chain
+   int GetADCType(){return m_type;}				//Which ADC is connected
+   int GetNbModules(){return m_Nbmodule;}			//How many modules in the daisy chain
    
    
    //Interaction Functions
@@ -78,6 +81,7 @@ class SlowcontrolManager: public Common
     double m_time, m_seconds, m_useconds;    			//mili, mikro and mili seconds
     int m_lastevents; 									//Last events since call 	
     int m_events;										//Total events
+	int m_totalevents;
     u_int32_t m_bytes,m_totalB;							//Total bytes
 	int m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_Nbmodule ; 
 	int m_triggertype;									//Trigger type

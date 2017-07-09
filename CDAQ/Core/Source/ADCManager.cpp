@@ -131,6 +131,20 @@ int ADCManager::MCSTBoards(u_int32_t data){
 	sleep(1);
 }
 
+int ADCManager::EnableChannel(int channel){
+
+	m_hex=0;
+	m_hex=m_hex+pow(2,channel);	//activate channel 0 for trigger
+
+	//Software + Channel Trigger 
+	m_hex=m_hex+pow(2,31);
+	adc_writereg(FrontPanelTriggerOutReg,m_hex);
+	adc_writereg(TriggerSourceMaskReg,m_hex);
+
+	return 0;
+}
+
+
 /* END */
 
 
@@ -208,7 +222,7 @@ int ADCManager::CalculateBaseLine(){
 				}
 				*/
 
-				m_mean=m_mean/(wavecnt+1);
+				m_mean=m_mean/(wavecnt);
 				m_diff=m_mean-m_DACTarget[j];
 
 				m_correction= ((m_Voltage/pow(2.0,m_resADC))*m_diff)/((m_Voltage)/pow(2,m_resDAC));		//(mV of one Count ADC * difference)/mV of one Count of DAC
@@ -269,6 +283,88 @@ int ADCManager::CalculateBaseLine(){
 
     return ret; 
 }
+
+
+
+
+//-------------------------------------------------------------------
+// Calculate BaseLine Average
+double ADCManager::AverageBaseLine(int channel){
+	adc_readblt();
+
+	double average=0;
+	double rms=0;
+
+	this->ApplySoftwareTrigger();
+
+	//Start from the first word
+	pnt =0;
+	// check header
+	
+	if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
+		Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
+		pnt++;
+	 
+		//Read ChannelMask (Handbook)
+		int ChannelMask=buffer[pnt] & 0xFF;                 
+
+		pnt++;    
+		
+		// Get size of one waveform by dividing through the number of channels
+		cnt=0;
+		for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+		Size=Size/cnt;
+
+		// ignore EventConter and TTT
+		pnt+=2;
+			
+		for (int j=0; j<8; j++) { // read all activated channels
+
+			// read only the channels given in ChannelMask
+			if ((ChannelMask>>j)&1 && m_DACFinished[j]==0) CurrentChannel=j;
+				else continue;
+			
+			if (CurrentChannel!=channel) { pnt+=Size; continue; }
+				else pnt++;
+
+			if (j>j) return 0;	
+				  
+			cnt=0;                              // counter of waveform data
+			wavecnt=0;                          // counter to reconstruct times within waveform
+			while (cnt<(Size-(CORRECTION/2)))
+			{		
+				average+= (double)((buffer[pnt]&0xFFFF));
+				average+= (double)(((buffer[pnt]>>16)&0xFFFF));
+				pnt++; wavecnt+=2; cnt++;
+			} 
+			average	= average/wavecnt;
+		}
+	}
+	else{
+		printf(KRED);
+		std::cout << "	Error in Reading the Event" << std::endl;
+		printf(RESET);
+	}
+	return average; 
+}
+
+
+int ADCManager::CalculateThresholds(int channel, double baseline){
+	
+	m_hex=0;
+	int tmp = baseline -channelTresh[channel];
+	adc_writereg(TresholdRegN+(channel*0x0100),tmp);
+	return tmp;
+
+}
+
+
+
+//-------------------------------------------------------------------
+
+
+
+
 
 //Function to aquire data if there is some
 int ADCManager::CheckEventBuffer(){

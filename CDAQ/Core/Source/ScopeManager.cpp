@@ -22,7 +22,7 @@ ScopeManager::~ScopeManager()
 int ScopeManager::Init(){
 	//m_length=m_length+10;
 	ApplyXMLFile();
-	win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1700,768);
+	//win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1700,768);
 	
 	single = new TCanvas("single","JDAQ -- DAQ for Zuerich (single)",1700,768);
   	gStyle->SetOptStat(0000000);
@@ -31,8 +31,8 @@ int ScopeManager::Init(){
   	gStyle->SetTitleBorderSize(0);
   	gStyle->SetStatColor(0);
   	
-  	win->SetFillColor(0);
-  	win->SetBorderMode(0);
+  	//win->SetFillColor(0);
+  	//win->SetBorderMode(0);
 	
 	single->SetFillColor(0);
   	single->SetBorderMode(0);
@@ -71,12 +71,12 @@ int ScopeManager::Init(){
 	img->Draw("");
    	img->SetEditable(kTRUE);
    	
-   	win->Modified();
-   	win->cd();
-    	win->SetSelected(win);  
-    	win->Update();
-	win->cd();
-	win->Divide(4,2,0,0);
+   	//win->Modified();
+   	//win->cd();
+    	//win->SetSelected(win);  
+    	//win->Update();
+	//win->cd();
+	//win->Divide(4,2,0,0);
 
 	single->Modified();
     	single->Update();

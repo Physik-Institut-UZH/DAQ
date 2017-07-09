@@ -23,7 +23,7 @@ def isopen(s):
 
 # Constants
 
-serialport = "/dev/ttyACM1"
+serialport = "/dev/ttyACM0"
 
 
 

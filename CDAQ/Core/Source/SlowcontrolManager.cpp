@@ -11,11 +11,11 @@
 
 SlowcontrolManager::SlowcontrolManager()
 {
-	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_type=0;
+	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_totalevents=m_type=0;
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
-	printf("%s                   DAQ  --  Data Aquistion Program 		           \n",KGRN); 
-	printf("%s                            version: 4.0                           \n",KGRN);
+	printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
+	printf("%s                            version: 4.0                          \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
 	sleep(1);
@@ -26,12 +26,12 @@ SlowcontrolManager::SlowcontrolManager()
 	ss >> s;
 	
 	/*Slowcontrol Folder*/
-    string command= "mkdir SlowControl";
-    system(command.c_str());
-    std::cout << std::endl;
+    	string command= "mkdir SlowControl";
+    	system(command.c_str());
+    	std::cout << std::endl;
     
-    /*Generate Current Rate File*/
-    string OutputFolder = m_OutputFolder;
+    	/*Generate Current Rate File*/
+    	string OutputFolder = m_OutputFolder;
 	string status = "SlowControl/Rate_" + OutputFolder +  ".txt" ; 
 	m_DAQStatus.open(status.c_str());
 }
@@ -130,19 +130,19 @@ int SlowcontrolManager::StopAquistion(){
 	// print summary and update logfile
 	printf(KGRN);
 	printf("	\n");    
-    printf("	DAQ stopped\n"); 
-    printf("	Total Measuring time: %.2f s = %f h\n",m_seconds,m_seconds/(60*60));   
-    printf("	Total Number of Events Measured = %i\n",m_events);
-    printf("	\n\n");   
-    printf(RESET);
-    stringstream ss;
+    	printf("	DAQ stopped\n"); 
+    	printf("	Total Measuring time: %.2f s = %f h\n",m_seconds,m_seconds/(60*60));   
+    	printf("	Total Number of Events Measured = %i\n",m_events);
+   	printf("	\n\n");   
+    	printf(RESET);
+    	stringstream ss;
 	string s;
 	ss << GetUnixTime();
 	ss >> s;
 	
 	/*Generate Summary File*/
 	string OutputPath = m_OutputPath;
-    string OutputFolder = m_OutputFolder;
+   	string OutputFolder = m_OutputFolder;
     
 	string status =  OutputPath + "/"+ OutputFolder + "/Summary_" + OutputFolder +  ".txt" ; 
 	m_DAQSummary.open(status.c_str());
@@ -151,7 +151,7 @@ int SlowcontrolManager::StopAquistion(){
 	
 	
 	//Xurich specific
-	m_DAQSummary << "	Lifetime: " << m_seconds-(m_events*2.289/(1000)) ; 
+	//m_DAQSummary << "	Lifetime: " << m_seconds-(m_events*2.289/(1000)) ; 
 
 	m_DAQStatus.close();
 	m_DAQSummary.close();
@@ -249,6 +249,7 @@ int SlowcontrolManager::ApplyXMLFile(){
 		strcpy(txt,xstr); 
     if (strstr(txt, "-1")!=NULL) printf("	NoF Events:  infinite\n");
        		            else printf("	NoF Events:  %s\n",txt);
+		m_totalevents=atoi(txt);  
 	} else error((char*)"XML-nb_evts");
 	
 	xstr=xNode.getChildNode("nb_evts_per_file").getText();

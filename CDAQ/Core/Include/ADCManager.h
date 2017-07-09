@@ -199,18 +199,18 @@ The ADC will be configurated over the register file (NECESSARY)!!! In order to g
 class ADCManager
 {
 public:
-    ADCManager();
-    virtual ~ADCManager();
+    	ADCManager();
+    	virtual ~ADCManager();
     
-    //Init Function
-    virtual int Init(){};
+    	//Init Function
+    	virtual int Init(){};
     
-    //Set Functions
+    	//Set Functions
 	void SetCrateHandle(int handle){m_CrateHandle=handle;}
 	void SetADCAddress(string address);
 	void SetRegisterFile(string file){m_RegisterFileName=file;}
 	void SetBaselineFile(string file="DACBaseline.ini"){m_BaselineFileName=file;}
-    void SetXMLFile(char* file){m_XmlFileName=file;}
+    	void SetXMLFile(char* file){m_XmlFileName=file;}
 	void SetModuleNumber(int i){m_module=i;}										    	//Set ADC Module in the Chain
 
 	//Get Functions
@@ -255,7 +255,16 @@ public:
 	
 	//Delay Between the boards
 	int DelayBoards(u_int32_t data);
-	
+
+	//Enable Channel bla and disable the other once
+	int EnableChannel(int channel);
+
+	//Calculate the average baseline
+	double AverageBaseLine(int channel);
+
+	//Calculate the average baseline
+	int CalculateThresholds(int channel, double baseline);	
+
 	
 
 protected:

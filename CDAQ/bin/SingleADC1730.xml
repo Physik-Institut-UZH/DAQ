@@ -35,8 +35,8 @@
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
       <memoryorganisation>64</memoryorganisation>  								 <!-- **Blockorganisation of the ADC-->
-      <custom_size>1000</custom_size>      										 <!-- **Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>850</posttrigger> 											 <!-- **samples after trigger -->
+      <custom_size>400</custom_size>      										 <!-- **Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>450</posttrigger> 											 <!-- **samples after trigger -->
       <sampling_freq>500000000</sampling_freq>								     <!-- **sampling frequency -->
       <voltage_range>2.0</voltage_range>										 <!-- **voltage range of ADC/DAC -->
       <sample_size_ADC>14</sample_size_ADC>						 				 <!-- **sampling width in bits (ADC) -->
