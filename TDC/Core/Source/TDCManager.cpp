@@ -66,7 +66,7 @@ int TDCManager::test()
 		
 		//Set  Thresholds
 
-		data=5;
+		data=50;
 		for(int i=0;i<16;i++){
 			if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1080+i*4, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
 				printf(KRED);
@@ -153,40 +153,58 @@ int TDCManager::test()
 			 std::cout<< "Bit Set 2 Register: " <<std::bitset<16>(data)<<std::endl;
 
 
-		int m_MemorySize, m_BufferSize;
-		u_int32_t m_ExpectedEvSize;					//Complete Eventsize
+	int m_MemorySize, m_BufferSize;
+	u_int32_t m_ExpectedEvSize;					//Complete Eventsize
 
-	    	// Expected Event Size in Words (32Bit including Header)
-	   	m_BufferSize = 524288;
+	  // Expected Event Size in Words (32Bit including Header)
+	m_BufferSize = 524288;
 
-		// allocate memory for buffer
-	    	if ( (buffer = (u_int32_t*)malloc(m_BufferSize)) == NULL) {  
+	// allocate memory for buffer
+	if ( (buffer = (u_int32_t*)malloc(m_BufferSize)) == NULL) {  
 			printf(KRED);
 			printf(":::: ERROR: Can't allocate memory buffer of %d kB ::::", m_BufferSize/1024);
 			printf(RESET);
 			return -1;
-	  	}
+	 }
+
+	data=pow(2,12);
+	//data=data+pow(2,5);
+	if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1032, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+				printf(KRED);
+				printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+				printf(RESET);
+				return -1;
+			}
+	data=0x1E;
+	if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1060, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+				printf(KRED);
+				printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+				printf(RESET);
+				return -1;
+	}
 
 
 
+	//while(1!=0){
 		// read the event
        	int nb, ret;  
 	blt_bytes=0;
        	   
 	 do { 
-	    ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_TDCAdr, 
+	    ret = CAENVME_BLTReadCycle(m_CrateHandle, m_TDCAdr, 
 			((unsigned char*)buffer)+blt_bytes, 524288, cvA32_U_BLT, cvD32, &nb);
-	    if ((ret != cvSuccess) && (ret != cvBusError)) {
-			std::cout << "Block read error" << std::endl;   
-			printf("%d bytes read\n",nb);
-			return -1;  
-	    }
+	   		 if ((ret != cvSuccess) && (ret != cvBusError)) {
+				std::cout << "Block read error" << std::endl;   
+				printf("%d bytes read\n",nb);
+				return -1;  
+	    		}
 	    blt_bytes += nb;
 	  } while (ret != cvBusError); 
 		std::cout << "Bytes Transfered:	" << blt_bytes << std::endl;
 
-   	return  blt_bytes;
 
+//}
+   	return  blt_bytes;
 }
 
 

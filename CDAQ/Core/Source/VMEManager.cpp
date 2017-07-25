@@ -20,7 +20,7 @@ VMEManager::~VMEManager()
 
 int VMEManager::Init(){
 
-    if(CAENVME_Init(cvV2718,m_Link,0,&m_CrateHandle)!=cvSuccess) {
+    if(CAENVME_Init(cvV2718,m_Link,m_board,&m_CrateHandle)!=cvSuccess) {
 		printf(KRED);
 		printf(":::: CAENVME_Init failed!!! (VMEManager) ::::\n");
 		printf(RESET);

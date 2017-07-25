@@ -212,15 +212,15 @@ int ADCManager::CalculateBaseLine(){
 					m_mean+= (double)(((buffer[pnt]>>16)&0xFFFF));
 					pnt++; wavecnt+=2; cnt++;
 				} // end while(cnt...
-				
-				
+
+
 				//Readout the corrupt bytes
-				/*while (cnt<Size){
+				while (cnt<Size){
 					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
 					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
 					pnt++; cnt++;
 				}
-				*/
+
 
 				m_mean=m_mean/(wavecnt);
 				m_diff=m_mean-m_DACTarget[j];
@@ -289,11 +289,10 @@ int ADCManager::CalculateBaseLine(){
 
 //-------------------------------------------------------------------
 // Calculate BaseLine Average
-double ADCManager::AverageBaseLine(int channel){
+double ADCManager::AverageBaseLine(int channel,double& rms){
 	adc_readblt();
 
 	double average=0;
-	double rms=0;
 
 	this->ApplySoftwareTrigger();
 
@@ -352,7 +351,7 @@ double ADCManager::AverageBaseLine(int channel){
 int ADCManager::CalculateThresholds(int channel, double baseline){
 	
 	m_hex=0;
-	int tmp = baseline -channelTresh[channel];
+	int tmp = baseline - channelTresh[channel];
 	adc_writereg(TresholdRegN+(channel*0x0100),tmp);
 	return tmp;
 

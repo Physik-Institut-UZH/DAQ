@@ -191,12 +191,12 @@ int StorageManager::FillROOTContainer(){
                 cnt=0;                              // counter of waveform data
                 wavecnt=0;                          // counter to reconstruct times within waveform
                 while (cnt<(Size-(CORRECTION/2)))
-                {   
+                {
 						wvf[j][wavecnt]=(double)((buffer[pnt]&0xFFFF));
                         wvf[j][wavecnt+1]=(double)(((buffer[pnt]>>16)&0xFFFF));
                         pnt++; wavecnt+=2; cnt++;
                 } // end while(cnt...)
-                
+            
                 //Readout the corrupt bytes
 				while (cnt<Size){
 					double dummy_1 =(double)((buffer[pnt]&0xFFFF));

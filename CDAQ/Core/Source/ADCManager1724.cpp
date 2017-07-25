@@ -82,7 +82,7 @@ int ADCManager1724::RegisterReading(){
 	// Read Board Type and Memory Size
  	adc_readreg(0x8140,data);
 	m_MemorySize=(int)((data >> 8) & 0xFF);
-	printf("	Board Type: %s;  Memory Size: %d MByte per channel\n", "v1720",m_MemorySize);
+	printf("	Board Type: %s;  Memory Size: %d MByte per channel\n", "v1724",m_MemorySize);
 
     	// Read Firmware Revisions
 	adc_readreg(FirmwareRegN,data);	

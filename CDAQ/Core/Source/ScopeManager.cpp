@@ -136,14 +136,14 @@ int ScopeManager::ShowEvent(){
 					g[j]->SetBinContent(wavecnt+1,wave2);	
 		  		pnt++; wavecnt+=2; cnt++;
 	      		} // end while(cnt...)
-	      		/*
+	      		
 	      		//Readout the corrupt bytes
 	      		while (cnt<Size){
 					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
 					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
 					pnt++; cnt++;
 			}
-*/
+
 			m_mean= (m_mean)/(wavecnt);
 		}
     	}

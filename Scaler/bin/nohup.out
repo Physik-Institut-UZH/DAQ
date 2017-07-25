@@ -1,0 +1,420 @@
+stop: Unknown job: unity-panel-service
+start: Unknown job: unity-panel-service
+compiz (core) - Info: Loading plugin: core
+compiz (core) - Info: Starting plugin: core
+compiz (core) - Info: Loading plugin: ccp
+compiz (core) - Info: Starting plugin: ccp
+compiz (core) - Info: Loading plugin: composite
+compiz (core) - Info: Starting plugin: composite
+compiz (core) - Info: Loading plugin: opengl
+libGL error: failed to open drm device: Permission denied
+libGL error: failed to load driver: i965
+compiz (core) - Info: Unity is not supported by your hardware. Enabling software rendering instead (slow).
+compiz (core) - Info: Starting plugin: opengl
+compiz (core) - Info: Loading plugin: grid
+compiz (core) - Info: Starting plugin: grid
+compiz (core) - Info: Loading plugin: imgpng
+compiz (core) - Info: Starting plugin: imgpng
+compiz (core) - Info: Loading plugin: resize
+compiz (core) - Info: Starting plugin: resize
+compiz (core) - Info: Loading plugin: place
+compiz (core) - Info: Starting plugin: place
+compiz (core) - Info: Loading plugin: snap
+compiz (core) - Info: Starting plugin: snap
+compiz (core) - Info: Loading plugin: move
+compiz (core) - Info: Starting plugin: move
+compiz (core) - Info: Loading plugin: mousepoll
+compiz (core) - Info: Starting plugin: mousepoll
+compiz (core) - Info: Loading plugin: wall
+compiz (core) - Info: Starting plugin: wall
+compiz (core) - Info: Loading plugin: vpswitch
+compiz (core) - Info: Starting plugin: vpswitch
+compiz (core) - Info: Loading plugin: unitymtgrabhandles
+compiz (core) - Info: Starting plugin: unitymtgrabhandles
+compiz (core) - Info: Loading plugin: commands
+compiz (core) - Info: Starting plugin: commands
+compiz (core) - Info: Loading plugin: compiztoolbox
+compiz (core) - Info: Starting plugin: compiztoolbox
+compiz (core) - Info: Loading plugin: copytex
+compiz (core) - Info: Starting plugin: copytex
+compiz (core) - Info: Loading plugin: regex
+compiz (core) - Info: Starting plugin: regex
+compiz (core) - Info: Loading plugin: session
+compiz (core) - Info: Starting plugin: session
+compiz (core) - Info: Loading plugin: animation
+compiz (core) - Info: Starting plugin: animation
+compiz (core) - Info: Loading plugin: workarounds
+compiz (core) - Info: Starting plugin: workarounds
+compiz (core) - Info: Loading plugin: fade
+compiz (core) - Info: Starting plugin: fade
+compiz (core) - Info: Loading plugin: scale
+compiz (core) - Info: Starting plugin: scale
+compiz (core) - Info: Loading plugin: expo
+compiz (core) - Info: Starting plugin: expo
+compiz (core) - Info: Loading plugin: ezoom
+compiz (core) - Info: Starting plugin: ezoom
+compiz (core) - Info: Loading plugin: unityshell
+compiz (core) - Info: Starting plugin: unityshell
+compizconfig - Info: Backend     : gsettings
+compizconfig - Info: Integration : true
+compizconfig - Info: Profile     : unity
+WARN  2017-07-17 14:32:26 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'org.gnome.Shell' yet as we don't have a connection, waiting for it...
+ERROR 2017-07-17 14:32:27 unity.debug.interface DebugDBusInterface.cpp:216 Unable to load entry point in libxpathselect: libxpathselect.so.1.4: Kann die Shared-Object-Datei nicht öffnen: Datei oder Verzeichnis nicht gefunden
+WARN  2017-07-17 14:32:27 xim.controller XIMController.cpp:103 IBus natively supported.
+WARN  2017-07-17 14:32:27 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'com.canonical.Unity.Launcher' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 14:32:27 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'com.canonical.Unity.Dash' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 14:32:27 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'org.gnome.SessionManager.EndSessionDialog' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 14:32:27 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'com.canonical.Unity.Session' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 14:32:27 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'org.gnome.ScreenSaver' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch xid: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158469
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch type: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158469
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch monitor: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158469
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch maximized state: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158469
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch xid: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158469
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Unable to fetch children: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.view« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Unable to fetch children: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.view« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08ae0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch xid: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158453
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch type: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158453
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch monitor: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158453
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch maximized state: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158453
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch xid: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.window« des Objekts im Pfad /org/ayatana/bamf/window/47158453
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Unable to fetch children: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.view« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Unable to fetch children: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.view« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+
+WARN  2017-07-17 14:32:29 unity <unknown>:0 Failed to fetch path: GDBus.Error:org.freedesktop.DBus.Error.UnknownMethod: Keine derartige Schnittstelle »org.ayatana.bamf.application« des Objekts im Pfad /org/ayatana/bamf/application/0x1d08bc0
+ERROR 2017-07-17 14:32:29 unity.glib.dbus.server GLibDBusServer.cpp:524 DBus name lost 'org.gnome.Shell'
+ERROR 2017-07-17 14:32:29 unity.glib.dbus.server GLibDBusServer.cpp:524 DBus name lost 'com.canonical.Unity'
+1500294758379	addons.xpi	WARN	Exception running bootstrap method install on loop@mozilla.org: [Exception... "Component returned failure code: 0x8000ffff (NS_ERROR_UNEXPECTED) [nsIPrefBranch.getBoolPref]"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///home/sandbox/.mozilla/firefox/cadalh8o.default/features/%7B66bbfe1a-6b6f-4379-af5d-d130afa8bc70%7D/loop@mozilla.org.xpi!/bootstrap.js :: install :: line 21"  data: no] Stack trace: install()@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///home/sandbox/.mozilla/firefox/cadalh8o.default/features/%7B66bbfe1a-6b6f-4379-af5d-d130afa8bc70%7D/loop@mozilla.org.xpi!/bootstrap.js:21 < this.XPIProvider.callBootstrapMethod()@resource://gre/modules/addons/XPIProvider.jsm:4775 < processFileChanges()@resource://gre/modules/addons/XPIProvider.jsm -> resource://gre/modules/addons/XPIProviderUtils.js:2129 < this.XPIProvider.checkForChanges()@resource://gre/modules/addons/XPIProvider.jsm:3708 < this.XPIProvider.startup()@resource://gre/modules/addons/XPIProvider.jsm:2697 < callProvider()@resource://gre/modules/AddonManager.jsm:227 < _startProvider()@resource://gre/modules/AddonManager.jsm:778 < AddonManagerInternal.startup()@resource://gre/modules/AddonManager.jsm:962 < this.AddonManagerPrivate.startup()@resource://gre/modules/AddonManager.jsm:2934 < amManager.prototype.observe()@resource://gre/components/addonManager.js:71
+WARN  2017-07-17 14:33:08 unity{?*} <unknown>:0 protocol-scope-discovery.vala:542: Number of elements of OptionIDs doesn't match OptionNames (18 vs 17)
+1500295120476	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500295120653	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+1500295120819	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500295120831	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+compiz (core) - Info: Stopping plugin: unityshell
+ERROR 2017-07-17 15:18:10 unity.shell.compiz unityshell.cpp:3877 Impossible to delete the unity locked stamp file
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+
+(compiz:25332): GLib-CRITICAL **: g_hash_table_remove_internal: assertion 'hash_table != NULL' failed
+compiz (core) - Info: Unloading plugin: unityshell
+compiz (core) - Info: Stopping plugin: ezoom
+compiz (core) - Info: Unloading plugin: ezoom
+compiz (core) - Info: Stopping plugin: expo
+compiz (core) - Info: Unloading plugin: expo
+compiz (core) - Info: Stopping plugin: scale
+compiz (core) - Info: Unloading plugin: scale
+compiz (core) - Info: Stopping plugin: fade
+compiz (core) - Info: Unloading plugin: fade
+compiz (core) - Info: Stopping plugin: workarounds
+compiz (core) - Info: Unloading plugin: workarounds
+compiz (core) - Info: Stopping plugin: animation
+compiz (core) - Info: Unloading plugin: animation
+compiz (core) - Info: Stopping plugin: session
+compiz (core) - Info: Unloading plugin: session
+compiz (core) - Info: Stopping plugin: regex
+compiz (core) - Info: Unloading plugin: regex
+compiz (core) - Info: Stopping plugin: copytex
+compiz (core) - Info: Unloading plugin: copytex
+compiz (core) - Info: Stopping plugin: compiztoolbox
+compiz (core) - Info: Unloading plugin: compiztoolbox
+compiz (core) - Info: Stopping plugin: commands
+compiz (core) - Info: Unloading plugin: commands
+compiz (core) - Info: Stopping plugin: unitymtgrabhandles
+compiz (core) - Info: Unloading plugin: unitymtgrabhandles
+compiz (core) - Info: Stopping plugin: vpswitch
+compiz (core) - Info: Unloading plugin: vpswitch
+compiz (core) - Info: Stopping plugin: wall
+compiz (core) - Info: Unloading plugin: wall
+compiz (core) - Info: Stopping plugin: mousepoll
+compiz (core) - Info: Unloading plugin: mousepoll
+compiz (core) - Info: Stopping plugin: move
+compiz (core) - Info: Unloading plugin: move
+compiz (core) - Info: Stopping plugin: snap
+compiz (core) - Info: Unloading plugin: snap
+compiz (core) - Info: Stopping plugin: place
+compiz (core) - Info: Unloading plugin: place
+compiz (core) - Info: Stopping plugin: resize
+compiz (core) - Info: Unloading plugin: resize
+compiz (core) - Info: Stopping plugin: imgpng
+compiz (core) - Info: Unloading plugin: imgpng
+compiz (core) - Info: Stopping plugin: grid
+compiz (core) - Info: Unloading plugin: grid
+compiz (core) - Info: Stopping plugin: opengl
+compiz (core) - Info: Unloading plugin: opengl
+compiz (core) - Info: Stopping plugin: composite
+compiz (core) - Info: Unloading plugin: composite
+compiz (core) - Info: Stopping plugin: ccp
+compiz (core) - Info: Unloading plugin: ccp
+compiz (core) - Info: Stopping plugin: core
+compiz (core) - Info: Unloading plugin: core
+compiz (core) - Info: Loading plugin: core
+compiz (core) - Info: Starting plugin: core
+compiz (core) - Info: Loading plugin: ccp
+compiz (core) - Info: Starting plugin: ccp
+compiz (core) - Info: Loading plugin: composite
+compiz (core) - Info: Starting plugin: composite
+compiz (core) - Info: Loading plugin: opengl
+libGL error: failed to open drm device: Permission denied
+libGL error: failed to load driver: i965
+compiz (core) - Info: Unity is not supported by your hardware. Enabling software rendering instead (slow).
+compiz (core) - Info: Starting plugin: opengl
+compiz (core) - Info: Loading plugin: grid
+compiz (core) - Info: Starting plugin: grid
+compiz (core) - Info: Loading plugin: imgpng
+compiz (core) - Info: Starting plugin: imgpng
+compiz (core) - Info: Loading plugin: resize
+compiz (core) - Info: Starting plugin: resize
+compiz (core) - Info: Loading plugin: place
+compiz (core) - Info: Starting plugin: place
+compiz (core) - Info: Loading plugin: snap
+compiz (core) - Info: Starting plugin: snap
+compiz (core) - Info: Loading plugin: move
+compiz (core) - Info: Starting plugin: move
+compiz (core) - Info: Loading plugin: mousepoll
+compiz (core) - Info: Starting plugin: mousepoll
+compiz (core) - Info: Loading plugin: wall
+compiz (core) - Info: Starting plugin: wall
+compiz (core) - Info: Loading plugin: vpswitch
+compiz (core) - Info: Starting plugin: vpswitch
+compiz (core) - Info: Loading plugin: unitymtgrabhandles
+compiz (core) - Info: Starting plugin: unitymtgrabhandles
+compiz (core) - Info: Loading plugin: commands
+compiz (core) - Info: Starting plugin: commands
+compiz (core) - Info: Loading plugin: compiztoolbox
+compiz (core) - Info: Starting plugin: compiztoolbox
+compiz (core) - Info: Loading plugin: copytex
+compiz (core) - Info: Starting plugin: copytex
+compiz (core) - Info: Loading plugin: regex
+compiz (core) - Info: Starting plugin: regex
+compiz (core) - Info: Loading plugin: session
+compiz (core) - Info: Starting plugin: session
+compiz (core) - Info: Loading plugin: animation
+compiz (core) - Info: Starting plugin: animation
+compiz (core) - Info: Loading plugin: workarounds
+compiz (core) - Info: Starting plugin: workarounds
+compiz (core) - Info: Loading plugin: fade
+compiz (core) - Info: Starting plugin: fade
+compiz (core) - Info: Loading plugin: scale
+compiz (core) - Info: Starting plugin: scale
+compiz (core) - Info: Loading plugin: expo
+compiz (core) - Info: Starting plugin: expo
+compiz (core) - Info: Loading plugin: ezoom
+compiz (core) - Info: Starting plugin: ezoom
+compiz (core) - Info: Loading plugin: unityshell
+compiz (core) - Info: Starting plugin: unityshell
+compizconfig - Info: Backend     : gsettings
+compizconfig - Info: Integration : true
+compizconfig - Info: Profile     : unity
+WARN  2017-07-17 15:18:11 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'org.gnome.Shell' yet as we don't have a connection, waiting for it...
+ERROR 2017-07-17 15:18:11 unity.debug.interface DebugDBusInterface.cpp:216 Unable to load entry point in libxpathselect: libxpathselect.so.1.4: Kann die Shared-Object-Datei nicht öffnen: Datei oder Verzeichnis nicht gefunden
+WARN  2017-07-17 15:18:11 xim.controller XIMController.cpp:103 IBus natively supported.
+WARN  2017-07-17 15:18:11 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'com.canonical.Unity.Launcher' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 15:18:11 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'com.canonical.Unity.Dash' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 15:18:11 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'org.gnome.SessionManager.EndSessionDialog' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 15:18:11 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'com.canonical.Unity.Session' yet as we don't have a connection, waiting for it...
+WARN  2017-07-17 15:18:11 unity.glib.dbus.server GLibDBusServer.cpp:579 Can't register object 'org.gnome.ScreenSaver' yet as we don't have a connection, waiting for it...
+ERROR 2017-07-17 15:18:13 unity.glib.dbus.server GLibDBusServer.cpp:524 DBus name lost 'org.gnome.Shell'
+ERROR 2017-07-17 15:18:13 unity.glib.dbus.server GLibDBusServer.cpp:524 DBus name lost 'com.canonical.Unity'
+WARN  2017-07-17 15:18:28 unity{?*} <unknown>:0 protocol-scope-discovery.vala:542: Number of elements of OptionIDs doesn't match OptionNames (18 vs 17)
+1500297514458	addons.xpi	WARN	Exception running bootstrap method shutdown on websensehelper@mozilla.org: ReferenceError: PREF_DEFAULTS_RESET_TOPIC is not defined (resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///home/sandbox/.mozilla/firefox/cadalh8o.default/features/%7B66bbfe1a-6b6f-4379-af5d-d130afa8bc70%7D/websensehelper@mozilla.org.xpi!/bootstrap.js:84:3) JS Stack trace: shutdown@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///home/sandbox/.mozilla/firefox/cadalh8o.default/features/%7B66bbfe1a-6b6f-4379-af5d-d130afa8bc70%7D/websensehelper@bootstrap.js:84:3 < this.XPIProvider.callBootstrapMethod@XPIProvider.jsm:4775:9 < this.XPIProvider.startup/<.observe@XPIProvider.jsm:2790:15
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 atk_object_ref_state_set: assertion 'ATK_IS_OBJECT (accessible)' failed
+ERROR 2017-07-17 15:18:53 unity <unknown>:0 atk_state_set_contains_state: assertion 'ATK_IS_STATE_SET (set)' failed
+ERROR 2017-07-17 15:18:53 unityy <unknown>:0 g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+ERROR 2017-07-17 15:18:54 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:54 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:54 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:54 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:54 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:18:54 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 atk_object_ref_state_set: assertion 'ATK_IS_OBJECT (accessible)' failed
+ERROR 2017-07-17 15:19:00 unity <unknown>:0 atk_state_set_contains_state: assertion 'ATK_IS_STATE_SET (set)' failed
+ERROR 2017-07-17 15:19:00 unityy <unknown>:0 g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:01 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 atk_object_ref_state_set: assertion 'ATK_IS_OBJECT (accessible)' failed
+ERROR 2017-07-17 15:19:02 unity <unknown>:0 atk_state_set_contains_state: assertion 'ATK_IS_STATE_SET (set)' failed
+ERROR 2017-07-17 15:19:02 unityy <unknown>:0 g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+ERROR 2017-07-17 15:19:03 unity <unknown>:0 AtkObject* unity_a11y_get_accessible(nux::Object*): assertion 'object != NULL' failed
+compiz (opengl) - Error: Impossible to bind a pixmap bigger than 8192x8192 to texture.
+1500365700060	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500365700251	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+1500365700417	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500365700429	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+
+(process:25459): GLib-CRITICAL **: g_path_get_basename: assertion 'file_name != NULL' failed
+1500452099145	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500452099291	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500452099301	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500452099311	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+
+(process:27347): GLib-CRITICAL **: g_path_get_basename: assertion 'file_name != NULL' failed
+1500538499451	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500538499589	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500538499595	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500538499600	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+WARN  2017-07-20 10:18:52 unity.iconloader IconLoader.cpp:755 Unable to load icon file:/// at size -1x22: Ordner kann nicht geöffnet werden
+1500624899775	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500624899934	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500624899941	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+1500624899948	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500711299159	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500711299315	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500711299324	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500711299329	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+1500797699377	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500797699527	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500797699532	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500797699537	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property
+1500884099636	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+1500884099791	addons.update-checker	WARN	Update manifest for e10srollout@mozilla.org did not contain an updates property
+1500884099800	addons.update-checker	WARN	Update manifest for firefox@getpocket.com did not contain an updates property
+1500884099806	addons.update-checker	WARN	Update manifest for websensehelper@mozilla.org did not contain an updates property

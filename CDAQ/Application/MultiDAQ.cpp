@@ -77,6 +77,7 @@ int main(int argc, char *argv[], char *envp[] )
 	VMEManager* vManager = new VMEManager();
 
 	vManager->SetPCILink(0);
+	vManager->SetBoardNumber(slowcontrolManager->GetLinkInChain());
     if(vManager->Init()==-1)
 		return 0;
 	

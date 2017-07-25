@@ -15,7 +15,7 @@
     <SpecificThreshold>0</SpecificThreshold>                                <!--  0: OFF; 1:ON  -->
     <thresholdpath>SpecificTreshold.txt</thresholdpath>                     <!--  Threshold Specific File Path -->
     <t0>28</t0>
-    <t1>28</t1>	    												        <!--  0: Channel OFF; 1-255: ON (Getting ignored if SpecificThreshold active)-->
+    <t1>21</t1>	    												        <!--  0: Channel OFF; 1-255: ON (Getting ignored if SpecificThreshold active)-->
     <t2>0</t2>
     <t3>0</t3>
     <t4>0</t4>

@@ -5,7 +5,7 @@
     <source>Kate First PMT Experience </source>       			 							 <!-- What is measured? -->
     <notes>PMT</notes>                  	    					 	<!-- Comments -->
     <user>Julien, Kate</user>                                     						 <!-- Last user which used the ADC-->
-    <path>~/Cloud/LArSetup/Kate/PMT/Ch1/Raw/</path>      				 <!-- Path -->
+    <path>~/Cloud/LArSetup/Kate/PMT/Ch2/Raw/</path>      				 <!-- Path -->
     <daq_version>4.0.0</daq_version>                        						 	<!-- DAQ Version-->
     <nb_evts>400000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>400000</nb_evts_per_file>           							 <!-- Number of events/file-->

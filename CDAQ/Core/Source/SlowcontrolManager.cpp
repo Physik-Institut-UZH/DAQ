@@ -11,7 +11,7 @@
 
 SlowcontrolManager::SlowcontrolManager()
 {
-	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_totalevents=m_type=0;
+	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_totalevents=m_type=m_numberChain=0;
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
 	printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
@@ -317,6 +317,14 @@ int SlowcontrolManager::ApplyXMLFile(){
 			printf("	ADC %i Address: %s\n",i,txt);
 		} else error((char*)modules);
 	}
+	
+    xstr=xNode.getChildNode("link_in_chain").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+		m_numberChain=atoi(txt);
+		printf("    Link in Chain: %s\n",txt); 
+	} else error((char*)"link_in_chain");
+
 
 	//--- Active channels of Modules-------
 	for(int j=0;j<m_Nbmodule;j++){

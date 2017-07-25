@@ -260,7 +260,7 @@ public:
 	int EnableChannel(int channel);
 
 	//Calculate the average baseline
-	double AverageBaseLine(int channel);
+	double AverageBaseLine(int channel,double& rms);
 
 	//Calculate the average baseline
 	int CalculateThresholds(int channel, double baseline);	

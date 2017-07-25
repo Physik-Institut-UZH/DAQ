@@ -30,11 +30,13 @@ class VMEManager
 
    //Set und Get Functions
    void SetPCILink(u_int32_t link){m_Link=link;};
+   void SetBoardNumber(u_int32_t number){m_board=number;};
    int GetCrateHandle(){return m_CrateHandle;};
 
  private:
    int m_CrateHandle;					//Object to the VME Bus
    u_int32_t m_Link;					//Linknumber of the PCI card
+   u_int32_t m_board;					//Board number in the fiber link
 };
 
 #endif

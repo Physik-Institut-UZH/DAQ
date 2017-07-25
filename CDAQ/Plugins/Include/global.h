@@ -10,7 +10,7 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
-#define CORRECTION 10
+#define CORRECTION 50
 
 
 #endif

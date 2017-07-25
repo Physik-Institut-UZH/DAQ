@@ -78,7 +78,9 @@ int main(int argc, char *argv[], char *envp[] )
 	VMEManager* vManager = new VMEManager();
 
 	vManager->SetPCILink(0);
-    	if(vManager->Init()==-1)
+    vManager->SetBoardNumber(slowcontrolManager->GetLinkInChain());
+    
+    if(vManager->Init()==-1)
 		return 0;
 
 	//DC-Manger
@@ -123,8 +125,9 @@ int main(int argc, char *argv[], char *envp[] )
 	double *threshold;
 	double *rate;
 	double *time;							//Storage of the current time
-
+    double *rms;
 	baseline = new double[8];
+	rms = new double[8];
 	threshold = new double[8];
 	rate = new double[8];
 	time = new double[8];
@@ -137,15 +140,18 @@ int main(int argc, char *argv[], char *envp[] )
 	std::cout << "	Storage:	" << output << std::endl << std::endl;
 	TFile* gROOTFile = new TFile(output.c_str(), "RECREATE");
 	TTree *t1 = new TTree("t1","t1");
+	t1->Branch("Time", time, TString::Format("time[%i]/D", 8));
 	t1->Branch("Threshold", threshold, TString::Format("threshold[%i]/D", 8));
 	t1->Branch("Baseline", baseline, TString::Format("baseline[%i]/D", 8));
+	t1->Branch("RMS", rms, TString::Format("rms[%i]/D", 8));
 	t1->Branch("DC", rate, TString::Format("rate[%i]/D", 8));
-	t1->Branch("Time", time, TString::Format("time[%i]/D", 8));
+
     	//Properties of the Peaks inside the trace
 	for(int i=0;i<8;i++){
 		rate[i]=0;
 		threshold[i]=0;
 		baseline[i]=0;
+		rms[i]=0;
 		time[i]=0;
 	}
 
@@ -156,9 +162,11 @@ int main(int argc, char *argv[], char *envp[] )
 
 		for(int k=0;k<8;k++){
 			int counter=0;
+			double rm=0;
 			adcManager->Enable();
 			adcManager->EnableChannel(k);
-			baseline[k]  =  adcManager->AverageBaseLine(k);
+			baseline[k]  =  adcManager->AverageBaseLine(k,rm);
+			rms[k] = rm;
 			threshold[k] =  adcManager->CalculateThresholds(k,baseline[k]);	  		
 			gettimeofday(&m_begin, NULL);
 
@@ -166,8 +174,8 @@ int main(int argc, char *argv[], char *envp[] )
 				c = 0;  
 				if (kbhit()) c = getch();
 				if (c == 'q' || c == 'Q') quit = 1;	
-		
-					
+
+
 				//Check keys to change adc settings
 				adcManager->Checkkeyboard(c);
 
@@ -176,22 +184,23 @@ int main(int argc, char *argv[], char *envp[] )
 
 				//Timing
 		  		gettimeofday(&m_end, NULL);
-				runtimeSlow = m_end.tv_sec  - m_begin.tv_sec;
+				runtimeSlow =  (double) (m_end.tv_usec - m_begin.tv_usec)/ 1000000 + (double) (m_end.tv_sec - m_begin.tv_sec);
 				if(runtimeSlow>5){
 					rate[k] = counter/runtimeSlow;
 					time[k]= slowcontrolManager->GetCurrentUnixTime();
-					std::cout<< "Timing:	" << runtimeSlow << "	Counter:	" << counter << "	Channel:	" << k << "	Baseline: " << baseline[k] << "	Threshold:	" << threshold[k]  << "	Rate: "  << rate[k] << " [Hz] "<<  std::endl;
+					std::cout<< "Timing:	" << runtimeSlow << "	Counter:	" << counter << "	Channel:	" << k << "	Baseline: " << baseline[k] << "	RMS: " << rms[k] << "	Threshold:	" << threshold[k]  << "	Rate: "  << rate[k] << " [Hz] "<<  std::endl;
 					counter=0;
 					break;
 				}
+				else{
+					//Skipp events with 0-bytes
+					if(adcManager->GetTransferedBytes()<=0){
+						continue;
+					}
 
-				//Skipp events with 0-bytes
-				if(adcManager->GetTransferedBytes()<=0){
-					continue;
+					//status output, Slowcontrol etc
+					counter++;
 				}
-
-				//status output, Slowcontrol etc
-				counter++;
 			}
 			adcManager->Disable();
 		}
