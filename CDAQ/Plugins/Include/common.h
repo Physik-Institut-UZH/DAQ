@@ -8,6 +8,7 @@
 #include <string.h>
 #include <fstream> 
 #include "global.h"
+#include <boost/filesystem.hpp>
 
 
 /*Author: Julien Wulf UZH
@@ -24,6 +25,7 @@ class Common
 	  int GetUnixTime();
 	  void gettimestring(char* buffer);
 	  int   error(char *node);
+	  static boost::filesystem::path getdotdaqdir();
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "CAENVMElib.h"
 #include "common.h"
 #include <sys/time.h>
+#include <cstdlib>
 
 Common::Common()
 {
@@ -56,4 +57,11 @@ int Common::error(char *node)
   return 0;
 }
 
+// Return the location of the .daq dir (for now just ~/.daq
+boost::filesystem::path Common::getdotdaqdir()
+{
+  boost::filesystem::path p(std::getenv("HOME"));
+  p /= ".daq";
+  return p;
+}
 

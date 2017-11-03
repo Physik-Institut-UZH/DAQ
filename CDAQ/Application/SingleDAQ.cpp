@@ -91,7 +91,8 @@ int main(int argc, char *argv[], char *envp[] )
 	adcManager->SetCrateHandle(vManager->GetCrateHandle());
 	adcManager->SetADCAddress(slowcontrolManager->GetAddress(0));
 	adcManager->SetRegisterFile("RegisterConfig.ini");
-	adcManager->SetBaselineFile("../Macro/Baseline/Module_0_DACBaseline.ini");
+	boost::filesystem::path bp = Common::getdotdaqdir() / "Baseline" / "Module_0_DACBaseline.ini";
+	adcManager->SetBaselineFile(bp.c_str());
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()==-1);
