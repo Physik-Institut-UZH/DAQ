@@ -31,6 +31,12 @@ The ADC will be configurated over the register file (NECESSARY)!!! In order to g
 //1 = GAIN is 4 (i.e. input range is 0.5 Vpp)
 #define GainRegN               0x1028
 
+//Threshold in absolute value (e.g 8000) (0,29), 31 negative or positiv 
+#define ZLEThreshReg 0x1024
+
+//Samples before and after the threshold  (0,15) left (16,31) right
+#define ZLEConf 0x1028
+
 //Bits[7:0] set the width of the pulse generated when the input signal on channel n crosses the threshold. 
 //The value of this register is given in units of trigger clock (i.e. 125 MHz).
 #define PulseWidthRegN         0x1070
@@ -262,8 +268,11 @@ public:
 	//Calculate the average baseline
 	double AverageBaseLine(int channel,double& rms);
 
-	//Calculate the average baseline
+	//Calculate the dznamic thresholds
 	int CalculateThresholds(int channel, double baseline);	
+
+	//Enable Software Trigger 
+	int EnableSoftware();
 
 	
 

@@ -96,11 +96,29 @@ int main(int argc, char *argv[], char *envp[] )
 	if(adcManager->Init()==-1);
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	if(slowcontrolManager->GetBaselineCalculation()){
+		adcManager->EnableSoftware();
 		adcManager->CalculateBaseLine();
 		return 0;
 	}
 	else
 		adcManager->ReadBaseLine();
+
+	//Scope-Manager
+	ScopeManager* scopeManager = new ScopeManager();
+	scopeManager->SetBuffer(adcManager->GetBuffer());
+	scopeManager->SetEventLength(adcManager->GetEventLength());
+	scopeManager->SetXMLFile(slowcontrolManager->GetXMLFile());
+	scopeManager->SetModuleNumber(1);
+	scopeManager->SetChannelTresh(adcManager->GetTreshold());
+	scopeManager->SetThreshold();
+	if(slowcontrolManager->GetGraphicsActive()){
+		//ROOT Manager
+		TApplication *theApp;
+		theApp = new TApplication("App", &argc, argv);	
+		if(scopeManager->Init()==-1)
+			return 0;
+	}
+
 
 
 
@@ -122,13 +140,13 @@ int main(int argc, char *argv[], char *envp[] )
 	double runtimeSlow=0;
 	double runtime=0;
 	double *baseline;
-	double *threshold;
+	int *threshold;
 	double *rate;
 	double *time;							//Storage of the current time
-    double *rms;
+   	 double *rms;
 	baseline = new double[8];
 	rms = new double[8];
-	threshold = new double[8];
+	threshold = new int[8];
 	rate = new double[8];
 	time = new double[8];
 
@@ -141,7 +159,7 @@ int main(int argc, char *argv[], char *envp[] )
 	TFile* gROOTFile = new TFile(output.c_str(), "RECREATE");
 	TTree *t1 = new TTree("t1","t1");
 	t1->Branch("Time", time, TString::Format("time[%i]/D", 8));
-	t1->Branch("Threshold", threshold, TString::Format("threshold[%i]/D", 8));
+	t1->Branch("Threshold", threshold, TString::Format("threshold[%i]/I", 8));
 	t1->Branch("Baseline", baseline, TString::Format("baseline[%i]/D", 8));
 	t1->Branch("RMS", rms, TString::Format("rms[%i]/D", 8));
 	t1->Branch("DC", rate, TString::Format("rate[%i]/D", 8));
@@ -167,14 +185,21 @@ int main(int argc, char *argv[], char *envp[] )
 			adcManager->EnableChannel(k);
 			baseline[k]  =  adcManager->AverageBaseLine(k,rm);
 			rms[k] = rm;
-			threshold[k] =  adcManager->CalculateThresholds(k,baseline[k]);	  		
+			threshold[k] =  adcManager->CalculateThresholds(k,baseline[k]);	
+			if(slowcontrolManager->GetGraphicsActive()){	
+				scopeManager->SetChannelNumber(k);
+				scopeManager->SetChannelTresh(threshold); 		
+			} 
+			for(int i=0;i<500;i++)
+				//Check if there have been an accepted trigger before aquisition in the buffer
+				if(adcManager->CheckEventBuffer()<-1) return 0;	
 			gettimeofday(&m_begin, NULL);
-
+            if(k!=0 && k!=1 && k!=2 && k!=3 && k!=4)
+                continue;
 			while(0<1){
-				c = 0;  
+				c = 0;
 				if (kbhit()) c = getch();
 				if (c == 'q' || c == 'Q') quit = 1;	
-
 
 				//Check keys to change adc settings
 				adcManager->Checkkeyboard(c);
@@ -185,7 +210,7 @@ int main(int argc, char *argv[], char *envp[] )
 				//Timing
 		  		gettimeofday(&m_end, NULL);
 				runtimeSlow =  (double) (m_end.tv_usec - m_begin.tv_usec)/ 1000000 + (double) (m_end.tv_sec - m_begin.tv_sec);
-				if(runtimeSlow>5){
+				if(runtimeSlow>10){
 					rate[k] = counter/runtimeSlow;
 					time[k]= slowcontrolManager->GetCurrentUnixTime();
 					std::cout<< "Timing:	" << runtimeSlow << "	Counter:	" << counter << "	Channel:	" << k << "	Baseline: " << baseline[k] << "	RMS: " << rms[k] << "	Threshold:	" << threshold[k]  << "	Rate: "  << rate[k] << " [Hz] "<<  std::endl;
@@ -197,7 +222,9 @@ int main(int argc, char *argv[], char *envp[] )
 					if(adcManager->GetTransferedBytes()<=0){
 						continue;
 					}
-
+					//Show Event if checked
+					if(slowcontrolManager->GetGraphicsActive())
+						scopeManager->ShowEvent();
 					//status output, Slowcontrol etc
 					counter++;
 				}

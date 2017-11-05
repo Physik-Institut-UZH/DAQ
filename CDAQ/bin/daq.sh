@@ -1,16 +1,9 @@
 #!/bin/bash
-run="Run"
-spechChar="_"
-spechChar1="/"
-#alias sandaq='cd /data/Software/DAQ/CDAQ/bin/'
-
-for i in {190..300}
+for k in `seq 1 100000`;
 do
-#	print sandaq_dir
-#	sandaq_dir
-	cd /data/Software/DAQ/CDAQ/bin/
-	echo "taking data set ${i}"
-	./SingleDAQ -x SingleADC1720.xml -f RJ$i
-	#sleep 10m
+	cd /home/sandbox/DAQ_dev/DAQ/CDAQ/bin/
+	echo "taking data set ${k}"
+	./SingleDAQ -x SingleADC1730_Noise.xml -f NoiseRun_$k
+	sleep 2h
 done
 

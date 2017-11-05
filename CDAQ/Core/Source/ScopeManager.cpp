@@ -12,7 +12,7 @@
 
 ScopeManager::ScopeManager()
 {
-	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=0;
+	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=m_save=m_counter=m_ZLE=m_Baseline=0;
 }
 
 ScopeManager::~ScopeManager()
@@ -23,8 +23,14 @@ int ScopeManager::Init(){
 	//m_length=m_length+10;
 	ApplyXMLFile();
 	//win = new TCanvas("win","JDAQ -- DAQ for Zuerich (multi)",1700,768);
-	
-	single = new TCanvas("single","JDAQ -- DAQ for Zuerich (single)",1700,768);
+	    
+    	/*Slowcontrol Folder*/
+    	string command= "mkdir Plots";
+    	system(command.c_str());
+    	std::cout << std::endl;
+
+
+	single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",1700,768);
   	gStyle->SetOptStat(0000000);
   	gStyle->SetOptFit(1100);
   	gStyle->SetTitleFillColor(0);
@@ -121,33 +127,73 @@ int ScopeManager::ShowEvent(){
 		        else{ continue;}
 		
 			if (CurrentChannel!=j) { pnt+=Size; continue; }
-	      		else pnt++;
+	    		//else pnt++;
 	
 			if (j>j) return 0;	
 		      
 			cnt=0;                              // counter of waveform data
 			wavecnt=0;                          // counter to reconstruct times within waveform
-	      		while (cnt<(Size))
-	      		{	
+			if(m_ZLE==0){
+	      			while (cnt<(Size))
+	      			{	
 					double wave1=(double)((buffer[pnt]&0xFFFF));
 					double wave2=(double)(((buffer[pnt]>>16)&0xFFFF));
 					m_mean= m_mean+ wave1+ wave2;
 					g[j]->SetBinContent(wavecnt,wave1);	
 					g[j]->SetBinContent(wavecnt+1,wave2);	
-		  		pnt++; wavecnt+=2; cnt++;
-	      		} // end while(cnt...)
-	      		
-	      		//Readout the corrupt bytes
-	      		while (cnt<Size){
-					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
-					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
-					pnt++; cnt++;
+		  			pnt++; wavecnt+=2; cnt++;
+
+	      			} // end while(cnt...
+
+				m_mean= (m_mean)/(wavecnt);
 			}
-
-			m_mean= (m_mean)/(wavecnt);
+			else{
+		  		cnt=0;                              // counter of waveform data
+                		wavecnt=0;                          // counter to reconstruct times within waveform
+                		Size =  (buffer[pnt]);              //Size of the specific channel
+		//              std::cout << Size << std::endl;
+                		cnt++;
+                		pnt++;
+ //              			uint32_t control;
+                		int length;
+	
+                		 while(cnt<(Size)){
+                        		//Skipped or Good Control World
+                        		uint32_t control = buffer[pnt];
+                        		cnt++;
+                        		if(((control>>31)&1)){
+        		                        length=(control&0xFFFFF);
+                                		pnt++;
+                        		}
+                        		else {
+                                		for(int i=wavecnt;i<(wavecnt+((control&0xFFFFF)*2) );i++){
+							 g[j]->SetBinContent(i,m_Baseline);
+						}
+						wavecnt=wavecnt+ ( (control&0xFFFFF)*2);
+                                		pnt++;
+                                		if(cnt>=Size)
+                                        		break;
+                                		control = buffer[pnt];
+                                		cnt++;
+                                		if(((control>>31)&1)){
+                                        		length=(control&0xFFFFF);
+                                        		pnt++;
+                               		 	}
+                        		}
+                        		for(int i=0;i<length;i++){
+                        		        uint32_t wave1=((buffer[pnt]&0xFFFF));
+	                                        uint32_t wave2=(((buffer[pnt]>>16)&0xFFFF));
+                                                g[j]->SetBinContent(wavecnt,wave1);
+	                                        g[j]->SetBinContent(wavecnt+1,wave2);
+						wavecnt+=2; 
+	                	        	pnt++;
+                        	        	cnt++;
+                        		}
+               			 } //End while
+        //      std::cout << cnt << std::endl;
+			}
 		}
-    	}
-
+	 }
 	for(int i=0;i<8;i++){
 	//	win->cd(1+i);
 		graph_edit(g[i]);
@@ -186,7 +232,11 @@ int ScopeManager::ShowEvent(){
     single->SetSelected(single);
     single->Update();
 
-	return 0;
+    if(m_save==1){
+ 	single->SaveAs(Form("Plots/Event_%i.png",m_counter));
+    }
+    m_counter++;
+    return 0;
 
 }
 
@@ -199,11 +249,11 @@ int ScopeManager::graph_edit( TH1D *g)
       g->GetYaxis()->SetRangeUser(m_min,m_max);
       break;
     case 2:  // set automatically
-      m_min=(int)g->GetMinimum();
-      m_max=(int)g->GetMaximum();
-      m_min=m_min-5;
-      m_max=m_max+5;
-      g->GetYaxis()->SetRange(m_min,m_max);
+      m_max=g->GetMaximumBin();
+      m_min=g->GetMinimumBin();
+      m_max=g->GetBinContent(m_max)+10;
+      m_min=g->GetBinContent(m_min)-10;
+      g->GetYaxis()->SetRangeUser(m_min,m_max);
       break;
     case 0:  // full mode
       g->GetYaxis()->SetRangeUser(0,16384);
@@ -227,12 +277,31 @@ int ScopeManager::ApplyXMLFile(){
 	
 	
 	 // parse global ADC settings -----------------------------------------------
-	XMLNode xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
+	XMLNode xNode=xMainNode.getChildNode("adc").getChildNode("global");
+        xstr=xNode.getChildNode("baseline").getText();
+        if (xstr) {
+                strcpy(txt,xstr);
+                m_Baseline=(int)atoi(txt);
+
+        } else error((char*)"XML-baseline");
+
+        xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
 	xstr=xNode.getChildNode("trigger").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		m_triggertype=atoi(txt);
 	} else error((char*)"XML-trigger");
+
+ 	xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
+        xstr=xNode.getChildNode("ZLEActivated").getText();
+        if (xstr) {
+                strcpy(txt,xstr);
+                temp=((int)atoi(txt));
+                m_ZLE=temp;
+        }
+        else error((char*)"ZLE");
+
+
 	
 	// ADC: parse waveform display options
 	xNode=xMainNode.getChildNode("graphics");
@@ -276,6 +345,11 @@ int ScopeManager::graph_checkkey(char c){
       }
    }
 
+ //Save Waveforms
+ if (c == 'p' || c == 'P') {
+	m_save = 1;
+ }
+
   // decrease channel
   if (c == '-' || c == '_') {
     // in channel display mode
@@ -290,13 +364,13 @@ int ScopeManager::graph_checkkey(char c){
    }
     
    // change display mode y-axis
-  if (c == '1' || c == '2' || c == '0' || c == 'u' || c == 'd' || c == 'U' || c == 'D') {
+  if (c == '1' || c == '2' || c == '3' || c == 'u' || c == 'd' || c == 'U' || c == 'D') {
     switch (c) {
-      case '0': m_mode=0;  break;	
+      case '1': m_mode=0;  break;	
 	break;
-      case '1': m_mode=1;  break;	
+      case '2': m_mode=1;  break;	
 	break;
-      case '2': m_mode=2;  break;	
+      case '3': m_mode=2;  break;	
 	break;
       case 'u': if (m_mode==1) m_min+=10;m_max-=10;	break;
       case 'U': if (m_mode==1) m_max+=10;	break;

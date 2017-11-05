@@ -15,7 +15,7 @@ SlowcontrolManager::SlowcontrolManager()
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
 	printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
-	printf("%s                            version: 4.0                          \n",KGRN);
+	printf("%s                            version: 5.0                          \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
 	sleep(1);
@@ -322,7 +322,7 @@ int SlowcontrolManager::ApplyXMLFile(){
 	if (xstr) {
 		strcpy(txt,xstr); 
 		m_numberChain=atoi(txt);
-		printf("    Link in Chain: %s\n",txt); 
+		printf("	Link in Chain: %s\n",txt); 
 	} else error((char*)"link_in_chain");
 
 

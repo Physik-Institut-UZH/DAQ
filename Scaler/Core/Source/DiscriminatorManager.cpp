@@ -119,7 +119,8 @@ int DiscriminatorManager::SetThresholdsDisc(int Nthr){
 		printf(KGRN);
   		printf(":::: Message from DiscriminatorManager (SetThresholdsDisc)::::\n");
         for(int i=0; i< m_chanels.size(); i++){
-        	if(CAENVME_WriteCycle(m_CrateHandle, m_discAdr+(m_chanels[i]*0x02),&m_thresholds[i][Nthr],cvA32_U_DATA,cvD16)!=cvSuccess){
+		u_int8_t data = m_thresholds[i][Nthr];
+        	if(CAENVME_WriteCycle(m_CrateHandle, m_discAdr+(m_chanels[i]*0x02),&data,cvA32_U_DATA,cvD16)!=cvSuccess){
 				printf(KRED);
 				printf(":::: VME write error!!! (DiscriminatorManager::SetThresholdsDisc()) ::::\n");
 				printf(RESET);

@@ -37,6 +37,11 @@ IOManager::IOManager(string path)
 		m_command = m_path + m_OutputFolder + ".root";
 		output = new TFile(m_command.c_str(), "RECREATE");
 		tree = new TTree("T1","");
+
+		/*Create Plain txt file */
+		m_command = m_path + m_OutputFolder + ".txt";
+	//	std::cout << m_command << std::endl;
+		m_stream.open(m_command.c_str(), ios::out | ios::trunc );
 }
 
 IOManager::IOManager(string path, int fileNumber)
@@ -58,6 +63,11 @@ IOManager::IOManager(string path, int fileNumber)
 		m_command = m_path + OutputFolder + ".root";
 		output = new TFile(m_command.c_str(), "RECREATE");
 		tree = new TTree("T1","");
+
+		/*Create Plain txt file */
+		m_command = m_path + m_OutputFolder + ".txt";
+		m_stream.open(m_command.c_str(), ios::out | ios::trunc );
+
 }
 
 IOManager::~IOManager()
@@ -80,6 +90,7 @@ void IOManager::FillContainer(vector<int> &channel, vector<double> &rates, int &
 
 			if(m_chanels[i]==1){
 				cout << "	Channel: " << i << "	Rate: " << m_rates[counter] << " Hz" << std::endl;
+				m_stream <<"	" <<  i << "	" << m_rates[counter];
 				if(m_flag==0)
 					tree->Branch(Form("Ch%iRate",i),&m_rates[counter],Form("Ch%iRate/D",counter));
 				counter++;
@@ -91,6 +102,7 @@ void IOManager::FillContainer(vector<int> &channel, vector<double> &rates, int &
 			tree->Branch("EventNb",&m_event,"EventNb/D");
 		}
 		m_time=GetUnixTime();
+		m_stream << "	" << std::setprecision(15) << m_time << std::endl;
 		m_event=event;
 		tree->Fill();
 		printf(RESET);
@@ -101,6 +113,7 @@ void IOManager::SaveContainer(){
 	output->cd();
 	tree->Write();
         output->Close();
+	m_stream.close();
 }
 
 

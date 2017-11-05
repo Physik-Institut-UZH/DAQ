@@ -6,10 +6,10 @@
     <source>DC</source>       			    <!-- What is measured? -->
     <notes>DC Measurement</notes>                  	    <!-- Comments -->
     <user>Julien</user>                                     <!-- Last user which used the ADC-->
-    <path>/media/suxess/DATADISK2/daq_data/Run0/RoomT_LE/</path>        <!-- Path -->
+    <path>~/Cloud/DC_LongTerm/</path>        <!-- Path -->
     <daq_version>5.0.0</daq_version>                        <!-- DAQ Version-->
-    <nb_evts>15</nb_evts>                              <!-- Number of events-->
-    <nb_evts_per_file>15</nb_evts_per_file>            <!-- Number of events/file-->
+    <nb_evts>580</nb_evts>                              <!-- Number of events-->
+    <nb_evts_per_file>580</nb_evts_per_file>            <!-- Number of events/file-->
     <store_data>1</store_data>                              <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
     <displaytime>1</displaytime>                            <!-- Status output -->
   </global>
@@ -21,23 +21,23 @@
     <global>
       <ADCType>1</ADCType>					   <!-- Which ADC 0: 1720 1: 1724 2:1730D -->
       <nb_modules>1</nb_modules> 
-      <address_0>01230000</address_0>				   <!-- Adress of the module-->
+      <address_0>44440000</address_0>				   <!-- Adress of the module-->
       <link_in_chain>0</link_in_chain>                                                           <!-- Position of the board in the link -->
       <nb_chs>8</nb_chs>			  		   <!-- **Total number of channels --> 
       <!-- Activate channels to read out -->
-      	<ch_0>66</ch_0>                                                                		  	    <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>64</ch_1>                                          <!-- 2.25/pow(2,14) -->
-     	<ch_2>69</ch_2>                            
-      	<ch_3>66</ch_3>                           
-      	<ch_4>140</ch_4>                          
-      	<ch_5>61</ch_5>                         
-      	<ch_6>120</ch_6>                        
-      	<ch_7>70</ch_7>                            
+      <ch_0>50</ch_0>                                                                		  	    <!-- 0 = off, Number = treshold for trigger setting -->
+      <ch_1>50</ch_1>                                          <!-- 2.25/pow(2,14) -->
+      <ch_2>50</ch_2>                            
+      <ch_3>50</ch_3>                           
+      <ch_4>50</ch_4>                          
+      <ch_5>-60</ch_5>                         
+      <ch_6>-60</ch_6>                        
+      <ch_7>-60</ch_7>                            
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
-      <memoryorganisation>64</memoryorganisation>  			<!-- **Blockorganisation of the ADC-->
+      <memoryorganisation>2</memoryorganisation>  			<!-- **Blockorganisation of the ADC-->
       <custom_size>100</custom_size>      				<!-- **Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>80</posttrigger> 					<!-- **samples after trigger -->
+      <posttrigger>90</posttrigger> 					<!-- **samples after trigger -->
       <sampling_freq>100000000</sampling_freq>				<!-- **sampling frequency -->
       <voltage_range>2.25</voltage_range>				<!-- **voltage range of ADC/DAC -->
       <sample_size_ADC>14</sample_size_ADC>				<!-- **sampling width in bits (ADC) -->
@@ -46,4 +46,10 @@
       <baselineiteration>10</baselineiteration>				<!-- **How many iterations for baseline calculation -->
     </global>  
   </adc>
+   <!-- Settings for graphical display "Oscilloscope mode" -->
+ <graphics>
+   <ydisplay>2</ydisplay>								<!-- ** 0:standard, 1:manual, 2:auto -->
+   <yaxis_low>15500</yaxis_low>								<!-- ** lower border of y-axis display -->
+   <yaxis_high>16500</yaxis_high>							<!-- ** upper border -->
+ </graphics>
 </settings>

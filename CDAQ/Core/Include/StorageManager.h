@@ -41,7 +41,7 @@ public:
 	int Init();
 
 	int InitROOT();
-
+	int InitROOTZLE();
 	//Set Function
 	void SetBuffer(u_int32_t *adcBuffer){buffer=adcBuffer;} 
 	void SetEventLength(int length){m_length=length;}
@@ -65,6 +65,7 @@ private:
 
 int FillROOTContainer();
 	void SaveROOTContainer();
+	int FillZLEROOTContainer();
 	double m_time;							//Storage of the current time
     string m_command;						//tmp variable
 	string m_path;							//Path for storage
@@ -74,8 +75,8 @@ int FillROOTContainer();
     char* m_OutputFolder;					//Output FileName
 	u_int32_t* buffer;						//Buffer of the data to visualize
 	int m_length;							//Set length of the waveform
-	int blt_bytes,pnt,Size,cnt,wavecnt, CurrentChannel;     //readout the channel
-    int* wf0;								//Storage for waveform
+	uint32_t blt_bytes,pnt,Size,cnt,wavecnt, CurrentChannel;     //readout the channel
+    	int* wf0;								//Storage for waveform
 	int* wf1;								//Storage for waveform
 	int* wf2;								//Storage for waveform
  	int* wf3;								//Storage for waveform
@@ -87,6 +88,11 @@ int FillROOTContainer();
  	int ApplyXMLFile();						//Read XML-Config for the Storage Manager
  	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber,m_module;			//Number of events
  	int *channelActive;						//Channel active
+	int m_ZLE;							//ZLE active or not
+	std::vector <int> m_zle_wf0;
+        std::vector <int> m_zle_cw0;
+
+
 };
 
 #endif

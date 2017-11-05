@@ -66,8 +66,8 @@ int TDCManager::test()
 		
 		//Set  Thresholds
 
-		data=50;
-		for(int i=0;i<16;i++){
+		data=100;
+		for(int i=0;i<1;i++){
 			if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1080+i*4, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
 				printf(KRED);
 				printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
@@ -156,8 +156,8 @@ int TDCManager::test()
 	int m_MemorySize, m_BufferSize;
 	u_int32_t m_ExpectedEvSize;					//Complete Eventsize
 
-	  // Expected Event Size in Words (32Bit including Header)
-	m_BufferSize = 524288;
+      // Expected Event Size in Words (32Bit including Header)
+	m_BufferSize =  8*1024*1024;;
 
 	// allocate memory for buffer
 	if ( (buffer = (u_int32_t*)malloc(m_BufferSize)) == NULL) {  
@@ -167,14 +167,14 @@ int TDCManager::test()
 			return -1;
 	 }
 
-	data=pow(2,12);
-	//data=data+pow(2,5);
-	if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1032, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
-				printf(KRED);
-				printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
-				printf(RESET);
-				return -1;
-			}
+//	data=pow(2,12);
+//	//data=data+pow(2,5);
+///	if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1032, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
+///				printf(KRED);
+///				printf(":::: VME read error!!! (ScalerManager::ReadMultipleCycles()) ::::\n");
+///				printf(RESET);
+///				return -1;
+//			}
 	data=0x1E;
 	if(CAENVME_WriteCycle(m_CrateHandle,m_TDCAdr+0x1060, &data,cvA32_U_DATA,cvD16)!=cvSuccess){
 				printf(KRED);
@@ -189,18 +189,16 @@ int TDCManager::test()
 		// read the event
        	int nb, ret;  
 	blt_bytes=0;
-       	   
 	 do { 
-	    ret = CAENVME_BLTReadCycle(m_CrateHandle, m_TDCAdr, 
-			((unsigned char*)buffer)+blt_bytes, 524288, cvA32_U_BLT, cvD32, &nb);
-	   		 if ((ret != cvSuccess) && (ret != cvBusError)) {
-				std::cout << "Block read error" << std::endl;   
-				printf("%d bytes read\n",nb);
+		ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_TDCAdr, ((unsigned char*)buffer)+blt_bytes, m_BufferSize, cvA32_U_BLT, cvD32, &nb);
+	   	 if ((ret != cvSuccess) && (ret != cvBusError)) {
+			std::cout << "Block read error" << std::endl;   
+			printf("%d bytes read\n",nb);
 				return -1;  
-	    		}
-	    blt_bytes += nb;
-	  } while (ret != cvBusError); 
-		std::cout << "Bytes Transfered:	" << blt_bytes << std::endl;
+	    	}
+		blt_bytes += nb;
+	} while (1); 
+	std::cout << "Bytes Transfered:	" << blt_bytes << std::endl;
 
 
 //}

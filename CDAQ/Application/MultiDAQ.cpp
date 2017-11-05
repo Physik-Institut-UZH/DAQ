@@ -96,7 +96,7 @@ int main(int argc, char *argv[], char *envp[] )
 		adcs[i]->SetCrateHandle(vManager->GetCrateHandle());
 		adcs[i]->SetADCAddress(slowcontrolManager->GetAddress(i));
 		adcs[i]->SetModuleNumber(i);
-		adcs[i]->SetRegisterFile("RegisterConfig.ini");				//Shpuld be the same for all modules
+		adcs[i]->SetRegisterFile("RegisterConfig.ini");				//Should be the same for all modules
 		sprintf(baseline, "../Macro/Baseline/Module_%i_DACBaseline.ini", i); 
 		adcs[i]->SetBaselineFile(baseline);
 		adcs[i]->SetXMLFile(slowcontrolManager->GetXMLFile());	
@@ -145,7 +145,11 @@ int main(int argc, char *argv[], char *envp[] )
 	//Stuff for the keyboard
     char c;
     int quit=0; 
-    int counter=0; 
+    int* counter;
+	counter = new int[slowcontrolManager->GetNbModules()];
+	for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		counter[i]=0;
+	}
     c=0;
     
     slowcontrolManager->StartAquistion();
@@ -199,15 +203,13 @@ int main(int argc, char *argv[], char *envp[] )
 			if((i==0))
 				slowcontrolManager->ShowStatus();	
 				
-			counter++;
+			counter[i]++;
 			//Create new file if noE is bigger than noEF
-			/*
-			if(counter==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
-				if(i==slowcontrolManager->GetNbModules()-1)
-					counter=0;
+			if(counter[i]==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
+				counter[i]=0;
 				storages[i]->NewFile();
 			}
-			*/
+		
 		}
 	}
 
@@ -220,4 +222,5 @@ int main(int argc, char *argv[], char *envp[] )
 
     return 0;
 }
+
 

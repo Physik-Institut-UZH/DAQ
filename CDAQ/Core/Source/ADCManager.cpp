@@ -52,9 +52,9 @@ ADCManager::~ADCManager()
 //Enable the ADC 
 int ADCManager::Enable(){
 	
-		//Aquisition
+	//Aquisition
     	// enable adcs to get event
-		m_hex = 0x4;
+	m_hex = 0x4;
     	adc_writereg(AcquisitionControlReg,m_hex); 
     	usleep(1000);
 		return 0;
@@ -64,9 +64,9 @@ int ADCManager::Enable(){
 //Disable the ADC
 int ADCManager::Disable(){
 	
-		//Aquisition
+	//Aquisition
     	// disable adcs to get event
-		m_hex =0x00;
+	m_hex =0x00;
     	adc_writereg(AcquisitionControlReg,m_hex);
     	usleep(1000);
 		return 0;
@@ -144,6 +144,16 @@ int ADCManager::EnableChannel(int channel){
 	return 0;
 }
 
+int ADCManager::EnableSoftware(){
+
+	//Software + Channel Trigger 
+	m_hex=m_hex+pow(2,31);
+	adc_writereg(FrontPanelTriggerOutReg,m_hex);
+	adc_writereg(TriggerSourceMaskReg,m_hex);
+
+	return 0;
+}
+
 
 /* END */
 
@@ -162,6 +172,8 @@ int ADCManager::CalculateBaseLine(){
 
 	//Several Baseline iterations
    	for(int i=0;i<m_iteration;i++){
+		//Check if it converged 
+		int n_channels=0;		
 
 		std::cout << std::endl << "	Iteration: " << i << std::endl << std::endl;
 		this->Enable();
@@ -186,7 +198,7 @@ int ADCManager::CalculateBaseLine(){
 		
 			// Get size of one waveform by dividing through the number of channels
 			cnt=0;
-			for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+			for (int j=0; j<8; j++) if ((ChannelMask>>j)&1){ cnt++; n_channels++; }
 			Size=Size/cnt;
 
 			// ignore EventConter and TTT
@@ -196,31 +208,22 @@ int ADCManager::CalculateBaseLine(){
 				m_mean=0;
 			
 				// read only the channels given in ChannelMask
-				if ((ChannelMask>>j)&1 && m_DACFinished[j]==0) CurrentChannel=j;
+				if ((ChannelMask>>j)&1 && m_DACFinished[j]==0){CurrentChannel=j;}
 						else continue;
 				
 				if (CurrentChannel!=j) { pnt+=Size; continue; }
-					else pnt++;
+				//	else pnt++;
 
 				if (j>j) return 0;	
 				  
 				cnt=0;                              // counter of waveform data
 				wavecnt=0;                          // counter to reconstruct times within waveform
-				while (cnt<(Size-(CORRECTION/2)))
+				while (cnt<(Size))
 				{		
 					m_mean+= (double)((buffer[pnt]&0xFFFF));
 					m_mean+= (double)(((buffer[pnt]>>16)&0xFFFF));
 					pnt++; wavecnt+=2; cnt++;
 				} // end while(cnt...
-
-
-				//Readout the corrupt bytes
-				while (cnt<Size){
-					double dummy_1 =(double)((buffer[pnt]&0xFFFF));
-					double dummy_2 =(double)(((buffer[pnt]>>16)&0xFFFF));
-					pnt++; cnt++;
-				}
-
 
 				m_mean=m_mean/(wavecnt);
 				m_diff=m_mean-m_DACTarget[j];
@@ -245,9 +248,20 @@ int ADCManager::CalculateBaseLine(){
 			printf(KRED);
 			std::cout << "	Error in Reading the Event" << std::endl;
 			printf(RESET);
-		return -1;
+			return -1;
 		}
-		sleep(5);
+		//Check if the it converged
+		int check=0;
+		for(int k=0;k<8;k++){
+			if(m_DACFinished[k]==1)
+				check=check+1;
+		}
+		if(check==n_channels){
+			printf(KYEL);
+			std::cout << "	Baseline Calculation Converged after: " << i << " Iterations " << std::endl << std::endl;
+			break;
+		}
+		sleep(1);
     }
     printf(RESET);
     
@@ -293,7 +307,7 @@ double ADCManager::AverageBaseLine(int channel,double& rms){
 	adc_readblt();
 
 	double average=0;
-
+	std::vector<double> wave;
 	this->ApplySoftwareTrigger();
 
 	//Start from the first word
@@ -324,20 +338,31 @@ double ADCManager::AverageBaseLine(int channel,double& rms){
 				else continue;
 			
 			if (CurrentChannel!=channel) { pnt+=Size; continue; }
-				else pnt++;
+			//	else pnt++;
 
 			if (j>j) return 0;	
 				  
 			cnt=0;                              // counter of waveform data
 			wavecnt=0;                          // counter to reconstruct times within waveform
-			while (cnt<(Size-(CORRECTION/2)))
+			while (cnt<(Size))
 			{		
-				average+= (double)((buffer[pnt]&0xFFFF));
-				average+= (double)(((buffer[pnt]>>16)&0xFFFF));
+				wave.push_back((double)((buffer[pnt]&0xFFFF)));
+				wave.push_back((double)(((buffer[pnt]>>16)&0xFFFF)));
 				pnt++; wavecnt+=2; cnt++;
 			} 
-			average	= average/wavecnt;
+
+			double sum =0;
+			for(int i=0;i<wave.size();i++){
+		        	sum +=wave[i];
+			}
+	       		average = sum/(wave.size());
+
+			for (int i=0; i<wave.size() ;i++){
+		        	rms+=(wave[i]-average)*(wave[i]-average);
+	       	 	}
+			rms = sqrt((1./(wave.size()))*rms);
 		}
+
 	}
 	else{
 		printf(KRED);
@@ -440,7 +465,7 @@ int ADCManager::adc_readblt()		// the value to read
 	blt_bytes=0;
    do { 
     ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_ADCaddr, 
-		((unsigned char*)buffer)+blt_bytes, 524288, cvA32_U_BLT, cvD32, &nb);
+		((unsigned char*)buffer)+blt_bytes, (1024*1024*8*10), cvA32_U_BLT, cvD32, &nb);
     if ((ret != cvSuccess) && (ret != cvBusError)) {
 		std::cout << "Block read error" << std::endl;   
 		printf("%d bytes read\n",nb);

@@ -98,6 +98,7 @@ int main(int argc, char *argv[], char *envp[] )
 	if(adcManager->Init()==-1);
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	if(slowcontrolManager->GetBaselineCalculation()){
+		adcManager->ReadBaseLine();
 		adcManager->CalculateBaseLine();
 		return 0;
 	}
