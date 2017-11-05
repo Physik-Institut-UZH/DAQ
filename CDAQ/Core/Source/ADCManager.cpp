@@ -278,7 +278,7 @@ int ADCManager::CalculateBaseLine(){
     }
   
   fprintf(dacfile,"#***************************************************************\n");
-  fprintf(dacfile,"# JDAQ --  DAQ for UZH \n#\n"); //
+  fprintf(dacfile,"# CDAQ --  DAQ for UZH \n#\n"); //
   fprintf(dacfile,"# This is the baseline configuration file. The information\n");
   fprintf(dacfile,"# here sets the ADC channels to the user baseline level.\n#\n");
   fprintf(dacfile,"# generated: automatically\n");

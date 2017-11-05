@@ -46,7 +46,7 @@ int StorageManager::Init(){
                 std::cout << " 	Storage Path: " << m_path +  m_OutputFolder +"/"+ m_moduleName.c_str()   << std::endl ;
                 printf(RESET);
 
-				/*Create Output Folder and ROOT Folder*/
+		/*Create Output Folder and ROOT Folder*/
                 m_command= "mkdir " + m_path + m_OutputFolder;
                 system(m_command.c_str());
                 std::cout << std::endl;

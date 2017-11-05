@@ -3,11 +3,11 @@
 <settings author="Last additions by JW" date="10/01/2016">
   <!-- global Settings for the measurement--> 
   <global>
-    <source>MgF_PMT</source>       			    <!-- What is measured? -->
+    <source>Julien</source>       			    <!-- What is measured? -->
     <notes>Single ADC Readout</notes>                  	    <!-- Comments -->
     <user>Julien</user>                                     <!-- Last user which used the ADC-->
     <path>/home/marmotx/DAQ/CDAQ/bin/</path>        <!-- Path -->
-    <daq_version>1.0.0</daq_version>                        <!-- DAQ Version-->
+    <daq_version>5.0.0</daq_version>                        <!-- DAQ Version-->
     <nb_evts>1000000</nb_evts>                              <!-- Number of events-->
     <nb_evts_per_file>1000000</nb_evts_per_file>            <!-- Number of events/file-->
     <store_data>1</store_data>                              <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
@@ -22,6 +22,7 @@
       <ADCType>0</ADCType>					   <!-- Which ADC 0: 1720 1: 1724 2:1730D -->
       <nb_modules>1</nb_modules> 
       <address_0>44440000</address_0>				   <!-- Adress of the module-->
+      <link_in_chain>0</link_in_chain>                                                           <!-- Position of the board in the link -->
       <nb_chs>8</nb_chs>			  		   <!-- **Total number of channels --> 
       <!-- Activate channels to read out -->
       	<ch_0>15900</ch_0>                       		   <!-- 0 = off, Number = treshold for trigger setting -->
@@ -78,12 +79,6 @@
 		<numberChannels>1</numberChannels>					<!-- how many channels should be over the programmed treshold -->
 	    
    </triggerSettings>
-   
-   <!--Zero Length Encoding !Work in Progres! -->
-    <ZLE>
-    
-    
-    </ZLE>
  </adc>  
  
    <!-- Settings for graphical display "Oscilloscope mode" -->

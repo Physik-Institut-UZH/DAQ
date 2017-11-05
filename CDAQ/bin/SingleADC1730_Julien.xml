@@ -2,9 +2,9 @@
 <settings author="Last additions by JW" date="03/03/2016">
   <!-- global Settings for the measurement--> 
   <global>
-    <source>Chris_First_Steps</source>       			 						<!-- What is measured? -->
+    <source>Julien</source>       			 						<!-- What is measured? -->
     <notes>SiPMs 6x6mm SandBox</notes>                  	    					 	<!-- Comments -->
-    <user>Julien, Chris</user>                                     					 	<!-- Last user which used the ADC-->
+    <user>Julien</user>                                     					 	<!-- Last user which used the ADC-->
     <path>/home/sandbox/Cloud/LArSetup/Run9/N2CoolDown/Gain/cold/1500V/auto/</path>      							 <!-- Path -->
     <daq_version>4.0.0</daq_version>                        						 	 <!-- DAQ Version-->
     <nb_evts>500000</nb_evts>                             							 <!-- Number of events-->
@@ -79,12 +79,6 @@
 		<numberChannels>1</numberChannels>						<!-- how many channels should be over the programmed treshold -->
 	    
    </triggerSettings>
-   
-   <!--Zero Length Encoding !Work in Progres! -->
-    <ZLE>
-    
-    
-    </ZLE>
  </adc>  
  
    <!-- Settings for graphical display "Oscilloscope mode" -->

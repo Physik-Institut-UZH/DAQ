@@ -15,6 +15,7 @@ SlowcontrolManager::SlowcontrolManager()
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
 	printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
+        printf("%s                       Written By Julien Wulf                     \n",KGRN);
 	printf("%s                            version: 5.0                          \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
@@ -96,7 +97,7 @@ int SlowcontrolManager::ProcessInput( int argc, char *argv[], char *envp[])
   if (m_errflag || someArgs==0) {
       printf(KRED);
       printf("usage: %s [-f file|-x file||-g p|-b|-i|-h|]\n", argv[1] );
-      printf("\t-f write to file_ \n" );
+      printf("\t-f write to file \n" );
       printf("\t-x read settings from XML-file file\n");
       printf("\t-g Oscilloscope: display PMT p (SLOW!)\n");
       printf("\t-i displays hardware information\n" );
