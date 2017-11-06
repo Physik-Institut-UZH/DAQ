@@ -3,5 +3,6 @@
 ._*
 CDAQ/build
 CDAQ/bin/MultiADC
+CDAQ/bin/SingleDAQ
 CDAQ/bin/SlowControl
 CDAQ/bin/Plots
