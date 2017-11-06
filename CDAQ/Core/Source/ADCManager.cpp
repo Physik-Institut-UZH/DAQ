@@ -269,9 +269,10 @@ int ADCManager::CalculateBaseLine(){
     std::string bp = Common::getdotdaqdir();
     bp.append("/Baseline");
     std::stringstream fn;
-    system(std::string("mkdir -p ").append(bp)); // Ensure that the directory exists
+    system(std::string("mkdir -p ").append(bp).c_str()); // Ensure that the directory exists                                                                                                                                                                       
     fn << "Module_" << m_module << "_DACBaseline.ini";
-    bp /= fn.str().c_str();
+    bp.append("/");
+    bp.append(fn.str());
     dacfile=fopen(bp.c_str(),"w");
     
     if (dacfile==NULL) {
