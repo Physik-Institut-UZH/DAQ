@@ -57,6 +57,9 @@ class ScopeManager: public Common
 		//Set Channel number
 		void SetChannelNumber(int channeL){if(channeL<0)m_channel=0;else if(channeL>7){m_channel=channeL%8; m_module=channeL/8;} else m_channel=channeL;}
 
+		//Set threshold active 
+		void SetThreshold(){m_triggertype=2;}
+
 
 	 private:
 		//Change scale of the graph
@@ -80,8 +83,10 @@ class ScopeManager: public Common
 		int m_module;						//Module
 		int m_nbmodule;
 		double m_mean;
-	
-
+		int m_save; 
+		int m_counter;
+		int m_ZLE;	
+		int m_Baseline;
 };
 
 #endif

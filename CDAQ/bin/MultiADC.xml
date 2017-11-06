@@ -5,7 +5,7 @@
   <global>
     <source>Xenon1T_PMT</source>       			    			<!-- What is measured? -->
     <notes>10PMTs</notes>           <!-- Comments -->
-    <user>Julien, Yuehuan</user>                                     <!-- Last user which used the ADC-->
+    <user>Julien</user>                                     <!-- Last user which used the ADC-->
     <path>/home/marmotx/R11410/Run1/Gain/170K_GXe/Raw/</path>  		    <!-- Path -->
     <daq_version>3.0.0</daq_version>                        <!-- DAQ Version-->
     <nb_evts>1000000</nb_evts>                             <!-- Number of events-->
@@ -21,34 +21,35 @@
     <global>
       <ADCType>1</ADCType>					   <!-- Which ADC 0: 1720 1: 1724 2:1730D -->
       <nb_modules>2</nb_modules>                                   <!-- **Total number of Modules in the daisy Chain -->
+      <link_in_chain>0</link_in_chain>                             <!-- Position of the board in the link -->
       <nb_chs>8</nb_chs>                                           <!-- **Total number of channels of every Module -->
 
       <address_0>44440000</address_0>				   <!-- Adress of the module-->
       <address_1>55550000</address_1>
 
       <!-- Activate channels to read out. Every module starts from 0 -->
-      	<ch_0>1</ch_0>                       		  			   <!-- 0 = off, 1 =On -->
+      	<ch_0>1</ch_0>                       		  	         	   <!-- 0 = off, 1 =On -->
       	<ch_1>1</ch_1>
-     	<ch_2>1</ch_2>                            
+     	<ch_2>0</ch_2>                            
       	<ch_3>1</ch_3>                           
       	<ch_4>1</ch_4>                          
       	<ch_5>0</ch_5>                         
       	<ch_6>0</ch_6>                        
       	<ch_7>0</ch_7>
 
-	<ch_8>1</ch_8>                                          	<!-- 0 = off, 1 =On -->
+	<ch_8>1</ch_8>                               		           	<!-- 0 = off, 1 =On -->
         <ch_9>1</ch_9>
         <ch_10>1</ch_10>
         <ch_11>1</ch_11>
         <ch_12>1</ch_12>
-        <ch_13>0</ch_13>
-        <ch_14>0</ch_14>
-        <ch_15>0</ch_15>
+        <ch_13>1</ch_13>
+        <ch_14>1</ch_14>
+        <ch_15>1</ch_15>
                             
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
       
-      <memoryorganisation>32</memoryorganisation>  		<!-- **Blockorganisation of the ADC-->
+      <memoryorganisation>16</memoryorganisation>  		<!-- **Blockorganisation of the ADC-->
       <custom_size>500</custom_size>      			<!-- **Custom event size in samples (must be < nb_samples_per_event) -->
       <posttrigger>400</posttrigger> 				<!-- **samples after trigger -->
       <sampling_freq>100000000</sampling_freq>			<!-- **sampling frequency -->
@@ -62,7 +63,7 @@
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-		<trigger>0</trigger>							<!-- **0:ext trig, 1:Software trig-->
+		<trigger>1</trigger>							<!-- **0:ext trig, 1:Software trig-->
 	   
 		<!-- Option external trig and trg-out-->
 		<TTL>1</TTL>								<!-- **TTL On (1) or NIM On (0) -->
@@ -71,7 +72,13 @@
 		<SoftwareRate>800</SoftwareRate>					<!-- **Rate of the Software Trigger in Hz -->
   	    
    </triggerSettings>
-   
+
+   <!--Zero Length Encoding -->
+    <ZLE>
+	<ZLEActivated>0</ZLEActivated>   
+	<ZLELEFT>100</ZLELEFT>									<!-- Acquired samples before the threshold -->	
+	<ZLERIGHT>100</ZLERIGHT>   								<!-- Acquired samples after the threshold -->
+    </ZLE>   
 </adc>  
  
    <!-- Settings for graphical display "Oscilloscope mode" -->

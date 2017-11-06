@@ -266,7 +266,7 @@ int ADCManager1730::ApplyXMLFile(){
 	xstr=xNode.getChildNode("posttrigger").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
-		temp=((int)atoi(txt)-80)/8;
+		temp=((int)atoi(txt))/8;
 		m_posttrigger=temp;
 		//m_hex=StringToHex(IntToString(temp));
 		adc_writereg(PostTriggerReg,temp);

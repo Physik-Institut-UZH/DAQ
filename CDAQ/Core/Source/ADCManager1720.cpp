@@ -247,7 +247,7 @@ int ADCManager1720::ApplyXMLFile(){
 	xstr=xNode.getChildNode("posttrigger").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
-		temp=((int)atoi(txt)-50)/4;
+		temp=((int)atoi(txt))/4;
 		m_posttrigger=temp;
 		adc_writereg(PostTriggerReg,temp);
 	} else error((char*)"XML-posttrigger");

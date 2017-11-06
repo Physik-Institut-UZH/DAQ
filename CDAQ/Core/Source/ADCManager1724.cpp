@@ -82,7 +82,7 @@ int ADCManager1724::RegisterReading(){
 	// Read Board Type and Memory Size
  	adc_readreg(0x8140,data);
 	m_MemorySize=(int)((data >> 8) & 0xFF);
-	printf("	Board Type: %s;  Memory Size: %d MByte per channel\n", "v1720",m_MemorySize);
+	printf("	Board Type: %s;  Memory Size: %d MByte per channel\n", "v1724",m_MemorySize);
 
     	// Read Firmware Revisions
 	adc_readreg(FirmwareRegN,data);	
@@ -97,8 +97,9 @@ int ADCManager1724::RegisterReading(){
     	// Expected Event Size in Words (32Bit including Header)
 	m_ExpectedEvSize = (int)((((m_MemorySize*pow(2,20))/(int)pow(2,data))*8+16)/4);			//From the Handbook  
   	m_BufferSize = (m_EvAlign&&m_EnableBerr) ? (m_ExpectedEvSize* m_EvAlign*4):(m_ExpectedEvSize*4);
-   	m_BufferSize += 524288;
+//   	m_BufferSize += 524288;
 
+	m_BufferSize = 1024*1024*8*10;
         // allocate memory for buffer
     	if ( (buffer = (u_int32_t*)malloc(m_BufferSize)) == NULL) {  
 		printf(KRED);
@@ -248,7 +249,7 @@ int ADCManager1724::ApplyXMLFile(){
 	xstr=xNode.getChildNode("posttrigger").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
-		temp=((int)atoi(txt)-50)/2;
+		temp=((int)atoi(txt))/2;
 		m_posttrigger=temp;
 		adc_writereg(PostTriggerReg,temp);
 	} else error((char*)"XML-posttrigger");
@@ -401,8 +402,44 @@ int ADCManager1724::ApplyXMLFile(){
 			adc_writereg(FrontPanelIODataReg,m_hex);
 		}
 	} else error((char*)"ADC-Manager-XML-TTL");
-	
- 
+
+        xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
+        xstr=xNode.getChildNode("ZLEActivated").getText();
+	if (xstr) {
+ 		strcpy(txt,xstr);
+   	        temp=((int)atoi(txt));
+		if(temp==1){
+			adc_writereg(0x8000,0x20010);
+                        adc_writereg(0x8028,0x190019); //50 samples left and right
+
+			for(int i=0;i<8;i++){
+				m_hex = channelTresh[i];
+				m_hex = m_hex + pow(2,31);
+               			adc_writereg(ZLEThreshReg+(i*0x0100),m_hex);
+			}
+        	}
+	}
+        else error((char*)"ZLE");
+
+        xstr=xNode.getChildNode("ZLELEFT").getText();
+        if (xstr) {
+                strcpy(txt,xstr);
+                temp=((int)atoi(txt));
+  //              std::cout << temp << std::endl;
+        }
+        else error((char*)"ZLE");
+
+        xstr=xNode.getChildNode("ZLERIGHT").getText();
+        if (xstr) {
+                strcpy(txt,xstr);
+                temp=((int)atoi(txt));
+//                std::cout << temp << std::endl;
+        }
+        else error((char*)"ZLE");
+
+
+
+
 	return 0;
 }
 

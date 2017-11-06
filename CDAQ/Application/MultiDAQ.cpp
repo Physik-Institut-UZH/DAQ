@@ -77,6 +77,7 @@ int main(int argc, char *argv[], char *envp[] )
 	VMEManager* vManager = new VMEManager();
 
 	vManager->SetPCILink(0);
+	vManager->SetBoardNumber(slowcontrolManager->GetLinkInChain());
     if(vManager->Init()==-1)
 		return 0;
 	
@@ -102,11 +103,13 @@ int main(int argc, char *argv[], char *envp[] )
 		bp.append(baseline);
 		adcs[i]->SetBaselineFile(bp.c_str());
 		adcs[i]->SetXMLFile(slowcontrolManager->GetXMLFile());
+
 		if(adcs[i]->Init()==-1);
 	}
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	if(slowcontrolManager->GetBaselineCalculation()){
 		for(int i=0;i<number;i++){
+                     //   adcs[i]->ReadBaseLine();
 			adcs[i]->CalculateBaseLine();
 		}
 		return 0;
@@ -147,30 +150,34 @@ int main(int argc, char *argv[], char *envp[] )
 	//Stuff for the keyboard
     char c;
     int quit=0; 
-    int counter=0; 
+    int* counter;
+	counter = new int[slowcontrolManager->GetNbModules()];
+	for(int i=0;i<slowcontrolManager->GetNbModules();i++){
+		counter[i]=0;
+	}
     c=0;
-    
+   
     slowcontrolManager->StartAquistion();
     for(int i=0;i<slowcontrolManager->GetNbModules();i++){
 		adcs[i]->Enable();
 		adcs[i]->CheckEventBuffer();		//Read Buffer before start aquisition
 	}
-	
+
 	while(slowcontrolManager->GetNumberEvents()!=storages[0]->GetNumberEvents() && quit!=1){
 		c = 0;  
 		if (kbhit()) c = getch();
 		if (c == 'q' || c == 'Q') quit = 1;	
-		
+
 		if(slowcontrolManager->GetGraphicsActive())	
 			scopeManager->graph_checkkey(c);
-		
-		if(adcs[0]->GetTriggerType()==1){					
+
+		if(adcs[0]->GetTriggerType()==1){
 				usleep(adcs[0]->GetSoftwareRate());
 		}
 
 		//Get Event Check all ADCs always
 		for(int i=0;i<slowcontrolManager->GetNbModules();i++){
-			
+
 			if(adcs[0]->GetTriggerType()==1 && i==0){											//software trigger from the master board
 				if(adcs[i]->SoftwareTrigger()<-1) return 0;						
 			}
@@ -195,21 +202,20 @@ int main(int argc, char *argv[], char *envp[] )
 			}
 			
 			//Save the events or not :)
-				storages[i]->FillContainer();	
-			
+			storages[i]->FillContainer();	
+
 			//status output, Slowcontrol etc
 			if((i==0))
 				slowcontrolManager->ShowStatus();	
-				
-			counter++;
+
+			counter[i]++;
+/*
 			//Create new file if noE is bigger than noEF
-			/*
-			if(counter==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
-				if(i==slowcontrolManager->GetNbModules()-1)
-					counter=0;
+			if(counter[i]==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
+				counter[i]=0;
 				storages[i]->NewFile();
 			}
-			*/
+*/		
 		}
 	}
 
@@ -222,4 +228,5 @@ int main(int argc, char *argv[], char *envp[] )
 
     return 0;
 }
+
 

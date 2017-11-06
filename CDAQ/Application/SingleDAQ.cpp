@@ -77,6 +77,7 @@ int main(int argc, char *argv[], char *envp[] )
 	VMEManager* vManager = new VMEManager();
 
 	vManager->SetPCILink(0);
+	vManager->SetBoardNumber(slowcontrolManager->GetLinkInChain());
     if(vManager->Init()==-1)
 		return 0;
 
@@ -99,6 +100,7 @@ int main(int argc, char *argv[], char *envp[] )
 	if(adcManager->Init()==-1);
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	if(slowcontrolManager->GetBaselineCalculation()){
+		adcManager->ReadBaseLine();
 		adcManager->CalculateBaseLine();
 		return 0;
 	}
@@ -174,7 +176,7 @@ int main(int argc, char *argv[], char *envp[] )
 		//status output, Slowcontrol etc
 		slowcontrolManager->ShowStatus();
 
-		//Save the events or not :)
+		//Save the events 
 		storageManager->FillContainer();	
 		
 		//Show Event if checked

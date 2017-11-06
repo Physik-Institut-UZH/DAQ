@@ -10,7 +10,8 @@
 #include <memory>
 #include <typeinfo>
 #include "common.h"
-
+#include <iostream>
+#include <fstream>
 //ROOT Libraries
 #include "TROOT.h"
 #include <TApplication.h>
@@ -41,6 +42,7 @@ public:
 
    
 private:
+	ofstream m_stream;						//output into txt file
 	int m_flag;							//Flag for first object call
 	double m_time=0;						//Storage of the current time
 	int m_event;						//Event Number
@@ -50,7 +52,7 @@ private:
 	string m_path;						//Path for storage
 	TFile* output;						//ROOT File
 	TTree* tree;						//ROOT Tree
-       char m_OutputFolder[100];
+        char m_OutputFolder[100];
 };
 
 #endif

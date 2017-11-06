@@ -1,2 +1,0 @@
-/usr/bin/ar cr ../lib/libIO.a  CMakeFiles/IO.dir/Source/IOManager.cpp.o
-/usr/bin/ranlib ../lib/libIO.a
