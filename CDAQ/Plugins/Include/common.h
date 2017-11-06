@@ -24,6 +24,7 @@ class Common
 	  int GetUnixTime();
 	  void gettimestring(char* buffer);
 	  int   error(char *node);
+	  static std::string getdotdaqdir();
 };
 
 #endif

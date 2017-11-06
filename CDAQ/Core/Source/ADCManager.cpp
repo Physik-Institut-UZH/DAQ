@@ -212,7 +212,6 @@ int ADCManager::CalculateBaseLine(){
 						else continue;
 				
 				if (CurrentChannel!=j) { pnt+=Size; continue; }
-				//	else pnt++;
 
 				if (j>j) return 0;	
 				  
@@ -266,11 +265,14 @@ int ADCManager::CalculateBaseLine(){
     printf(RESET);
     
     // create filename for Baseline.ini
-     
     FILE *dacfile;
+    std::string bp = Common::getdotdaqdir();
+    bp.append("/Baseline");
     std::stringstream fn;
-    fn << "../Macro/Baseline/Module_" << m_module << "_DACBaseline.ini";
-    dacfile=fopen(fn.str().c_str(),"w");
+    system(std::string("mkdir -p ").append(bp)); // Ensure that the directory exists
+    fn << "Module_" << m_module << "_DACBaseline.ini";
+    bp /= fn.str().c_str();
+    dacfile=fopen(bp.c_str(),"w");
     
     if (dacfile==NULL) {
     	std::cout << ":::: ERROR: cannot open file to write baseline settings ::::" << std::endl;

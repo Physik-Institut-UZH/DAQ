@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
    char filestring[100];
    char rootfilestring[100];
    timeinfo=localtime(&starttime);
-   strftime(filestring,100,"/home/marmotx/R11410/Run1/DC/DC_170K_GXe/0.5PE_%y%m%d_%H%M.dat",timeinfo);
-   strftime(rootfilestring,100,"/home/marmotx/R11410/Run1/DC/DC_170K_GXe/0.5PE_%y%m%d_%H%M.root",timeinfo);
+   strftime(filestring,100,"/home/marmotx/Cloud/Run2/DC/zAfterRecup/0.5PE_%y%m%d_%H%M.dat",timeinfo);
+   strftime(rootfilestring,100,"/home/marmotx/Cloud/Run2/DC/zAfterRecup/0.5PE_%y%m%d_%H%M.root",timeinfo);
 
    double m_rates[16];
    TFile* output = new TFile(rootfilestring , "RECREATE");
