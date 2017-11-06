@@ -58,10 +58,10 @@ int Common::error(char *node)
 }
 
 // Return the location of the .daq dir (for now just ~/.daq
-boost::filesystem::path Common::getdotdaqdir()
+std::string Common::getdotdaqdir()
 {
-  boost::filesystem::path p(std::getenv("HOME"));
-  p /= ".daq";
+  std::string p(std::getenv("HOME"));
+  p.append("/.daq");
   return p;
 }
 

@@ -97,7 +97,9 @@ int main(int argc, char *argv[], char *envp[] )
 		adcs[i]->SetModuleNumber(i);
 		adcs[i]->SetRegisterFile("RegisterConfig.ini");				//Shpuld be the same for all modules
 		sprintf(baseline, "Module_%i_DACBaseline.ini", i);
-		boost::filesystem::path bp = Common::getdotdaqdir() / "Baseline" / baseline;
+		std::string bp = Common::getdotdaqdir();
+		bp.append("/Baseline/");
+		bp.append(baseline);
 		adcs[i]->SetBaselineFile(bp.c_str());
 		adcs[i]->SetXMLFile(slowcontrolManager->GetXMLFile());
 		if(adcs[i]->Init()==-1);

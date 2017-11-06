@@ -20,7 +20,6 @@
 #include <string>
 #include "ADCManager.h"
 #include "global.h"
-#include <boost/filesystem.hpp>
 
 //Root Libaries
 #include <TH1D.h>
@@ -187,7 +186,7 @@ int ADCManager::CalculateBaseLine(){
 						else continue;
 				
 				if (CurrentChannel!=j) { pnt+=Size; continue; }
-					else pnt++;
+//					else pnt++;
 
 				if (j>j) return 0;	
 				  
@@ -240,10 +239,10 @@ int ADCManager::CalculateBaseLine(){
     
     // create filename for Baseline.ini
     FILE *dacfile;
-    boost::filesystem::path bp = Common::getdotdaqdir();
-    bp /= "Baseline";
+    std::string bp = Common::getdotdaqdir();
+    bp.append("/Baseline");
     std::stringstream fn;
-    boost::filesystem::create_directories(bp); // Ensure that the directory exists
+    system(std::string("mkdir -p ").append(bp)); // Ensure that the directory exists
     fn << "Module_" << m_module << "_DACBaseline.ini";
     bp /= fn.str().c_str();
     dacfile=fopen(bp.c_str(),"w");
