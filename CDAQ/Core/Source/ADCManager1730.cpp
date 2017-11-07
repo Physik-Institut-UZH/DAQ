@@ -33,6 +33,10 @@
 #include "TFile.h"
 #include "TROOT.h"
 
+/*
+Author: Julien Wulf UZH
+*/
+
 
 ADCManager1730::ADCManager1730()
 {
