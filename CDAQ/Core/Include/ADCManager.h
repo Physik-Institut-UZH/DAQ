@@ -16,8 +16,7 @@
 using namespace std;
 
 /*
-Class to manage the CAEN v1730D Flash ADC 
-The ADC will be configurated over the register file (NECESSARY)!!! In order to give the user the maxmimum amount of freedom
+Author: Julien Wulf UZH
 */
 
 // Digitizer Register Map v1720, v1724, v1730D
