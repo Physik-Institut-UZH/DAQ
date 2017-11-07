@@ -8,6 +8,10 @@
 #include "VMEManager.h"
 #include "global.h"
 
+/*
+Author: Julien Wulf UZH
+*/
+
 
 VMEManager::VMEManager()
 {
