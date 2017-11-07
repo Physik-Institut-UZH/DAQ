@@ -18,6 +18,11 @@
 
 #include <stdlib.h>
 
+
+/*
+Author: Julien Wulf UZH
+*/
+
 #ifdef _UNICODE
 // If you comment the next "define" line then the library will never "switch to" _UNICODE (wchar_t*) mode (16/32 bits per characters).
 // This is useful when you get error messages like:
