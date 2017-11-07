@@ -1,3 +1,6 @@
+/*
+Author: Julien Wulf UZH
+*/
 /**
  ****************************************************************************
  * <P> XML.c - implementation file for basic XML parser written in ANSI C++
