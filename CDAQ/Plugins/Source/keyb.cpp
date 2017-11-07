@@ -1,6 +1,7 @@
 /*
 kbhit() and getch() for Linux/UNIX
 Chris Giese <geezer@execpc.com>	http://my.execpc.com/~geezer
+Author: Julien Wulf UZH
 */
 
 #ifdef LINUX
