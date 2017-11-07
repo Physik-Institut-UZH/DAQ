@@ -37,6 +37,7 @@
 #include <time.h>
 #include "global.h"
 #include "common.h"
+#include "DCManager.h"
 
 //Root Libaries
 #include <TH1D.h>

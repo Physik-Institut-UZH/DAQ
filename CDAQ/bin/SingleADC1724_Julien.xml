@@ -82,7 +82,7 @@
    
     <!--Zero Length Encoding -->
     <ZLE>
-	<ZLEActivated>1</ZLEActivated>   
+	<ZLEActivated>0</ZLEActivated>   
 	<ZLELEFT>100</ZLELEFT>									<!-- Acquired samples before the threshold -->	
 	<ZLERIGHT>100</ZLERIGHT>   								<!-- Acquired samples after the threshold -->
    </ZLE>
