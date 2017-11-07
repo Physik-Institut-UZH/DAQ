@@ -16,6 +16,7 @@
 using namespace std;
 
 /*
+Author: Julien Wulf UZH
 Class to manage the CAEN v1720 Flash ADC 
 The ADC will be configurated over the register file (NECESSARY)!!! In order to give the user the maxmimum amount of freedom
 */
