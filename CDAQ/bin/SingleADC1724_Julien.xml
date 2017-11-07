@@ -5,7 +5,7 @@
     <source>Julien</source>       			 							 <!-- What is measured? -->
     <notes>PMT</notes>                  	    					 	<!-- Comments -->
     <user>Julien</user>                                     						 <!-- Last user which used the ADC-->
-    <path>~/Cloud/LArSetup/Kate/PMT/Ch0_New_Amp/LED/Raw/</path>      				 <!-- Path -->
+    <path>/home/marmotx/Julien/DAQ_dev/DAQ/CDAQ/bin/dfd/dsfdsf/df</path>      				 <!-- Path -->
     <daq_version>5.0.0</daq_version>                        						 	<!-- DAQ Version-->
     <nb_evts>500000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>500000</nb_evts_per_file>           							 <!-- Number of events/file-->

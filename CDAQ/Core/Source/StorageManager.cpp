@@ -50,12 +50,12 @@ int StorageManager::Init(){
                 printf(RESET);
 
 		/*Create Output Folder and ROOT Folder*/
-                m_command= "mkdir " + m_path + m_OutputFolder;
+                m_command= "mkdir -p " + m_path + m_OutputFolder;
                 system(m_command.c_str());
                 std::cout << std::endl;
                 
                 /*Create Module Folder*/
-                m_command= "mkdir " + m_path + m_OutputFolder +"/" + m_moduleName.c_str();
+                m_command= "mkdir -p " + m_path + m_OutputFolder +"/" + m_moduleName.c_str();
                 system(m_command.c_str());
                 std::cout << std::endl;
 
