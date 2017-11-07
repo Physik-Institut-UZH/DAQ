@@ -1,3 +1,5 @@
+#Author: Julien Wulf UZH
+
 project(Application)
 
 add_executable(SingleDAQ SingleDAQ.cpp)
