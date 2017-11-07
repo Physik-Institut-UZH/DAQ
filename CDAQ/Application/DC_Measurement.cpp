@@ -31,7 +31,6 @@
 #include <ADCManager1724.h>
 #include <ADCManager1720.h>
 #include "ADCManager.h"
-#include "DCManager.h"
 #include <ScopeManager.h>
 #include <StorageManager.h>
 #include <SlowcontrolManager.h>
