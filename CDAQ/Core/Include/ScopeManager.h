@@ -25,6 +25,7 @@
 using namespace std;
 
 /*
+Author: Julien Wulf UZH
 Class to manage the GUI of the ADC
 */
 
