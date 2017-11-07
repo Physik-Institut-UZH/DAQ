@@ -31,6 +31,9 @@
 #include "TTree.h"
 #include "TFile.h"
 #include "TROOT.h"
+/*
+Author: Julien Wulf UZH
+*/
 
 
 ADCManager::ADCManager()
