@@ -17,6 +17,7 @@
 using namespace std;
 
 /*
+Author: Julien Wulf UZH
 Class to manage the CAEN v1730D Flash ADC 
 The ADC will be configurated over the register file and over XML File
 */
