@@ -8,6 +8,10 @@
 #include "SlowcontrolManager.h"
 #include "global.h"
 
+/*
+Author: Julien Wulf UZH
+*/
+
 
 SlowcontrolManager::SlowcontrolManager()
 {
