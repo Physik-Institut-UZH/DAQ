@@ -18,3 +18,7 @@ int kbhit();
 
 #endif
 
+
+/*
+Author: Julien Wulf UZH
+*/
