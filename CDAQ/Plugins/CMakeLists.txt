@@ -1,4 +1,5 @@
-#Subsystem of ko
+#Subsystem of CDAQ
+#Author: Julien Wulf UZH
 
 project(Plugins)
 
