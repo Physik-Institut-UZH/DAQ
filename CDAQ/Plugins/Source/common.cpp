@@ -9,6 +9,10 @@
 #include <sys/time.h>
 #include <cstdlib>
 
+/*
+Author: Julien Wulf UZH
+*/
+
 Common::Common()
 {
 
