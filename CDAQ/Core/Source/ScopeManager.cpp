@@ -9,6 +9,10 @@
 #include "global.h"
 #include "TLine.h"
 
+/*
+Author: Julien Wulf UZH
+*/
+
 
 ScopeManager::ScopeManager()
 {
