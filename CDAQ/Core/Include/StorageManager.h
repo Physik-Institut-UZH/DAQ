@@ -27,6 +27,7 @@
 using namespace std;
 
 /*
+Author: Julien Wulf UZH
 Class to save the output of the ADC
 */
 
