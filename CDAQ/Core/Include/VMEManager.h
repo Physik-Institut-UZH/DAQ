@@ -14,6 +14,7 @@
 using namespace std;
 
 /*
+Author: Julien Wulf UZH
 Class to manage the connection to the VME-Bus/Crate and Controller. 
 */
 
