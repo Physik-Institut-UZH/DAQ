@@ -20,6 +20,9 @@
 #include "TRint.h"
 #include "TApplication.h"
 
+/*
+Author: Julien Wulf UZH
+*/
 
 StorageManager::StorageManager()
 {
