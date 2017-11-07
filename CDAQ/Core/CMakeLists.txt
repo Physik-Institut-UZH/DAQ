@@ -1,4 +1,5 @@
-#Subsystem of the Scaler
+#Subsystem of CDAQ
+#Author: Julien Wulf UZH
 
 project(Core)
 
