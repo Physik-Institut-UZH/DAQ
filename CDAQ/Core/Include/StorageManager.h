@@ -93,6 +93,26 @@ int FillROOTContainer();
 	std::vector <int> m_zle_wf0;
         std::vector <int> m_zle_cw0;
 
+        std::vector <int> m_zle_wf1;
+        std::vector <int> m_zle_cw1;
+
+        std::vector <int> m_zle_wf2;
+        std::vector <int> m_zle_cw2;
+
+        std::vector <int> m_zle_wf3;
+        std::vector <int> m_zle_cw3;
+
+        std::vector <int> m_zle_wf4;
+        std::vector <int> m_zle_cw4;
+
+        std::vector <int> m_zle_wf5;
+        std::vector <int> m_zle_cw5;
+
+        std::vector <int> m_zle_wf6;
+        std::vector <int> m_zle_cw6;
+
+        std::vector <int> m_zle_wf7;
+        std::vector <int> m_zle_cw7;
 
 };
 

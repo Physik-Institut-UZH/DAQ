@@ -108,18 +108,19 @@ int ScopeManager::ShowEvent(){
 
     	// check header
     	if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
-       	 Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
-       	 pnt++;
- 
+       		 Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
+       		 pnt++;
+                 if(Size>0){
+
 		//Read ChannelMask (Handbook)
-        int ChannelMask=buffer[pnt] & 0xFF;                 
+	        int ChannelMask=buffer[pnt] & 0xFF;                 
 
 		pnt++;    
     
-        // Get size of one waveform by dividing through the number of channels
-        cnt=0;
-        for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
-        Size=Size/cnt;
+	        // Get size of one waveform by dividing through the number of channels
+	        cnt=0;
+	        for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+	        Size=Size/cnt;
 
 	 	// ignore EventConter and TTT
 		pnt+=2;
@@ -129,15 +130,16 @@ int ScopeManager::ShowEvent(){
 			// read only the channels given in ChannelMask
 			if ((ChannelMask>>j)&1) CurrentChannel=j;
 		        else{ continue;}
-		
-			if (CurrentChannel!=j) { pnt+=Size; continue; }
-	    		//else pnt++;
-	
-			if (j>j) return 0;	
-		      
-			cnt=0;                              // counter of waveform data
-			wavecnt=0;                          // counter to reconstruct times within waveform
+
+
 			if(m_ZLE==0){
+                	        if (CurrentChannel!=j) { pnt+=Size; continue; }
+
+	                        if (j>j) return 0;
+
+	                        cnt=0;                              // counter of waveform data
+	                        wavecnt=0;                          // counter to reconstruct times within waveform
+
 	      			while (cnt<(Size))
 	      			{	
 					double wave1=(double)((buffer[pnt]&0xFFFF));
@@ -155,12 +157,13 @@ int ScopeManager::ShowEvent(){
 		  		cnt=0;                              // counter of waveform data
                 		wavecnt=0;                          // counter to reconstruct times within waveform
                 		Size =  (buffer[pnt]);              //Size of the specific channel
-		//              std::cout << Size << std::endl;
+                                if (CurrentChannel!=j) { pnt+=Size; continue; }
+                                if (j>j) return 0;
+
                 		cnt++;
                 		pnt++;
- //              			uint32_t control;
                 		int length;
-	
+
                 		 while(cnt<(Size)){
                         		//Skipped or Good Control World
                         		uint32_t control = buffer[pnt];
@@ -194,8 +197,8 @@ int ScopeManager::ShowEvent(){
                         	        	cnt++;
                         		}
                			 } //End while
-        //      std::cout << cnt << std::endl;
 			}
+		   }
 		}
 	 }
 	for(int i=0;i<8;i++){

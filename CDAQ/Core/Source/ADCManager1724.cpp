@@ -383,7 +383,7 @@ int ADCManager1724::ApplyXMLFile(){
 		m_hex=m_hex+pow(2,23);
 
 		//m_hex=m_hex+pow(2,25);
-		std::cout << "Try my best" << std::endl;
+//		std::cout << "Try my best" << std::endl;
 		m_hex=m_hex+pow(2,24);	
 
 		m_hex=m_hex+pow(2,31);
@@ -418,6 +418,7 @@ int ADCManager1724::ApplyXMLFile(){
 			for(int i=0;i<8;i++){
 				m_hex = channelTresh[i];
 				m_hex = m_hex + pow(2,31);
+//				std::cout << m_hex << std::endl;
                			adc_writereg(ZLEThreshReg+(i*0x0100),m_hex);
 			}
         	}

@@ -141,6 +141,34 @@ int StorageManager::InitROOTZLE(){
 			tree->Branch("wf0_cw", "vector<int>", &m_zle_cw0);
                 	tree->Branch("wf0", "vector<int>", &m_zle_wf0);
 		}
+		if(channelActive[1]){
+			tree->Branch("wf1_cw", "vector<int>", &m_zle_cw1);
+                	tree->Branch("wf1", "vector<int>", &m_zle_wf1);
+		}
+		if(channelActive[2]){
+			tree->Branch("wf2_cw", "vector<int>", &m_zle_cw2);
+                	tree->Branch("wf2", "vector<int>", &m_zle_wf2);
+		}
+		if(channelActive[3]){
+			tree->Branch("wf3_cw", "vector<int>", &m_zle_cw3);
+                	tree->Branch("wf3", "vector<int>", &m_zle_wf3);
+		}
+		if(channelActive[4]){
+			tree->Branch("wf4_cw", "vector<int>", &m_zle_cw4);
+                	tree->Branch("wf4", "vector<int>", &m_zle_wf4);
+		}
+		if(channelActive[5]){
+			tree->Branch("wf5_cw", "vector<int>", &m_zle_cw5);
+                	tree->Branch("wf5", "vector<int>", &m_zle_wf5);
+		}
+		if(channelActive[6]){
+			tree->Branch("wf6_cw", "vector<int>", &m_zle_cw6);
+                	tree->Branch("wf6", "vector<int>", &m_zle_wf6);
+		}
+		if(channelActive[7]){
+			tree->Branch("wf7_cw", "vector<int>", &m_zle_cw7);
+                	tree->Branch("wf7", "vector<int>", &m_zle_wf7);
+		}
                 (tree)->Branch("Time",&m_time,"Time/D");
 		return 0;
 
@@ -192,7 +220,8 @@ int StorageManager::FillContainer(){
 
 int StorageManager::FillZLEROOTContainer(){
 
-
+	 vector<vector<int>> wf(8); 			//matrix for the data
+         vector<vector<int>> cw(8);                    	 //matrix for the cw
          //Start from the first word
         pnt =0;
 
@@ -213,55 +242,43 @@ int StorageManager::FillZLEROOTContainer(){
         cnt=0;
         for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
 
-//        Size=Size/cnt;
-
         // ignore EventConter and TTT
         pnt+=2;
-
+	if(Size>0){
 	for (int j=0; j<m_nbchs; j++) { // read all channels
 
                 // read only the channels given in ChannelMask
                 if ((ChannelMask>>j)&1) CurrentChannel=j;
                 else continue;
 
-                if (CurrentChannel!=j) { pnt+=Size; continue; }
-               // else pnt++;
-
                 if (j>j) return 0;
-
                 cnt=0;                              // counter of waveform data
                 wavecnt=0;                          // counter to reconstruct times within waveform
 		Size =  (buffer[pnt]);		    //Size of the specific channel
+                if (CurrentChannel!=j) {pnt+=Size; continue; }
+		int length=pnt;                         //Current Position in the Word
 	//	std::cout << Size << std::endl;
 		cnt++;
 		pnt++;
 		uint32_t control;
-		int length;
 		int number_Control=0;
 		while(cnt<Size){
 			//Skipped or Good Control World
 			control = buffer[pnt];
 			cnt++;
 
-//			if(cnt==Size){		//Last Word sometimes corrupt so we fix it by ourself
-	//			std::cout << "Length Skipped:   " << ((m_length/2)-number_Control) << std::endl;
-  //                              m_zle_cw0.push_back(-(((m_length/2)-number_Control)));
-//				number_Control=number_Control+((m_length/2)-number_Control);
-          //                      std::cout << number_Control << std::endl;
-//				break;
-//			}
 			if(((control>>31)&1)){
 				length=(control&0xFFFFF);
           //                      std::cout << "Length Good:      " << (control&0xFFFFF) << std::endl;
 				number_Control=number_Control+(control&0xFFFFF);
 				pnt++;
-				m_zle_cw0.push_back((control&0xFFFFF));
+				cw[j].push_back((control&0xFFFFF));
 			}
 			else {
       //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
                                 number_Control=number_Control+(control&0xFFFFF);
 	//			std::cout << number_Control << std::endl;
-                                m_zle_cw0.push_back(-(control&0xFFFFF));
+                               cw[j].push_back(-(control&0xFFFFF));
 				pnt++;
 
 				if(cnt>=Size)
@@ -271,7 +288,7 @@ int StorageManager::FillZLEROOTContainer(){
                                 cnt++;
 				if(((control>>31)&1)){
                         		length=(control&0xFFFFF);
-					m_zle_cw0.push_back((control&0xFFFFF));
+					cw[j].push_back((control&0xFFFFF));
     //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
                                 	number_Control=number_Control+(control&0xFFFFF);
   //                              	std::cout << number_Control << std::endl;
@@ -286,20 +303,62 @@ int StorageManager::FillZLEROOTContainer(){
 			}
 			for(int i=0;i<length;i++){
 				uint32_t temp= (uint32_t)((buffer[pnt]&0xFFFF));
-				m_zle_wf0.push_back(temp);
+				wf[j].push_back(temp);
 				temp= (uint32_t)(((buffer[pnt]>>16)&0xFFFF)) ;
-                                m_zle_wf0.push_back(temp);
+                                wf[j].push_back(temp);
 				pnt++;
 				cnt++;
 			}
 		} //End while
+//		std::cout << number_Control << std::endl;
+//		pnt = length+Size;			//Move the position in the word by the read size in order to get to the next channel
 //		std::cout << cnt << std::endl;
         } //end Channel
+	}
+
+	//Get Time
         m_time=GetUnixTime();
+
+	//Save waveform
+	if(channelActive[0])m_zle_wf0=wf[0];
+	if(channelActive[1])m_zle_wf1=wf[1];
+	if(channelActive[2])m_zle_wf2=wf[2];
+	if(channelActive[3])m_zle_wf3=wf[3];
+	if(channelActive[4])m_zle_wf4=wf[4];
+	if(channelActive[5])m_zle_wf5=wf[5];
+	if(channelActive[6])m_zle_wf6=wf[6];
+	if(channelActive[7])m_zle_wf7=wf[7];
+
+	//Save Control Word
+	if(channelActive[0])m_zle_cw0=cw[0];
+	if(channelActive[1])m_zle_cw1=cw[1];
+	if(channelActive[2])m_zle_cw2=cw[2];
+	if(channelActive[3])m_zle_cw3=cw[3];
+	if(channelActive[4])m_zle_cw4=cw[4];
+	if(channelActive[5])m_zle_cw5=cw[5];
+	if(channelActive[6])m_zle_cw6=cw[6];
+	if(channelActive[7])m_zle_cw7=cw[7];
+
         tree->Fill();
-	//clear
-		m_zle_wf0.clear();
-m_zle_cw0.clear();
+
+        if(channelActive[0])m_zle_cw0.clear();
+        if(channelActive[1])m_zle_cw1.clear();
+        if(channelActive[2])m_zle_cw2.clear();
+        if(channelActive[3])m_zle_cw3.clear();
+        if(channelActive[4])m_zle_cw4.clear();
+        if(channelActive[5])m_zle_cw5.clear();
+        if(channelActive[6])m_zle_cw6.clear();
+        if(channelActive[7])m_zle_cw7.clear();
+
+        if(channelActive[0])m_zle_wf0.clear();
+        if(channelActive[1])m_zle_wf1.clear();
+        if(channelActive[2])m_zle_wf2.clear();
+        if(channelActive[3])m_zle_wf3.clear();
+        if(channelActive[4])m_zle_wf4.clear();
+        if(channelActive[5])m_zle_wf5.clear();
+        if(channelActive[6])m_zle_wf6.clear();
+        if(channelActive[7])m_zle_wf7.clear();
+
     } //end Header
 }
 
