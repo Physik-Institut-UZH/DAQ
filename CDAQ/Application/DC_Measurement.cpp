@@ -90,7 +90,9 @@ int main(int argc, char *argv[], char *envp[] )
 	adcManager->SetCrateHandle(vManager->GetCrateHandle());
 	adcManager->SetADCAddress(slowcontrolManager->GetAddress(0));
 	adcManager->SetRegisterFile("RegisterConfig.ini");
-	adcManager->SetBaselineFile("../Macro/Baseline/Module_0_DACBaseline.ini");
+        std::string bp = Common::getdotdaqdir();
+        bp.append("/Baseline/Module_0_DACBaseline.ini");
+        adcManager->SetBaselineFile(bp.c_str());
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()==-1);
@@ -194,8 +196,8 @@ int main(int argc, char *argv[], char *envp[] )
 				//Check if there have been an accepted trigger before aquisition in the buffer
 				if(adcManager->CheckEventBuffer()<-1) return 0;	
 			gettimeofday(&m_begin, NULL);
-            if(k!=0 && k!=1 && k!=2 && k!=3 && k!=4)
-                continue;
+  //          		if(k!=0 || k!=1)
+//                		continue;
 			while(0<1){
 				c = 0;
 				if (kbhit()) c = getch();

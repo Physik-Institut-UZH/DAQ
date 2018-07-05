@@ -417,7 +417,7 @@ int ADCManager1724::ApplyXMLFile(){
 
 			for(int i=0;i<8;i++){
 				m_hex = channelTresh[i];
-				m_hex = m_hex + pow(2,31);
+//				m_hex = m_hex + pow(2,31); //Negative or positive 
 //				std::cout << m_hex << std::endl;
                			adc_writereg(ZLEThreshReg+(i*0x0100),m_hex);
 			}

@@ -8,7 +8,11 @@
 #include "ScopeManager.h"
 #include "global.h"
 #include "TLine.h"
-
+#include "TH1D.h"
+#include "TVirtualFFT.h"
+#include "TF1.h"
+#include "TCanvas.h"
+#include "TMath.h"
 /*
 Author: Julien Wulf UZH
 */
@@ -34,7 +38,7 @@ int ScopeManager::Init(){
     	std::cout << std::endl;
 
 
-	single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",1700,768);
+	single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",800,600);
   	gStyle->SetOptStat(0000000);
   	gStyle->SetOptFit(1100);
   	gStyle->SetTitleFillColor(0);
@@ -46,7 +50,7 @@ int ScopeManager::Init(){
 	
 	single->SetFillColor(0);
   	single->SetBorderMode(0);
-
+//	single->Divide(1,2);
 	//Init Graphs
 	 for(Int_t j=0; j<8;j++){
  		g.push_back(new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),m_length-1,0,m_length-1));
@@ -57,12 +61,12 @@ int ScopeManager::Init(){
 		g[j]->SetLineColor(2);
    		g[j]->GetXaxis()->SetTitle("Samples");
    		g[j]->GetYaxis()->SetTitle("ADC-Counts");
-   		g[j]->GetXaxis()->SetTitleFont(72);
-	       	g[j]->GetXaxis()->SetLabelFont(72);
-	        g[j]->GetXaxis()->SetTitleOffset(1.5);
-       		g[j]->GetYaxis()->SetTitleFont(72);
-	  	g[j]->GetYaxis()->SetLabelFont(72);
-	        g[j]->GetYaxis()->SetTitleOffset(1.5);
+   		g[j]->GetXaxis()->SetTitleFont(42);
+	       	g[j]->GetXaxis()->SetLabelFont(42);
+	        g[j]->GetXaxis()->SetTitleOffset(0.9);
+       		g[j]->GetYaxis()->SetTitleFont(42);
+	  	g[j]->GetYaxis()->SetLabelFont(42);
+	        g[j]->GetYaxis()->SetTitleOffset(1);
 	        g[j]->SetLineWidth(2);
 	}
 
@@ -102,7 +106,7 @@ int ScopeManager::ShowEvent(){
 	
 	//Start from the first word
     	pnt =0;
-
+//TH1 *hm =0;
     	//Check first Word
     	if (buffer[0]==0xFFFFFFFF) pnt++;
 
@@ -126,7 +130,7 @@ int ScopeManager::ShowEvent(){
 		pnt+=2;
 		m_mean=0;
 		for (int j=0; j<8; j++) { // read all channels
-	
+
 			// read only the channels given in ChannelMask
 			if ((ChannelMask>>j)&1) CurrentChannel=j;
 		        else{ continue;}
@@ -150,10 +154,14 @@ int ScopeManager::ShowEvent(){
 		  			pnt++; wavecnt+=2; cnt++;
 
 	      			} // end while(cnt...
-
-				m_mean= (m_mean)/(wavecnt);
+//
+   			//	TVirtualFFT::SetTransform(0);
+   			//	hm = g[j]->FFT(hm, "MAG");
+   			//	hm->SetTitle("Magnitude of the 1st transform");
+			//	m_mean= (m_mean)/(wavecnt);
 			}
 			else{
+//				std::cout << "hallo" << std::endl;
 		  		cnt=0;                              // counter of waveform data
                 		wavecnt=0;                          // counter to reconstruct times within waveform
                 		Size =  (buffer[pnt]);              //Size of the specific channel
@@ -216,7 +224,7 @@ int ScopeManager::ShowEvent(){
 //	    win->SetSelected(win);
  //	   win->Update();
     
-   	  single->cd();
+   	//  single->cd(1);
     
    	 //Treshhold level
     
@@ -242,6 +250,8 @@ int ScopeManager::ShowEvent(){
     if(m_save==1){
  	single->SaveAs(Form("Plots/Event_%i.png",m_counter));
     }
+  // single->cd(2);
+   //hm->Draw();
     m_counter++;
     return 0;
 

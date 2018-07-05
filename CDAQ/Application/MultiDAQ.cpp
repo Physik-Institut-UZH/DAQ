@@ -2,12 +2,12 @@
 
   DAQ      : DAQ for any kind of Detectors
   @author  : Julien Wulf
-  @Comment : DAQ to control a Single CAEN flash ADC
+  @Comment : DAQ to control a Multiple CAEN flash ADC
 
   LogBook:
 			JW - 07.12.2015 - First Stable Version v1.0.0 (Some Trigger features are missing)
-			JW - 08.12.2015 - Self Trigger implemented, trehshold can be controlled over w, e, r, t and i
-			JW - 10.01.2016 - ADC Extended for v1720, v1724 and 1730D, Postrigger controlable over o & p
+			JW - 08.12.2015 - Self Trigger implemented, trehshold can be controlled with w, e, r, t and i
+			JW - 10.01.2016 - ADC Extended for v1720, v1724 and 1730D, Postrigger controlable with o & p
 ******************************************************************************/
 
 

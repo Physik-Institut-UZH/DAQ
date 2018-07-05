@@ -278,7 +278,7 @@ int StorageManager::FillZLEROOTContainer(){
       //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
                                 number_Control=number_Control+(control&0xFFFFF);
 	//			std::cout << number_Control << std::endl;
-                               cw[j].push_back(-(control&0xFFFFF));
+                                cw[j].push_back(-(control&0xFFFFF)*2);
 				pnt++;
 
 				if(cnt>=Size)
@@ -288,7 +288,7 @@ int StorageManager::FillZLEROOTContainer(){
                                 cnt++;
 				if(((control>>31)&1)){
                         		length=(control&0xFFFFF);
-					cw[j].push_back((control&0xFFFFF));
+					cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
     //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
                                 	number_Control=number_Control+(control&0xFFFFF);
   //                              	std::cout << number_Control << std::endl;

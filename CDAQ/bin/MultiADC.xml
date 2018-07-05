@@ -8,8 +8,8 @@
     <user>Julien</user>                                     <!-- Last user which used the ADC-->
     <path>/home/marmotx/R11410/Run1/Gain/170K_GXe/Raw/</path>  		    <!-- Path -->
     <daq_version>3.0.0</daq_version>                        <!-- DAQ Version-->
-    <nb_evts>1000000</nb_evts>                             <!-- Number of events-->
-    <nb_evts_per_file>1000000</nb_evts_per_file>            <!-- Number of events/file-->
+    <nb_evts>2000000</nb_evts>                             <!-- Number of events-->
+    <nb_evts_per_file>2000000</nb_evts_per_file>            <!-- Number of events/file-->
     <store_data>1</store_data>                              <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
     <displaytime>1</displaytime>                            <!-- Status output -->
   </global>
@@ -28,20 +28,20 @@
       <address_1>55550000</address_1>
 
       <!-- Activate channels to read out. Every module starts from 0 -->
-      	<ch_0>1</ch_0>                       		  	         	   <!-- 0 = off, 1 =On -->
-      	<ch_1>1</ch_1>
-     	<ch_2>1</ch_2>                            
-      	<ch_3>1</ch_3>                           
-      	<ch_4>1</ch_4>                          
+      	<ch_0>15950</ch_0>                       		  	         	   <!-- 0 = off, 1 =On -->
+      	<ch_1>15950</ch_1>
+     	<ch_2>15950</ch_2>                            
+      	<ch_3>15950</ch_3>                           
+      	<ch_4>15950</ch_4>                          
       	<ch_5>0</ch_5>                         
       	<ch_6>0</ch_6>                        
       	<ch_7>0</ch_7>
 
-	<ch_8>1</ch_8>                               		           	<!-- 0 = off, 1 =On -->
-        <ch_9>1</ch_9>
-        <ch_10>1</ch_10>
-        <ch_11>1</ch_11>
-        <ch_12>1</ch_12>
+	<ch_8>15950</ch_8>                               		           	<!-- 0 = off, 1 =On -->
+        <ch_9>15950</ch_9>
+        <ch_10>15950</ch_10>
+        <ch_11>15950</ch_11>
+        <ch_12>15950</ch_12>
         <ch_13>0</ch_13>
         <ch_14>0</ch_14>
         <ch_15>0</ch_15>
@@ -63,7 +63,7 @@
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-		<trigger>1</trigger>							<!-- **0:ext trig, 1:Software trig-->
+		<trigger>0</trigger>							<!-- **0:ext trig, 1:Software trig-->
 	   
 		<!-- Option external trig and trg-out-->
 		<TTL>1</TTL>								<!-- **TTL On (1) or NIM On (0) -->
