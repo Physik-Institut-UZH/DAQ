@@ -1,6 +1,6 @@
 0<?xml version="1.0" encoding="ISO-8859-1"?>
 
-<settings author="Last additions by JW" date="10/01/2016">
+<settings author="Last additions by Julien Wulf" date="10/01/2016">
   <!-- global Settings for the measurement--> 
   <global>
     <source>Julien</source>       			    <!-- What is measured? -->

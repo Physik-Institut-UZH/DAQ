@@ -191,7 +191,7 @@ int StorageManager::NewFile(){
 			std::cout  << std::endl << m_command << std::endl << std::endl;
 			output = new TFile(m_command.c_str(), "RECREATE");
 			tree = new TTree("t1","");
-			
+
 			if(channelActive[0])(tree)->Branch("wf0", wf0, TString::Format("wf0[%i]/I", m_length));
 			if(channelActive[1])(tree)->Branch("wf1", wf1, TString::Format("wf1[%i]/I", m_length));
 			if(channelActive[2])(tree)->Branch("wf2", wf2, TString::Format("wf2[%i]/I", m_length));
@@ -272,7 +272,7 @@ int StorageManager::FillZLEROOTContainer(){
           //                      std::cout << "Length Good:      " << (control&0xFFFFF) << std::endl;
 				number_Control=number_Control+(control&0xFFFFF);
 				pnt++;
-				cw[j].push_back((control&0xFFFFF));
+				cw[j].push_back((control&0xFFFFF)*2);
 			}
 			else {
       //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
@@ -288,7 +288,7 @@ int StorageManager::FillZLEROOTContainer(){
                                 cnt++;
 				if(((control>>31)&1)){
                         		length=(control&0xFFFFF);
-					cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
+					            cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
     //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
                                 	number_Control=number_Control+(control&0xFFFFF);
   //                              	std::cout << number_Control << std::endl;
@@ -301,6 +301,7 @@ int StorageManager::FillZLEROOTContainer(){
 				//	std::cout << "End	" << std::endl;
 				}
 			}
+            //Simple Live Processing can be implemented here TODO (baseline, charge, height etc) without any speed limitation (loop is anyways necessary)
 			for(int i=0;i<length;i++){
 				uint32_t temp= (uint32_t)((buffer[pnt]&0xFFFF));
 				wf[j].push_back(temp);

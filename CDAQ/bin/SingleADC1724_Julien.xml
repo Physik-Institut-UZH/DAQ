@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<settings author="Last additions by JW" date="03/03/2016">
+<settings author="Last additions by Julien Wulf" date="03/03/2016">
   <!-- global Settings for the measurement--> 
   <global>
     <source>Julien</source>       			 							 <!-- What is measured? -->
     <notes>PMT</notes>                  	    					 	<!-- Comments -->
     <user>Julien</user>                                     						 <!-- Last user which used the ADC-->
-    <path>/home/marmotx/Julien/DAQ_dev/DAQ/CDAQ/bin/</path>      				 <!-- Path -->
+    <path>/home/sandbox/DAQ_Not_Stable/DAQ/CDAQ/bin/</path>      				 <!-- Path -->
     <daq_version>5.0.0</daq_version>                        						 	<!-- DAQ Version-->
     <nb_evts>50000000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>500000</nb_evts_per_file>           							 <!-- Number of events/file-->
@@ -22,7 +22,7 @@
       <nb_modules>1</nb_modules>
       <nb_chs>8</nb_chs>                                           				 <!-- **Total number of channels -->
       <link_in_chain>0</link_in_chain>                                                           <!-- Position of the board in the link -->
-      <address_0>44440000</address_0>				  							 <!-- Adress of the module-->
+      <address_0>55550000</address_0>				  							 <!-- Adress of the module-->
 	
       <!-- Activate channels to read out -->
       	<ch_0>1</ch_0>                       		   							 <!-- 0 = off, Number = treshold for trigger setting -->
@@ -82,7 +82,7 @@
    
     <!--Zero Length Encoding -->
     <ZLE>
-	<ZLEActivated>0</ZLEActivated>   
+	<ZLEActivated>1</ZLEActivated>   
 	<ZLELEFT>100</ZLELEFT>									<!-- Acquired samples before the threshold -->	
 	<ZLERIGHT>100</ZLERIGHT>   								<!-- Acquired samples after the threshold -->
    </ZLE>
