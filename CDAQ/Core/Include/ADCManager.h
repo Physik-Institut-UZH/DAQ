@@ -335,8 +335,11 @@ protected:
 	int* channelTresh;									//Treshold of the channels
 	int m_SoftwareRate;									//SoftwaretriggerRate 
 	int m_module;										//Module Number
-	u_int32_t m_posttrigger;							//Postrigger
-
+	u_int32_t m_posttrigger;								//Postrigger
+	u_int32_t m_custom_size;								//Custom_size
+	u_int16_t m_ZLE_Left;									//ZLE_Left
+	u_int16_t m_ZLE_Right;									//ZLE_Right
+	
 };
 
 #endif

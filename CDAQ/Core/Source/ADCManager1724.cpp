@@ -20,6 +20,8 @@
 #include <string>
 #include "ADCManager1724.h"
 #include "global.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 //Root Libaries
 #include <TH1D.h>
@@ -31,6 +33,7 @@
 #include "TTree.h"
 #include "TFile.h"
 #include "TROOT.h"
+#include "TString.h"
 
 /*
 Author: Julien Wulf UZH
@@ -44,6 +47,7 @@ ADCManager1724::ADCManager1724()
 		m_DACTarget[i]=0;
 	}
 }
+uint32_t f32(uint16_t u1, uint16_t u2);
 
 ADCManager1724::~ADCManager1724()
 {
@@ -185,7 +189,10 @@ int ADCManager1724::RegisterReading(){
 int ADCManager1724::ApplyXMLFile(){
 	int temp;  
 	char txt[100];
+	char txt2[100];
 	const char *xstr;
+
+
 	txt[0]='\0';
 	
 	// open the XML file -------------------------------------------------------
@@ -245,6 +252,7 @@ int ADCManager1724::ApplyXMLFile(){
 	if (xstr) {
         strcpy(txt,xstr);
         temp=(int)(atoi(txt)/2.);       // 2 samples per memory location
+	m_custom_size=temp;
 	adc_writereg(CustomWindowReg,temp);
 	} else error((char*)"XML-custom_size");
 	
@@ -256,7 +264,8 @@ int ADCManager1724::ApplyXMLFile(){
 		m_posttrigger=temp;
 		adc_writereg(PostTriggerReg,temp);
 	} else error((char*)"XML-posttrigger");
-		
+
+
 	xstr=xNode.getChildNode("baseline").getText();
 	if (xstr) {
 		strcpy(txt,xstr);
@@ -406,48 +415,100 @@ int ADCManager1724::ApplyXMLFile(){
 		}
 	} else error((char*)"ADC-Manager-XML-TTL");
 
+// ZLEActive ==================================================================================================================
         xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
         xstr=xNode.getChildNode("ZLEActivated").getText();
+	TString xstr2 = "";
 	if (xstr) {
  		strcpy(txt,xstr);
-   	        temp=((int)atoi(txt));
+		temp=((int)atoi(txt));
+	
 		if(temp==1){
 			adc_writereg(0x8000,0x20010);
-                        adc_writereg(0x8028,0x190019); //50 samples left and right
-
+                        //adc_writereg(0x8028,0x190019); //50 samples left and right
+			uint32_t polarity;
+			int temp2;
 			for(int i=0;i<8;i++){
+//				std:cout<<i<<std::endl;
+				xNode=xMainNode.getChildNode("adc").getChildNode("global");
+//				sprintf(xstr2,"ch_%d_pol",i);
+				xstr2= TString::Format("ch_%d_pol",i);
+//				std::cout<<xstr2<<std::endl;
+	      			xstr=xNode.getChildNode(xstr2.Data()).getText();
+				strcpy(txt2,xstr);
+				temp2=((int)atoi(txt2));
 				m_hex = channelTresh[i];
-//				m_hex = m_hex + pow(2,31); //Negative or positive 
+				if (temp2 == 1){				// If the polarity is negative
+					polarity = pow(2,31);
+					m_hex = m_hex | polarity;		// Add a 1 to the 31st bit 
+				}
+				else if (temp2 == 0){				// If the polarity is positive
+					polarity = pow(2,31);
+					polarity = ~polarity;			// Add a 0 to the 31st bit 
+					m_hex = m_hex & polarity;
+				}
+				
+				//m_hex = m_hex + pow(2,31); //Negative or positive 
 //				std::cout << m_hex << std::endl;
                			adc_writereg(ZLEThreshReg+(i*0x0100),m_hex);
 			}
         	}
 	}
         else error((char*)"ZLE");
+// ZLE_Left ==================================================================================================================
+	xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
+        xstr=xNode.getChildNode("ZLE_Left").getText();
+        if (xstr) {		
+                strcpy(txt,xstr);
+		m_ZLE_Left=((int)atoi(txt)/2);
+		if (m_ZLE_Left < 10){											// Check if the value of ZLE_Left is lower than 20. If so, hardcoded for 20.
+			printf(KRED);
+			printf("	Warning, XML value \"ZLE_Left\" is too low . . .\n");
+			printf("\n	Changing value of \"ZLE_Left\" from %d to %d . . .\n\n",m_ZLE_Left*2,10*2);	
+			m_ZLE_Left = 10;
+			printf(RESET);
+		}
+	}
+        else error((char*)"ZLE_Left");
 
-        xstr=xNode.getChildNode("ZLELEFT").getText();
+// ZLE_Right ==================================================================================================================
+	xstr=xNode.getChildNode("ZLE_Right").getText();
         if (xstr) {
                 strcpy(txt,xstr);
-                temp=((int)atoi(txt));
-  //              std::cout << temp << std::endl;
+	        m_ZLE_Right=((int)atoi(txt)/2);
+		//std::cout<<m_hex<<std::endl;		
+		if (m_ZLE_Right < 10){											// Check if the value of ZLE_Right is lower than 20. If so, hardcoded for 20.
+			printf(KRED);
+			printf("	Warning, XML value \"ZLE_Right\" is too low . . .\n");
+			printf("\n	Changing value of \"ZLE_Right\" from %d to %d . . .\n\n",m_ZLE_Right*2,10*2);	
+			m_ZLE_Right = 10;
+			printf(RESET);
+		}
+		m_hex = f32(m_ZLE_Left,m_ZLE_Right);									//Function to store 2x 16 bit integers into a 32 bit interger.
+		adc_writereg(0x8028,m_hex); //n samples left and right
         }
-        else error((char*)"ZLE");
+        else error((char*)"ZLE_Right");
 
-        xstr=xNode.getChildNode("ZLERIGHT").getText();
-        if (xstr) {
-                strcpy(txt,xstr);
-                temp=((int)atoi(txt));
-//                std::cout << temp << std::endl;
-        }
-        else error((char*)"ZLE");
-
-
-
-
+// Check if custom_size is bigger than posttrigger ==================================================================================================================
+	if (m_custom_size <= m_posttrigger){
+		int new_custom_size = 0;
+		printf(KRED);
+		printf("	Warning, XML value \"custom_size\" is lower than \"posttrigger\" . . .\n");
+		new_custom_size = (m_posttrigger + m_ZLE_Left + m_ZLE_Right);						//Custom Size must be at least bigger than posttriger. If not, hardcoded for Size = posttriger + ZLE_Left + ZLE_Right.
+		printf("\n	Changing value of \"custom_size\" from %d to %d . . .\n\n",m_custom_size*2,new_custom_size*2);
+		adc_writereg(CustomWindowReg,new_custom_size);
+		printf(RESET);
+	}
 	return 0;
 }
 
+uint32_t f32(uint16_t u1, uint16_t u2)
 
-
+{
+    long int num = u1 << 16 | u2;
+    uint32_t numf;
+    memcpy(&numf, &num, 4);
+    return numf;
+}
 
 
