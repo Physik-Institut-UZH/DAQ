@@ -96,7 +96,7 @@ int main(int argc, char *argv[], char *envp[] )
 		adcs[i]->SetCrateHandle(vManager->GetCrateHandle());
 		adcs[i]->SetADCAddress(slowcontrolManager->GetAddress(i));
 		adcs[i]->SetModuleNumber(i);
-		adcs[i]->SetRegisterFile("RegisterConfig.ini");				//Shpuld be the same for all modules
+		adcs[i]->SetRegisterFile("RegisterConfig.ini");				//Should be the same for all modules
 		sprintf(baseline, "Module_%i_DACBaseline.ini", i);
 		std::string bp = Common::getdotdaqdir();
 		bp.append("/Baseline/");
@@ -162,8 +162,9 @@ int main(int argc, char *argv[], char *envp[] )
 		adcs[i]->Enable();
 		adcs[i]->CheckEventBuffer();		//Read Buffer before start aquisition
 	}
-
+//slowcontrolManager->GetNumberEvents()!=storages[0]->GetNumberEvents() && quit!=1
 	while(slowcontrolManager->GetNumberEvents()!=storages[0]->GetNumberEvents() && quit!=1){
+		
 		c = 0;  
 		if (kbhit()) c = getch();
 		if (c == 'q' || c == 'Q') quit = 1;	
@@ -175,24 +176,25 @@ int main(int argc, char *argv[], char *envp[] )
 				usleep(adcs[0]->GetSoftwareRate());
 		}
 
-		//Get Event Check all ADCs always
+	
+		int counter =0;
+		//Get Event Check all ADCs always <slowcontrolManager->GetNbModules()
 		for(int i=0;i<slowcontrolManager->GetNbModules();i++){
-
-			if(adcs[0]->GetTriggerType()==1 && i==0){											//software trigger from the master board
+			if(adcs[0]->GetTriggerType()==1 && i==0){				//software trigger from the master board
 				if(adcs[i]->SoftwareTrigger()<-1) return 0;						
 			}
-			
-			if(adcs[i]->CheckEventBuffer()<-1) return 0;							
-		
+	
+			if(adcs[i]->CheckEventBuffer()==-1) return 0;
+										
+			//std::cout << adcs[i]->GetTransferedBytes() << std::endl;	
 
-			//Skipp events with 0-bytes
-			if(adcs[i]->GetTransferedBytes()<=0 && (i==0)){
+			//Skip events with 0-bytes
+			if(adcs[i]->GetTransferedBytes()<=0 /*&& (i==0)*/){
 				slowcontrolManager->ShowStatus(-1);
-				break;
-			}
-			
+				continue;
+			}	
 			slowcontrolManager->AddBytes(adcs[i]->GetTransferedBytes());
-			
+
 			//Show Event if checked
 			if(slowcontrolManager->GetGraphicsActive() && scopeManager->GetModule()==i){
 				adcs[i]->Checkkeyboard(c);
@@ -206,16 +208,16 @@ int main(int argc, char *argv[], char *envp[] )
 
 			//status output, Slowcontrol etc
 			if((i==0))
-				slowcontrolManager->ShowStatus();	
+				slowcontrolManager->ShowStatus();
 
-			counter[i]++;
-/*
-			//Create new file if noE is bigger than noEF
+		/*	//Create new file if noE is bigger than noEF
 			if(counter[i]==storages[i]->GetEventsPerFile() && storages[i]->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
 				counter[i]=0;
 				storages[i]->NewFile();
 			}
-*/		
+		*/
+			//adcs[i]->ClearMemory();
+
 		}
 	}
 

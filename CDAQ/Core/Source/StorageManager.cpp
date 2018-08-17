@@ -321,7 +321,7 @@ int StorageManager::FillZLEROOTContainer(){
 	}
 	else{
 		for (int i=0;i<8;i++){
-			if(channelActive[i]) cw[i].push_back(-m_custom_size);			// If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
+			if(channelActive[i]) cw[i].push_back(-m_custom_size);	// If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
 		}
 	}
 

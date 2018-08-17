@@ -5,9 +5,9 @@
     <source>ZLE_test</source>       			 							 <!-- What is measured? -->
     <notes>SiPM</notes>                  	    					 	<!-- Comments -->
     <user>Fred</user>                                     						 <!-- Last user which used the ADC-->
-    <path>~/zle_test_directory/zle_data/</path>      				 <!-- Path -->
+    <path>~/xenoscope/test_data/</path>      				 <!-- Path -->
     <daq_version>5.0.0</daq_version>                        						 	<!-- DAQ Version-->
-    <nb_evts>10000</nb_evts>                             							 <!-- Number of events-->
+    <nb_evts>1000000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>500000</nb_evts_per_file>           							 <!-- Number of events/file-->
     <store_data>1</store_data>                             							 <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
     <displaytime>1</displaytime>                        							 <!-- Status output -->
@@ -22,11 +22,11 @@
       <nb_modules>1</nb_modules>
       <nb_chs>8</nb_chs>                                           				 <!-- **Total number of channels -->
       <link_in_chain>0</link_in_chain>                                                           <!-- Position of the board in the link -->
-      <address_0>67890000</address_0>				  							 <!-- Adress of the module-->
+      <address_0>00000000</address_0>				  							 <!-- Adress of the module-->
 	
       <!-- Activate channels to read out -->
-      	<ch_0>210</ch_0>                       		   				 <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>210</ch_1>
+      	<ch_0>0</ch_0>                       		   				 <!-- 0 = off, Number = treshold for trigger setting -->
+      	<ch_1>15950</ch_1>
      	<ch_2>0</ch_2>                            
       	<ch_3>0</ch_3>                           
       	<ch_4>0</ch_4>                          
@@ -40,29 +40,29 @@
         <ch_3_pol>0</ch_3_pol>
         <ch_4_pol>0</ch_4_pol>
         <ch_5_pol>0</ch_5_pol>
-        <ch_6_pol>1</ch_6_pol>
+        <ch_6_pol>0</ch_6_pol>
         <ch_7_pol>0</ch_7_pol>
         
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
-      <memoryorganisation>8</memoryorganisation>  								 <!-- **Blockorganisation of the ADC-->
-      <custom_size>600</custom_size>      										 <!-- **Custom event size in samples (must be < nb_samples_per_event) -->
-      <posttrigger>500</posttrigger> 											 <!-- **samples after trigger -->
+      <memoryorganisation>32</memoryorganisation>  								 <!-- **Blockorganisation of the ADC-->
+      <custom_size>6000</custom_size>      										 <!-- **Custom event size in samples (must be < nb_samples_per_event) -->
+      <posttrigger>5500</posttrigger> 											 <!-- **samples after trigger -->
       <sampling_freq>50000000</sampling_freq>								     <!-- **sampling frequency -->
-      <voltage_range>2.0</voltage_range>										 <!-- **voltage range of ADC/DAC -->
+      <voltage_range>2.25</voltage_range>										 <!-- **voltage range of ADC/DAC -->
       <sample_size_ADC>14</sample_size_ADC>						 				 <!-- **sampling width in bits (ADC) -->
       <sample_size_DAC>16</sample_size_DAC>										 <!-- **sampling width in bits (DAC) -->
-      <baseline>0</baseline>  												 <!-- **position of baseline (channels) -->	
+      <baseline>16000</baseline>  												 <!-- **position of baseline (channels) -->	
       <!-- **If baseline is set to 0, set each channels separetly** -->
-      <baseline_0>200</baseline_0>
-      <baseline_1>15000</baseline_1>
+      <baseline_0>0</baseline_0>
+      <baseline_1>16000</baseline_1>
       <baseline_2>0</baseline_2>
       <baseline_3>0</baseline_3>
       <baseline_4>0</baseline_4>
       <baseline_5>0</baseline_5>
       <baseline_6>0</baseline_6>
       <baseline_7>0</baseline_7>
-      <baselineiteration>3</baselineiteration>									 <!-- **How many iterations for baseline calculation -->
+      <baselineiteration>10</baselineiteration>									 <!-- **How many iterations for baseline calculation -->
     </global>
     
     <!--Trigger Settings -->
@@ -84,7 +84,7 @@
 		<logic3>-1</logic3>
     	
 		<!-- Option Channel Trig v1724/v1720-->
-		<trig0>1</trig0>								<!-- Which Channel generates a board trigger 0: Deactivated 1:Activated-->
+		<trig0>0</trig0>								<!-- Which Channel generates a board trigger 0: Deactivated 1:Activated-->
 		<trig1>1</trig1>
 		<trig2>0</trig2>
 		<trig3>0</trig3>
@@ -104,7 +104,7 @@
     <ZLE>
 	<ZLEActivated>1</ZLEActivated>   
 	<ZLE_Left>50</ZLE_Left>									<!-- Acquired samples before the threshold -->	
-    <ZLE_Right>150</ZLE_Right>                                  <!-- Acquired samples after the threshold -->
+    	<ZLE_Right>150</ZLE_Right>                                  <!-- Acquired samples after the threshold -->
     </ZLE>
  </adc>  
  

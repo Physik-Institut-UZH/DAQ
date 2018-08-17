@@ -97,7 +97,6 @@ int ScopeManager::Init(){
  
 	sleep(4);
 
-
     return 0;
 }
 
@@ -165,6 +164,8 @@ int ScopeManager::ShowEvent(){
 		  		cnt=0;                              // counter of waveform data
                 		wavecnt=0;                          // counter to reconstruct times within waveform
                 		Size =  (buffer[pnt]);              //Size of the specific channel
+
+				m_Baseline=baseline[m_module*8+m_channel];
                                 if (CurrentChannel!=j) { pnt+=Size; continue; }
                                 if (j>j) return 0;
 
@@ -181,7 +182,9 @@ int ScopeManager::ShowEvent(){
                                 		pnt++;
                         		}
                         		else {
+					
                                 		for(int i=wavecnt;i<(wavecnt+((control&0xFFFFF)*2) );i++){
+							
 							 g[j]->SetBinContent(i,m_Baseline);
 						}
 						wavecnt=wavecnt+ ( (control&0xFFFFF)*2);
@@ -237,19 +240,23 @@ int ScopeManager::ShowEvent(){
 	//Event
     graph_edit(g[m_channel]);
     g[m_channel]->Draw();
-    if(m_triggertype==2)
-		g[m_channel]->SetTitle(Form("Channel:  %i , Threshold: %i",m_channel,m_tresh[m_channel]));
+    	if(m_triggertype==2)
+		g[m_channel]->SetTitle(Form("Channel:  %i,  Module:  %i,  Threshold:  %i",m_channel,m_module,m_tresh[m_channel]));
+	else if (m_triggertype != 0 && m_triggertype != 1 && m_triggertype != 2){
+		g[m_channel]->SetTitle(Form("Channel:  %i,  Module:  %i,  Threshold:  %i",m_channel,m_module,m_tresh[m_channel]));
+	}
+
 	else
 		g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
 	if(m_triggertype==2)
 		treshhigh.Draw("same");
-    single->Modified();
-    single->SetSelected(single);
-    single->Update();
+    		single->Modified();
+    		single->SetSelected(single);
+    		single->Update();
 
-    if(m_save==1){
- 	single->SaveAs(Form("Plots/Event_%i.png",m_counter));
-    }
+ 	if(m_save==1){
+ 			single->SaveAs(Form("Plots/Event_%i.png",m_counter));
+   	}
   // single->cd(2);
    //hm->Draw();
     m_counter++;
@@ -288,7 +295,8 @@ int ScopeManager::ApplyXMLFile(){
 	char txt[100];
 	const char *xstr;
 	txt[0]='\0';
-	
+	TString xstr2;
+
 	// open the XML file -------------------------------------------------------
 	XMLNode xMainNode=XMLNode::openFileHelper(m_XmlFileName,"settings");
 	
@@ -301,6 +309,16 @@ int ScopeManager::ApplyXMLFile(){
                 m_Baseline=(int)atoi(txt);
 
         } else error((char*)"XML-baseline");
+	
+
+	for (int i=0;i<m_nbmodule*8;i++){
+		xstr2 = TString::Format("baseline_%d",i);
+		xstr = xNode.getChildNode(xstr2.Data()).getText();
+ 		if (xstr) {
+			strcpy(txt,xstr);
+			baseline[i]=atoi(txt);
+		} else baseline[i]=0;
+	}
 
         xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
 	xstr=xNode.getChildNode("trigger").getText();

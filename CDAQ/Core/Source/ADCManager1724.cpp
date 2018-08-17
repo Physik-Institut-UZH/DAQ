@@ -100,6 +100,8 @@ int ADCManager1724::RegisterReading(){
 
 	adc_readreg(BlockOrganizationReg,data);
 	 printf("	Block Organization: %i\n",data);
+	
+	printf("	Module number: %d\n",m_module);				//Displays the module number
 
     	// Expected Event Size in Words (32Bit including Header)
 	m_ExpectedEvSize = (int)((((m_MemorySize*pow(2,20))/(int)pow(2,data))*8+16)/4);			//From the Handbook  
@@ -118,8 +120,8 @@ int ADCManager1724::RegisterReading(){
 	// Read DAC Status
 	for(int i=0;i<8;i++){
 		adc_readreg( StatusRegN+(i*0x100), data);
-       	        if (data&4) printf("	Channel %i DAC Status: busy\n",i);
-       		else printf("	Channel %i DAC Status: ok\n",i);
+       	        if (data&4) printf("	Channel %i DAC Status: busy\n",i+8*m_module);
+       		else printf("	Channel %i DAC Status: ok\n",i+8*m_module);
 	}
 
 	//Read Channel Enable Mask
@@ -128,7 +130,7 @@ int ADCManager1724::RegisterReading(){
 	m_hex=0;
 	for(int i=0; i<8;i++){
 		adc_readreg(TresholdRegN+(i*0x0100),m_hex);
-		std::cout << "	Channel: " << i << "	" << ((data >> i) & 0x01) << " Treshold: " << std::dec << m_hex << std::endl;
+		std::cout << "	Channel " << i+8*m_module << "	" << ((data >> i) & 0x01) << " Treshold: " << std::dec << m_hex << std::endl;
 	}
 	
     // Read BLT Event Number Register
@@ -271,9 +273,11 @@ int ADCManager1724::ApplyXMLFile(){
 		strcpy(txt,xstr);
 		m_Baseline=(int)atoi(txt); 
 		if(m_Baseline==0){
+
+            // Set the baseline per channel. This considers the case of multiple ADCs.
 			for(int i=0;i<8;i++){
 				char channel[300];
-				sprintf(channel,"baseline_%i",i);
+				sprintf(channel,"baseline_%i",i + ( 8 * GetModuleNumber() )  );
 				xstr=xNode.getChildNode(channel).getText();
 				if (xstr) {
 					strcpy(txt,xstr);
@@ -324,11 +328,18 @@ int ADCManager1724::ApplyXMLFile(){
 	xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
 
 	xstr=xNode.getChildNode("trigger").getText();
+
 	if (xstr) {
 		strcpy(txt,xstr); 
 		temp=atoi(txt);
+		if (temp != 0 && temp != 1 && temp != 2){
+			TString xstr2= TString::Format("trigger_module_%d",GetModuleNumber());
+			xstr=xNode.getChildNode(xstr2.Data()).getText();
+		}
+		strcpy(txt,xstr); 
+		temp=atoi(txt);
 		m_triggertyp=temp;
-    if (temp==0) {
+	if (temp==0) {
 		//External + Software Trigger always activated 
 		m_hex=0xC0000000;
 		adc_writereg(FrontPanelTriggerOutReg,m_hex);
@@ -429,11 +440,8 @@ int ADCManager1724::ApplyXMLFile(){
 			uint32_t polarity;
 			int temp2;
 			for(int i=0;i<8;i++){
-//				std:cout<<i<<std::endl;
 				xNode=xMainNode.getChildNode("adc").getChildNode("global");
-//				sprintf(xstr2,"ch_%d_pol",i);
-				xstr2= TString::Format("ch_%d_pol",i);
-//				std::cout<<xstr2<<std::endl;
+				xstr2= TString::Format("ch_%d_pol",i+8*GetModuleNumber());
 	      			xstr=xNode.getChildNode(xstr2.Data()).getText();
 				strcpy(txt2,xstr);
 				temp2=((int)atoi(txt2));
@@ -459,6 +467,8 @@ int ADCManager1724::ApplyXMLFile(){
 	xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
         xstr=xNode.getChildNode("ZLE_Left").getText();
         if (xstr) {		
+		m_hex = pow(2,4);
+		adc_writereg(VMEControlReg,m_hex);
                 strcpy(txt,xstr);
 		m_ZLE_Left=((int)atoi(txt)/2);
 		if (m_ZLE_Left < 10){											// Check if the value of ZLE_Left is lower than 20. If so, hardcoded for 20.

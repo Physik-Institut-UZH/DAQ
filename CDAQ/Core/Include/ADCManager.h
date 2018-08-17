@@ -193,14 +193,6 @@ Author: Julien Wulf UZH
 //Configuration Reload
 #define ConfigurationReloadReg  0xEF34
 
- 
-
-
-
-
-
-
-
 class ADCManager
 {
 public:
@@ -219,6 +211,7 @@ public:
 	void SetModuleNumber(int i){m_module=i;}										    	//Set ADC Module in the Chain
 
 	//Get Functions
+	int GetModuleNumber(){return m_module;}										    	//Get ADC Module in the Chain
 	int GetCrateHandle(){return m_CrateHandle;};
 	int GetTransferedBytes(){return blt_bytes;};
 	int GetEventLength(){return m_length;}
@@ -273,6 +266,9 @@ public:
 	//Enable Software Trigger 
 	int EnableSoftware();
 
+	//Clear Memory
+	int ClearMemory();
+
 	
 
 protected:
@@ -297,29 +293,29 @@ protected:
 	//Convert an int to string
 	string IntToString(const int num);
   	
-  	virtual int ApplyXMLFile(){};																	//Read XML-Config for the Storage Manager
+  	virtual int ApplyXMLFile(){};								//Read XML-Config for the Storage Manager
 
-    u_int32_t *buffer;																			//Buffer for the event
-	u_int32_t m_ADCaddr;																		//ADC hex adress
-   	u_int32_t m_addr;																			//Variable Register adress
-  	u_int32_t m_hex;																			//Variable to write to the VME bus
-	u_int32_t m_ExpectedEvSize;																	//Complete Eventsize
-	int m_length;																				//length of the event
-   	int m_CrateHandle;																			//Object to the VME Bus
-   	int m_MemorySize, m_BufferSize; 															//Size of the Memory on the ADC and Eventsize
-   	int m_EnableVMEIrq, m_Align64, m_EnableBerr, m_EnableOLIrq, m_EnableInt, m_EvAlign;  		//VME, Interrupt etc handling
-	CAEN_BYTE IrqMask, IrqCheckMask;															//Interrupt Handling
-   	string m_RegisterFileName;																	//Configfile for the Register
-	string m_BaselineFileName;																	//Baseline File Name
-	char* m_XmlFileName;																		//XML-File
+    u_int32_t *buffer;										//Buffer for the event
+	u_int32_t m_ADCaddr;									//ADC hex adress
+   	u_int32_t m_addr;									//Variable Register adress
+  	u_int32_t m_hex;									//Variable to write to the VME bus
+	u_int32_t m_ExpectedEvSize;								//Complete Eventsize
+	int m_length;										//length of the event
+   	int m_CrateHandle;									//Object to the VME Bus
+   	int m_MemorySize, m_BufferSize; 							//Size of the Memory on the ADC and Eventsize
+   	int m_EnableVMEIrq, m_Align64, m_EnableBerr, m_EnableOLIrq, m_EnableInt, m_EvAlign;	//VME, Interrupt etc handling
+	CAEN_BYTE IrqMask, IrqCheckMask;							//Interrupt Handling
+   	string m_RegisterFileName;								//Configfile for the Register
+	string m_BaselineFileName;								//Baseline File Name
+	char* m_XmlFileName;									//XML-File
 	
 	// read the event
     	int blt_bytes, pnt, Size, cnt, wavecnt, CurrentChannel, nb, ret;
 
 	//Baseline calculation
-	double m_mean, m_diff, m_std, m_correction;			//Baseline properties
-	u_int32_t m_DACLevel[8];							//DAC Level Current Value
-	u_int32_t m_DACTarget[8];							//DAC Level Set Value
+	double m_mean, m_diff, m_std, m_correction;						//Baseline properties
+	u_int32_t m_DACLevel[8];								//DAC Level Current Value
+	u_int32_t m_DACTarget[8];								//DAC Level Set Value
 	int m_DACFinished[8];
 	
 	//ADC Properties
@@ -329,7 +325,7 @@ protected:
 	int m_resDAC;										//Resolution DAC
 	int m_resADC;										//Resolution ADC
 	int m_Voltage;										//Voltage range ADC
-	int m_nbCh;											//Number of the Channels
+	int m_nbCh;										//Number of the Channels
 	int m_triggertyp;									//External, internal trigger, Daisy Chain
 	int m_nbchs;										//Channel Number
 	int* channelTresh;									//Treshold of the channels

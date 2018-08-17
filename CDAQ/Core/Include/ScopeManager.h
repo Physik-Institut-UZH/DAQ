@@ -88,6 +88,7 @@ class ScopeManager: public Common
 		int m_counter;
 		int m_ZLE;	
 		int m_Baseline;
+		int baseline[1000];
 };
 
 #endif
