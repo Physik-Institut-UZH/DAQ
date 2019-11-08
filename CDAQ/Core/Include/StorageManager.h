@@ -68,15 +68,15 @@ int FillROOTContainer();
 	void SaveROOTContainer();
 	int FillZLEROOTContainer();
 	double m_time;							//Storage of the current time
-    string m_command;						//tmp variable
+    	string m_command;						//tmp variable
 	string m_path;							//Path for storage
-	string m_moduleName;					//Folder for the differen Modules
+	string m_moduleName;						//Folder for the differen Modules
 	TFile* output;							//ROOT File
 	TTree* tree;							//ROOT Tree
-    char* m_OutputFolder;					//Output FileName
+    	char* m_OutputFolder;						//Output FileName
 	u_int32_t* buffer;						//Buffer of the data to visualize
 	int m_length;							//Set length of the waveform
-	uint32_t blt_bytes,pnt,Size,cnt,wavecnt, CurrentChannel;     //readout the channel
+	uint32_t blt_bytes,pnt,Size,cnt,wavecnt, CurrentChannel;    	//readout the channel
     	int* wf0;								//Storage for waveform
 	int* wf1;								//Storage for waveform
 	int* wf2;								//Storage for waveform
@@ -85,10 +85,13 @@ int FillROOTContainer();
  	int* wf5;								//Storage for waveform
  	int* wf6;								//Storage for waveform
  	int* wf7;								//Storage for waveform
- 	char* m_XmlFileName;					//XML-File
+ 	char* m_XmlFileName;						//XML-File
  	int ApplyXMLFile();						//Read XML-Config for the Storage Manager
  	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber,m_module;			//Number of events
- 	int *channelActive;						//Channel active
+	int m_custom_size; 
+
+	
+	int *channelActive;						//Channel active
 	int m_ZLE;							//ZLE active or not
 	std::vector <int> m_zle_wf0;
         std::vector <int> m_zle_cw0;

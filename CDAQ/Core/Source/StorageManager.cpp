@@ -26,7 +26,7 @@ Author: Julien Wulf UZH
 
 StorageManager::StorageManager()
 {
-	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
+	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_triggertimetag=m_eventcounter=m_module=m_ZLE=0;
 	m_path="test/";
 	m_moduleName="";
 }
@@ -117,7 +117,8 @@ int StorageManager::InitROOT(){
 		if(channelActive[6])(tree)->Branch("wf6", wf6, TString::Format("wf6[%i]/I", m_length));
 		if(channelActive[7])(tree)->Branch("wf7", wf7, TString::Format("wf7[%i]/I", m_length));
 		(tree)->Branch("Time",&m_time,"Time/D");
-		
+		(tree)->Branch("TriggerTimeTag",&m_triggertimetag,"TriggerTimeTag/D");
+		(tree)->Branch("EventCounter",&m_eventcounter,"EventCounter/D");
 		return 0;
 
 }
@@ -170,6 +171,8 @@ int StorageManager::InitROOTZLE(){
                 	tree->Branch("wf7", "vector<int>", &m_zle_wf7);
 		}
                 (tree)->Branch("Time",&m_time,"Time/D");
+		(tree)->Branch("TriggerTimeTag",&m_triggertimetag,"TriggerTimeTag/D");
+		(tree)->Branch("EventCounter",&m_eventcounter,"EventCounter/D");
 		return 0;
 
 }
@@ -219,7 +222,7 @@ int StorageManager::FillContainer(){
 }
 
 int StorageManager::FillZLEROOTContainer(){
-
+	
 	 vector<vector<int>> wf(8); 			//matrix for the data
          vector<vector<int>> cw(8);                    	 //matrix for the cw
          //Start from the first word
@@ -229,7 +232,7 @@ int StorageManager::FillZLEROOTContainer(){
         if (buffer[0]==0xFFFFFFFF) pnt++;
 
         // check header
-        if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
+        if ((buffer[pnt]>>28)==0xA) {
          Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
          pnt++;
 
@@ -242,19 +245,33 @@ int StorageManager::FillZLEROOTContainer(){
         cnt=0;
         for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
 
-        // ignore EventConter and TTT
-        pnt+=2;
+	//read eventcounter
+	m_eventcounter = buffer[pnt] & 0xFFFFFF;
+
+
+        pnt+=1;
+	//read TT
+	m_triggertimetag = buffer[pnt] & 0xFFFFFFFF;
+
+        pnt+=1;
+	//read event
 	if(Size>0){
+
 	for (int j=0; j<m_nbchs; j++) { // read all channels
 
                 // read only the channels given in ChannelMask
                 if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else continue;
+                else {
+			if(channelActive[j]){cw[j].push_back(-m_custom_size);}		// If there is no waveform for the current channel, write only 1 control word for this event "Skipped" of value "custom_size" in the current branch.
+			continue;
 
+		}
                 if (j>j) return 0;
                 cnt=0;                              // counter of waveform data
                 wavecnt=0;                          // counter to reconstruct times within waveform
+
 		Size =  (buffer[pnt]);		    //Size of the specific channel
+
                 if (CurrentChannel!=j) {pnt+=Size; continue; }
 		int length=pnt;                         //Current Position in the Word
 	//	std::cout << Size << std::endl;
@@ -266,7 +283,6 @@ int StorageManager::FillZLEROOTContainer(){
 			//Skipped or Good Control World
 			control = buffer[pnt];
 			cnt++;
-
 			if(((control>>31)&1)){
 				length=(control&0xFFFFF);
           //                      std::cout << "Length Good:      " << (control&0xFFFFF) << std::endl;
@@ -277,12 +293,11 @@ int StorageManager::FillZLEROOTContainer(){
 			else {
       //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
                                 number_Control=number_Control+(control&0xFFFFF);
-	//			std::cout << number_Control << std::endl;
                                 cw[j].push_back(-(control&0xFFFFF)*2);
 				pnt++;
 
-				if(cnt>=Size)
-					break;
+				if(cnt>=Size){
+					break;}
 
 				control = buffer[pnt];
                                 cnt++;
@@ -291,7 +306,6 @@ int StorageManager::FillZLEROOTContainer(){
 					            cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
     //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
                                 	number_Control=number_Control+(control&0xFFFFF);
-  //                              	std::cout << number_Control << std::endl;
                 			pnt++;
 				}
 				else{
@@ -316,7 +330,13 @@ int StorageManager::FillZLEROOTContainer(){
 //		std::cout << cnt << std::endl;
         } //end Channel
 	}
+	else{
+		for (int i=0;i<8;i++){
+			if(channelActive[i]) cw[i].push_back(-m_custom_size);	// If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
+		}
+	}
 
+	
 	//Get Time
         m_time=GetUnixTime();
 
@@ -368,7 +388,6 @@ int StorageManager::FillZLEROOTContainer(){
 int StorageManager::FillROOTContainer(){
 		float wvf[m_nbchs][m_length];
 		
-
 	 //Start from the first word
         pnt =0;
 
@@ -382,7 +401,6 @@ int StorageManager::FillROOTContainer(){
 
         //Read ChannelMask (Handbook)
         int ChannelMask=buffer[pnt] & 0xFF;
-
         pnt++;
 
         // Get size of one waveform by dividing through the number of channels
@@ -390,8 +408,18 @@ int StorageManager::FillROOTContainer(){
         for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
         Size=Size/cnt;
 
-        // ignore EventConter and TTT
-        pnt+=2;
+
+
+	//read eventcounter
+	m_eventcounter = buffer[pnt] & 0xFFFFFF;
+
+
+        pnt+=1;
+	//read TT
+	m_triggertimetag = buffer[pnt] & 0xFFFFFFFF;
+
+        pnt+=1;
+	//read event
 
         for (int j=0; j<m_nbchs; j++) { // read all channels
 
@@ -432,19 +460,15 @@ int StorageManager::FillROOTContainer(){
 }
 
 int StorageManager::SaveContainer(){
-	
 	if(m_WriteToFile==1){
 		SaveROOTContainer();
-	}
-
-
-	
+	}	
 }
 
 void StorageManager::SaveROOTContainer(){
 	output->cd();
 	tree->Write();
-    output->Close();
+	output->Close();
 }
 
 int StorageManager::ApplyXMLFile(){
@@ -458,7 +482,7 @@ int StorageManager::ApplyXMLFile(){
 	
 	// parse global DAQ settings -----------------------------------------------
 	XMLNode xNode=xMainNode.getChildNode("global");
-	
+
 	xstr=xNode.getChildNode("path").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
@@ -487,6 +511,12 @@ int StorageManager::ApplyXMLFile(){
 	
 	// parse global ADC settings -----------------------------------------------
 	xNode=xMainNode.getChildNode("adc").getChildNode("global");
+
+	xstr=xNode.getChildNode("custom_size").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+		m_custom_size=atoi(txt); 
+	} else error((char*)"XML-custom_size");
   
 	xstr=xNode.getChildNode("nb_chs").getText();
 	if (xstr) {
@@ -521,6 +551,4 @@ int StorageManager::ApplyXMLFile(){
 	
 	return 0;
 }
-
-
 
