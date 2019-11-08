@@ -249,8 +249,10 @@ int StorageManager::FillZLEROOTContainer(){
 
                 // read only the channels given in ChannelMask
                 if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else continue;
-
+                else{
+		if(channelActive[j]){cw[j].push_back(-m_custom_size);} // If there is no waveform for the current channel, write only 1 control word for this event "Skipped" of value "custom_size" in the current branch.
+		continue;
+		}
                 if (j>j) return 0;
                 cnt=0;                              // counter of waveform data
                 wavecnt=0;                          // counter to reconstruct times within waveform
