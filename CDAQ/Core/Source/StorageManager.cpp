@@ -26,7 +26,7 @@ Author: Julien Wulf UZH
 
 StorageManager::StorageManager()
 {
-	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
+	m_custom_size,m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
 	m_path="test/";
 	m_moduleName="";
 }
