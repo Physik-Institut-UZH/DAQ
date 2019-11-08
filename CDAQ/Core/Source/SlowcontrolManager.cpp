@@ -438,8 +438,7 @@ int SlowcontrolManager::ApplyXMLFile(){
 	if (xstr) {
 		strcpy(txt,xstr); 
 		temp=atoi(txt);
-
-    		if (temp==0){ printf("	Trigger: External\n");
+    if (temp==0){ printf("	Trigger: External\n");
 			xstr=xNode.getChildNode("TTL").getText();
 			if(xstr) {
 				strcpy(txt,xstr);
@@ -449,18 +448,18 @@ int SlowcontrolManager::ApplyXMLFile(){
 				else
 					printf("	Trigger Logic: NIM\n\n");
 			} else error((char*)"XML-TTL");
-		}
-  		else if (temp==1){ 
-			printf("	Trigger: Software\n");
-			xstr=xNode.getChildNode("SoftwareRate").getText();;
-			if (xstr) {
+	}
+  	else if (temp==1){ 
+		printf("	Trigger: Software\n");
+		xstr=xNode.getChildNode("SoftwareRate").getText();;
+		if (xstr) {
 				strcpy(txt,xstr); 
 				printf("	Software Rate: %s Hz\n\n",txt); 
-			}
-			else error((char*)"XML-SoftwareRate");
 		}
-    		else if (temp==2) printf("	Trigger: Channel Treshold\n\n");
-    else {printf("	Trigger: Per Channel Trigger Type\n\n");}
+		else error((char*)"XML-SoftwareRate");
+	}
+    else if (temp==2) printf("	Trigger: Channel Treshold\n\n");
+    else {printf("	Trigger: Channel Coincidence\n\n");}
   } else error((char*)"XML-trigger");
 
 	
