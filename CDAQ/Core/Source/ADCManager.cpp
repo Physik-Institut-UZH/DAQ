@@ -117,23 +117,15 @@ int ADCManager::ReadBaseLine(){
 
 //Syncronize Boards (v1730D)
 int ADCManager::SyncBoards(){
-	adc_writereg(ClockSyncReg,1);
+	adc_writereg(m_ADCaddr+ClockSyncReg,1);
 	sleep(1);
 }
 
 //Delay between boards (v1730D)
 int ADCManager::DelayBoards(u_int32_t data){
-	adc_writereg(DelayReg,data);
+	adc_writereg(m_ADCaddr+DelayReg,data);
 	sleep(1);
 }
-
-//Clear Memory
-int ADCManager::ClearMemory(){
-	u_int32_t data =1;
-	adc_writereg(SoftwareClearReg,data);
-	//sleep(1);
-}
-
 
 
 //Board Position
@@ -412,7 +404,7 @@ int ADCManager::CheckEventBuffer(){
     // there is no CPU time wasting because the process sleeps until there are at least
     // N event available for reading, where N is the content of the register Interrupt
     // Event Number (0xEF18)
-     if (m_EnableInt) {	
+     if (m_EnableInt) {		
 	  	if (m_EnableOLIrq) IrqMask = 0x01; // IRQ1 is used when interrupt generated via OLINK
 		      else IrqMask = 0xFF; // All VME Interrupt Enabled
 
@@ -426,9 +418,8 @@ int ADCManager::CheckEventBuffer(){
 
 	// Read data from ADC  in MBLT mode into buff[i]
      blt_bytes=adc_readblt();
-	 if (blt_bytes<0){
-	 return -1;
-	}
+	 if (blt_bytes<0) return -1;;
+
 		return 0;
 }
 
@@ -441,7 +432,7 @@ int ADCManager::adc_writereg(u_int32_t addr,		    // the register to write to
 {
 if (CAENVME_WriteCycle(m_CrateHandle, m_ADCaddr+addr, &data, cvA32_U_DATA, cvD32) != cvSuccess) {
 		printf(KRED);
-		printf(":::: VME write error!!! (ADCManager::CAENVME_WriteCycle()) ::::\n");
+		printf(":::: VME read error!!! (ADCManager::CAENVME_WriteCycle()) ::::\n");
 		printf(RESET);
 		return -1;
   }  
@@ -479,31 +470,19 @@ int ADCManager::adc_readblt()		// the value to read
       // Read data from module i in MBLT mode into buff     
 	blt_bytes=0;
    do { 
-	//std::cout<<"Just before, module "<<m_module<<" nb: "<<nb<<std::endl;
-   	ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_ADCaddr,((unsigned char*)buffer)+blt_bytes, (1024*1024*8*10), cvA32_U_BLT, cvD32, &nb);
-	
-//	std::cout<<"m_CrateHandle:		"<<m_CrateHandle<<std::endl;
-//	std::cout<<"m_ADCaddr:		"<<m_ADCaddr<<std::endl;
-//	std::cout<<"(buffer)+blt_bytes:	"<<(buffer)+blt_bytes<<std::endl;
-//	std::cout<<"(1024*1024*8*10):	"<<(1024*1024*8*10)<<std::endl;
-//	std::cout<<"cvA32_U_BLT:		"<<cvA32_U_BLT<<std::endl;
-//	std::cout<<"cvD32:			"<<cvD32<<std::endl;
-//	std::cout<<"nb:			"<<nb<<std::endl;
-//	std::cout<<std::endl;
-
-	//std::cout<<"Just after, module "<<m_module<<" ret "<<ret<<std::endl;
-   	if ((ret != cvSuccess) && (ret != cvBusError)) {
+    ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_ADCaddr, 
+		((unsigned char*)buffer)+blt_bytes, (1024*1024*8*10), cvA32_U_BLT, cvD32, &nb);
+    if ((ret != cvSuccess) && (ret != cvBusError)) {
 		std::cout << "Block read error" << std::endl;   
-
 		printf("%d bytes read\n",nb);
 		return -1;  
-   	}
-   	blt_bytes += nb;
-   	if (blt_bytes > m_BufferSize) { 
-		std::cout << "Negative bytes transfered" << std::endl;
+    }
+    blt_bytes += nb;
+    if (blt_bytes > m_BufferSize) { 
+		std::cout << "Negativ bytes transfered" << std::endl;
 		return -1;  
-   	}
-   } while (ret != cvBusError); 
+    }
+  } while (ret != cvBusError); 
   
    return  blt_bytes;
 }	
