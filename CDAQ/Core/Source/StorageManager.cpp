@@ -26,7 +26,7 @@ Author: Julien Wulf UZH
 
 StorageManager::StorageManager()
 {
-	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
+	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_triggertimetag=m_eventcounter=m_module=m_ZLE=0;
 	m_path="test/";
 	m_moduleName="";
 }
@@ -117,7 +117,8 @@ int StorageManager::InitROOT(){
 		if(channelActive[6])(tree)->Branch("wf6", wf6, TString::Format("wf6[%i]/I", m_length));
 		if(channelActive[7])(tree)->Branch("wf7", wf7, TString::Format("wf7[%i]/I", m_length));
 		(tree)->Branch("Time",&m_time,"Time/D");
-		
+		(tree)->Branch("TriggerTimeTag",&m_triggertimetag,"TriggerTimeTag/D");
+		(tree)->Branch("EventCounter",&m_eventcounter,"EventCounter/D");
 		return 0;
 
 }
@@ -170,6 +171,8 @@ int StorageManager::InitROOTZLE(){
                 	tree->Branch("wf7", "vector<int>", &m_zle_wf7);
 		}
                 (tree)->Branch("Time",&m_time,"Time/D");
+		(tree)->Branch("TriggerTimeTag",&m_triggertimetag,"TriggerTimeTag/D");
+		(tree)->Branch("EventCounter",&m_eventcounter,"EventCounter/D");
 		return 0;
 
 }
@@ -229,7 +232,7 @@ int StorageManager::FillZLEROOTContainer(){
         if (buffer[0]==0xFFFFFFFF) pnt++;
 
         // check header
-        if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
+        if ((buffer[pnt]>>28)==0xA) {
          Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
          pnt++;
 
@@ -242,8 +245,16 @@ int StorageManager::FillZLEROOTContainer(){
         cnt=0;
         for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
 
-        // ignore EventConter and TTT
-        pnt+=2;
+	//read eventcounter
+	m_eventcounter = buffer[pnt] & 0xFFFFFF;
+
+
+        pnt+=1;
+	//read TT
+	m_triggertimetag = buffer[pnt] & 0xFFFFFFFF;
+
+        pnt+=1;
+	//read event
 	if(Size>0){
 
 	for (int j=0; j<m_nbchs; j++) { // read all channels
@@ -397,8 +408,18 @@ int StorageManager::FillROOTContainer(){
         for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
         Size=Size/cnt;
 
-        // ignore EventConter and TTT
-        pnt+=2;
+
+
+	//read eventcounter
+	m_eventcounter = buffer[pnt] & 0xFFFFFF;
+
+
+        pnt+=1;
+	//read TT
+	m_triggertimetag = buffer[pnt] & 0xFFFFFFFF;
+
+        pnt+=1;
+	//read event
 
         for (int j=0; j<m_nbchs; j++) { // read all channels
 
