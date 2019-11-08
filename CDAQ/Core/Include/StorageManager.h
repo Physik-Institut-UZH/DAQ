@@ -88,6 +88,7 @@ int FillROOTContainer();
  	char* m_XmlFileName;					//XML-File
  	int ApplyXMLFile();						//Read XML-Config for the Storage Manager
  	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber,m_module;			//Number of events
+	int m_custom_size;
  	int *channelActive;						//Channel active
 	int m_ZLE;							//ZLE active or not
 	std::vector <int> m_zle_wf0;
