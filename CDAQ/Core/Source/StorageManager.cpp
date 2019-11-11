@@ -26,7 +26,7 @@ Author: Julien Wulf UZH
 
 StorageManager::StorageManager()
 {
-	m_custom_size,m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
+	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
 	m_path="test/";
 	m_moduleName="";
 }
@@ -318,6 +318,11 @@ int StorageManager::FillZLEROOTContainer(){
 //		std::cout << cnt << std::endl;
         } //end Channel
 	}
+	else{
+        for (int i=0;i<8;i++){
+            if(channelActive[i]) cw[i].push_back(-m_custom_size);   // If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
+        }
+   	}
 
 	//Get Time
         m_time=GetUnixTime();
@@ -490,6 +495,12 @@ int StorageManager::ApplyXMLFile(){
 	// parse global ADC settings -----------------------------------------------
 	xNode=xMainNode.getChildNode("adc").getChildNode("global");
   
+	xstr=xNode.getChildNode("custom_size").getText();
+    	if (xstr) {
+        strcpy(txt,xstr);
+        m_custom_size=atoi(txt);
+   	} else error((char*)"XML-custom_size");
+	
 	xstr=xNode.getChildNode("nb_chs").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
