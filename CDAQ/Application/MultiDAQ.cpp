@@ -197,7 +197,7 @@ int main(int argc, char *argv[], char *envp[] )
 			if(slowcontrolManager->GetGraphicsActive() && scopeManager->GetModule()==i){
 				adcs[i]->Checkkeyboard(c);
 				scopeManager->SetBuffer(adcs[i]->GetBuffer());
-				scopeManager->SetChannelTresh(adcs[i]->GetTreshold());
+				scopeManager->SetChannelThresh(adcs[i]->GetThreshold());
 				scopeManager->ShowEvent();
 			}
 			

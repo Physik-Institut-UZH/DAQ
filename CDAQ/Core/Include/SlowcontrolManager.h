@@ -12,6 +12,7 @@
 #include "common.h"
 #include "xmlParser.h"
 #include <sys/time.h>
+#include "CAENDigitizer.h"
 
 //ROOT Libraries
 #include "TROOT.h"
@@ -62,7 +63,9 @@ class SlowcontrolManager: public Common
    string GetAddress(int i){return m_address[i];}		//Get ADC adress from xml-file
    int GetADCType(){return m_type;}				        //Which ADC is connected
    int GetNbModules(){return m_Nbmodule;}			    //How many modules in the daisy chain
-   int GetLinkInChain(){return m_numberChain;}			//In which position is the Board in the chain
+   int GetLinkInChain(){return m_numberChain;}			//In which position is the Board in the chain,(ConetNode)
+   int GetPCILinkNum(){return m_PCILinkNum;} //Return which PCI slot is used V3718 can have 1,2, or 4
+   CAEN_DGTZ_ConnectionType GetConnectionType() {return m_ConnectionType;}
    
    //Interaction Functions
    int StartAquistion();
@@ -87,8 +90,11 @@ class SlowcontrolManager: public Common
 	int m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_Nbmodule ; 
 	int m_triggertype;									//Trigger type
 	string* m_address;									//ADC Address
-	int m_type;											//ADC type
+	int m_type; //ADC type
+  int m_nbCh;
+  CAEN_DGTZ_ConnectionType m_ConnectionType;
 	int m_numberChain;                                  //ADC number in the link
+  int m_PCILinkNum;
     ofstream m_DAQStatus;								//Stores the current DAQ rate
     ofstream m_DAQSummary;								//Stores all relevant parameters
 

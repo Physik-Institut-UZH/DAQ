@@ -122,8 +122,8 @@ int DCManager::RegisterReading(){
 	adc_readreg(ChannelEnableMaskReg,data);
 	m_hex=0;
 	for(int i=0; i<8;i++){
-		adc_readreg(TresholdRegN+(i*0x0100),m_hex);
-		std::cout << "	Channel: " << i << "	" << ((data >> i) & 0x01) << " Treshold: " << std::dec << m_hex << std::endl;
+		adc_readreg(ThresholdRegN+(i*0x0100),m_hex);
+		std::cout << "	Channel: " << i << "	" << ((data >> i) & 0x01) << " Threshold: " << std::dec << m_hex << std::endl;
 	}
 	
     	// Read BLT Event Number Register
@@ -201,7 +201,7 @@ int DCManager::ApplyXMLFile(){
 	} else error((char*)"XML-nb_chs");
 
 	m_hex=0x0;
-	channelTresh = new int[m_nbCh];
+	m_channelThresh = new int[m_nbCh];
 	
 	for(int i=0;i<8;i++){
 			char channel[300];
@@ -210,10 +210,10 @@ int DCManager::ApplyXMLFile(){
 			if (xstr) {
 				strcpy(txt,xstr);
 				temp=atoi(txt);
-				channelTresh[i]=temp;
+				m_channelThresh[i]=temp;
 				if(temp!=0){
 					m_hex=m_hex+pow(2,i);
-					adc_writereg(TresholdRegN+(i*0x0100),temp);
+					adc_writereg(ThresholdRegN+(i*0x0100),temp);
 				}
 			} else error((char*)channel);
 	}

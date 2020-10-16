@@ -27,13 +27,17 @@ set (DAQ_INCLUDE_DIRS
 #Find external libaries and headers
 find_package(ROOT REQUIRED)
 find_library(CAEN NAMES CAENVME PATHS /opt/CAENVME/lib  )
+find_library(CAENDIGI NAMES CAENDigitizer PATHS /opt/CAENDigitizer/lib  )
+find_library(CAENCOMM NAMES CAENComm PATHS /opt/CAENComm/lib  )
+#find_library(CAEN NAMES CAENVME CAENDigitizer PATHS /usr/lib/  )
 
+message(Found-the-following-CAEN-libraries: ${CAEN} \t ${CAENDIGI} )
 #Compiler Flags
 set(CMAKE_CXX_FLAGS -DLINUX)
 add_definitions("-std=c++0x") 
 
 #Global Headers
-include_directories(${DAQ_INCLUDE_DIRS} /opt/CAENVME/include/)
+include_directories(${DAQ_INCLUDE_DIRS} /usr/include/ )
 
 #Subdirectories
 add_subdirectory(Core)

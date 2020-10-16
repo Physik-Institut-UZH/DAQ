@@ -7,3 +7,4 @@ CDAQ/bin/DCDAQ
 CDAQ/bin/SingleDAQ
 CDAQ/bin/SlowControl
 CDAQ/bin/Plots
+*.swp

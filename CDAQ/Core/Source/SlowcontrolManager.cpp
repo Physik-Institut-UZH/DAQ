@@ -15,11 +15,11 @@ Author: Julien Wulf UZH
 
 SlowcontrolManager::SlowcontrolManager()
 {
-	 m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_totalevents=m_type=m_numberChain=0;
+  m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_totalevents=m_type=m_numberChain=m_nbCh=0;
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
-	printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
-        printf("%s                       Written By Julien Wulf                     \n",KGRN);
+  printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
+  printf("%s                       Written By Julien Wulf                     \n",KGRN);
 	printf("%s                            version: 5.0                          \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
@@ -31,12 +31,12 @@ SlowcontrolManager::SlowcontrolManager()
 	ss >> s;
 	
 	/*Slowcontrol Folder*/
-    	string command= "mkdir SlowControl";
-    	system(command.c_str());
-    	std::cout << std::endl;
+  string command= "mkdir SlowControl";
+  system(command.c_str());
+  std::cout << std::endl;
     
-    	/*Generate Current Rate File*/
-    	string OutputFolder = m_OutputFolder;
+  /*Generate Current Rate File*/
+  string OutputFolder = m_OutputFolder;
 	string status = "SlowControl/Rate_" + OutputFolder +  ".txt" ; 
 	m_DAQStatus.open(status.c_str());
 }
@@ -47,8 +47,8 @@ SlowcontrolManager::~SlowcontrolManager()
 
 int SlowcontrolManager::Init(){
 
-    ApplyXMLFile();
-    return 0;
+  ApplyXMLFile();
+  return 0;
 }
 
 
@@ -60,98 +60,98 @@ int SlowcontrolManager::ProcessInput( int argc, char *argv[], char *envp[])
   int start;                          /* dummy for options */
   int someArgs=0;
 
- 
+
   //  search for possible options 
- while ( ( start = getopt( argc, argv, "x:g:f:biow" ) ) != -1 )  {
-      someArgs=1;
-      switch (start) {
-        case 'f': 
-          sprintf(m_OutputFolder,"%s",optarg);
-          break;
-        case 'x': 
-          sprintf(m_XmlFileName,"%s",optarg);
-          break;
-	    case 'g':
-          m_graphics = 1;
-	      m_pmtNb=atoi(optarg);
-          break;
-        case 'i': 
-          m_BoardInfo = 1;
-          break;
-        case 'b': 
-          m_baseline = 1;		// baseline adjustment
-          break;
-        case 'w':   
-	      printf("missed WIMPs protocol:");
-		  int i;
-	      char txt[100];
-		  gettimestring(txt);
-          i = (int)((float)rand()/2147483647.*10.);
-          printf("  You missed %d WIMPs since stopping DAQ.\n  Better you start it again...\n",i);
-	      exit(0);	
-	      break;
-        case 'o':
-	     //control_scopehelp();
-	      exit(0);
-        default: 
-          m_errflag++; 
-          break;
-        }
+  while ( ( start = getopt( argc, argv, "x:g:f:biow" ) ) != -1 )  {
+    someArgs=1;
+    switch (start) {
+      case 'f': 
+        sprintf(m_OutputFolder,"%s",optarg);
+        break;
+      case 'x': 
+        sprintf(m_XmlFileName,"%s",optarg);
+        break;
+      case 'g':
+        m_graphics = 1;
+        m_pmtNb=atoi(optarg);
+        break;
+      case 'i': 
+        m_BoardInfo = 1;
+        break;
+      case 'b': 
+        m_baseline = 1;		// baseline adjustment
+        break;
+      case 'w':   
+        printf("missed WIMPs protocol:");
+        int i;
+        char txt[100];
+        gettimestring(txt);
+        i = (int)((float)rand()/2147483647.*10.);
+        printf("  You missed %d WIMPs since stopping DAQ.\n  Better you start it again...\n",i);
+        exit(0);	
+        break;
+      case 'o':
+        //control_scopehelp();
+        exit(0);
+      default: 
+        m_errflag++; 
+        break;
+    }
   }
   if (m_errflag || someArgs==0) {
-      printf(KRED);
-      printf("usage: %s [-f file|-x file||-g p|-b|-i|-h|]\n", argv[1] );
-      printf("\t-f write to file \n" );
-      printf("\t-x read settings from XML-file file\n");
-      printf("\t-g Oscilloscope: display PMT p (SLOW!)\n");
-      printf("\t-i displays hardware information\n" );
-      printf("\t-b adjust baselines automatically\n" );
-      printf("\t-o show help for oscilloscope mode\n");
-      printf("\t-h display this help\n\n" );
-      printf(RESET);
-      exit( 2 );
+    printf(KRED);
+    printf("usage: %s [-f file|-x file||-g p|-b|-i|-h|]\n", argv[1] );
+    printf("\t-f write to file \n" );
+    printf("\t-x read settings from XML-file file\n");
+    printf("\t-g Oscilloscope: display PMT p (SLOW!)\n");
+    printf("\t-i displays hardware information\n" );
+    printf("\t-b adjust baselines automatically\n" );
+    printf("\t-o show help for oscilloscope mode\n");
+    printf("\t-h display this help\n\n" );
+    printf(RESET);
+    exit( 2 );
   }
-  
+
   return 0;
 }
 
 
 int SlowcontrolManager::StartAquistion(){
-	
-	printf(KYEL);
-	printf("\nStart Data Aquisition\n\n");
-	printf(RESET);
-	gettimeofday(&m_begin, NULL);
-    gettimeofday(&m_total, NULL);
-	
-	
+
+  printf(KYEL);
+  printf("\nStarting Data Aquisition\n\n");
+  printf(RESET);
+  gettimeofday(&m_begin, NULL);
+  gettimeofday(&m_total, NULL);
+
+
 	return 0;
 }
 
 int SlowcontrolManager::StopAquistion(){
-	
-	gettimeofday(&m_end, NULL);
+
+  gettimeofday(&m_end, NULL);
 	m_seconds  = m_end.tv_sec  - m_total.tv_sec;
 	// print summary and update logfile
 	printf(KGRN);
-	printf("	\n");    
-    	printf("	DAQ stopped\n"); 
-    	printf("	Total Measuring time: %.2f s = %f h\n",m_seconds,m_seconds/(60*60));   
-    	printf("	Total Number of Events Measured = %i\n",m_events);
-   	printf("	\n\n");   
-    	printf(RESET);
-    	stringstream ss;
-	string s;
-	ss << GetUnixTime();
-	ss >> s;
-	
-	/*Generate Summary File*/
+  printf("	\n");    
+  printf("	DAQ stopped\n"); 
+  printf("	Total Measuring time: %.2f s = %f h\n",m_seconds,m_seconds/(60*60));   
+  printf("	Total Number of Events Measured = %i\n",m_events);
+  printf("	\n\n");   
+  printf(RESET);
+  stringstream ss;
+  string s;
+  ss << GetUnixTime();
+  ss >> s;
+
+  /*Generate Summary File*/
 	string OutputPath = m_OutputPath;
-   	string OutputFolder = m_OutputFolder;
-    
+  string OutputFolder = m_OutputFolder;
+
 	string status =  OutputPath + "/"+ OutputFolder + "/Summary_" + OutputFolder +  ".txt" ; 
-	m_DAQSummary.open(status.c_str());
-	m_DAQSummary << "	DAQ stopped: " << GetUnixTime() <<  "\n" << "	Total Measuring time: "<< m_seconds << " s " << " = " << m_seconds/(60*60) << " h\n " << 	"	Total Number of Events Measured = " <<  m_events  << " \n";
+  m_DAQSummary.open(status.c_str());
+  m_DAQSummary << "	DAQ stopped: " << GetUnixTime() <<  "\n" << "	Total Measuring time: "<< m_seconds << " s " << " = " << m_seconds/(60*60) << " h\n " << 	"	Total Number of Events Measured = " <<  m_events  << " \n";
 	m_DAQSummary.flush();
 	
 	
@@ -165,30 +165,30 @@ int SlowcontrolManager::StopAquistion(){
 
 
 int SlowcontrolManager::ShowStatus(int status ){
-		if(status==1)
-			m_events++;
-			
-		gettimeofday(&m_end, NULL);
-		m_seconds  = m_end.tv_sec  - m_begin.tv_sec;
-		m_useconds = m_end.tv_usec - m_begin.tv_usec;
-		m_time = ((m_seconds) * 1000 + m_useconds/1000.0) + 0.5;
-		
-		 if(m_time>1000){
-			/* print some progress indication */
-			printf(KCYN);
-			std::cout << "	" << (m_totalB/(1024*1024.))  << " GB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
-			m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/(1024*1024.)) << "\n";
-			m_lastevents=m_events;
-			gettimeofday(&m_begin, NULL);
-			printf(RESET);
-			m_bytes=0;
-		}
-	return 0;
+  if(status==1)
+    m_events++;
+
+  gettimeofday(&m_end, NULL);
+  m_seconds  = m_end.tv_sec  - m_begin.tv_sec;
+  m_useconds = m_end.tv_usec - m_begin.tv_usec;
+  m_time = ((m_seconds) * 1000 + m_useconds/1000.0) + 0.5;
+
+  if(m_time>1000){
+    /* print some progress indication */
+    printf(KCYN);
+    std::cout << "	" << (m_totalB/(1024*1024.))  << " GB "<<   (m_bytes/1048576.) << " MByte/s " << " DAQ-Rate: " << round(((m_events-m_lastevents)/m_time)*1000)<< " Hz " << " Total Events: " << m_events << std::endl;
+    m_DAQStatus <<  GetUnixTime() << "      "<< round(((m_events-m_lastevents)/m_time)*1000) << "   "  <<  m_events << "    " <<  (m_totalB/(1024*1024.)) << "\n";
+    m_lastevents=m_events;
+    gettimeofday(&m_begin, NULL);
+    printf(RESET);
+    m_bytes=0;
+  }
+  return 0;
 }
 
 
 int SlowcontrolManager::ApplyXMLFile(){
-	int temp;  
+  int temp;  
 	char txt[100];
 	const char *xstr;
 	txt[0]='\0';
@@ -201,34 +201,34 @@ int SlowcontrolManager::ApplyXMLFile(){
 	// open the XML file -------------------------------------------------------
 	XMLNode xMainNode=XMLNode::openFileHelper(m_XmlFileName,"settings");
 
-	xstr=xMainNode.getAttribute("author");
-	if (xstr) {
-		strcpy(txt,xstr); 
+  xstr=xMainNode.getAttribute("author");
+  if (xstr) {
+    strcpy(txt,xstr); 
 		printf("	(Author: %s)\n",txt);	  
-	} else error((char*)"XML-author"); 
-	
-	xstr=xMainNode.getAttribute("date");		
- 	if (xstr) {
-		strcpy(txt,xstr);
-		printf("	(Date: %s)\n\n",txt);
-	} else error((char*)"XML-date"); 	
-	
-	// parse global DAQ settings -----------------------------------------------
-	XMLNode xNode=xMainNode.getChildNode("global");
+  } else error((char*)"XML-author"); 
+
+  xstr=xMainNode.getAttribute("date");		
+  if (xstr) {
+    strcpy(txt,xstr);
+    printf("	(Date: %s)\n\n",txt);
+  } else error((char*)"XML-date"); 	
+
+  // parse global DAQ settings -----------------------------------------------
+  XMLNode xNode=xMainNode.getChildNode("global");
 	printf("	Global Settings:\n\n");
-	
-	xstr=xNode.getChildNode("user").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		printf("	User:        %s\n",txt); 
-	} else error((char*)"XML-user");
-	
-	xstr=xNode.getChildNode("daq_version").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
+
+  xstr=xNode.getChildNode("user").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
+    printf("	User:        %s\n",txt); 
+  } else error((char*)"XML-user");
+
+  xstr=xNode.getChildNode("daq_version").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
 		printf("	DAQ Version: %s\n",txt); 
-	} else error((char*)"XML-daq_version");
-	
+  } else error((char*)"XML-daq_version");
+
 
 	xstr=xNode.getChildNode("source").getText();
 	if (xstr) {
@@ -250,16 +250,16 @@ int SlowcontrolManager::ApplyXMLFile(){
 	} else error((char*)"XML-path");
 
 	xstr=xNode.getChildNode("nb_evts").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
+  if (xstr) {
+    strcpy(txt,xstr); 
     if (strstr(txt, "-1")!=NULL) printf("	NoF Events:  infinite\n");
-       		            else printf("	NoF Events:  %s\n",txt);
-		m_totalevents=atoi(txt);  
-	} else error((char*)"XML-nb_evts");
-	
+    else printf("	NoF Events:  %s\n",txt);
+    m_totalevents=atoi(txt);  
+  } else error((char*)"XML-nb_evts");
+
 	xstr=xNode.getChildNode("nb_evts_per_file").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
+  if (xstr) {
+    strcpy(txt,xstr); 
 		printf("	Events/File: %s\n",txt);
 	} else error((char*)"XML-nb_evts_per_file");
 
@@ -277,7 +277,7 @@ int SlowcontrolManager::ApplyXMLFile(){
     }	
 	} else error((char*)"XML-store_data");
 
-	xstr=xNode.getChildNode("displaytime").getText();
+  xstr=xNode.getChildNode("displaytime").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		printf("	DisplayTime: %s s\n\n",txt);
@@ -298,10 +298,31 @@ int SlowcontrolManager::ApplyXMLFile(){
 				printf("	ADC: v1724    \n"); 
 		else if(m_type==2)
 				printf("	ADC: v1730    \n"); 
+		else if(m_type==3)
+				printf("	ADC: v1730_16Ch    \n"); 
 	} else error((char*)"XML-ADCType");
-	 
+  
+  xstr=xNode.getChildNode("nb_chs").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+		m_nbCh=(int)(atoi(txt));
+	} else error((char*)"XML-nb_chs");
 	
-	xstr=xNode.getChildNode("nb_modules").getText();
+  xstr=xNode.getChildNode("connectionType").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+		if(atoi(txt) == 0){
+      cout<<"\t\tConnection type is USB"<<endl;
+      m_ConnectionType = CAEN_DGTZ_USB;
+    }
+    else if(atoi(txt) == 1){
+      cout<<"\t\tConnection type is Optical Link"<<endl;
+      m_ConnectionType = CAEN_DGTZ_OpticalLink;
+    }  else error((char*)"connectionType");
+
+	} else error((char*)"connectionType");
+	
+  xstr=xNode.getChildNode("nb_modules").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		m_Nbmodule=atoi(txt);
@@ -323,46 +344,50 @@ int SlowcontrolManager::ApplyXMLFile(){
 		} else error((char*)modules);
 	}
 	
-    xstr=xNode.getChildNode("link_in_chain").getText();
+  xstr=xNode.getChildNode("link_in_chain").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		m_numberChain=atoi(txt);
 		printf("	Link in Chain: %s\n",txt); 
 	} else error((char*)"link_in_chain");
+  xstr=xNode.getChildNode("PCILink").getText();
+  if (xstr){
+    strcpy(txt,xstr);
+    m_PCILinkNum = (int)(atoi(txt));
+  }
 
-
-	//--- Active channels of Modules-------
-	for(int j=0;j<m_Nbmodule;j++){
-		printf("	Module: %i\n",j);
-		for(int i=0;i<8;i++){
-			char channel[300];
-			sprintf(channel,"ch_%i",i+j*8);
-			xstr=xNode.getChildNode(channel).getText();
-			if (xstr) {
-				strcpy(txt,xstr);
-				temp=atoi(txt);
-				if(temp!=0){
-					printf("	Channel %i Active. Threshold: %i\n",i,temp);
-				}
-		   } else error((char*)channel);
-	  }
-	}
+  //--- Active channels of Modules-------
+  for(int j=0;j<m_Nbmodule;j++){
+    printf("	Module: %i\n",j);
+    for(int i=0;i<m_nbCh;i++){
+      char channel[300];
+      sprintf(channel,"ch_%i",i+j*m_nbCh);
+      xstr=xNode.getChildNode(channel).getText();
+      if (xstr) {
+        strcpy(txt,xstr);
+        temp=atoi(txt);
+        if(temp!=0){
+          printf("	Channel %i Active. Threshold: %i\n",i,temp);
+        }
+      } else error((char*)channel);
+    }
+  }
 
 
 	xstr=xNode.getChildNode("memoryorganisation").getText();
 	if (xstr) {
-		strcpy(txt,xstr); 
-		int bufSize=atoi(txt);
-		float usec;
-	    u_int32_t data;
-		switch (bufSize) {
-			case 512: data=0x0; break;
-			case 256: data=0x1; break;
-			case 128: data=0x2; break;
-			case  64: data=0x3; break;
-			case  32: data=0x4; break;
-			case  16: data=0x5; break;
-			case   8: data=0x6; break;
+    strcpy(txt,xstr); 
+    int bufSize=atoi(txt);
+    float usec;
+    u_int32_t data;
+    switch (bufSize) {
+      case 512: data=0x0; break;
+      case 256: data=0x1; break;
+      case 128: data=0x2; break;
+      case  64: data=0x3; break;
+      case  32: data=0x4; break;
+      case  16: data=0x5; break;
+      case   8: data=0x6; break;
 			case   4: data=0x7; break;
 			case   2: data=0x8; break;
 			case   1: data=0x9; break;
@@ -376,42 +401,42 @@ int SlowcontrolManager::ApplyXMLFile(){
   
 
 	xstr=xNode.getChildNode("custom_size").getText();
-	if (xstr) {
-        strcpy(txt,xstr);
-        temp=(int)(atoi(txt)/10.);       // 10 samples per memory location
-        printf("	Custom Size: %d samples\n",temp*10);
-	} else error((char*)"XML-custom_size");
-  
-  
+  if (xstr) {
+    strcpy(txt,xstr);
+    temp=(int)(atoi(txt)/10.);       // 10 samples per memory location
+    printf("	Custom Size: %d samples\n",temp*10);
+  } else error((char*)"XML-custom_size");
 
-	xstr=xNode.getChildNode("posttrigger").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		printf("	Posttrigger: %s Samples\n",txt);
+
+
+  xstr=xNode.getChildNode("posttrigger").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
+    printf("	Posttrigger: %s Samples\n",txt);
 		temp=atoi(txt); 
 	} else error((char*)"XML-posttrigger");
-		
-	xstr=xNode.getChildNode("baseline").getText();
+
+  xstr=xNode.getChildNode("baseline").getText();
 	if (xstr) {
-		strcpy(txt,xstr);
-		printf("	Baseline:    %s ADC-Counts\n",txt);
+    strcpy(txt,xstr);
+    printf("	Baseline:    %s ADC-Counts\n",txt);
 		
 	} else error((char*)"XML-baseline");
-	
-	xstr=xNode.getChildNode("baselineiteration").getText();
-	if (xstr) {
-		strcpy(txt,xstr);
-		printf("	Baseline Iterations:	%s \n",txt);
-		
+
+  xstr=xNode.getChildNode("baselineiteration").getText();
+  if (xstr) {
+    strcpy(txt,xstr);
+    printf("	Baseline Iterations:	%s \n",txt);
+
 	} else error((char*)"XML-baselineiteration");
-	
-	
+
+
 	xstr=xNode.getChildNode("sampling_freq").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
+  if (xstr) {
+    strcpy(txt,xstr); 
 		printf("	Frequency:   %s Hz\n",txt); 
-	} else error((char*)"XML-sampling_freq");
-	
+  } else error((char*)"XML-sampling_freq");
+
 	xstr=xNode.getChildNode("voltage_range").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
@@ -437,50 +462,50 @@ int SlowcontrolManager::ApplyXMLFile(){
 	xstr=xNode.getChildNode("trigger").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
-		temp=atoi(txt);
+    temp=atoi(txt);
     if (temp==0){ printf("	Trigger: External\n");
-			xstr=xNode.getChildNode("TTL").getText();
-			if(xstr) {
-				strcpy(txt,xstr);
-				temp=(int)(atoi(txt));
-				if(temp==1)
-					printf("	Trigger Logic: TTL\n\n");
-				else
-					printf("	Trigger Logic: NIM\n\n");
-			} else error((char*)"XML-TTL");
-	}
-  	else if (temp==1){ 
-		printf("	Trigger: Software\n");
-		xstr=xNode.getChildNode("SoftwareRate").getText();;
+      xstr=xNode.getChildNode("TTL").getText();
+      if(xstr) {
+        strcpy(txt,xstr);
+        temp=(int)(atoi(txt));
+        if(temp==1)
+          printf("	Trigger Logic: TTL\n\n");
+        else
+          printf("	Trigger Logic: NIM\n\n");
+      } else error((char*)"XML-TTL");
+    }
+    else if (temp==1){ 
+      printf("	Trigger: Software\n");
+      xstr=xNode.getChildNode("SoftwareRate").getText();;
 		if (xstr) {
-				strcpy(txt,xstr); 
-				printf("	Software Rate: %s Hz\n\n",txt); 
-		}
-		else error((char*)"XML-SoftwareRate");
-	}
-    else if (temp==2) printf("	Trigger: Channel Treshold\n\n");
+      strcpy(txt,xstr); 
+      printf("	Software Rate: %s Hz\n\n",txt); 
+    }
+    else error((char*)"XML-SoftwareRate");
+    }
+    else if (temp==2) printf("	Trigger: Channel Threshold\n\n");
     else {printf("	Trigger: Channel Coincidence\n\n");}
   } else error((char*)"XML-trigger");
 
-	
-	// ADC: parse waveform display options
-	xNode=xMainNode.getChildNode("graphics");
-	printf("	Graphics Settings:\n\n");
-	xstr=xNode.getChildNode("ydisplay").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		printf("	y-display: %s\n",txt);
-	} else error((char*)"XML-ydisplay");
 
-	xstr=xNode.getChildNode("yaxis_low").getText();
-	if (xstr) {
+  // ADC: parse waveform display options
+	xNode=xMainNode.getChildNode("graphics");
+  printf("	Graphics Settings:\n\n");
+  xstr=xNode.getChildNode("ydisplay").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
+    printf("	y-display: %s\n",txt);
+  } else error((char*)"XML-ydisplay");
+
+  xstr=xNode.getChildNode("yaxis_low").getText();
+  if (xstr) {
 		strcpy(txt,xstr); 
-		printf("	y-axis-low: %s\n",txt);
-	} else error((char*)"XML-yaxis_low");
-  
-	xstr=xNode.getChildNode("yaxis_high").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
+    printf("	y-axis-low: %s\n",txt);
+  } else error((char*)"XML-yaxis_low");
+
+  xstr=xNode.getChildNode("yaxis_high").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
 		printf("	y-axis-high %s\n",txt);  
 	} else error((char*)"XML-yaxis_high");
 

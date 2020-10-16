@@ -111,7 +111,7 @@ int main(int argc, char *argv[], char *envp[] )
 	scopeManager->SetEventLength(adcManager->GetEventLength());
 	scopeManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 	scopeManager->SetModuleNumber(1);
-	scopeManager->SetChannelTresh(adcManager->GetTreshold());
+	scopeManager->SetChannelThresh(adcManager->GetThreshold());
 	scopeManager->SetThreshold();
 	if(slowcontrolManager->GetGraphicsActive()){
 		//ROOT Manager
@@ -190,7 +190,7 @@ int main(int argc, char *argv[], char *envp[] )
 			threshold[k] =  adcManager->CalculateThresholds(k,baseline[k]);	
 			if(slowcontrolManager->GetGraphicsActive()){	
 				scopeManager->SetChannelNumber(k);
-				scopeManager->SetChannelTresh(threshold); 		
+				scopeManager->SetChannelThresh(threshold); 		
 			} 
 			for(int i=0;i<500;i++)
 				//Check if there have been an accepted trigger before aquisition in the buffer

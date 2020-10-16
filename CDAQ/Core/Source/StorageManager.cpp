@@ -26,7 +26,7 @@ Author: Julien Wulf UZH
 
 StorageManager::StorageManager()
 {
-	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbchs,m_filenumber=m_module=m_ZLE=0;
+	m_NoE,m_EventsPerFile,m_WriteToFile,m_time,m_nbCh,m_filenumber=m_module=m_ZLE=0;
 	m_path="test/";
 	m_moduleName="";
 }
@@ -40,43 +40,43 @@ StorageManager::~StorageManager()
 
 int StorageManager::Init(){
 
-				ApplyXMLFile();
+  ApplyXMLFile();
 
-				printf(KYEL);
-                printf("Creating Storage path\n\n");
-                printf(RESET);
-                printf(KGRN);
-                std::cout << " 	Storage Path: " << m_path +  m_OutputFolder +"/"+ m_moduleName.c_str()   << std::endl ;
-                printf(RESET);
+  printf(KYEL);
+  printf("Creating Storage path\n\n");
+  printf(RESET);
+  printf(KGRN);
+  std::cout << " 	Storage Path: " << m_path +  m_OutputFolder +"/"+ m_moduleName.c_str()   << std::endl ;
+  printf(RESET);
 
-		/*Create Output Folder and ROOT Folder*/
-                m_command= "mkdir -p " + m_path + m_OutputFolder;
-                system(m_command.c_str());
-                std::cout << std::endl;
-                
-                /*Create Module Folder*/
-                m_command= "mkdir -p " + m_path + m_OutputFolder +"/" + m_moduleName.c_str();
-                system(m_command.c_str());
-                std::cout << std::endl;
+  /*Create Output Folder and ROOT Folder*/
+  m_command= "mkdir -p " + m_path + m_OutputFolder;
+  system(m_command.c_str());
+  std::cout << std::endl;
 
-                if(m_WriteToFile==1 && m_ZLE==0){
-					//Copy XML file to the output directory
-					stringstream cmd;
-					cmd.str("");
-					cmd << "cp " << m_XmlFileName << " " << m_path + m_OutputFolder << "/" << m_OutputFolder << ".xml";
-					system(cmd.str().c_str());
+  /*Create Module Folder*/
+  m_command= "mkdir -p " + m_path + m_OutputFolder +"/" + m_moduleName.c_str();
+  system(m_command.c_str());
+  std::cout << std::endl;
 
-					InitROOT();
-		}
-		if(m_WriteToFile==1 && m_ZLE==1) {
-                                //Copy XML file to the output directory
-                                stringstream cmd;
-                                cmd.str("");
-                                cmd << "cp " << m_XmlFileName << " " << m_path + m_OutputFolder << "/" << m_OutputFolder << ".xml";
-                                system(cmd.str().c_str());
+  if(m_WriteToFile==1 && m_ZLE==0){
+    //Copy XML file to the output directory
+    stringstream cmd;
+    cmd.str("");
+    cmd << "cp " << m_XmlFileName << " " << m_path + m_OutputFolder << "/" << m_OutputFolder << ".xml";
+    system(cmd.str().c_str());
 
-				InitROOTZLE();
-		}
+    InitROOT();
+  }
+  if(m_WriteToFile==1 && m_ZLE==1) {
+    //Copy XML file to the output directory
+    stringstream cmd;
+    cmd.str("");
+    cmd << "cp " << m_XmlFileName << " " << m_path + m_OutputFolder << "/" << m_OutputFolder << ".xml";
+    system(cmd.str().c_str());
+
+    InitROOTZLE();
+  }
 
 }
 
@@ -84,398 +84,327 @@ int StorageManager::Init(){
 
 int StorageManager::InitROOT(){
 
-		stringstream ss;
-		string data;
-		ss << m_filenumber;
-		ss >> data;
-		stringstream tt;
-		tt << m_module;
-		string t;
-		tt >> t;
-		m_command = m_path + m_OutputFolder + "/" + m_moduleName.c_str() + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
-		m_filenumber++;
-		std::cout << std::endl << m_command << std::endl << std::endl;
-		output = new TFile(m_command.c_str(), "RECREATE");
-		tree = new TTree("t1","");
+  stringstream ss;
+  string data;
+  ss << m_filenumber;
+  ss >> data;
+  stringstream tt;
+  tt << m_module;
+  string t;
+  tt >> t;
+  m_command = m_path + m_OutputFolder + "/" + m_moduleName.c_str() + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
+  m_filenumber++;
+  std::cout << std::endl << m_command << std::endl << std::endl;
+  output = new TFile(m_command.c_str(), "RECREATE");
+  tree = new TTree("t1","");
+  Int_t wfCounter = 0;
+  //Create ROOT Branches	
+  for(int i = 0;i < m_nbCh; i++){
+    if(channelActive[i]){
+      //wfVec will be the size of the total active channels, 
+      //one thing to be aware of is if channel 0,1, and 3 are active,
+      //the indices will not match if relooping thus another wvCounter is used in further code
+      wfVec.push_back( new int [m_BufferSize]); 
+      (tree)->Branch(TString::Format("wf%i",i), wfVec[wfCounter], TString::Format("wf%i[%i]/I",i,m_BufferSize));
+      wfCounter++;
+    }
+  }
+  (tree)->Branch("Time",&m_time,"Time/D");
 
-		/*Create ROOT Branches (hardcoded for 8 channels)*/
-		if(channelActive[0])wf0= new int [m_length];
-		if(channelActive[1])wf1= new int [m_length];
-		if(channelActive[2])wf2= new int [m_length];
-		if(channelActive[3])wf3= new int [m_length];
-		if(channelActive[4])wf4= new int [m_length];
-		if(channelActive[5])wf5= new int [m_length];
-		if(channelActive[6])wf6= new int [m_length];
-		if(channelActive[7])wf7= new int [m_length];
+  TNamed * namedSampleFreq = new TNamed("SampleFreq",(to_string(m_sampleFreq)) );
+  namedSampleFreq->Write();
 
-		if(channelActive[0])(tree)->Branch("wf0", wf0, TString::Format("wf0[%i]/I", m_length));
-		if(channelActive[1])(tree)->Branch("wf1", wf1, TString::Format("wf1[%i]/I", m_length));
-		if(channelActive[2])(tree)->Branch("wf2", wf2, TString::Format("wf2[%i]/I", m_length));
-		if(channelActive[3])(tree)->Branch("wf3", wf3, TString::Format("wf3[%i]/I", m_length));
-		if(channelActive[4])(tree)->Branch("wf4", wf4, TString::Format("wf4[%i]/I", m_length));
-		if(channelActive[5])(tree)->Branch("wf5", wf5, TString::Format("wf5[%i]/I", m_length));
-		if(channelActive[6])(tree)->Branch("wf6", wf6, TString::Format("wf6[%i]/I", m_length));
-		if(channelActive[7])(tree)->Branch("wf7", wf7, TString::Format("wf7[%i]/I", m_length));
-		(tree)->Branch("Time",&m_time,"Time/D");
-		
-		return 0;
+  TNamed * namedEventSize = new TNamed("EventSize",(to_string(m_BufferSize)) );
+  namedEventSize->Write();
+
+  TNamed * namedVrange = new TNamed("EventRange",(to_string(m_vRange)) );
+  namedVrange->Write();
+
+  TNamed * namedNChannels = new TNamed("nChannelsBitMask",(to_string(m_EnableMask)));
+  namedNChannels->Write();
+
+  TNamed * namedResolution = new TNamed("adcResolution",(to_string(m_resDAC)));
+  namedResolution->Write();
+
+  return 0;
 
 }
 
+//TODO figure out how ZLE works...
 int StorageManager::InitROOTZLE(){
-                stringstream ss;
-                string data;
-                ss << m_filenumber;
-                ss >> data;
-                stringstream tt;
-                tt << m_module;
-                string t;
-                tt >> t;
-                m_command = m_path + m_OutputFolder + "/" + m_moduleName.c_str() + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
-                m_filenumber++;
-                std::cout << std::endl << m_command << std::endl << std::endl;
-                output = new TFile(m_command.c_str(), "RECREATE");
-                tree = new TTree("t1","");
-	        /*Create ROOT Branches (hardcoded for 8 channels)*/
-		if(channelActive[0]){
-			tree->Branch("wf0_cw", "vector<int>", &m_zle_cw0);
-                	tree->Branch("wf0", "vector<int>", &m_zle_wf0);
-		}
-		if(channelActive[1]){
-			tree->Branch("wf1_cw", "vector<int>", &m_zle_cw1);
-                	tree->Branch("wf1", "vector<int>", &m_zle_wf1);
-		}
-		if(channelActive[2]){
-			tree->Branch("wf2_cw", "vector<int>", &m_zle_cw2);
-                	tree->Branch("wf2", "vector<int>", &m_zle_wf2);
-		}
-		if(channelActive[3]){
-			tree->Branch("wf3_cw", "vector<int>", &m_zle_cw3);
-                	tree->Branch("wf3", "vector<int>", &m_zle_wf3);
-		}
-		if(channelActive[4]){
-			tree->Branch("wf4_cw", "vector<int>", &m_zle_cw4);
-                	tree->Branch("wf4", "vector<int>", &m_zle_wf4);
-		}
-		if(channelActive[5]){
-			tree->Branch("wf5_cw", "vector<int>", &m_zle_cw5);
-                	tree->Branch("wf5", "vector<int>", &m_zle_wf5);
-		}
-		if(channelActive[6]){
-			tree->Branch("wf6_cw", "vector<int>", &m_zle_cw6);
-                	tree->Branch("wf6", "vector<int>", &m_zle_wf6);
-		}
-		if(channelActive[7]){
-			tree->Branch("wf7_cw", "vector<int>", &m_zle_cw7);
-                	tree->Branch("wf7", "vector<int>", &m_zle_wf7);
-		}
-                (tree)->Branch("Time",&m_time,"Time/D");
-		return 0;
+  stringstream ss;
+  string data;
+  ss << m_filenumber;
+  ss >> data;
+  stringstream tt;
+  tt << m_module;
+  string t;
+  tt >> t;
+  m_command = m_path + m_OutputFolder + "/" + m_moduleName.c_str() + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
+  m_filenumber++;
+  std::cout << std::endl << m_command << std::endl << std::endl;
+  output = new TFile(m_command.c_str(), "RECREATE");
+  tree = new TTree("t1","");
+  //Create ROOT Branches
+  m_zle_wfVec.resize(m_nbCh);
+  m_zle_cwVec.resize(m_nbCh);
+  for(int i = 0;i < m_nbCh; i++){
+    if(channelActive[i]){
+      tree->Branch(TString::Format("wf%i_cw",i), "vector<int>", &m_zle_cwVec[i]);
+      tree->Branch(TString::Format("wf%i",i), &m_zle_wfVec[i]);
+    }
+  }
 
+  return 0;
 }
 
 int StorageManager::NewFile(){
-	
-		if(m_WriteToFile==1 && m_ZLE==0){
-			this->SaveROOTContainer();
-			stringstream ss;
-			string data;
-			ss << m_filenumber;
-			ss >> data;
-			stringstream tt;
-			tt << m_module;
-			string t;
-			tt >> t;
-			m_command = m_path + m_OutputFolder + "/" +  m_moduleName.c_str()  + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
-			m_filenumber++;
-			std::cout  << std::endl << m_command << std::endl << std::endl;
-			output = new TFile(m_command.c_str(), "RECREATE");
-			tree = new TTree("t1","");
 
-			if(channelActive[0])(tree)->Branch("wf0", wf0, TString::Format("wf0[%i]/I", m_length));
-			if(channelActive[1])(tree)->Branch("wf1", wf1, TString::Format("wf1[%i]/I", m_length));
-			if(channelActive[2])(tree)->Branch("wf2", wf2, TString::Format("wf2[%i]/I", m_length));
-			if(channelActive[3])(tree)->Branch("wf3", wf3, TString::Format("wf3[%i]/I", m_length));
-			if(channelActive[4])(tree)->Branch("wf4", wf4, TString::Format("wf4[%i]/I", m_length));
-			if(channelActive[5])(tree)->Branch("wf5", wf5, TString::Format("wf5[%i]/I", m_length));
-			if(channelActive[6])(tree)->Branch("wf6", wf6, TString::Format("wf6[%i]/I", m_length));
-			if(channelActive[7])(tree)->Branch("wf7", wf7, TString::Format("wf7[%i]/I", m_length));
-			(tree)->Branch("Time",&m_time,"Time/D");
-		}
-	return 0;
+  if(m_WriteToFile==1 && m_ZLE==0){
+    this->SaveROOTContainer();
+    stringstream ss;
+    string data;
+    ss << m_filenumber;
+    ss >> data;
+    stringstream tt;
+    tt << m_module;
+    string t;
+    tt >> t;
+    m_command = m_path + m_OutputFolder + "/" +  m_moduleName.c_str()  + m_OutputFolder + "_" + "Module_" + t + "_" + data + ".root";
+    m_filenumber++;
+    std::cout  << std::endl << m_command << std::endl << std::endl;
+    output = new TFile(m_command.c_str(), "RECREATE");
+    tree = new TTree("t1","");
+    
+    // Need a waveform counter becuase some channels will be turned off and size of wfVec might not match up with for loop indices
+    Int_t wfCounter = 0; 
+    for(int i = 0;i < m_nbCh; i++){
+      //TODO is was intially set to channelActive[0], is this a mistake?
+      if(channelActive[i]){
+        (tree)->Branch(TString::Format("wf%i",i), wfVec[wfCounter], TString::Format("wf%i[%i]/I",i, m_BufferSize));
+        wfCounter++;
+      }
+    }
+    (tree)->Branch("Time",&m_time,"Time/D");
+    
+    TNamed * namedSampleFreq = new TNamed("SampleFreq",(to_string(m_sampleFreq)) );
+    namedSampleFreq->Write();
+    
+    TNamed * namedEventSize = new TNamed("EventSize",(to_string(m_BufferSize)) );
+    namedEventSize->Write();
+    
+    TNamed * namedVrange = new TNamed("EventRange",(to_string(m_vRange)) );
+    namedVrange->Write();
+
+    TNamed * namedNChannels = new TNamed("nChannelsBitMask",(to_string(m_EnableMask)));
+    namedNChannels->Write();
+
+    TNamed * namedResolution = new TNamed("adcResolution",(to_string(m_resDAC)));
+    namedResolution->Write();
+    
+  }
+  return 0;
 }
 
 
 int StorageManager::FillContainer(){
-	
-	if(m_WriteToFile==1 && m_ZLE==0){
-		FillROOTContainer();
-	}
 
-	if(m_ZLE==1 && m_WriteToFile==1){
+  if(m_WriteToFile==1 && m_ZLE==0){
+    FillROOTContainer();
+  }
+
+  if(m_ZLE==1 && m_WriteToFile==1){
 		FillZLEROOTContainer();
 	}
 
 }
 
+//TODO fix ZLE
+/*
 int StorageManager::FillZLEROOTContainer(){
 
-	 vector<vector<int>> wf(8); 			//matrix for the data
-         vector<vector<int>> cw(8);                    	 //matrix for the cw
-         //Start from the first word
-        pnt =0;
+  vector<vector<int>> wf(m_nbCh); 			//matrix for the data
+  vector<vector<int>> cw(m_nbCh);                    	 //matrix for the cw
+  //Start from the first word
+  pnt =0;
 
-        //Check first Word
-        if (buffer[0]==0xFFFFFFFF) pnt++;
+  //Check first Word
+  if (buffer[0]==0xFFFFFFFF) pnt++;
 
-        // check header
-        if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
-         Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
-         pnt++;
+  // check header
+  if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
+    Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
+    pnt++;
 
-        //Read ChannelMask (Handbook)
-        int ChannelMask=buffer[pnt] & 0xFF;
+    //Read ChannelMask (Handbook)
+    int ChannelMask=buffer[pnt] & 0xFF;
 
-        pnt++;
+    pnt++;
 
-        // Get size of one waveform by dividing through the number of channels
-        cnt=0;
-        for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
+    // Get size of one waveform by dividing through the number of channels
+    cnt=0;
+    for (int j=0; j<m_nbCh; j++) if ((ChannelMask>>j)&1) cnt++;
 
-        // ignore EventConter and TTT
-        pnt+=2;
-	if(Size>0){
-	for (int j=0; j<m_nbchs; j++) { // read all channels
+    // ignore EventConter and TTT
+    pnt+=2;
+    if(Size>0){
+      for (int j=0; j<m_nbCh; j++) { // read all channels
 
-                // read only the channels given in ChannelMask
-                if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else{
-		if(channelActive[j]){cw[j].push_back(-m_custom_size);} // If there is no waveform for the current channel, write only 1 control word for this event "Skipped" of value "custom_size" in the current branch.
-		continue;
-		}
-                if (j>j) return 0;
-                cnt=0;                              // counter of waveform data
-                wavecnt=0;                          // counter to reconstruct times within waveform
-		Size =  (buffer[pnt]);		    //Size of the specific channel
-                if (CurrentChannel!=j) {pnt+=Size; continue; }
-		int length=pnt;                         //Current Position in the Word
-	//	std::cout << Size << std::endl;
-		cnt++;
-		pnt++;
-		uint32_t control;
-		int number_Control=0;
-		while(cnt<Size){
-			//Skipped or Good Control World
-			control = buffer[pnt];
-			cnt++;
-
-			if(((control>>31)&1)){
-				length=(control&0xFFFFF);
-          //                      std::cout << "Length Good:      " << (control&0xFFFFF) << std::endl;
-				number_Control=number_Control+(control&0xFFFFF);
-				pnt++;
-				cw[j].push_back((control&0xFFFFF)*2);
-			}
-			else {
-      //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
-                                number_Control=number_Control+(control&0xFFFFF);
-	//			std::cout << number_Control << std::endl;
-                                cw[j].push_back(-(control&0xFFFFF)*2);
-				pnt++;
-
-				if(cnt>=Size)
-					break;
-
-				control = buffer[pnt];
-                                cnt++;
-				if(((control>>31)&1)){
-                        		length=(control&0xFFFFF);
-					            cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
-    //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
-                                	number_Control=number_Control+(control&0xFFFFF);
-  //                              	std::cout << number_Control << std::endl;
-                			pnt++;
-				}
-				else{
-//	                                std::cout << "Length Skipped:   " << (control&0xFFFFF) << std::endl;
-					length=0;
-//					pnt++;
-				//	std::cout << "End	" << std::endl;
-				}
-			}
-            //Simple Live Processing can be implemented here TODO (baseline, charge, height etc) without any speed limitation (loop is anyways necessary)
-			for(int i=0;i<length;i++){
-				uint32_t temp= (uint32_t)((buffer[pnt]&0xFFFF));
-				wf[j].push_back(temp);
-				temp= (uint32_t)(((buffer[pnt]>>16)&0xFFFF)) ;
-                                wf[j].push_back(temp);
-				pnt++;
-				cnt++;
-			}
-		} //End while
-//		std::cout << number_Control << std::endl;
-//		pnt = length+Size;			//Move the position in the word by the read size in order to get to the next channel
-//		std::cout << cnt << std::endl;
-        } //end Channel
-	}
-	else{
-        for (int i=0;i<8;i++){
-            if(channelActive[i]) cw[i].push_back(-m_custom_size);   // If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
+        // read only the channels given in ChannelMask
+        if ((ChannelMask>>j)&1) CurrentChannel=j;
+        else{
+          if(channelActive[j]){cw[j].push_back(-m_custom_size);} // If there is no waveform for the current channel, write only 1 control word for this event "Skipped" of value "custom_size" in the current branch.
+          continue;
         }
-   	}
-
-	//Get Time
-        m_time=GetUnixTime();
-
-	//Save waveform
-	if(channelActive[0])m_zle_wf0=wf[0];
-	if(channelActive[1])m_zle_wf1=wf[1];
-	if(channelActive[2])m_zle_wf2=wf[2];
-	if(channelActive[3])m_zle_wf3=wf[3];
-	if(channelActive[4])m_zle_wf4=wf[4];
-	if(channelActive[5])m_zle_wf5=wf[5];
-	if(channelActive[6])m_zle_wf6=wf[6];
-	if(channelActive[7])m_zle_wf7=wf[7];
-
-	//Save Control Word
-	if(channelActive[0])m_zle_cw0=cw[0];
-	if(channelActive[1])m_zle_cw1=cw[1];
-	if(channelActive[2])m_zle_cw2=cw[2];
-	if(channelActive[3])m_zle_cw3=cw[3];
-	if(channelActive[4])m_zle_cw4=cw[4];
-	if(channelActive[5])m_zle_cw5=cw[5];
-	if(channelActive[6])m_zle_cw6=cw[6];
-	if(channelActive[7])m_zle_cw7=cw[7];
-
-        tree->Fill();
-
-        if(channelActive[0])m_zle_cw0.clear();
-        if(channelActive[1])m_zle_cw1.clear();
-        if(channelActive[2])m_zle_cw2.clear();
-        if(channelActive[3])m_zle_cw3.clear();
-        if(channelActive[4])m_zle_cw4.clear();
-        if(channelActive[5])m_zle_cw5.clear();
-        if(channelActive[6])m_zle_cw6.clear();
-        if(channelActive[7])m_zle_cw7.clear();
-
-        if(channelActive[0])m_zle_wf0.clear();
-        if(channelActive[1])m_zle_wf1.clear();
-        if(channelActive[2])m_zle_wf2.clear();
-        if(channelActive[3])m_zle_wf3.clear();
-        if(channelActive[4])m_zle_wf4.clear();
-        if(channelActive[5])m_zle_wf5.clear();
-        if(channelActive[6])m_zle_wf6.clear();
-        if(channelActive[7])m_zle_wf7.clear();
-
-    } //end Header
-}
-
-
-
-int StorageManager::FillROOTContainer(){
-		float wvf[m_nbchs][m_length];
-		
-
-	 //Start from the first word
-        pnt =0;
-
-        //Check first Word
-        if (buffer[0]==0xFFFFFFFF) pnt++;
-
-        // check header
-        if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
-         Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
-         pnt++;
-
-        //Read ChannelMask (Handbook)
-        int ChannelMask=buffer[pnt] & 0xFF;
-
+        if (j>j) return 0;
+        cnt=0;                              // counter of waveform data
+        wavecnt=0;                          // counter to reconstruct times within waveform
+        Size =  (buffer[pnt]);		    //Size of the specific channel
+        if (CurrentChannel!=j) {pnt+=Size; continue; }
+        int length=pnt;                         //Current Position in the Word
+        //	std::cout << Size << std::endl;
+        cnt++;
         pnt++;
+        uint32_t control;
+        int number_Control=0;
+        while(cnt<Size){
+          //Skipped or Good Control World
+          control = buffer[pnt];
+          cnt++;
 
-        // Get size of one waveform by dividing through the number of channels
-        cnt=0;
-        for (int j=0; j<m_nbchs; j++) if ((ChannelMask>>j)&1) cnt++;
-        Size=Size/cnt;
+          if(((control>>31)&1)){
+            length=(control&0xFFFFF);
+            //                      std::cout << "Length Good:      " << (control&0xFFFFF) << std::endl;
+            number_Control=number_Control+(control&0xFFFFF);
+            pnt++;
+            cw[j].push_back((control&0xFFFFF)*2);
+          }
+          else {
+            //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
+            number_Control=number_Control+(control&0xFFFFF);
+            //			std::cout << number_Control << std::endl;
+            cw[j].push_back(-(control&0xFFFFF)*2);
+            pnt++;
 
-        // ignore EventConter and TTT
-        pnt+=2;
+            if(cnt>=Size)
+              break;
 
-        for (int j=0; j<m_nbchs; j++) { // read all channels
-
-                // read only the channels given in ChannelMask
-                if ((ChannelMask>>j)&1) CurrentChannel=j;
-                else continue;
-
-                if (CurrentChannel!=j) { pnt+=Size; continue; }
-               // else pnt++;
-
-                if (j>j) return 0;
-
-                cnt=0;                              // counter of waveform data
-                wavecnt=0;                          // counter to reconstruct times within waveform
-
-		//Can be significant improved 
-                while (cnt<(Size))
-                {
-			wvf[j][wavecnt]=(double)((buffer[pnt]&0xFFFF));
-                	wvf[j][wavecnt+1]=(double)(((buffer[pnt]>>16)&0xFFFF));
-                        pnt++; wavecnt+=2; cnt++;
-                } // end while(cnt...)
-        }
-	//Simple Live Processing (Charge,Height,Position,Baseline,RMS) can be easly implemented here (alread looping over waveform) TODO
-	for (int ii=0; ii<m_length; ii++) {
-		if(channelActive[0])wf0[ii]=wvf[0][ii];
-		if(channelActive[1])wf1[ii]=wvf[1][ii];
-		if(channelActive[2])wf2[ii]=wvf[2][ii];
-		if(channelActive[3])wf3[ii]=wvf[3][ii];
-		if(channelActive[4])wf4[ii]=wvf[4][ii];
-		if(channelActive[5])wf5[ii]=wvf[5][ii];
-		if(channelActive[6])wf6[ii]=wvf[6][ii];
-		if(channelActive[7])wf7[ii]=wvf[7][ii];
-	}
-	m_time=GetUnixTime();
-	tree->Fill();
+            control = buffer[pnt];
+            cnt++;
+            if(((control>>31)&1)){
+              length=(control&0xFFFFF);
+              cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
+              //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
+              number_Control=number_Control+(control&0xFFFFF);
+              //                              	std::cout << number_Control << std::endl;
+              pnt++;
+            }
+            else{
+              //	                                std::cout << "Length Skipped:   " << (control&0xFFFFF) << std::endl;
+              length=0;
+              //					pnt++;
+              //	std::cout << "End	" << std::endl;
+            }
+          }
+          //Simple Live Processing can be implemented here TODO (baseline, charge, height etc) without any speed limitation (loop is anyways necessary)
+          for(int i=0;i<length;i++){
+            uint32_t temp= (uint32_t)((buffer[pnt]&0xFFFF));
+            wf[j].push_back(temp);
+            temp= (uint32_t)(((buffer[pnt]>>16)&0xFFFF)) ;
+            wf[j].push_back(temp);
+            pnt++;
+            cnt++;
+          }
+        } //End while
+        //		std::cout << number_Control << std::endl;
+        //		pnt = length+Size;			//Move the position in the word by the read size in order to get to the next channel
+        //		std::cout << cnt << std::endl;
+      } //end Channel
     }
+    else{
+      for (int i=0;i<m_nbCh;i++){
+        if(channelActive[i]) cw[i].push_back(-m_custom_size);   // If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
+      }
+    }
+
+    //Get Time
+    m_time=GetUnixTime();
+
+    for(int i =0; i  < m_nbCh; i++){
+      if(channelActive[i]){
+        m_zle_wfVec[i]=wf[i];
+        m_zle_cwVec[i]=cw[i];        
+      }
+    }
+
+    tree->Fill();
+
+    for(int i =0; i  < m_nbCh; i++){
+      if(channelActive[i]){
+        m_zle_wfVec[i].clear();
+        m_zle_cwVec[i].clear();        
+      }
+    }
+  } //end Header
+}
+*/
+
+bool StorageManager::FillROOTContainer(){
+  float wvf[m_nbCh][m_BufferSize];
+
+ 
+  Int_t wvCounter = 0;
+  for(int i = 0; i < m_nbCh; i++){
+    if(!channelActive[i]) continue;
+
+    //Simple Live Processing (Charge,Height,Position,Baseline,RMS) can be easly implemented here (alread looping over waveform) TODO
+    for(int j = 0; j < Event16->ChSize[i]; j++){
+      if(channelActive[i]) wfVec[wvCounter][j] = Event16->DataChannel[i][j];
+    }
+    wvCounter++;
+  }
+  m_time=GetUnixTime();
+  tree->Fill();
 }
 
 int StorageManager::SaveContainer(){
-	
-	if(m_WriteToFile==1){
-		SaveROOTContainer();
-	}
+
+  if(m_WriteToFile==1){
+    SaveROOTContainer();
+  }
 
 
 	
 }
 
 void StorageManager::SaveROOTContainer(){
-	output->cd();
-	tree->Write();
-    output->Close();
+  output->cd();
+  tree->Write();
+  output->Close();
 }
 
 int StorageManager::ApplyXMLFile(){
-	int temp;  
-	char txt[100];
-	const char *xstr;
-	txt[0]='\0';
-	
-	// open the XML file -------------------------------------------------------
+  int temp;  
+  char txt[100];
+  const char *xstr;
+  txt[0]='\0';
+
+  // open the XML file -------------------------------------------------------
 	XMLNode xMainNode=XMLNode::openFileHelper(m_XmlFileName,"settings");
 	
-	// parse global DAQ settings -----------------------------------------------
-	XMLNode xNode=xMainNode.getChildNode("global");
-	
-	xstr=xNode.getChildNode("path").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
+  // parse global DAQ settings -----------------------------------------------
+  XMLNode xNode=xMainNode.getChildNode("global");
+
+  xstr=xNode.getChildNode("path").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
 		stringstream ss;
-		ss << txt;
-		ss >> m_path;
-	} else error((char*)"XML-path");
-	
-	xstr=xNode.getChildNode("nb_evts").getText();
-	if (xstr) {
+    ss << txt;
+    ss >> m_path;
+  } else error((char*)"XML-path");
+
+  xstr=xNode.getChildNode("nb_evts").getText();
+  if (xstr) {
 		strcpy(txt,xstr); 
 		m_NoE=atoi(txt); 
 	} else error((char*)"XML-nb_evts");
@@ -491,48 +420,48 @@ int StorageManager::ApplyXMLFile(){
 		strcpy(txt,xstr); 
 		m_WriteToFile=atoi(txt); 
 	} else error((char*)"XML-store_data");
-	
-	// parse global ADC settings -----------------------------------------------
+
+  // parse global ADC settings -----------------------------------------------
 	xNode=xMainNode.getChildNode("adc").getChildNode("global");
   
 	xstr=xNode.getChildNode("custom_size").getText();
-    	if (xstr) {
-        strcpy(txt,xstr);
-        m_custom_size=atoi(txt);
-   	} else error((char*)"XML-custom_size");
-	
-	xstr=xNode.getChildNode("nb_chs").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		m_nbchs=atoi(txt); 
-	} else error((char*)"XML-nb_chs");
+  if (xstr) {
+    strcpy(txt,xstr);
+    m_custom_size=atoi(txt);
+  } else error((char*)"XML-custom_size");
 
-	//--- Active channels -------
-	channelActive = new int[m_nbchs];
-	
-	for(int i=0;i<m_nbchs;i++){
-        char channel[300];
-        sprintf(channel,"ch_%i",i+m_module*m_nbchs);
-        xstr=xNode.getChildNode(channel).getText();
-     if (xstr) {
-        strcpy(txt,xstr);
-        temp = atoi(txt);
-        if(temp!=0)
-			channelActive[i]=1;
-		else
-			channelActive[i]=0;
-     } else error((char*)channel);
+  xstr=xNode.getChildNode("nb_chs").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
+    m_nbCh=atoi(txt); 
+  } else error((char*)"XML-nb_chs");
+
+  //--- Active channels -------
+  channelActive = new int[m_nbCh];
+
+  for(int i=0;i<m_nbCh;i++){
+    char channel[300];
+    sprintf(channel,"ch_%i",i+m_module*m_nbCh);
+    xstr=xNode.getChildNode(channel).getText();
+    if (xstr) {
+      strcpy(txt,xstr);
+      temp = atoi(txt);
+      if(temp!=0)
+        channelActive[i]=1;
+      else
+        channelActive[i]=0;
+    } else error((char*)channel);
   }
   xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
-        xstr=xNode.getChildNode("ZLEActivated").getText();
-        if (xstr) {
-                strcpy(txt,xstr);
-                temp=((int)atoi(txt));
-		m_ZLE=temp;
-        }
-        else error((char*)"ZLE");
-	
-	return 0;
+  xstr=xNode.getChildNode("ZLEActivated").getText();
+  if (xstr) {
+    strcpy(txt,xstr);
+    temp=((int)atoi(txt));
+    m_ZLE=temp;
+  }
+  else error((char*)"ZLE");
+
+  return 0;
 }
 
 

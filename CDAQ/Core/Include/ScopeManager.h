@@ -11,6 +11,7 @@
 #include <typeinfo>
 #include "xmlParser.h"
 #include "common.h"
+#include "CAENDigitizer.h"
 
 //ROOT-Stuff
 #include <TH1D.h>
@@ -32,19 +33,25 @@ Class to manage the GUI of the ADC
 
 class ScopeManager: public Common
 {
-	public:
-	   ScopeManager();
-	   virtual ~ScopeManager();
-	   
-		//Function 
+  public:
+    ScopeManager();
+    virtual ~ScopeManager();
+
+    //Function 
 		int Init();
 		
-		//Set Function	
-		void SetBuffer(u_int32_t *adcBuffer){buffer=adcBuffer;} 
+    //Set Function	
+    void SetBuffer(u_int32_t *adcBuffer){buffer=adcBuffer;} 
 		void SetEventLength(int length){m_length=length;}
 		void SetXMLFile(char* file){m_XmlFileName=file;}
-		void SetChannelTresh(int* channel){m_tresh=channel;}
-		void SetModuleNumber(int module){m_nbmodule=module;}
+		void SetChannelThresh(int* channel){m_thresh=channel;}
+    void SetModuleNumber(int module){m_nbmodule=module;}
+
+    //Added by Neil
+    void SetEnableMask(uint16_t mask){m_EnableMask = mask;}
+    void Set16BitEvent(CAEN_DGTZ_UINT16_EVENT_t *evnt) {Event16 = evnt;}
+    void SetBufferSize(u_int32_t buff){m_BufferSize = buff;}
+
 		
 		//GetFunction
 		int GetModule(){return m_module;}
@@ -57,6 +64,7 @@ class ScopeManager: public Common
 		
 		//Set Channel number
 		void SetChannelNumber(int channeL){if(channeL<0)m_channel=0;else if(channeL>7){m_channel=channeL%8; m_module=channeL/8;} else m_channel=channeL;}
+		//void SetChannelNumber(int channeL);//{if(channeL<0)m_channel=0;else if(channeL>7){m_channel=channeL%8; m_module=channeL/8;} else m_channel=channeL;}
 
 		//Set threshold active 
 		void SetThreshold(){m_triggertype=2;}
@@ -79,7 +87,7 @@ class ScopeManager: public Common
 		int m_mode;							//mode of y-axis
 		char* m_XmlFileName;				//XML-File
 		int m_channel;						//Channel to visuliaze
-		int* m_tresh;
+		int* m_thresh;
 		int m_triggertype;					//Triggertype
 		int m_module;						//Module
 		int m_nbmodule;
@@ -88,6 +96,12 @@ class ScopeManager: public Common
 		int m_counter;
 		int m_ZLE;	
 		int m_Baseline;
+    int m_nbCh;
+
+    //added by Neil
+    uint32_t m_BufferSize;
+    uint16_t m_EnableMask;
+    CAEN_DGTZ_UINT16_EVENT_t * Event16;
 };
 
 #endif

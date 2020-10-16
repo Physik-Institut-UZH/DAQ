@@ -7,11 +7,13 @@
 #include <stdlib.h>
 #include <time.h>
 #include "CAENVMElib.h"
+#include "CAENDigitizer.h"
 #include <vector>
 #include <memory>
 #include <typeinfo>
 #include "xmlParser.h"
 #include "common.h"
+#include "util.h"
 
 using namespace std;
 
@@ -42,7 +44,7 @@ Author: Julien Wulf UZH
 
 //Each channel can generate a self-trigger as the digitised signal exceeds the Vth threshold.
 //This register allows to set Vth (LSB=input range/14bit).
-#define TresholdRegN   		   0x1080
+#define ThresholdRegN   		   0x1080
 
 //The settings of this register are common to couples of adjacent channels (i.e. n = 0, 2, 4, 6, 8, 10, 12, 14).
 // Bits[1:0] set the logic to generate the trigger request signal for the couple:
@@ -199,19 +201,19 @@ Author: Julien Wulf UZH
 
 
 
-
-
 class ADCManager
 {
 public:
     	ADCManager();
+      //To avoid forcing the ADCManager() class which has a hard coded 8 channels, use this temp intializer 
+    	ADCManager(bool foo) { };
     	virtual ~ADCManager();
     
     	//Init Function
     	virtual int Init(){};
     
     	//Set Functions
-	void SetCrateHandle(int handle){m_CrateHandle=handle;}
+	void SetCrateHandle(int handle){m_handle=handle;}
 	void SetADCAddress(string address);
 	void SetRegisterFile(string file){m_RegisterFileName=file;}
 	void SetBaselineFile(string file="DACBaseline.ini"){m_BaselineFileName=file;}
@@ -219,14 +221,24 @@ public:
 	void SetModuleNumber(int i){m_module=i;}										    	//Set ADC Module in the Chain
 
 	//Get Functions
-	int GetCrateHandle(){return m_CrateHandle;};
+	int GetCrateHandle(){return m_handle;};
 	int GetTransferedBytes(){return blt_bytes;};
 	int GetEventLength(){return m_length;}
 	int GetTriggerType(){return m_triggertyp;}
+  double GetSampleFreq(){return m_Frequency;}
+  double  GetResolution(){return m_resDAC;}
 	double GetSoftwareRate(){return 1000000./m_SoftwareRate;}
-	int* GetTreshold(){return channelTresh;}
+	int* GetThreshold(){return m_channelThresh;}
+
+  //Added by Neil
+  uint16_t GetEnableMask(){return m_EnableMask;}
+  CAEN_DGTZ_UINT16_EVENT_t* Get16BitEvent(){return Event16;}
+  u_int32_t GetBufferSize(){return m_BufferSize;}
+  //TODO write code to set actual voltage range of ADC
+  double GetVRange(){return 2.0;}
 	
-	u_int32_t* GetBuffer(){return buffer;}
+	virtual u_int32_t* GetBuffer(){return buffer;}
+	//virtual char* GetBuffer(){return buffer;}
 
 	//Read the current baseline configuration from file
 	int ReadBaseLine();
@@ -241,7 +253,7 @@ public:
 	int SoftwareTrigger();
 	
 	//Aquire Data if there is some in the eventbuffer
-	int CheckEventBuffer();
+	virtual int CheckEventBuffer();
 	
 	//Enable ADC
 	int Enable();
@@ -273,6 +285,8 @@ public:
 	//Enable Software Trigger 
 	int EnableSoftware();
 
+  //TODO
+  bool OpenDigitizer(){return 0;};
 	
 
 protected:
@@ -305,16 +319,17 @@ protected:
   	u_int32_t m_hex;																			//Variable to write to the VME bus
 	u_int32_t m_ExpectedEvSize;																	//Complete Eventsize
 	int m_length;																				//length of the event
-   	int m_CrateHandle;																			//Object to the VME Bus
-   	int m_MemorySize, m_BufferSize; 															//Size of the Memory on the ADC and Eventsize
+  //TODO outdated variable, needs to be update 	
+  int m_CrateHandle;																			//Object to the VME Bus
+   	int m_MemorySize;//, m_BufferSize; 															//Size of the Memory on the ADC and Eventsize
    	int m_EnableVMEIrq, m_Align64, m_EnableBerr, m_EnableOLIrq, m_EnableInt, m_EvAlign;  		//VME, Interrupt etc handling
 	CAEN_BYTE IrqMask, IrqCheckMask;															//Interrupt Handling
    	string m_RegisterFileName;																	//Configfile for the Register
 	string m_BaselineFileName;																	//Baseline File Name
 	char* m_XmlFileName;																		//XML-File
 	
-	// read the event
-    	int blt_bytes, pnt, Size, cnt, wavecnt, CurrentChannel, nb, ret;
+  // read the event
+  int blt_bytes, pnt, Size, cnt, wavecnt, CurrentChannel, nb, ret;
 
 	//Baseline calculation
 	double m_mean, m_diff, m_std, m_correction;			//Baseline properties
@@ -324,18 +339,48 @@ protected:
 	
 	//ADC Properties
 	int m_Frequency;									//Sampling frequency
-	int m_Baseline;										//Baseline
 	int m_iteration;									//Number of Baseline iterations
 	int m_resDAC;										//Resolution DAC
 	int m_resADC;										//Resolution ADC
-	int m_Voltage;										//Voltage range ADC
 	int m_nbCh;											//Number of the Channels
 	int m_triggertyp;									//External, internal trigger, Daisy Chain
 	int m_nbchs;										//Channel Number
-	int* channelTresh;									//Treshold of the channels
+	int* m_channelThresh;									//Threshold of the channels
+  CAEN_DGTZ_TriggerPolarity_t* m_trigPolarity;     //added by Neil
+  CAEN_DGTZ_PulsePolarity_t* m_PulsePolarity;
 	int m_SoftwareRate;									//SoftwaretriggerRate 
 	int m_module;										//Module Number
 	u_int32_t m_posttrigger;							//Postrigger
+
+  //Added by Neil
+  char * m_buffer;
+  int m_handle;    //
+  CAEN_DGTZ_BoardInfo_t       BoardInfo;
+  CAEN_DGTZ_ErrorCode m_Ret;
+
+  CAEN_DGTZ_IOLevel_t m_TriggerLogicType;
+  CAEN_DGTZ_TriggerMode_t m_ExtTriggerMode;
+  CAEN_DGTZ_TriggerMode_t m_SWTriggerMode;
+  CAEN_DGTZ_TriggerMode_t m_SelfTriggerMode;
+
+  uint32_t m_RecordLength;
+  int m_PostTrigger;
+  int  m_NumEvents;
+  uint16_t m_EnableMask;
+  CAEN_DGTZ_UINT16_EVENT_t    *Event16;
+  uint32_t m_AllocatedSize;
+  double RunStartTime;
+  double nowTime;
+	double m_Baseline;	//Baseline
+	double m_Voltage;										//Voltage range ADC
+  uint32_t m_NEvents;
+  uint32_t m_BufferSize;
+  uint32_t *m_DCoffset;
+
+  
+  char * m_EventPtr;
+
+
 
 };
 

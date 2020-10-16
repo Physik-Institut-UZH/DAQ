@@ -38,7 +38,7 @@ Author: Julien Wulf UZH
 
 ADCManager::ADCManager()
 {
-	m_CrateHandle= m_ADCaddr=0;
+	m_handle= m_ADCaddr=0;
 	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=m_module=0;
 	for(int i=0;i<8;i++){
 		m_DACTarget[i]=0;
@@ -56,23 +56,23 @@ ADCManager::~ADCManager()
 int ADCManager::Enable(){
 	
 	//Aquisition
-    	// enable adcs to get event
-	m_hex = 0x4;
-    	adc_writereg(AcquisitionControlReg,m_hex); 
-    	usleep(1000);
-		return 0;
+  // enable adcs to get event
+  m_hex = 0x4;
+  adc_writereg(AcquisitionControlReg,m_hex); 
+  usleep(1000);
+  return 0;
 }
 
 //-------------------------------------------------------------------
 //Disable the ADC
 int ADCManager::Disable(){
 	
-	//Aquisition
-    	// disable adcs to get event
-	m_hex =0x00;
-    	adc_writereg(AcquisitionControlReg,m_hex);
-    	usleep(1000);
-		return 0;
+  //Aquisition
+  // disable adcs to get event
+  m_hex =0x00;
+  adc_writereg(AcquisitionControlReg,m_hex);
+  usleep(1000);
+  return 0;
 }
 
 
@@ -80,18 +80,17 @@ int ADCManager::Disable(){
 // Function to generate a Software Trigger + readout
 int ADCManager::ApplySoftwareTrigger(){
 
-		    
-		//internal trigger
-		m_hex = 1;
-		adc_writereg(SoftTriggerReg,m_hex);  
-	    
-        // Read data from module i in MBLT mode into buff
-		blt_bytes = adc_readblt();
+  //internal trigger
+  m_hex = 1;
+  adc_writereg(SoftTriggerReg,m_hex);  
 
-		// error handling if there is an invalid entry after an event
-    	if (blt_bytes<0) return -1;   
-  
-   return 0;
+  // Read data from module i in MBLT mode into buff
+  blt_bytes = adc_readblt();
+
+  // error handling if there is an invalid entry after an event
+  if (blt_bytes<0) return -1;   
+
+  return 0;
 }
 
 int ADCManager::SoftwareTrigger(){
@@ -195,19 +194,22 @@ int ADCManager::CalculateBaseLine(){
 			pnt++;
 	 
 			//Read ChannelMask (Handbook)
-			int ChannelMask=buffer[pnt] & 0xFF;                 
+			int ChannelMask=buffer[pnt] & 0xFF;
+      int temp = buffer[pnt] & 0xFF0000;
+
+      cout<<"Channel Mask in Baseline calculator "<<ChannelMask<<", "<<temp<<endl;
 
 			pnt++;    
 		
 			// Get size of one waveform by dividing through the number of channels
 			cnt=0;
-			for (int j=0; j<8; j++) if ((ChannelMask>>j)&1){ cnt++; n_channels++; }
+			for (int j=0; j<m_nbCh; j++) if ((ChannelMask>>j)&1){ cnt++; n_channels++; }
 			Size=Size/cnt;
 
 			// ignore EventConter and TTT
 			pnt+=2;
 			
-			for (int j=0; j<8; j++) { // read all activated channels
+			for (int j=0; j<m_nbCh; j++) { // read all activated channels
 				m_mean=0;
 			
 				// read only the channels given in ChannelMask
@@ -254,7 +256,7 @@ int ADCManager::CalculateBaseLine(){
 		}
 		//Check if the it converged
 		int check=0;
-		for(int k=0;k<8;k++){
+		for(int k=0;k<m_nbCh;k++){
 			if(m_DACFinished[k]==1)
 				check=check+1;
 		}
@@ -290,7 +292,7 @@ int ADCManager::CalculateBaseLine(){
   fprintf(dacfile,"# generated: automatically\n");
   fprintf(dacfile,"#***************************************************************\n\n");
   
-    for (int j=0; j<8; j++)  {
+    for (int j=0; j<m_nbCh; j++)  {
       fprintf(dacfile,"WRITE_REGISTER %4d %04X\n",1098+j*100,m_DACLevel[j]);
     }  
     		  
@@ -331,13 +333,13 @@ double ADCManager::AverageBaseLine(int channel,double& rms){
 		
 		// Get size of one waveform by dividing through the number of channels
 		cnt=0;
-		for (int j=0; j<8; j++) if ((ChannelMask>>j)&1) cnt++;
+		for (int j=0; j<m_nbCh; j++) if ((ChannelMask>>j)&1) cnt++;
 		Size=Size/cnt;
 
 		// ignore EventConter and TTT
 		pnt+=2;
 			
-		for (int j=0; j<8; j++) { // read all activated channels
+		for (int j=0; j<m_nbCh; j++) { // read all activated channels
 
 			// read only the channels given in ChannelMask
 			if ((ChannelMask>>j)&1 && m_DACFinished[j]==0) CurrentChannel=j;
@@ -382,8 +384,8 @@ double ADCManager::AverageBaseLine(int channel,double& rms){
 int ADCManager::CalculateThresholds(int channel, double baseline){
 	
 	m_hex=0;
-	int tmp = baseline - channelTresh[channel];
-	adc_writereg(TresholdRegN+(channel*0x0100),tmp);
+	int tmp = baseline - m_channelThresh[channel];
+	adc_writereg(ThresholdRegN+(channel*0x0100),tmp);
 	return tmp;
 
 }
@@ -398,29 +400,28 @@ int ADCManager::CalculateThresholds(int channel, double baseline){
 
 //Function to aquire data if there is some
 int ADCManager::CheckEventBuffer(){
- 
-	// Interrupts: 
-    // If enabled, wait for the interrupt request from the digitizer. In this mode,
-    // there is no CPU time wasting because the process sleeps until there are at least
-    // N event available for reading, where N is the content of the register Interrupt
-    // Event Number (0xEF18)
-     if (m_EnableInt) {		
-	  	if (m_EnableOLIrq) IrqMask = 0x01; // IRQ1 is used when interrupt generated via OLINK
-		      else IrqMask = 0xFF; // All VME Interrupt Enabled
+  // Interrupts: 
+  // If enabled, wait for the interrupt request from the digitizer. In this mode,
+  // there is no CPU time wasting because the process sleeps until there are at least
+  // N event available for reading, where N is the content of the register Interrupt
+  // Event Number (0xEF18)
+  if (m_EnableInt) {		
+    if (m_EnableOLIrq) IrqMask = 0x01; // IRQ1 is used when interrupt generated via OLINK
+    else IrqMask = 0xFF; // All VME Interrupt Enabled
 
-        CAENVME_IRQEnable(m_CrateHandle, IrqMask); // Enable IRQs
-	    ret = CAENVME_IRQWait(m_CrateHandle, IrqMask, 1000); // Wait for IRQ (max 1sec)
-	   	//if (ret) continue; 
+    CAENVME_IRQEnable(m_handle, IrqMask); // Enable IRQs
+    ret = CAENVME_IRQWait(m_handle, IrqMask, 1000); // Wait for IRQ (max 1sec)
+    //if (ret) continue; 
 
-  	   	ret=CAENVME_IRQCheck(m_CrateHandle, &IrqCheckMask);                           
-	   	CAENVME_IRQDisable(m_CrateHandle, IrqMask); // Disable IRQs	    	    	    
-     }
+    ret=CAENVME_IRQCheck(m_handle, &IrqCheckMask);                           
+    CAENVME_IRQDisable(m_handle, IrqMask); // Disable IRQs	    	    	    
+  }
 
-	// Read data from ADC  in MBLT mode into buff[i]
-     blt_bytes=adc_readblt();
-	 if (blt_bytes<0) return -1;;
+  // Read data from ADC  in MBLT mode into buff[i]
+  blt_bytes=adc_readblt();
+  if (blt_bytes<0) return -1;;
 
-		return 0;
+  return 0;
 }
 
 
@@ -430,7 +431,7 @@ int ADCManager::CheckEventBuffer(){
 int ADCManager::adc_writereg(u_int32_t addr,		    // the register to write to
 			     u_int32_t data)		    // the value to set
 {
-if (CAENVME_WriteCycle(m_CrateHandle, m_ADCaddr+addr, &data, cvA32_U_DATA, cvD32) != cvSuccess) {
+if (CAENVME_WriteCycle(m_handle, m_ADCaddr+addr, &data, cvA32_U_DATA, cvD32) != cvSuccess) {
 		printf(KRED);
 		printf(":::: VME read error!!! (ADCManager::CAENVME_WriteCycle()) ::::\n");
 		printf(RESET);
@@ -448,7 +449,7 @@ int ADCManager::adc_readreg(u_int32_t addr,		// the register to write to
 {
    u_int32_t temp;
    
-   if (CAENVME_ReadCycle(m_CrateHandle, m_ADCaddr+addr, &temp, cvA32_U_DATA, cvD32) != cvSuccess) {
+   if (CAENVME_ReadCycle(m_handle, m_ADCaddr+addr, &temp, cvA32_U_DATA, cvD32) != cvSuccess) {
 		printf(KRED);
 		printf(":::: VME read error!!! (ADCManager::CAENVME_ReadCycle()) ::::\n");
 		printf(RESET);
@@ -465,26 +466,37 @@ int ADCManager::adc_readreg(u_int32_t addr,		// the register to write to
 //   returns -1 on failure, 0 on success
 int ADCManager::adc_readblt()		// the value to read
 {
-	// read the event
-       int nb, ret;     
-      // Read data from module i in MBLT mode into buff     
-	blt_bytes=0;
-   do { 
-    ret = CAENVME_FIFOBLTReadCycle(m_CrateHandle, m_ADCaddr, 
-		((unsigned char*)buffer)+blt_bytes, (1024*1024*8*10), cvA32_U_BLT, cvD32, &nb);
+
+  //uint32_t bufferSize;
+  //char* bufferTemp;
+  
+  // read the event
+  int nb, ret;     
+  // Read data from module i in MBLT mode into buff     
+  blt_bytes=0;
+  do { 
+    ret = CAENVME_FIFOBLTReadCycle(m_handle, m_ADCaddr, 
+        ((unsigned char*)buffer)+blt_bytes, (1024*1024*8*10), cvA32_U_BLT, cvD32, &nb);
+    //int error;
+    //error = CAEN_DGTZ_ReadData(m_handle,CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT,bufferTemp,&bufferSize); //reads raw data stream from CAEN
+    //if(error!=0){
+    //    printf("Failed to read from CAEN, error %d\n",error);
+    //}
+
     if ((ret != cvSuccess) && (ret != cvBusError)) {
-		std::cout << "Block read error" << std::endl;   
-		printf("%d bytes read\n",nb);
-		return -1;  
+      std::cout << "Block read error" << std::endl;   
+      printf("%d bytes read\n",nb);
+      return -1;  
     }
     blt_bytes += nb;
     if (blt_bytes > m_BufferSize) { 
-		std::cout << "Negativ bytes transfered" << std::endl;
-		return -1;  
+      std::cout << "Negativ bytes transfered" << std::endl;
+      return -1;  
     }
   } while (ret != cvBusError); 
-  
-   return  blt_bytes;
+
+
+  return  blt_bytes;
 }	
 
 //-------------------------------------------------------------------
@@ -509,16 +521,16 @@ int ADCManager::RegisterWriting(string configfilename){
       if (str[0] == '#')
           fgets(str, 1000, f_ini);
       else{
-	  // Generic VME Write
-          if (strstr(str, "WRITE_REGISTER")!=NULL) {
-              fscanf(f_ini, "%x", (int *)&m_addr);
-              fscanf(f_ini, "%x", (int *)&m_hex);
-	      printf(KGRN);
-              printf("	Address: %x Data: %x",m_addr, m_hex);
-              printf(RESET);
-	      std::cout << std::endl;
-              if (adc_writereg(m_addr,m_hex)<0){return -1;} 
-          }
+        // Generic VME Write
+        if (strstr(str, "WRITE_REGISTER")!=NULL) {
+          fscanf(f_ini, "%x", (int *)&m_addr);
+          fscanf(f_ini, "%x", (int *)&m_hex);
+          printf(KGRN);
+          printf("	Address: %x Data: %x",m_addr, m_hex);
+          printf(RESET);
+          std::cout << std::endl;
+          if (adc_writereg(m_addr,m_hex)<0){return -1;} 
+        }
       }
    }
    std::cout << std::endl;
@@ -555,43 +567,43 @@ int ADCManager::Checkkeyboard(char c){
 
 	if (c == 'w') {
 		this->Disable();
-		for(int i=0;i<8;i++){
-			channelTresh[i]=channelTresh[i]-10;
-			adc_writereg(TresholdRegN+(i*0x0100),channelTresh[i]);
+		for(int i=0;i<m_nbCh;i++){
+			m_channelThresh[i]=m_channelThresh[i]-10;
+			adc_writereg(ThresholdRegN+(i*0x0100),m_channelThresh[i]);
 		}
 		this->Enable();
 	}
 	
 	if (c == 'e') {
 		this->Disable();
-		for(int i=0;i<8;i++){
-			channelTresh[i]=channelTresh[i]+10;
-			adc_writereg(TresholdRegN+(i*0x0100),channelTresh[i]);
+		for(int i=0;i<m_nbCh;i++){
+			m_channelThresh[i]=m_channelThresh[i]+10;
+			adc_writereg(ThresholdRegN+(i*0x0100),m_channelThresh[i]);
 		}
 		this->Enable();
 	}
 	
 	if (c == 'r') {
 			this->Disable();
-		for(int i=0;i<8;i++){
-			channelTresh[i]=channelTresh[i]-1;
-			adc_writereg(TresholdRegN+(i*0x0100),channelTresh[i]);
+		for(int i=0;i<m_nbCh;i++){
+			m_channelThresh[i]=m_channelThresh[i]-1;
+			adc_writereg(ThresholdRegN+(i*0x0100),m_channelThresh[i]);
 		}
 		this->Enable();
 	}
 	
 	if (c == 't') {
 		this->Disable();
-		for(int i=0;i<8;i++){
-			channelTresh[i]=channelTresh[i]+1;
-			adc_writereg(TresholdRegN+(i*0x0100),channelTresh[i]);
+		for(int i=0;i<m_nbCh;i++){
+			m_channelThresh[i]=m_channelThresh[i]+1;
+			adc_writereg(ThresholdRegN+(i*0x0100),m_channelThresh[i]);
 		}
 		this->Enable();
 	}
 	if (c == 'i') {
 		std::cout << std::endl;
-		for(int i=0;i<8;i++){
-			std::cout << "		Treshold: " << channelTresh[i];	
+		for(int i=0;i<m_nbCh;i++){
+			std::cout << "		Threshold: " << m_channelThresh[i];	
 		}
 		std::cout << "		Posttrigger: " << m_posttrigger ;
 		std::cout << std::endl << std::endl;

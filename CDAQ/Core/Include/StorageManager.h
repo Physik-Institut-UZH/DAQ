@@ -11,6 +11,7 @@
 #include <typeinfo>
 #include "common.h"
 #include "xmlParser.h"
+#include "CAENDigitizer.h"
 
 //ROOT Libraries
 #include "TROOT.h"
@@ -44,13 +45,26 @@ public:
 	int InitROOT();
 	int InitROOTZLE();
 	//Set Function
-	void SetBuffer(u_int32_t *adcBuffer){buffer=adcBuffer;} 
-	void SetEventLength(int length){m_length=length;}
+	void SetBuffer(u_int32_t *adcBuffer){buffer=adcBuffer;}
+  //TODO SetEventLength is a outdated
+  void SetEventLength(int temp){;};
 	void SetTransferedBytes(int bytes){blt_bytes=bytes;}
 	void SetXMLFile(char* file){m_XmlFileName=file;}
 	void SetFolderName(char* file){m_OutputFolder=file;}
 	void SetModuleNumber(int i){m_module=i;}
 	void SetModuleFolder(string message){m_moduleName=message;}
+
+  //Added by Neil
+  void SetEnableMask(uint16_t mask){m_EnableMask = mask;}
+  void Set16BitEvent(CAEN_DGTZ_UINT16_EVENT_t *evnt) {Event16 = evnt;}
+  void SetBufferSize(u_int32_t buff){m_BufferSize = buff;}
+  void SetEventHeaderInfo(int samples, double freq, double volt,double res)
+  {
+    m_BufferSize = samples;
+    m_sampleFreq = freq;
+    m_vRange = volt;
+    m_resDAC = res;
+  };
 	
 	//Get Function
 	int GetNumberEvents(){return m_NoE;} 
@@ -64,9 +78,11 @@ public:
    
 private:
 
-int FillROOTContainer();
+  //int FillROOTContainer();
+  bool FillROOTContainer();//Created by Neil
 	void SaveROOTContainer();
-	int FillZLEROOTContainer();
+  //TODO fix ZLE
+	int FillZLEROOTContainer() {return 1;};
 	double m_time;							//Storage of the current time
     string m_command;						//tmp variable
 	string m_path;							//Path for storage
@@ -75,45 +91,26 @@ int FillROOTContainer();
 	TTree* tree;							//ROOT Tree
     char* m_OutputFolder;					//Output FileName
 	u_int32_t* buffer;						//Buffer of the data to visualize
-	int m_length;							//Set length of the waveform
 	uint32_t blt_bytes,pnt,Size,cnt,wavecnt, CurrentChannel;     //readout the channel
-    	int* wf0;								//Storage for waveform
-	int* wf1;								//Storage for waveform
-	int* wf2;								//Storage for waveform
- 	int* wf3;								//Storage for waveform
- 	int* wf4;								//Storage for waveform
- 	int* wf5;								//Storage for waveform
- 	int* wf6;								//Storage for waveform
- 	int* wf7;								//Storage for waveform
+
+  std::vector<int*> wfVec;
  	char* m_XmlFileName;					//XML-File
  	int ApplyXMLFile();						//Read XML-Config for the Storage Manager
- 	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbchs,m_filenumber,m_module;			//Number of events
+ 	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbCh,m_filenumber,m_module;			//Number of events
 	int m_custom_size;
  	int *channelActive;						//Channel active
 	int m_ZLE;							//ZLE active or not
-	std::vector <int> m_zle_wf0;
-        std::vector <int> m_zle_cw0;
+  
+  std::vector<std::vector<int>> m_zle_wfVec;
+  std::vector<std::vector<int>> m_zle_cwVec;
 
-        std::vector <int> m_zle_wf1;
-        std::vector <int> m_zle_cw1;
+  uint16_t  m_EnableMask;
+  CAEN_DGTZ_UINT16_EVENT_t * Event16;
 
-        std::vector <int> m_zle_wf2;
-        std::vector <int> m_zle_cw2;
-
-        std::vector <int> m_zle_wf3;
-        std::vector <int> m_zle_cw3;
-
-        std::vector <int> m_zle_wf4;
-        std::vector <int> m_zle_cw4;
-
-        std::vector <int> m_zle_wf5;
-        std::vector <int> m_zle_cw5;
-
-        std::vector <int> m_zle_wf6;
-        std::vector <int> m_zle_cw6;
-
-        std::vector <int> m_zle_wf7;
-        std::vector <int> m_zle_cw7;
+  u_int32_t m_BufferSize;
+  double m_sampleFreq;
+  double m_vRange;
+ 	int m_resDAC;										//Resolution DAC
 
 };
 
