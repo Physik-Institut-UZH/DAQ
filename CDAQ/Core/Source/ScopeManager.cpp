@@ -55,9 +55,13 @@ int ScopeManager::Init(){
   //	single->Divide(1,2);
   //Init Graphs
   g.resize(m_nbCh);
+  gMCA.resize(m_nbCh);
+  vecMCA.resize(m_nbCh);
+  maxMCA.resize(m_nbCh);
   for(Int_t j=0; j<m_nbCh;j++){
     g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),m_BufferSize-1,0,m_BufferSize-1);
   }
+
 
   for(Int_t j=0; j<m_nbCh;j++){
     g[j]->SetLineColor(2);
@@ -109,7 +113,8 @@ int ScopeManager::ShowEvent(){
 
   for(int i = 0; i < m_nbCh; i++){
     for(int j = 0; j < Event16->ChSize[i]; j++){
-      g[i]->SetBinContent(j, Event16->DataChannel[i][j]);
+      double binContent = Event16->DataChannel[i][j];
+      g[i]->SetBinContent(j, binContent);
     } 
   }
 
@@ -144,6 +149,51 @@ int ScopeManager::ShowEvent(){
   return 0;
 }
 
+void ScopeManager::ShowMCA(int counter){
+  
+
+  for(int i = 0; i < m_nbCh; i++){
+    double binSum = 0;
+    for(int j = 0; j < Event16->ChSize[i]; j++){
+      double binContent = Event16->DataChannel[i][j];
+      binSum += binContent;
+    } 
+    vecMCA[i].push_back(binSum);
+    if(binSum > maxMCA[i]) maxMCA[i] = binSum;
+    if(( (int)maxMCA[i]*.10 ) > 0){
+      delete gMCA[i];
+      gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),(int)(maxMCA[i]*0.10),maxMCA[i]*0.01,maxMCA[i]*1.05);
+    }
+    else{
+      delete gMCA[i];
+      gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1,0,1);
+    }
+
+  }
+ 
+  if(counter%100 != 0) return;//don't update the MCA for every event, every 20th event seems modest
+
+  for(int i = 0; i < vecMCA.size(); i++){
+    for(int j = 0; j < vecMCA[i].size(); j++){
+      gMCA[i]->Fill(vecMCA[i][j]);
+    }
+  }
+  for(int i = 0; i < m_nbCh; i++) graph_edit(gMCA[i]);
+  graph_edit(gMCA[m_channel]);
+  gMCA[m_channel]->Draw();
+
+  single->Modified();
+  single->SetSelected(single);
+  single->Update();
+
+  if(m_save==1){
+    single->SaveAs(Form("Plots/Event_%i.png",m_counter));
+  }
+  // single->cd(2);
+  //hm->Draw();
+  m_counter++;
+
+}
 /*
 int ScopeManager::ShowEvent(){
 

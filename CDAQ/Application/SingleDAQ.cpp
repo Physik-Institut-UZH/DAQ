@@ -194,8 +194,10 @@ int main(int argc, char *argv[], char *envp[] )
       storageManager->FillContainer();	
 
       //Show Event if checked
-      if(slowcontrolManager->GetGraphicsActive())
-        scopeManager->ShowEvent();
+      if(slowcontrolManager->GetGraphicsActive()){
+        if(slowcontrolManager->UseMCA()) scopeManager->ShowMCA(counter);
+          else scopeManager->ShowEvent();
+      }
 
       counter++;
       //Create new file if noE is bigger than noEF

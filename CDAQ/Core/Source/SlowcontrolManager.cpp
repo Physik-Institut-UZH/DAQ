@@ -509,6 +509,13 @@ int SlowcontrolManager::ApplyXMLFile(){
 		printf("	y-axis-high %s\n",txt);  
 	} else error((char*)"XML-yaxis_high");
 
+  xstr=xNode.getChildNode("useMCA").getText();
+  if(xstr){
+    strcpy(txt,xstr);
+    m_useMCA=(int)(atoi(txt));
+    if(m_useMCA)    printf(" Using MCA plotting rather than waveform plotting \n");
+  }
+
   
 	printf(RESET);
 	

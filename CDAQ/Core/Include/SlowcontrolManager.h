@@ -66,6 +66,7 @@ class SlowcontrolManager: public Common
    int GetLinkInChain(){return m_numberChain;}			//In which position is the Board in the chain,(ConetNode)
    int GetPCILinkNum(){return m_PCILinkNum;} //Return which PCI slot is used V3718 can have 1,2, or 4
    CAEN_DGTZ_ConnectionType GetConnectionType() {return m_ConnectionType;}
+   bool UseMCA() {return m_useMCA;}
    
    //Interaction Functions
    int StartAquistion();
@@ -97,6 +98,7 @@ class SlowcontrolManager: public Common
   int m_PCILinkNum;
     ofstream m_DAQStatus;								//Stores the current DAQ rate
     ofstream m_DAQSummary;								//Stores all relevant parameters
+  bool m_useMCA = false;
 
 };
 

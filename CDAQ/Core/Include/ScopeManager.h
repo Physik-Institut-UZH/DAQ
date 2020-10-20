@@ -59,6 +59,9 @@ class ScopeManager: public Common
 		//Visuliaze Event
 		int ShowEvent();
 
+    //Plot MCA
+    void ShowMCA(int count);
+
 		//Check keys for the window
 		int graph_checkkey(char c);
 		
@@ -79,6 +82,9 @@ class ScopeManager: public Common
 		TCanvas *win;						//Canvas of all
 		TCanvas *single;					//Cavnas of one
 		std::vector<TH1D*> g; 				//Histogramm for Waveform
+    std::vector<TH1D*> gMCA;
+    std::vector<std::vector<double>> vecMCA;
+    std::vector<double> maxMCA;
 
 		u_int32_t* buffer;					//Buffer of the data to visualize
 		int m_length;						//Set length of the waveform

@@ -8,3 +8,4 @@ CDAQ/bin/SingleDAQ
 CDAQ/bin/SlowControl
 CDAQ/bin/Plots
 *.swp
+CDAQ/bin/temp/*

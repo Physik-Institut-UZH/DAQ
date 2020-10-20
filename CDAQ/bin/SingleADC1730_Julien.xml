@@ -27,12 +27,12 @@
       <!-- Activate channels to read out -->
       	<ch_0>16000</ch_0>                       		   						 <!-- 0 = off, Number = treshold for trigger setting -->
       	<ch_1>16000</ch_1>
-     	<ch_2>0</ch_2>                            
-      	<ch_3>0</ch_3>                           
-      	<ch_4>0</ch_4>                          
-      	<ch_5>0</ch_5>                         
-      	<ch_6>0</ch_6>                        
-      	<ch_7>0</ch_7>                            
+        <ch_2>16000</ch_2>                            
+      	<ch_3>16000</ch_3>                           
+      	<ch_4>16000</ch_4>                          
+      	<ch_5>16000</ch_5>                         
+      	<ch_6>16000</ch_6>                        
+      	<ch_7>16000</ch_7>                            
 
       <!-- !!!All Events are reduced by 10 Samples due to DAC Problems in the last samples!!!! -->
       <memoryorganisation>64</memoryorganisation>  								 <!-- **Blockorganisation of the ADC-->

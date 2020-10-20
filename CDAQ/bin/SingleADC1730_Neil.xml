@@ -7,7 +7,7 @@
     <user>Neil</user>                                     					 	<!-- Last user which used the ADC-->
     <path>/home/daq/DAQ/CDAQ/bin/temp/</path>      							 <!-- Path -->
     <daq_version>4.0.0</daq_version>                        						 	 <!-- DAQ Version-->
-    <nb_evts>10000</nb_evts>                             							 <!-- Number of events-->
+    <nb_evts>1000000</nb_evts>                             							 <!-- Number of events-->
     <nb_evts_per_file>500000</nb_evts_per_file>           							 <!-- Number of events/file-->
     <store_data>1</store_data>                             							 <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
     <displaytime>1</displaytime>                        							 <!-- Status output -->
@@ -27,22 +27,22 @@
       <link_in_chain>0</link_in_chain>            		 <!-- Position of the board in the link, -1 if reading board through VME controller, 0 - N if using optical link / PCI -->
 	
       <!-- Activate channels to read out -->
-      	<ch_0>1000</ch_0>             						 <!-- 0 = off, Number = treshold for trigger setting -->
-      	<ch_1>1000</ch_1>
-        <ch_2>1000</ch_2>                            
-      	<ch_3>1000</ch_3>                           
-      	<ch_4>1000</ch_4>                          
-      	<ch_5>1000</ch_5>                         
-      	<ch_6>1000</ch_6>                        
-        <ch_7>1000</ch_7>
-        <ch_8>1000</ch_8>
-        <ch_9>1000</ch_9>
-        <ch_10>1000</ch_10>
-        <ch_11>1000</ch_11>
-        <ch_12>1000</ch_12>
-        <ch_13>1000</ch_13>
-        <ch_14>1000</ch_14>
-        <ch_15>1000</ch_15>
+      	<ch_0>100</ch_0>             						 <!-- 0 = off, Number = treshold for trigger setting -->
+      	<ch_1>10</ch_1>
+        <ch_2>0</ch_2>                            
+      	<ch_3>0</ch_3>                           
+      	<ch_4>0</ch_4>                          
+      	<ch_5>0</ch_5>                         
+      	<ch_6>0</ch_6>                        
+        <ch_7>0</ch_7>
+        <ch_8>0</ch_8>
+        <ch_9>0</ch_9>
+        <ch_10>0</ch_10>
+        <ch_11>0</ch_11>
+        <ch_12>0</ch_12>
+        <ch_13>0</ch_13>
+        <ch_14>0</ch_14>
+        <ch_15>0</ch_15>
 
         <polarity_0>1</polarity_0>  <!-- Polarity of Channel N, +1 or -1 -->
         <polarity_1>1</polarity_1>
@@ -76,7 +76,7 @@
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-		<trigger>0</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
+		<trigger>2</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig -->
 	  
 		<!-- Option external trig and trg-out-->
 		<TTL>1</TTL>									<!-- **TTL On (1) or NIM On (0) -->
@@ -121,5 +121,6 @@
    <ydisplay>2</ydisplay>									<!-- ** 0:standard, 1:manual, 2:auto -->
    <yaxis_low>9980</yaxis_low>								<!-- ** lower border of y-axis display -->
    <yaxis_high>10020</yaxis_high>							<!-- ** upper border -->
+   <useMCA>1</useMCA>  <!-- Use MCA plotting to show intergral of every waveform-->
  </graphics>
 </settings>
