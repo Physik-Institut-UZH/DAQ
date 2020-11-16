@@ -431,6 +431,7 @@ int ADCManager::CheckEventBuffer(){
 int ADCManager::adc_writereg(u_int32_t addr,		    // the register to write to
 			     u_int32_t data)		    // the value to set
 {
+  if(addr == PostTriggerReg) cout<<"Post trigger writting! m_CrateHandle = "<<m_CrateHandle<<", Full Address = "<<m_ADCaddr+addr<<" data written is "<<data<<endl;
 if (CAENVME_WriteCycle(m_handle, m_ADCaddr+addr, &data, cvA32_U_DATA, cvD32) != cvSuccess) {
 		printf(KRED);
 		printf(":::: VME read error!!! (ADCManager::CAENVME_WriteCycle()) ::::\n");

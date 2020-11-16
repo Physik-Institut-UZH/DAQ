@@ -25,13 +25,13 @@ VMEManager::~VMEManager()
 int VMEManager::Init(int PCIType){
 
   if(PCIType == 0){
-  if(CAENVME_Init(cvV2718,m_Link,m_board,&m_CrateHandle)!=cvSuccess) {
-    printf(KRED);
-    printf(":::: CAENVME_Init failed!!! (VMEManager) ::::\n");
-    printf(RESET);
+    if(CAENVME_Init(cvV2718,m_Link,m_board,&m_CrateHandle)!=cvSuccess) {
+      printf(KRED);
+      printf(":::: CAENVME_Init failed!!! (VMEManager) ::::\n");
+      printf(RESET);
     m_CrateHandle=-1;
     return -1;
-  }
+    }
   }
   else if(PCIType == 1){
     //TODO, make this clean

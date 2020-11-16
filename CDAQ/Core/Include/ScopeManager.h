@@ -21,6 +21,7 @@
 #include <TFile.h>
 #include <TLatex.h>
 #include "TImage.h"
+#include "TDatime.h"
 
 
 using namespace std;
@@ -61,6 +62,8 @@ class ScopeManager: public Common
 
     //Plot MCA
     void ShowMCA(int count);
+    //Write
+    void WriteMCA();
 
 		//Check keys for the window
 		int graph_checkkey(char c);
@@ -108,6 +111,8 @@ class ScopeManager: public Common
     uint32_t m_BufferSize;
     uint16_t m_EnableMask;
     CAEN_DGTZ_UINT16_EVENT_t * Event16;
+    bool m_useMCA = false;
+    bool m_logSwitch = false;
 };
 
 #endif

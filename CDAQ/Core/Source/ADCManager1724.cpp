@@ -447,7 +447,110 @@ int ADCManager1724::ApplyXMLFile(){
 	return 0;
 }
 
+int ADCManager1724::CheckEventBuffer(){
+  //Do something
+  startAcq();
+  CAEN_DGTZ_ErrorCode m_ret = CAEN_DGTZ_Success;
 
+  //Seems like if you put this in the header file, the code crashes...IDK why -N.M.
+  CAEN_DGTZ_EventInfo_t       EventInfo;
+  double startTimedebug = std::time(nullptr);
+  bool Quit = false;
+  int eventCounter = 0;
+  while(!Quit){
+    if(std::time(nullptr) - startTimedebug > 2) Quit = true;
+    //TODO need to add in adcManager->GetTransferedBytes() <= 0, i.e. a non zero amount of data was transfered
+    //
+    if(m_SWTriggerMode == CAEN_DGTZ_TRGMODE_ACQ_ONLY){
+      //usleep 
+      usleep(GetSoftwareRate()); 
+      CAEN_DGTZ_SendSWtrigger(m_handle);
+    }
+    /// Read data from the board ///
+    cout<<"here"<<endl;
+    m_BufferSize = 0;//Zero out BufferSize before reading data
+    m_Ret = CAEN_DGTZ_ReadData(m_handle, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, m_buffer, &m_BufferSize);
+    cout<<"where"<<endl;
+    if (m_Ret) {
+      cout<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
+      exit(0);
+    }
+    uint32_t nEventsPerTrigger = 0;
+    if (m_BufferSize != 0) {
+      cout<<"herehas"<<endl;
+      m_Ret = CAEN_DGTZ_GetNumEvents(m_handle,m_buffer, m_BufferSize, &nEventsPerTrigger);
+      if (m_Ret) {
+        cout<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
+        exit(0);
+      }
+    }
+    else {
+      uint32_t lstatus;
+      cout<<"herefgdsbhjfdgshjsfdghjsgfdjhngsfd"<<endl;
+      m_Ret = CAEN_DGTZ_ReadRegister(m_handle, CAEN_DGTZ_ACQ_STATUS_ADD, &lstatus);
+      cout<<"herefgdsbhjfdgshjsfdghjsgfdjhngsfd"<<endl;
+      if (m_Ret) {
+        printf("Warning: Failure reading reg:%x (%d)\n", CAEN_DGTZ_ACQ_STATUS_ADD, m_Ret);
+        cout<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
+      }
+      else {
+        if (lstatus & (0x1 << 19)) {
+          exit(0);
+        }
+      }
+    }
+    //TODO add info about data, currently reported somewhere else
+    
+      cout<<"sugar"<<endl;
+    // Analyze data //
+    for(int i = 0; i < (int)nEventsPerTrigger; i++) {
 
+      cout<<"spice"<<endl;
+      //// Get one event from the readout buffer //
+      m_ret = CAEN_DGTZ_GetEventInfo(m_handle, m_buffer, m_BufferSize, i, &EventInfo, &m_EventPtr);
+      cout<<"spice"<<endl;
+      if (m_ret) {
+        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        continue;
+      }
+      //TODO cast Event16 into a vector of Event16's
+      m_ret = CAEN_DGTZ_DecodeEvent(m_handle, m_EventPtr, (void**)&Event16);
+      cout<<"poop"<<endl;
+      if (m_ret) {
+        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        Quit = true;
+      }
+    }
+    eventCounter+=nEventsPerTrigger;
+    if(eventCounter >=m_NumEvents) Quit = true;
+  }
 
+  //TODO not sure if this is necessary
+  m_ret = CAEN_DGTZ_SWStopAcquisition( m_handle);
+  if (m_ret) {
+    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+  }
+  return 0;
+}
 
+bool ADCManager1724::startAcq(){
+      
+  //if(!CalibComplete) Calibrate_DC_Offset();
+
+  /* 
+  Description:  This function starts the acquisition in a board using a software command. When the acquisition starts, the relevant
+  RUN LED on the front panel lights up. It is worth noticing that in case of multiple board systems, the software start
+  doesn’t allow the digitizer to start synchronously. For this purpose, it is necessary to use to start the acquisition using a
+  physical signal, such as the S-IN or GPI as well as the TRG-IN-TRG-OUT Daisy chain. Please refer to Digitizer manual for
+  more details on this issue.
+  */
+  printf("Digitizer: Acquisition started\n");
+  CAEN_DGTZ_MallocReadoutBuffer(m_handle,&m_buffer,&m_AllocatedSize);
+  CAEN_DGTZ_SWStartAcquisition(m_handle);
+  RunStartTime = util::markTime();
+  //cout.precision(15);
+  //cout<<"Digitizer: Start time: "<<RunStartTime<<endl;
+  //fman.setRunStartTime(RunStartTime);
+  
+  //AcqRun = 1;
+}

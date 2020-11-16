@@ -1,5 +1,6 @@
-#ifndef _ADCMANAGER1724_H_
-#define _ADCMANAGER1724_H_
+#ifndef _ADCManager1724_H_
+#define _ADCManager1724_H_
+
 
 #include <string.h>
 #include <stdio.h>
@@ -17,27 +18,48 @@ using namespace std;
 
 /*
 Author: Julien Wulf UZH
-Class to manage the CAEN v1720 Flash ADC 
-The ADC will be configurated over the register file (NECESSARY)!!! In order to give the user the maxmimum amount of freedom
+Class to manage the CAEN v1730D Flash ADC 
+The ADC will be configurated over the register file and over XML File
 */
 
 
+
 class ADCManager1724: public Common, public ADCManager
+
 {
 public:
-		ADCManager1724();
-		virtual ~ADCManager1724();
+    	ADCManager1724();
+    	virtual ~ADCManager1724();
     
-		//Init Function
-		int Init();
+    	//Init Function
+    	int Init();
     
+    //Inherieted from ADCManager and override the function to use Digitizer functions
+    int CheckEventBuffer();
+
 private:
-
+	
 		//Read Register from ADC
-		int RegisterReading();
+		//int RegisterReading();
+    CAEN_DGTZ_ErrorCode OrProgrammer();
+    int CalculateBaseline();
+    CAEN_DGTZ_ErrorCode SetCorrectThreshold();
+		int ApplyXMLFile();
+    int RegisterReading();
 
-		int ApplyXMLFile();											//Read XML-Config for the Storage Manager
+
+    u_int32_t m_DACLevel[8];							//DAC Level Current Value
+	  u_int32_t m_DACTarget[8];							//DAC Level Set Value
+	  int m_DACFinished[8];
+    //TODO do not hard code the size
+    //uint32_t m_DCoffset[16];
+    
+    bool OpenDigitizer();
+    bool startAcq();
+
+
 };
+
 
 #endif
 

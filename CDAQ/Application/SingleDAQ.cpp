@@ -82,8 +82,7 @@ int main(int argc, char *argv[], char *envp[] )
 	vManager->SetBoardNumber(slowcontrolManager->GetLinkInChain());
   vManager->SetAddress(slowcontrolManager->GetAddress(0));
   vManager->SetConnectionType(slowcontrolManager->GetConnectionType());
-    if(vManager->Init(1)==-1)	return 0;
-
+  if(vManager->Init(1)==-1)	return 0;
 	//ADC-Manger
 	ADCManager* adcManager;// = new ADCManager();
 	if(slowcontrolManager->GetADCType()==0)
@@ -105,8 +104,10 @@ int main(int argc, char *argv[], char *envp[] )
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()) return 0;
+
 	if(slowcontrolManager->GetADCInformation()) return 0;
 	//TODO, rejigger the XML commands and shit
+  /*
   if(slowcontrolManager->GetBaselineCalculation()){
 		adcManager->ReadBaseLine();
 		adcManager->CalculateBaseLine();
@@ -114,6 +115,7 @@ int main(int argc, char *argv[], char *envp[] )
 	}
 	else
 		adcManager->ReadBaseLine();
+  */
 
   cout<<"SingleDAQ::Starting Scope-Manager"<<endl;
 	//Scope-Manager
@@ -195,8 +197,13 @@ int main(int argc, char *argv[], char *envp[] )
 
       //Show Event if checked
       if(slowcontrolManager->GetGraphicsActive()){
-        if(slowcontrolManager->UseMCA()) scopeManager->ShowMCA(counter);
-          else scopeManager->ShowEvent();
+        if(slowcontrolManager->UseMCA())
+          scopeManager->ShowMCA(counter);
+        else
+          scopeManager->ShowEvent();
+      }
+      if(slowcontrolManager->UseMCA() && quit){
+        scopeManager->WriteMCA();
       }
 
       counter++;

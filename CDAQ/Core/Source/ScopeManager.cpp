@@ -46,7 +46,6 @@ int ScopeManager::Init(){
   gStyle->SetTitleFillColor(0);
   gStyle->SetTitleBorderSize(0);
   gStyle->SetStatColor(0);
-  	
   //win->SetFillColor(0);
   //win->SetBorderMode(0);
 
@@ -74,6 +73,7 @@ int ScopeManager::Init(){
     g[j]->GetYaxis()->SetLabelFont(42);
     g[j]->GetYaxis()->SetTitleOffset(1);
     g[j]->SetLineWidth(2);
+    
   }
 
   // Startup Window
@@ -154,29 +154,40 @@ void ScopeManager::ShowMCA(int counter){
 
   for(int i = 0; i < m_nbCh; i++){
     double binSum = 0;
+    double baseline = 0;
+    for(int j = 1; j < 11; j++){
+      if(Event16->ChSize[i] == 0) continue;
+      baseline += Event16->DataChannel[i][j];
+    }
+    baseline /= 10;
+
     for(int j = 0; j < Event16->ChSize[i]; j++){
-      double binContent = Event16->DataChannel[i][j];
+      double binContent = fabs(Event16->DataChannel[i][j] - baseline);
       binSum += binContent;
     } 
     vecMCA[i].push_back(binSum);
     if(binSum > maxMCA[i]) maxMCA[i] = binSum;
-    if(( (int)maxMCA[i]*.10 ) > 0){
+   
+    if(counter == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,20*16384);//100 bins over full range//seems exseive
+    /*
+    if(( (int)maxMCA[i]*1.0 ) > 0){
       delete gMCA[i];
-      gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),(int)(maxMCA[i]*0.10),maxMCA[i]*0.01,maxMCA[i]*1.05);
+      gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),5000,1,100*16384);//100 bins over full range//seems exseive
     }
     else{
       delete gMCA[i];
       gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1,0,1);
     }
-
+    */
   }
- 
-  if(counter%100 != 0) return;//don't update the MCA for every event, every 20th event seems modest
+  if(counter%20 != 0) return;//don't update the MCA for every event, every 20th event seems modest
 
   for(int i = 0; i < vecMCA.size(); i++){
     for(int j = 0; j < vecMCA[i].size(); j++){
       gMCA[i]->Fill(vecMCA[i][j]);
     }
+    //clear vector
+    vecMCA[i].resize(0);
   }
   for(int i = 0; i < m_nbCh; i++) graph_edit(gMCA[i]);
   graph_edit(gMCA[m_channel]);
@@ -194,167 +205,19 @@ void ScopeManager::ShowMCA(int counter){
   m_counter++;
 
 }
-/*
-int ScopeManager::ShowEvent(){
+void ScopeManager::WriteMCA(){
+  TDatime * datTime = new TDatime();
+  TString fileName = "MCAPlot"+to_string(datTime->GetDate()) + "-" + to_string(datTime->GetTime());
 
-
-  //Start from the first word
-  pnt =0;
-  //TH1 *hm =0;
-  //Check first Word
-  if (buffer[0]==0xFFFFFFFF) pnt++;
-
-  // check header
-  if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
-    Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
-    pnt++;
-    if(Size>0){
-
-      //Read ChannelMask (Handbook)
-      int ChannelMask=buffer[pnt] & 0xFF;     
-      //int ChannelMask=buffer[pnt] & 0xFFFF;                 
-
-      pnt++;    
-
-      // Get size of one waveform by dividing through the number of channels
-      cnt=0;
-      for (int j=0; j<m_nbCh; j++) if ((ChannelMask>>j)&1) cnt++;
-      cout<<" "<<cnt<<" "<< pnt<<" "<<ChannelMask<<" "<<Size<<endl;
-      Size=Size/cnt;
-      // ignore EventConter and TTT
-      pnt+=2;
-      m_mean=0;
-      for (int j=0; j<m_nbCh; j++) { // read all channels
-
-        // read only the channels given in ChannelMask
-        if ((ChannelMask>>j)&1) CurrentChannel=j;
-        else{ continue;}
-
-
-        if(m_ZLE==0){
-          if (CurrentChannel!=j) { pnt+=Size; continue; }
-
-          if (j>j) return 0;
-
-          cnt=0;                              // counter of waveform data
-          wavecnt=0;                          // counter to reconstruct times within waveform
-
-          while (cnt<(Size))
-          {	
-            double wave1=(double)((buffer[pnt]&0xFFFF));
-            double wave2=(double)(((buffer[pnt]>>16)&0xFFFF));
-            m_mean= m_mean+ wave1+ wave2;
-            g[j]->SetBinContent(wavecnt,wave1);	
-            g[j]->SetBinContent(wavecnt+1,wave2);	
-            pnt++; wavecnt+=2; cnt++;
-
-          } // end while(cnt...
-          //
-          //	TVirtualFFT::SetTransform(0);
-          //	hm = g[j]->FFT(hm, "MAG");
-          //	hm->SetTitle("Magnitude of the 1st transform");
-          //	m_mean= (m_mean)/(wavecnt);
-        }
-        else{
-          //				std::cout << "hallo" << std::endl;
-          cnt=0;                              // counter of waveform data
-          wavecnt=0;                          // counter to reconstruct times within waveform
-          Size =  (buffer[pnt]);              //Size of the specific channel
-          if (CurrentChannel!=j) { pnt+=Size; continue; }
-          if (j>j) return 0;
-
-          cnt++;
-          pnt++;
-          int length;
-
-          while(cnt<(Size)){
-            //Skipped or Good Control World
-            uint32_t control = buffer[pnt];
-            cnt++;
-            if(((control>>31)&1)){
-              length=(control&0xFFFFF);
-              pnt++;
-            }
-            else {
-              for(int i=wavecnt;i<(wavecnt+((control&0xFFFFF)*2) );i++){
-                g[j]->SetBinContent(i,m_Baseline);
-              }
-              wavecnt=wavecnt+ ( (control&0xFFFFF)*2);
-              pnt++;
-              if(cnt>=Size)
-                break;
-              control = buffer[pnt];
-              cnt++;
-              if(((control>>31)&1)){
-                length=(control&0xFFFFF);
-                pnt++;
-              }
-            }
-            for(int i=0;i<length;i++){
-              uint32_t wave1=((buffer[pnt]&0xFFFF));
-              uint32_t wave2=(((buffer[pnt]>>16)&0xFFFF));
-              g[j]->SetBinContent(wavecnt,wave1);
-              g[j]->SetBinContent(wavecnt+1,wave2);
-              wavecnt+=2; 
-              pnt++;
-              cnt++;
-            }
-          } //End while
-        }
-      }
-      //cout<<"Second for loop"<<endl;
-    }
+  cout<<"Writing MCA file "<<fileName<<".root to Plots/"<<endl;
+  TFile* fOut = new TFile(TString("Plots/") + fileName + TString(".root"),"RECREATE");
+  fOut->cd();
+  for(int i = 0; i < m_nbCh ; i++){
+    gMCA[i]->Write();
   }
-  for(int i=0;i<m_nbCh;i++){
-    //	win->cd(1+i);
-    graph_edit(g[i]);
-    //		g[i]->Draw();
-    
-    //   if(m_triggertype==2)
-    //   g[i]->SetTitle(Form("Channel:  %i , Threshold: %i",i,m_thresh[i]));
-    //   else
-    //   g[i]->SetTitle(Form("Channel:  %i , Module: %i",i,m_module));
-  }
-  //cout<<"Third for loop"<<endl;
-
-  //	    win->Modified();
-  //	    win->SetSelected(win);
-  //	   win->Update();
-
-  //  single->cd(1);
-
-  //Treshhold level
-
-  TLine treshhigh = TLine(0, m_thresh[m_channel],m_BufferSize-1, m_thresh[m_channel]);
-  treshhigh.SetLineWidth(4);
-	treshhigh.SetLineStyle(3);
-  treshhigh.SetLineColor(kOrange);
-
-	
-  //Event
-  graph_edit(g[m_channel]);
-  g[m_channel]->Draw();
-  if(m_triggertype==2)
-    g[m_channel]->SetTitle(Form("Channel:  %i , Threshold: %i",m_channel,m_thresh[m_channel]));
-  else
-		g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
-  if(m_triggertype==2)
-    treshhigh.Draw("same");
-    single->Modified();
-    single->SetSelected(single);
-    single->Update();
-
-    if(m_save==1){
-      single->SaveAs(Form("Plots/Event_%i.png",m_counter));
-    }
-    // single->cd(2);
-    //hm->Draw();
-    m_counter++;
-    return 0;
+  fOut->Close();
 
 }
-*/
-
 //-------------------------------------------------------------------
 // prepare graph for display
 int ScopeManager::graph_edit( TH1D *g)
@@ -368,6 +231,9 @@ int ScopeManager::graph_edit( TH1D *g)
       m_min=g->GetMinimumBin();
       m_max=g->GetBinContent(m_max)+50;
       m_min=g->GetBinContent(m_min)-10;
+      if(m_useMCA){
+        m_min = 1;
+      }
       g->GetYaxis()->SetRangeUser(m_min,m_max);
       break;
     case 0:  // full mode
@@ -425,10 +291,16 @@ int ScopeManager::ApplyXMLFile(){
   else error((char*)"ZLE");
 
 
-	
 	// ADC: parse waveform display options
 	xNode=xMainNode.getChildNode("graphics");
 
+  xstr=xNode.getChildNode("useMCA").getText();
+  if(xstr){
+    strcpy(txt,xstr);
+    m_useMCA=(int)(atoi(txt));
+    if(m_useMCA)    printf(" Using MCA plotting rather than waveform plotting \n");
+  }
+	
 	xstr=xNode.getChildNode("ydisplay").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
@@ -502,6 +374,11 @@ int ScopeManager::graph_checkkey(char c){
     }
  }
 
+ if(c == 'l' || c == 'L'){
+   if(m_logSwitch) single->Clear();
+   single->SetLogy();
+   m_logSwitch = true;
+ }
 
 
 	return 0;

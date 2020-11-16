@@ -433,13 +433,13 @@ int ADCManager1730_16Ch::CalculateBaseline(){
 
       if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive){
         //DCoffset[ch] = (uint32_t)((float)(fabs(( ((float)dc_file[ch] - offset )/ cal ) - 100.))*(655.35));
-        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( - offset )/ cal ) - 100.))*(655.35)*m_Baseline);
+        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( - offset )/ cal ) - 100.))*(655.35) - 65535*m_Baseline);
         if (m_DCoffset[ch] > 65535) m_DCoffset[ch] = 65535;
         if (m_DCoffset[ch] < 0) m_DCoffset[ch] = 0;		      
       }
       else if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative){
         //m_DCoffset[ch] = (uint32_t)((float)(fabs(( (fabs(dc_file[ch] - 100.) - offset) / cal ) - 100.))*(655.35));
-        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( 100. - offset) / cal ) - 100.))*(655.35)*m_Baseline);
+        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( 100. - offset) / cal ) - 100.))*(655.35) + 65535*m_Baseline);
         if (m_DCoffset[ch] < 0) m_DCoffset[ch] = 0;
         if (m_DCoffset[ch] > 65535) m_DCoffset[ch] = 65535;		      
       }
@@ -537,10 +537,13 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
       }
       baseline = (baseline / 10);
 
-      if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive)
+      if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive){
         m_channelThresh[ch] += (uint32_t)baseline;
-      else 	if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative)
-        m_channelThresh[ch] -= (uint32_t)baseline;
+      }
+      else 	if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative){
+        //cout<<"Baseline calc "<<baseline<<", thesh "<<m_channelThresh[ch]<<endl;
+        m_channelThresh[ch] = (uint32_t)baseline - m_channelThresh[ch];
+      }
 
       if (m_channelThresh[ch] < 0) m_channelThresh[ch] = 0;
       int size = (int)pow(2, (double)BoardInfo.ADC_NBits);
@@ -979,9 +982,6 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
 
 	return 0;
 }
-
-
-
 
 
 
