@@ -57,8 +57,13 @@ int ScopeManager::Init(){
   gMCA.resize(m_nbCh);
   vecMCA.resize(m_nbCh);
   maxMCA.resize(m_nbCh);
+  Int_t eventSize = 0;
   for(Int_t j=0; j<m_nbCh;j++){
-    g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),m_BufferSize-1,0,m_BufferSize-1);
+    if(!!Event16->ChSize[j]){
+      g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),Event16->ChSize[j]-1,0,Event16->ChSize[j]-1);
+      eventSize = Event16->ChSize[j]-1;
+    }
+    else  g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),eventSize,0,eventSize);
   }
 
 
@@ -168,7 +173,7 @@ void ScopeManager::ShowMCA(int counter){
     vecMCA[i].push_back(binSum);
     if(binSum > maxMCA[i]) maxMCA[i] = binSum;
    
-    if(counter == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,20*16384);//100 bins over full range//seems exseive
+    if(counter == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,100*16384);//100 bins over full range//seems exseive
     /*
     if(( (int)maxMCA[i]*1.0 ) > 0){
       delete gMCA[i];

@@ -209,6 +209,7 @@ int StorageManager::NewFile(){
 
 int StorageManager::FillContainer(){
 
+  //cout<<"Here?"<<endl;
   if(m_WriteToFile==1 && m_ZLE==0){
     FillROOTContainer();
   }
@@ -219,143 +220,17 @@ int StorageManager::FillContainer(){
 
 }
 
-//TODO fix ZLE
-/*
-int StorageManager::FillZLEROOTContainer(){
-
-  vector<vector<int>> wf(m_nbCh); 			//matrix for the data
-  vector<vector<int>> cw(m_nbCh);                    	 //matrix for the cw
-  //Start from the first word
-  pnt =0;
-
-  //Check first Word
-  if (buffer[0]==0xFFFFFFFF) pnt++;
-
-  // check header
-  if ((buffer[pnt]>>20)==0xA00 && (buffer[pnt+1]>>28)==0x0) {
-    Size=((buffer[pnt]&0xFFFFFFF)-4);                   // size of full waveform (all channels)
-    pnt++;
-
-    //Read ChannelMask (Handbook)
-    int ChannelMask=buffer[pnt] & 0xFF;
-
-    pnt++;
-
-    // Get size of one waveform by dividing through the number of channels
-    cnt=0;
-    for (int j=0; j<m_nbCh; j++) if ((ChannelMask>>j)&1) cnt++;
-
-    // ignore EventConter and TTT
-    pnt+=2;
-    if(Size>0){
-      for (int j=0; j<m_nbCh; j++) { // read all channels
-
-        // read only the channels given in ChannelMask
-        if ((ChannelMask>>j)&1) CurrentChannel=j;
-        else{
-          if(channelActive[j]){cw[j].push_back(-m_custom_size);} // If there is no waveform for the current channel, write only 1 control word for this event "Skipped" of value "custom_size" in the current branch.
-          continue;
-        }
-        if (j>j) return 0;
-        cnt=0;                              // counter of waveform data
-        wavecnt=0;                          // counter to reconstruct times within waveform
-        Size =  (buffer[pnt]);		    //Size of the specific channel
-        if (CurrentChannel!=j) {pnt+=Size; continue; }
-        int length=pnt;                         //Current Position in the Word
-        //	std::cout << Size << std::endl;
-        cnt++;
-        pnt++;
-        uint32_t control;
-        int number_Control=0;
-        while(cnt<Size){
-          //Skipped or Good Control World
-          control = buffer[pnt];
-          cnt++;
-
-          if(((control>>31)&1)){
-            length=(control&0xFFFFF);
-            //                      std::cout << "Length Good:      " << (control&0xFFFFF) << std::endl;
-            number_Control=number_Control+(control&0xFFFFF);
-            pnt++;
-            cw[j].push_back((control&0xFFFFF)*2);
-          }
-          else {
-            //                  	std::cout << "Length Skipped:	" << (control&0xFFFFF) << "     " << cnt <<  std::endl;
-            number_Control=number_Control+(control&0xFFFFF);
-            //			std::cout << number_Control << std::endl;
-            cw[j].push_back(-(control&0xFFFFF)*2);
-            pnt++;
-
-            if(cnt>=Size)
-              break;
-
-            control = buffer[pnt];
-            cnt++;
-            if(((control>>31)&1)){
-              length=(control&0xFFFFF);
-              cw[j].push_back((control&0xFFFFF)*2);		//32 bits (16 bits one bin)
-              //                   			std::cout << "Length Good:	" << (control&0xFFFFF) << "	" << cnt <<  std::endl;
-              number_Control=number_Control+(control&0xFFFFF);
-              //                              	std::cout << number_Control << std::endl;
-              pnt++;
-            }
-            else{
-              //	                                std::cout << "Length Skipped:   " << (control&0xFFFFF) << std::endl;
-              length=0;
-              //					pnt++;
-              //	std::cout << "End	" << std::endl;
-            }
-          }
-          //Simple Live Processing can be implemented here TODO (baseline, charge, height etc) without any speed limitation (loop is anyways necessary)
-          for(int i=0;i<length;i++){
-            uint32_t temp= (uint32_t)((buffer[pnt]&0xFFFF));
-            wf[j].push_back(temp);
-            temp= (uint32_t)(((buffer[pnt]>>16)&0xFFFF)) ;
-            wf[j].push_back(temp);
-            pnt++;
-            cnt++;
-          }
-        } //End while
-        //		std::cout << number_Control << std::endl;
-        //		pnt = length+Size;			//Move the position in the word by the read size in order to get to the next channel
-        //		std::cout << cnt << std::endl;
-      } //end Channel
-    }
-    else{
-      for (int i=0;i<m_nbCh;i++){
-        if(channelActive[i]) cw[i].push_back(-m_custom_size);   // If there is no waveform at all, write only 1 control word for this event "Skipped" of value "custom_size" in all branches.
-      }
-    }
-
-    //Get Time
-    m_time=GetUnixTime();
-
-    for(int i =0; i  < m_nbCh; i++){
-      if(channelActive[i]){
-        m_zle_wfVec[i]=wf[i];
-        m_zle_cwVec[i]=cw[i];        
-      }
-    }
-
-    tree->Fill();
-
-    for(int i =0; i  < m_nbCh; i++){
-      if(channelActive[i]){
-        m_zle_wfVec[i].clear();
-        m_zle_cwVec[i].clear();        
-      }
-    }
-  } //end Header
-}
-*/
-
 bool StorageManager::FillROOTContainer(){
-  float wvf[m_nbCh][m_BufferSize];
+  
+  //float wvf[m_nbCh][m_BufferSize];
 
+  //cout<<"making it into FillRooTContainer"<<endl;
  
   Int_t wvCounter = 0;
   for(int i = 0; i < m_nbCh; i++){
+    //cout<<"Checking channel "<<i<<endl;
     if(!channelActive[i]) continue;
+    //cout<<"Active channel "<<i<<" with event size of "<<Event16->ChSize[i]<<endl;
 
     //Simple Live Processing (Charge,Height,Position,Baseline,RMS) can be easly implemented here (alread looping over waveform) TODO
     for(int j = 0; j < Event16->ChSize[i]; j++){

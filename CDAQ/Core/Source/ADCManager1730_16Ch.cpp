@@ -65,23 +65,10 @@ int ADCManager1730_16Ch::Init(){
 	//printf(RESET);
 
   //Reset the board first
-  //m_hex=0x1;
-  //adc_writereg(SoftwareResetReg,m_hex);
-  //sleep(3);
+  m_hex=0x1;
+  adc_writereg(SoftwareResetReg,m_hex);
+  sleep(3);
 
-  //Set Register Setting from default file (only to give the user some freedom)
-  //RegisterWriting(m_RegisterFileName);
-
-  //TODO turn these into global variables, check if VMEBaseAddress can be anything is connected via optical link
-  /*
-  m_Ret = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink, 0 Link Num, (Link number in daisy Chain), 0 Conet Node, optical link number of PCI board , 0 VMEBaseAddress (only for USB), &m_handle);
-  if(abs((int)m_Ret) == 25) cout<<"Digitizer already open"<<endl;
-  else if (m_Ret) {
-    cout<<m_handle<<endl;
-    cout<<"Opening Digitizer, "<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
-    return 1;
-  }
-  */
 
   //Set Register/other Settings from xml-file
 	if(ApplyXMLFile()) return 1;
@@ -224,6 +211,8 @@ bool ADCManager1730_16Ch::OpenDigitizer(){
     return 1;
   }
 
+  startAcq();
+  
 
   return 0;	  
 }
@@ -573,7 +562,7 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
 
 int ADCManager1730_16Ch::CheckEventBuffer(){
   //Do something
-  startAcq();
+  //startAcq();
   CAEN_DGTZ_ErrorCode m_ret = CAEN_DGTZ_Success;
 
   //Seems like if you put this in the header file, the code crashes...IDK why -N.M.
@@ -642,10 +631,12 @@ int ADCManager1730_16Ch::CheckEventBuffer(){
   }
 
   //TODO not sure if this is necessary
+  /*
   m_ret = CAEN_DGTZ_SWStopAcquisition( m_handle);
   if (m_ret) {
     cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
   }
+  */
   return 0;
 }
 

@@ -39,6 +39,7 @@ Author: Julien Wulf UZH
 ADCManager1724::ADCManager1724()
 {
 	m_CrateHandle= m_ADCaddr=0;
+  Event16=NULL; /* generic event struct with 16 bit data (10, 12, 14 and 16 bit digitizers */
 	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=m_module=0;
 	for(int i=0;i<8;i++){
 		m_DACTarget[i]=0;
@@ -55,19 +56,23 @@ int ADCManager1724::Init(){
 	printf("\nReset the ADC Module %i . . .\n\n",m_module);
 	printf(RESET);
 
-	//Reset the board first
-    m_hex=0x1;
-    adc_writereg(SoftwareResetReg,m_hex);
-    sleep(3);
+  //Reset the board first
+  m_hex=0x1;
+  adc_writereg(SoftwareResetReg,m_hex);
+  sleep(3);
 
-	//Set Register Setting from default file (only to give the user some freedom)
-   	RegisterWriting(m_RegisterFileName);
+  //Set Register Setting from default file (only to give the user some freedom)
+  RegisterWriting(m_RegisterFileName);
 
 	//Set Register/other Settings from xml-file
-	ApplyXMLFile();
+  ApplyXMLFile();
 
 	//Read Settings
 	RegisterReading();
+
+  //
+ CalculateBaseline();
+  startAcq();
 	
 	return 0;
 }
@@ -447,18 +452,310 @@ int ADCManager1724::ApplyXMLFile(){
 	return 0;
 }
 
+int ADCManager1724::CalculateBaseline(){
+  //return CAEN_DGTZ_Success;
+  
+  float cal = 1;
+  float offset = 0;
+  int i = 0, k = 0, p = 0, acq = 0, ch=0;
+  CAEN_DGTZ_ErrorCode m_ret;
+  CAEN_DGTZ_AcqMode_t mem_mode;
+  uint32_t  AllocatedSize;
+
+  uint32_t BufferSize;
+	
+  CAEN_DGTZ_EventInfo_t       EventInfo;
+  char *buffer = NULL;
+  char *EventPtr = NULL;
+  CAEN_DGTZ_UINT16_EVENT_t    *Event16 = NULL;
+  int cal_ok[m_nbCh];
+
+  m_ret = CAEN_DGTZ_GetAcquisitionMode(m_handle, &mem_mode);//chosen value stored
+  if (m_ret)
+    printf("Error trying to read acq mode!!\n");
+  m_ret = CAEN_DGTZ_SetAcquisitionMode(m_handle, CAEN_DGTZ_SW_CONTROLLED);
+  if (m_ret)
+  cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+  m_ret = CAEN_DGTZ_SetExtTriggerInputMode(m_handle, CAEN_DGTZ_TRGMODE_DISABLED);
+  if (m_ret)
+    printf("Error trying to set ext trigger!!\n");
+  m_ret = CAEN_DGTZ_SetSWTriggerMode(m_handle, CAEN_DGTZ_TRGMODE_ACQ_ONLY);
+  if (m_ret)
+    printf("Someshit is bad, maybe try it agian but with less pizazz");
+  m_ret = CAEN_DGTZ_SetPostTriggerSize(m_handle, 0);
+  if (m_ret)
+    printf("Error trying to set post trigger!!\n");
+  ///malloc
+  m_ret = CAEN_DGTZ_MallocReadoutBuffer(m_handle, &buffer, &AllocatedSize);
+  if (m_ret) {
+    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+    return m_ret;
+  }
+
+  m_ret = CAEN_DGTZ_AllocateEvent(m_handle, (void**)&Event16);		
+  if (m_ret != CAEN_DGTZ_Success) {
+    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+  }
+
+  m_ret = CAEN_DGTZ_SWStartAcquisition(m_handle);
+  if (m_ret){
+    printf("Warning: error starting acq\n");
+    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+    return m_ret;
+  }
+
+  #define NPOINTS 2
+  #define NACQS   50
+  float avg_value[NPOINTS] = { 0 };
+	
+  uint32_t dc[NPOINTS] = {25,75}; //test values, baseline at 25% and 75% 
+
+  m_DCoffset = new uint32_t[m_nbCh];
+  printf("Calculating baseline...\n");
+  for (ch = 0; ch < (int32_t)BoardInfo.Channels; ch++)    {
+    if (m_EnableMask & (1 << ch)){
+      m_ret = CAEN_DGTZ_SetChannelSelfTrigger(m_handle,CAEN_DGTZ_TRGMODE_DISABLED, (1 << ch));			
+      if (m_ret)
+        printf("Warning: error disabling ch %d self trigger\n", ch);
+
+
+      for (p = 0; p < NPOINTS; p++){
+        //Make a guess for the DC offset
+        m_ret = CAEN_DGTZ_SetChannelDCOffset(m_handle, (uint32_t)ch, (uint32_t)((float)(fabs((int)dc[p] - 100))*(655.35)));
+        if (m_ret)
+          printf("Warning: error setting ch %d test offset\n", ch);
+
+        //usleep(200000);
+        usleep(50000);
+
+        int value[NACQS] = { 0 };
+        for (acq = 0; acq < NACQS; acq++){
+          CAEN_DGTZ_SendSWtrigger(m_handle);
+          m_ret = CAEN_DGTZ_ReadData(m_handle, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, buffer, &BufferSize);
+          if (m_ret) {
+            cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+            exit(0);
+            }
+
+          m_ret = CAEN_DGTZ_GetEventInfo(m_handle, buffer, BufferSize, 0, &EventInfo, &EventPtr);
+          if (m_ret) {
+            cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+            return m_ret;
+          }
+          // decode the event //
+          m_ret = CAEN_DGTZ_DecodeEvent(m_handle, EventPtr, (void**)&Event16);
+
+          if (m_ret) {
+            cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+            return m_ret;
+          }
+
+
+          for (i = 1; i < 7; i++){ //mean over 6 samples
+            value[acq] += (int)(Event16->DataChannel[ch][i]);
+          }
+          value[acq] = (value[acq] / 6);
+        }//for acq
+
+        //check for clean baselines
+        //I (N.M.) found this baseline estimation method from someone on github, the basic idea is to 
+        //estimate the average baseline from 50 waveforms by looking at the first 6 samples of the 
+        //waveform and use that to set your DC offset. This is performed twice for two different baseline guess
+        //Some nuisances...
+        //Intially the base line is set to be 25% and 75%  and the code sees how well that baseline
+        //is maintained after accounting for noise. This estimate is the value Cal
+        //The baseline needs to be inserted as a value from 0x0000 to 0xFFFF (i.e. 0 to 65535). If the DAC is set to
+        //0x0000, then no DC offset is added, and the range of the input signal goes from -Vpp to 0. Conversely, when the DAC is
+        //set to 0xFFFF, the DC offset is Vpp and the range goes from 0 to +Vpp. 
+        //When calculating the average baseline, ADC counts are used, this have to be converted into the accetable range to progem the DAQ
+        //I have added a XML command to leave some fraction of baseline below the signal incase unexpected signals arrive
+        int max = 0;
+        int mpp = 0;
+        int size = (int)pow(2, (double)BoardInfo.ADC_NBits);//returns 2^14 = 16384
+        int *freq = (int*)calloc(size, sizeof(int));
+
+        for (k = 0; k < NACQS; k++){
+          if (value[k] > 0 && value[k] < size){
+            freq[value[k]]++;
+            if (freq[value[k]] > max) {
+              max = freq[value[k]]; 
+              mpp = value[k]; 
+            }
+          }
+        }
+
+        free(freq);
+        int ok = 0;
+        for (k = 0; k < NACQS; k++) {
+          if (value[k] == mpp || value[k] == (mpp + 1) || value[k] == (mpp - 1)){
+            avg_value[p] = avg_value[p] + (float)value[k]; ok++;
+          }
+        }
+        //Convert ADC counts into a percentage
+        avg_value[p] = (avg_value[p] / (float)ok)*100. / (float)size; 
+
+      }//close for p
+      cal = ((float)(avg_value[1] - avg_value[0]) / (float)(dc[1] - dc[0]));
+      offset = (float)(dc[1] * avg_value[0] - dc[0] * avg_value[1]) / (float)(dc[1] - dc[0]);
+      //printf("Cal %f   offset %f\n", cal, offset);
+
+
+      if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive){
+        //DCoffset[ch] = (uint32_t)((float)(fabs(( ((float)dc_file[ch] - offset )/ cal ) - 100.))*(655.35));
+        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( - offset )/ cal ) - 100.))*(655.35) - 65535*m_Baseline);
+        if (m_DCoffset[ch] > 65535) m_DCoffset[ch] = 65535;
+        if (m_DCoffset[ch] < 0) m_DCoffset[ch] = 0;		      
+      }
+      else if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative || 1){
+        //m_DCoffset[ch] = (uint32_t)((float)(fabs(( (fabs(dc_file[ch] - 100.) - offset) / cal ) - 100.))*(655.35));
+        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( 100. - offset) / cal ) - 100.))*(655.35) + 65535*m_Baseline);
+        if (m_DCoffset[ch] < 0) m_DCoffset[ch] = 0;
+        if (m_DCoffset[ch] > 65535) m_DCoffset[ch] = 65535;		      
+      }
+
+      //cout<<"Calibrated DC offset (between 0 and 65535)"<<m_DCoffset[ch]<<", frac "<<m_DCoffset[ch]/65535.<<endl;
+
+      m_ret = CAEN_DGTZ_SetChannelDCOffset(m_handle, (uint32_t)ch, m_DCoffset[ch]);
+      if (m_ret)
+        printf("Warning: error setting ch %d offset\n", ch);
+      usleep(200000);
+    }//if ch enabled
+
+  }//loop ch
+
+  //printf("DAC Calibration ready\n");
+
+  CAEN_DGTZ_SWStopAcquisition(m_handle);  
+
+  ///free events e buffer
+  CAEN_DGTZ_FreeReadoutBuffer(&buffer);
+  CAEN_DGTZ_FreeEvent(m_handle, (void**)&Event16);
+
+  //TODO
+  SetCorrectThreshold();
+
+  //Restore previous settings
+  CAEN_DGTZ_SetPostTriggerSize(m_handle, m_PostTrigger);
+  CAEN_DGTZ_SetAcquisitionMode(m_handle, mem_mode);
+  CAEN_DGTZ_SetExtTriggerInputMode(m_handle, m_ExtTriggerMode);
+  CAEN_DGTZ_GetRecordLength(m_handle,&m_BufferSize);
+  if (m_ret)
+    printf("Warning: error setting recorded parameters\n");
+
+  //TODO
+  //CalibComplete=true;
+  
+  return CAEN_DGTZ_Success;
+}
+
+CAEN_DGTZ_ErrorCode ADCManager1724::SetCorrectThreshold(){
+//Threshold needs to be adjusted for DC offset  
+  CAEN_DGTZ_UINT16_EVENT_t    *Event16;
+  int i = 0,ch=0;
+  CAEN_DGTZ_ErrorCode m_ret;
+  uint32_t  AllocatedSize;
+  
+  uint32_t BufferSize;
+  CAEN_DGTZ_EventInfo_t       EventInfo;
+  char *buffer = NULL;
+  char *EventPtr = NULL;
+  
+  ///malloc
+  m_ret = CAEN_DGTZ_MallocReadoutBuffer(m_handle, &buffer, &AllocatedSize);
+  if (m_ret) {
+    return m_ret;
+  }
+  
+  m_ret = CAEN_DGTZ_AllocateEvent(m_handle, (void**)&Event16);
+  if (m_ret != CAEN_DGTZ_Success) {
+    return m_ret;
+  }
+  
+  uint32_t mask;
+  CAEN_DGTZ_GetChannelEnableMask(m_handle, &mask);
+
+  CAEN_DGTZ_SWStartAcquisition(m_handle);
+  //For the 1730, channels are paired such that the trigger conditions are the same for channel N and channel N+1
+  for (ch = 0; ch < (int32_t)BoardInfo.Channels; ch+=2){
+    if (mask & (1 << ch)){
+      int baseline = 0;
+      CAEN_DGTZ_SendSWtrigger(m_handle);
+
+      m_ret = CAEN_DGTZ_ReadData(m_handle, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, buffer, &BufferSize);
+      if (m_ret) {
+        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        exit(0);
+      }
+
+      m_ret = CAEN_DGTZ_GetEventInfo(m_handle, buffer, BufferSize, 0, &EventInfo, &EventPtr);
+      if (m_ret) {
+        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        return m_ret;
+      }
+      // decode the event //
+      m_ret = CAEN_DGTZ_DecodeEvent(m_handle, EventPtr, (void**)&Event16);
+
+      if (m_ret) {
+        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        return m_ret;
+      }
+
+
+      for (i = 1; i < 11; i++){ //mean over 10 samples
+        baseline += (int)(Event16->DataChannel[ch][i]);
+      }
+      baseline = (baseline / 10);
+
+      if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive){
+        m_channelThresh[ch] += (uint32_t)baseline;
+      }
+      else 	if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative){
+        //cout<<"Baseline calc "<<baseline<<", thesh "<<m_channelThresh[ch]<<endl;
+        m_channelThresh[ch] = (uint32_t)baseline - m_channelThresh[ch];
+      }
+
+      if (m_channelThresh[ch] < 0) m_channelThresh[ch] = 0;
+      int size = (int)pow(2, (double)BoardInfo.ADC_NBits);
+      if (m_channelThresh[ch] > (uint32_t)size) m_channelThresh[ch] = size;
+      //cout<<"Calibrated threshold: "<<m_channelThresh[ch]<<endl;
+
+
+      m_ret = CAEN_DGTZ_SetChannelTriggerThreshold(m_handle, ch, m_channelThresh[ch]);
+      if (m_ret)
+        printf("Warning: error setting ch %d corrected threshold\n", ch);
+
+      //Do channel trigger is external is disabled
+      if(m_SelfTriggerMode == CAEN_DGTZ_TRGMODE_ACQ_ONLY )
+        CAEN_DGTZ_SetChannelSelfTrigger(m_handle, CAEN_DGTZ_TRGMODE_ACQ_ONLY, (1 << ch));
+      else
+        CAEN_DGTZ_SetChannelSelfTrigger(m_handle, CAEN_DGTZ_TRGMODE_DISABLED, (1 << ch));
+
+    }
+  }
+  CAEN_DGTZ_SWStopAcquisition(m_handle);
+
+  CAEN_DGTZ_FreeReadoutBuffer(&buffer);
+  CAEN_DGTZ_FreeEvent(m_handle, (void**)&Event16);
+  
+  return CAEN_DGTZ_Success;
+}
+
+
 int ADCManager1724::CheckEventBuffer(){
   //Do something
-  startAcq();
+  //startAcq();
   CAEN_DGTZ_ErrorCode m_ret = CAEN_DGTZ_Success;
 
   //Seems like if you put this in the header file, the code crashes...IDK why -N.M.
   CAEN_DGTZ_EventInfo_t       EventInfo;
   double startTimedebug = std::time(nullptr);
   bool Quit = false;
-  int eventCounter = 0;
+  int eventCounter = 0,loopCounter = 0;
   while(!Quit){
-    if(std::time(nullptr) - startTimedebug > 2) Quit = true;
+    //cout<<"Top of the loop"<<endl;
+    if(std::time(nullptr) - startTimedebug > 2){
+      Quit = true;
+    }
     //TODO need to add in adcManager->GetTransferedBytes() <= 0, i.e. a non zero amount of data was transfered
     //
     if(m_SWTriggerMode == CAEN_DGTZ_TRGMODE_ACQ_ONLY){
@@ -467,28 +764,25 @@ int ADCManager1724::CheckEventBuffer(){
       CAEN_DGTZ_SendSWtrigger(m_handle);
     }
     /// Read data from the board ///
-    cout<<"here"<<endl;
     m_BufferSize = 0;//Zero out BufferSize before reading data
     m_Ret = CAEN_DGTZ_ReadData(m_handle, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, m_buffer, &m_BufferSize);
-    cout<<"where"<<endl;
     if (m_Ret) {
       cout<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
       exit(0);
     }
     uint32_t nEventsPerTrigger = 0;
     if (m_BufferSize != 0) {
-      cout<<"herehas"<<endl;
       m_Ret = CAEN_DGTZ_GetNumEvents(m_handle,m_buffer, m_BufferSize, &nEventsPerTrigger);
       if (m_Ret) {
         cout<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
         exit(0);
       }
     }
+    /*
+    //I don't understand this statement so I am commenting it out - N.M.
     else {
       uint32_t lstatus;
-      cout<<"herefgdsbhjfdgshjsfdghjsgfdjhngsfd"<<endl;
       m_Ret = CAEN_DGTZ_ReadRegister(m_handle, CAEN_DGTZ_ACQ_STATUS_ADD, &lstatus);
-      cout<<"herefgdsbhjfdgshjsfdghjsgfdjhngsfd"<<endl;
       if (m_Ret) {
         printf("Warning: Failure reading reg:%x (%d)\n", CAEN_DGTZ_ACQ_STATUS_ADD, m_Ret);
         cout<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
@@ -499,37 +793,40 @@ int ADCManager1724::CheckEventBuffer(){
         }
       }
     }
+    */
     //TODO add info about data, currently reported somewhere else
     
-      cout<<"sugar"<<endl;
     // Analyze data //
     for(int i = 0; i < (int)nEventsPerTrigger; i++) {
 
-      cout<<"spice"<<endl;
       //// Get one event from the readout buffer //
       m_ret = CAEN_DGTZ_GetEventInfo(m_handle, m_buffer, m_BufferSize, i, &EventInfo, &m_EventPtr);
-      cout<<"spice"<<endl;
       if (m_ret) {
         cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         continue;
       }
       //TODO cast Event16 into a vector of Event16's
       m_ret = CAEN_DGTZ_DecodeEvent(m_handle, m_EventPtr, (void**)&Event16);
-      cout<<"poop"<<endl;
       if (m_ret) {
         cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         Quit = true;
       }
     }
     eventCounter+=nEventsPerTrigger;
-    if(eventCounter >=m_NumEvents) Quit = true;
+    if(eventCounter >=m_NumEvents){
+      //cout<<"event 16 size "<<Event16->ChSize[0]<<" Buffer size "<<m_BufferSize<<" number of events "<<nEventsPerTrigger<<endl;
+      //cout<<"\tNumber of triggers satisfied, Quit is true"<<endl;
+      Quit = true;
+    }
   }
-
   //TODO not sure if this is necessary
+  /*
   m_ret = CAEN_DGTZ_SWStopAcquisition( m_handle);
   if (m_ret) {
     cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
   }
+  */
+  //cout<<"leaving the checkBuffer"<<endl;
   return 0;
 }
 
@@ -545,6 +842,15 @@ bool ADCManager1724::startAcq(){
   more details on this issue.
   */
   printf("Digitizer: Acquisition started\n");
+  u_int32_t numEvents;
+  CAEN_DGTZ_GetMaxNumEventsBLT(m_handle,&numEvents);
+  CAEN_DGTZ_SetMaxNumEventsBLT(m_handle,1);
+  m_NumEvents = 1;
+
+  // Allocate memory for the event data and readout buffer
+  m_Ret = CAEN_DGTZ_AllocateEvent(m_handle, (void**)&Event16);
+
+  m_buffer = NULL;
   CAEN_DGTZ_MallocReadoutBuffer(m_handle,&m_buffer,&m_AllocatedSize);
   CAEN_DGTZ_SWStartAcquisition(m_handle);
   RunStartTime = util::markTime();

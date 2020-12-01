@@ -104,8 +104,10 @@ int main(int argc, char *argv[], char *envp[] )
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()) return 0;
-
-	if(slowcontrolManager->GetADCInformation()) return 0;
+  //TODO temp solution for getting 16Event intialized for 1724
+  adcManager->CheckEventBuffer();		//Read Buffer before start aquisition
+	
+  if(slowcontrolManager->GetADCInformation()) return 0;
 	//TODO, rejigger the XML commands and shit
   /*
   if(slowcontrolManager->GetBaselineCalculation()){
@@ -159,6 +161,7 @@ int main(int argc, char *argv[], char *envp[] )
     slowcontrolManager->StartAquistion();
     adcManager->Enable();
     adcManager->CheckEventBuffer();		//Read Buffer before start aquisition
+    cout<<"Entering while loop"<<endl;
     while(slowcontrolManager->GetNumberEvents()!=storageManager->GetNumberEvents() && quit!=1){
 
       // Check keyboard commands in every loop   
@@ -177,11 +180,9 @@ int main(int argc, char *argv[], char *envp[] )
         if(adcManager->ApplySoftwareTrigger()<-1) return 0;
         usleep(adcManager->GetSoftwareRate());
       }
-      else
-      {
-        if(adcManager->CheckEventBuffer()<-1) return 0;			
+      else if(adcManager->CheckEventBuffer()<-1){
+          return 0;			
       }
-
       //Skipp events with 0-bytes
       if(adcManager->GetTransferedBytes()<=0){
         slowcontrolManager->ShowStatus(-1);
