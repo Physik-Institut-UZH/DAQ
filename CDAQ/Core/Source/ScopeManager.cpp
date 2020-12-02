@@ -57,13 +57,11 @@ int ScopeManager::Init(){
   gMCA.resize(m_nbCh);
   vecMCA.resize(m_nbCh);
   maxMCA.resize(m_nbCh);
-  Int_t eventSize = 0;
   for(Int_t j=0; j<m_nbCh;j++){
-    if(!!Event16->ChSize[j]){
+    if(m_EnableMask & (1<<j))
       g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),Event16->ChSize[j]-1,0,Event16->ChSize[j]-1);
-      eventSize = Event16->ChSize[j]-1;
-    }
-    else  g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),eventSize,0,eventSize);
+    else 
+       g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),1,0,1);
   }
 
 

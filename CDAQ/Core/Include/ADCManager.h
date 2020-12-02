@@ -253,7 +253,7 @@ public:
 	int SoftwareTrigger();
 	
 	//Aquire Data if there is some in the eventbuffer
-	virtual int CheckEventBuffer();
+	virtual int CheckEventBuffer(int);
 	
 	//Enable ADC
 	int Enable();

@@ -160,7 +160,7 @@ int main(int argc, char *argv[], char *envp[] )
     slowcontrolManager->StartAquistion();
     for(int i=0;i<slowcontrolManager->GetNbModules();i++){
 		adcs[i]->Enable();
-		adcs[i]->CheckEventBuffer();		//Read Buffer before start aquisition
+		adcs[i]->CheckEventBuffer(0);		//Read Buffer before start aquisition
 	}
 
 	while(slowcontrolManager->GetNumberEvents()!=storages[0]->GetNumberEvents() && quit!=1){
@@ -182,7 +182,7 @@ int main(int argc, char *argv[], char *envp[] )
 				if(adcs[i]->SoftwareTrigger()<-1) return 0;						
 			}
 			
-			if(adcs[i]->CheckEventBuffer()<-1) return 0;							
+			if(adcs[i]->CheckEventBuffer(0)<-1) return 0;							
 		
 
 			//Skipp events with 0-bytes

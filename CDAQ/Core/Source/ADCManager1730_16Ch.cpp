@@ -560,16 +560,16 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
   return CAEN_DGTZ_Success;
 }
 
-int ADCManager1730_16Ch::CheckEventBuffer(){
+int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
   //Do something
-  //startAcq();
+  if(eventCounter == 0) startAcq();
   CAEN_DGTZ_ErrorCode m_ret = CAEN_DGTZ_Success;
 
   //Seems like if you put this in the header file, the code crashes...IDK why -N.M.
   CAEN_DGTZ_EventInfo_t       EventInfo;
   double startTimedebug = std::time(nullptr);
   bool Quit = false;
-  int eventCounter = 0;
+  int triggerCounter = 0;
   while(!Quit){
     if(std::time(nullptr) - startTimedebug > 2) Quit = true;
     //TODO need to add in adcManager->GetTransferedBytes() <= 0, i.e. a non zero amount of data was transfered
@@ -626,8 +626,8 @@ int ADCManager1730_16Ch::CheckEventBuffer(){
         Quit = true;
       }
     }
-    eventCounter+=nEventsPerTrigger;
-    if(eventCounter >=m_NumEvents) Quit = true;
+    triggerCounter+=nEventsPerTrigger;
+    if(triggerCounter >=m_NumEvents) Quit = true;
   }
 
   //TODO not sure if this is necessary

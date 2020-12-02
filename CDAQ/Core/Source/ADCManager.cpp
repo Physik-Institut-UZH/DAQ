@@ -399,7 +399,7 @@ int ADCManager::CalculateThresholds(int channel, double baseline){
 
 
 //Function to aquire data if there is some
-int ADCManager::CheckEventBuffer(){
+int ADCManager::CheckEventBuffer(int eventCounter){
   // Interrupts: 
   // If enabled, wait for the interrupt request from the digitizer. In this mode,
   // there is no CPU time wasting because the process sleeps until there are at least

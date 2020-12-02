@@ -35,7 +35,7 @@ public:
     	int Init();
     
     //Inherieted from ADCManager and override the function to use Digitizer functions
-    int CheckEventBuffer();
+    int CheckEventBuffer(int eventCounter);
 
 private:
 	

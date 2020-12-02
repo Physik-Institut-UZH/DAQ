@@ -194,7 +194,7 @@ int main(int argc, char *argv[], char *envp[] )
 			} 
 			for(int i=0;i<500;i++)
 				//Check if there have been an accepted trigger before aquisition in the buffer
-				if(adcManager->CheckEventBuffer()<-1) return 0;	
+				if(adcManager->CheckEventBuffer(0)<-1) return 0;	
 			gettimeofday(&m_begin, NULL);
   //          		if(k!=0 || k!=1)
 //                		continue;
@@ -207,7 +207,7 @@ int main(int argc, char *argv[], char *envp[] )
 				adcManager->Checkkeyboard(c);
 
 				//Check if there have been an accepted trigger
-				if(adcManager->CheckEventBuffer()<-1) return 0;	
+				if(adcManager->CheckEventBuffer(0)<-1) return 0;	
 
 				//Timing
 		  		gettimeofday(&m_end, NULL);
