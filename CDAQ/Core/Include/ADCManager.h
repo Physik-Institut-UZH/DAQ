@@ -233,6 +233,8 @@ public:
   //Added by Neil
   uint16_t GetEnableMask(){return m_EnableMask;}
   CAEN_DGTZ_UINT16_EVENT_t* Get16BitEvent(){return Event16;}
+  std::vector<CAEN_DGTZ_UINT16_EVENT_t>* GetEventVector(){return EventVector;}
+
   u_int32_t GetBufferSize(){return m_BufferSize;}
   //TODO write code to set actual voltage range of ADC
   double GetVRange(){return 2.0;}
@@ -368,6 +370,7 @@ protected:
   int  m_NumEvents;
   uint16_t m_EnableMask;
   CAEN_DGTZ_UINT16_EVENT_t    *Event16;
+  std::vector<CAEN_DGTZ_UINT16_EVENT_t>* EventVector;
   uint32_t m_AllocatedSize;
   double RunStartTime;
   double nowTime;

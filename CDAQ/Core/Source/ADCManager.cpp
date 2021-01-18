@@ -449,7 +449,6 @@ int ADCManager::adc_readreg(u_int32_t addr,		// the register to write to
 			    u_int32_t& data)		// the value to read
 {
    u_int32_t temp;
-    cout<<"Is this being used? adcReadreg"<<endl; 
    if (CAENVME_ReadCycle(m_handle, m_ADCaddr+addr, &temp, cvA32_U_DATA, cvD32) != cvSuccess) {
 		printf(KRED);
 		printf(":::: VME read error!!! (ADCManager::CAENVME_ReadCycle()) ::::\n");

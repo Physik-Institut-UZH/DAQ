@@ -41,13 +41,14 @@ int VMEManager::Init(int PCIType){
       m_address = 0;
     }
     //m_Ret = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink, m_Link , m_board, m_address, &m_CrateHandle);
+    //TODO
     m_Ret = CAEN_DGTZ_OpenDigitizer(m_ConnectionType, m_Link , m_board, m_address, &m_CrateHandle);
     if (m_Ret) {
       printf(KRED);
       printf(":::: CAENVME_Init failed!!! (VMEManager) ::::\n");
       printf(RESET);
       m_CrateHandle=-1;
-      return 1;
+      return -1;
     }
     return 0;
   }

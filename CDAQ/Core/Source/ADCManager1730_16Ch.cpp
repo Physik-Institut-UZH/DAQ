@@ -563,8 +563,12 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
 int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
   //Do something
   if(eventCounter == 0) startAcq();
+  blt_bytes = 0;
   CAEN_DGTZ_ErrorCode m_ret = CAEN_DGTZ_Success;
 
+  delete EventVector;
+  EventVector = new std::vector<CAEN_DGTZ_UINT16_EVENT_t>;
+  
   //Seems like if you put this in the header file, the code crashes...IDK why -N.M.
   CAEN_DGTZ_EventInfo_t       EventInfo;
   double startTimedebug = std::time(nullptr);
@@ -607,37 +611,45 @@ int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
         }
       }
     }
-    //TODO add info about data, currently reported somewhere else
     
     // Analyze data //
     for(int i = 0; i < (int)nEventsPerTrigger; i++) {
-
       //// Get one event from the readout buffer //
-      m_ret = CAEN_DGTZ_GetEventInfo(m_handle, m_buffer, m_BufferSize, i, &
-          EventInfo, &m_EventPtr);
+      m_ret = CAEN_DGTZ_GetEventInfo(m_handle, m_buffer, m_BufferSize, i, &EventInfo, &m_EventPtr);
       if (m_ret) {
         cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         continue;
       }
-      //TODO cast Event16 into a vector of Event16's
+      //Decode event returns Event16 which is a generic event object
       m_ret = CAEN_DGTZ_DecodeEvent(m_handle, m_EventPtr, (void**)&Event16);
       if (m_ret) {
         cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         Quit = true;
       }
+      //Pass number of bytes to SC
+      blt_bytes += m_BufferSize;
+      EventVector->push_back(*Event16);
     }
     triggerCounter+=nEventsPerTrigger;
     if(triggerCounter >=m_NumEvents) Quit = true;
   }
-
-  //TODO not sure if this is necessary
   /*
-  m_ret = CAEN_DGTZ_SWStopAcquisition( m_handle);
-  if (m_ret) {
-    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+  for(int i = 0; i < EventVector->size(); i++){
+    cout<<"First for loop over i (EventVector size) "<<i<<endl;
+    for(int j = 0; j < m_nbCh; j++){
+      if(!m_channelThresh[j]) continue;
+      CAEN_DGTZ_UINT16_EVENT_t  event = (*EventVector)[j];
+      for(int k = 0; k < event.ChSize[j]; k++){
+        if(k == 0) cout<<"\tLooping over event"<<endl;
+        if(m_channelThresh[j]){
+          int data = event.DataChannel[j][k];
+          if(k < 10) cout<<"\t Reading data from channel "<<j<<", bin "<<k<<", data "<<data<<endl;
+        }
+      }
+    }
   }
   */
-  return 0;
+  return triggerCounter;
 }
 
 bool ADCManager1730_16Ch::startAcq(){
@@ -654,6 +666,7 @@ bool ADCManager1730_16Ch::startAcq(){
   //printf("Digitizer: Acquisition started\n");
   CAEN_DGTZ_SWStartAcquisition(m_handle);
   RunStartTime = util::markTime();
+  EventVector = new std::vector<CAEN_DGTZ_UINT16_EVENT_t>;
   //cout.precision(15);
   //cout<<"Digitizer: Start time: "<<RunStartTime<<endl;
   //fman.setRunStartTime(RunStartTime);
@@ -729,30 +742,28 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
 
 	
 
-  /*
   //TODO what does this do? Seems like it is not needed here but when removed from the xml, things crash
   //seems like I do not need it
 	xstr=xNode.getChildNode("memoryorganisation").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		switch (atoi(txt)) {
-			case 512: m_hex=0x0; break;
-			case 256: m_hex=0x1; break;
-			case 128: m_hex=0x2; break;
-			case  64: m_hex=0x3; break;
-			case  32: m_hex=0x4; break;
-			case  16: m_hex=0x5; break;
-			case   8: m_hex=0x6; break;
-			case   4: m_hex=0x7; break;
-			case   2: m_hex=0x8; break;
-			case   1: m_hex=0x9; break;
-			case   0: m_hex=0xA; break;  // 0.5 k
+			case 1: m_hex=0x0; break;
+			case 2: m_hex=0x1; break;
+			case 4: m_hex=0x2; break;
+			case 8: m_hex=0x3; break;
+			case 16: m_hex=0x4; break;
+			case 32: m_hex=0x5; break;
+			case 64: m_hex=0x6; break;
+			case 128: m_hex=0x7; break;
+			case 256: m_hex=0x8; break;
+			case 512: m_hex=0x9; break;
+			case 1024: m_hex=0xA; break;  // 0.5 k
 			default:  m_hex=0x4; 
 					  break; 
 		}
 	  adc_writereg(BlockOrganizationReg,m_hex);
 	} else error((char*)"XML-memoryorganisation");
-  */
 	
   xstr=xNode.getChildNode("custom_size").getText();
 	if (xstr) {
@@ -779,7 +790,6 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
       m_Baseline = .95;
     }
     else{
-      if(100*m_Baseline < 50) cout<<"Warning::Baseline might be set to low, try to always set it above 50% (more than 50% of the expected waveform is above the baseline"<<endl;
       cout<<"Baseline value set to "<<100*m_Baseline<<"% of waveform is above baseline (assuming uni-polar signals)"<<endl;
     }
 

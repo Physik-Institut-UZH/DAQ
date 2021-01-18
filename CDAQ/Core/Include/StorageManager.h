@@ -57,6 +57,7 @@ public:
   //Added by Neil
   void SetEnableMask(uint16_t mask){m_EnableMask = mask;}
   void Set16BitEvent(CAEN_DGTZ_UINT16_EVENT_t *evnt) {Event16 = evnt;}
+  void SetEventVector(std::vector<CAEN_DGTZ_UINT16_EVENT_t> *vec){EventVector = vec;}
   void SetBufferSize(u_int32_t buff){m_BufferSize = buff;}
   void SetEventHeaderInfo(int samples, double freq, double volt,double res)
   {
@@ -106,6 +107,7 @@ private:
 
   uint16_t  m_EnableMask;
   CAEN_DGTZ_UINT16_EVENT_t * Event16;
+  std::vector<CAEN_DGTZ_UINT16_EVENT_t> * EventVector;
 
   u_int32_t m_BufferSize;
   double m_sampleFreq;

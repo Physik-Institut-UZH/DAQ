@@ -19,8 +19,9 @@ SlowcontrolManager::SlowcontrolManager()
 	printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
   printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
-  printf("%s                       Written By Julien Wulf                     \n",KGRN);
-	printf("%s                            version: 5.0                          \n",KGRN);
+  printf("%s                       Written By Julien Wulf   (2017)                \n",KGRN);
+  printf("%s                       Updated By Neil McFadden (2020)                     \n",KGRN);
+	printf("%s                            version: 6.0                          \n",KGRN);
 	printf("%s*****************************************************************\n\n",KGRN);
 	printf(RESET);
 	sleep(1);

@@ -82,22 +82,22 @@ class SlowcontrolManager: public Common
 	char m_XmlFileName[100];    //XML-Filename
 	
 
-	struct timeval m_begin, m_end, m_total;				//Timing of the DAQ 
-    double m_time, m_seconds, m_useconds;    			//mili, mikro and mili seconds
-    int m_lastevents; 									//Last events since call 	
-    int m_events;										//Total events
-	int m_totalevents;
-    u_int32_t m_bytes,m_totalB;							//Total bytes
-	int m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_Nbmodule ; 
-	int m_triggertype;									//Trigger type
+  struct timeval m_begin, m_end, m_total;				//Timing of the DAQ 
+  double m_time, m_seconds, m_useconds;    			//mili, mikro and mili seconds
+  int m_lastevents; 									//Last events since call 	
+  int m_events;										//Total events
+  int m_totalevents;
+  u_int32_t m_bytes,m_totalB;							//Total bytes
+  int m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_Nbmodule ; 
+  int m_triggertype;									//Trigger type
 	string* m_address;									//ADC Address
 	int m_type; //ADC type
   int m_nbCh;
   CAEN_DGTZ_ConnectionType m_ConnectionType;
-	int m_numberChain;                                  //ADC number in the link
+  int m_numberChain;                                  //ADC number in the link
   int m_PCILinkNum;
-    ofstream m_DAQStatus;								//Stores the current DAQ rate
-    ofstream m_DAQSummary;								//Stores all relevant parameters
+  ofstream m_DAQStatus;								//Stores the current DAQ rate
+  ofstream m_DAQSummary;								//Stores all relevant parameters
   bool m_useMCA = false;
 
 };

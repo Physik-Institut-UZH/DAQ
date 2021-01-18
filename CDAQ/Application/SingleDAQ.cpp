@@ -104,29 +104,18 @@ int main(int argc, char *argv[], char *envp[] )
 	adcManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 
 	if(adcManager->Init()) return 0;
-  //TODO temp solution for getting 16Event intialized for 1724
-  adcManager->CheckEventBuffer(0);		//Read Buffer before start aquisition
-	
+  //Read buffer before start aquisition
+  //to intialize buffer size and such
+  adcManager->CheckEventBuffer(0);	
   if(slowcontrolManager->GetADCInformation()) return 0;
-	//TODO, rejigger the XML commands and shit
-  /*
-  if(slowcontrolManager->GetBaselineCalculation()){
-		adcManager->ReadBaseLine();
-		adcManager->CalculateBaseLine();
-		return 0;
-	}
-	else
-		adcManager->ReadBaseLine();
-  */
+
 
   cout<<"SingleDAQ::Starting Scope-Manager"<<endl;
 	//Scope-Manager
 	ScopeManager* scopeManager = new ScopeManager();
-	scopeManager->SetBuffer(adcManager->GetBuffer());
-  scopeManager->Set16BitEvent(adcManager->Get16BitEvent());//Use the 16BitEvent class from CAEN because it is like a vector of the data in ADC counts (I think) -NM
+  scopeManager->Set16BitEvent(adcManager->Get16BitEvent());//Use the 16BitEvent class from CAEN because it is like a vector of the data in ADC counts -NM
+  scopeManager->SetEventVector(adcManager->GetEventVector());
   scopeManager->SetEnableMask(adcManager->GetEnableMask());//added by Neil
-  scopeManager->SetBufferSize(adcManager->GetBufferSize());
-	scopeManager->SetEventLength(adcManager->GetEventLength());
 	scopeManager->SetXMLFile(slowcontrolManager->GetXMLFile());
 	scopeManager->SetChannelNumber(slowcontrolManager->GetChannelNumber());
 	scopeManager->SetModuleNumber(1);
@@ -141,8 +130,8 @@ int main(int argc, char *argv[], char *envp[] )
   cout<<"SingleDAQ::Starting StorageManager"<<endl;
 	//StorageManager
 	StorageManager* storageManager = new StorageManager();
-	storageManager->SetBuffer(adcManager->GetBuffer());//Not going to use the buffer
   storageManager->Set16BitEvent(adcManager->Get16BitEvent());//Use the 16BitEvent class from CAEN because it is like a vector of the data in ADC counts (I think) -NM
+  storageManager->SetEventVector(adcManager->GetEventVector());
   storageManager->SetEnableMask(adcManager->GetEnableMask());//added by Neil
   //Done In SetEventHeader
   //storageManager->SetBufferSize(adcManager->GetBufferSize());//BufferSize is not a good thing to pass because it is intialized once the data is read
@@ -159,9 +148,6 @@ int main(int argc, char *argv[], char *envp[] )
     c=0;
     
     slowcontrolManager->StartAquistion();
-    adcManager->Enable();
-    adcManager->CheckEventBuffer(0);		//Read Buffer before start aquisition
-    cout<<"Entering while loop"<<endl;
     while(slowcontrolManager->GetNumberEvents()!=storageManager->GetNumberEvents() && quit!=1){
 
       // Check keyboard commands in every loop   
@@ -174,21 +160,8 @@ int main(int argc, char *argv[], char *envp[] )
 
       //Check keys to change adc settings
       adcManager->Checkkeyboard(c);
-
-      //Get Event
-      if(adcManager->GetTriggerType()==1 && 0){
-        if(adcManager->ApplySoftwareTrigger()<-1) return 0;
-        usleep(adcManager->GetSoftwareRate());
-      }
-      else if(adcManager->CheckEventBuffer(counter)<-1){
-          return 0;			
-      }
-      //Skipp events with 0-bytes
-      if(adcManager->GetTransferedBytes()<=0){
-        slowcontrolManager->ShowStatus(-1);
-        continue;
-      }
-
+      counter += adcManager->CheckEventBuffer(counter);
+     
       slowcontrolManager->AddBytes(adcManager->GetTransferedBytes());
       //status output, Slowcontrol etc
       slowcontrolManager->ShowStatus();
@@ -203,15 +176,14 @@ int main(int argc, char *argv[], char *envp[] )
         else
           scopeManager->ShowEvent();
       }
-      if(slowcontrolManager->UseMCA() && quit){
-        scopeManager->WriteMCA();
-      }
-
-      counter++;
+      //counter++;
       //Create new file if noE is bigger than noEF
       if(counter==storageManager->GetEventsPerFile() && storageManager->GetNumberEvents()>slowcontrolManager->GetNumberEvents()){
         counter=0;
         storageManager->NewFile();
+      }
+      if(slowcontrolManager->UseMCA() && quit){
+        scopeManager->WriteMCA(counter);
       }
     }
 	

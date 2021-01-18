@@ -41,6 +41,7 @@ int ScopeManager::Init(){
 
   //single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",800,800);
   single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",600,800); //Optimized for a 4/3 height width ratio picture
+  //single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",300,400); //Optimized for a 4/3 height width ratio picture
   gStyle->SetOptStat(0000000);
   gStyle->SetOptFit(1100);
   gStyle->SetTitleFillColor(0);
@@ -58,10 +59,12 @@ int ScopeManager::Init(){
   vecMCA.resize(m_nbCh);
   maxMCA.resize(m_nbCh);
   for(Int_t j=0; j<m_nbCh;j++){
-    if(m_EnableMask & (1<<j))
+    if(m_EnableMask & (1<<j)){
       g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),Event16->ChSize[j]-1,0,Event16->ChSize[j]-1);
+      m_BufferSize = Event16->ChSize[j];
+    }
     else 
-       g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),1,0,1);
+      g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),1,0,1);
   }
 
 
@@ -111,6 +114,7 @@ int ScopeManager::Init(){
 }
 
 
+/*
 //Updated by Neil to make a much more simple code (Hopefully)
 int ScopeManager::ShowEvent(){
 
@@ -151,6 +155,54 @@ int ScopeManager::ShowEvent(){
   m_counter++;
   return 0;
 }
+*/
+
+//Updated by Neil to make a much more simple code (Hopefully)
+int ScopeManager::ShowEvent(){
+  //cout<<"ScopeManager::"<<EventVector->size()<<endl;
+
+  for(int h = 0; h < EventVector->size(); h++){
+    CAEN_DGTZ_UINT16_EVENT_t event = EventVector->at(h);
+    for(int i = 0; i < m_nbCh; i++){
+      for(int j = 0; j < event.ChSize[i]; j++){
+        double binContent = event.DataChannel[i][j];
+//        if(j < 10) cout<<"\t Reading data from channel "<<i<<", Trigger num "<<h<<", bin "<<j<<", data "<<binContent<<endl;
+        g[i]->SetBinContent(j, binContent);
+      } 
+    }
+
+    for(int i=0;i<m_nbCh;i++){
+      graph_edit(g[i]);
+    }
+
+    TLine threshhigh = TLine(0, m_thresh[m_channel],m_BufferSize-1, m_thresh[m_channel]);
+    threshhigh.SetLineWidth(4);
+    threshhigh.SetLineStyle(3);
+    threshhigh.SetLineColor(kOrange);
+
+    //Event
+    graph_edit(g[m_channel]);
+    g[m_channel]->Draw();
+    if(m_triggertype==2)
+      g[m_channel]->SetTitle(Form("Channel:  %i , Trigger: %i, Threshold: %i",m_channel, h, m_thresh[m_channel]));
+    else
+      g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
+    if(m_triggertype==2)
+      threshhigh.Draw("same");
+    single->Modified();
+    single->SetSelected(single);
+    single->Update();
+
+    if(m_save==1){
+      single->SaveAs(Form("Plots/Event_%i.png",m_counter));
+    }
+    // single->cd(2);
+    //hm->Draw();
+    m_counter++;
+  }
+  return 0;
+}
+
 
 void ScopeManager::ShowMCA(int counter){
   
@@ -171,7 +223,7 @@ void ScopeManager::ShowMCA(int counter){
     vecMCA[i].push_back(binSum);
     if(binSum > maxMCA[i]) maxMCA[i] = binSum;
    
-    if(counter == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,100*16384);//100 bins over full range//seems exseive
+    if(counter-1 == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,300e3);//100 bins over full range//seems exseive
     /*
     if(( (int)maxMCA[i]*1.0 ) > 0){
       delete gMCA[i];
@@ -189,6 +241,7 @@ void ScopeManager::ShowMCA(int counter){
     for(int j = 0; j < vecMCA[i].size(); j++){
       gMCA[i]->Fill(vecMCA[i][j]);
     }
+
     //clear vector
     vecMCA[i].resize(0);
   }
@@ -208,15 +261,16 @@ void ScopeManager::ShowMCA(int counter){
   m_counter++;
 
 }
-void ScopeManager::WriteMCA(){
+void ScopeManager::WriteMCA(int nEvents){
   TDatime * datTime = new TDatime();
-  TString fileName = "MCAPlot"+to_string(datTime->GetDate()) + "-" + to_string(datTime->GetTime());
+  TString fileName = "MCAPlot_"+to_string(nEvents)+"_"+to_string(datTime->GetDate()) + "-" + to_string(datTime->GetTime());
 
   cout<<"Writing MCA file "<<fileName<<".root to Plots/"<<endl;
-  TFile* fOut = new TFile(TString("Plots/") + fileName + TString(".root"),"RECREATE");
+  TFile* fOut = new TFile(m_path + fileName + TString(".root"),"RECREATE");
   fOut->cd();
   for(int i = 0; i < m_nbCh ; i++){
     gMCA[i]->Write();
+    gMCA[i]->Clear();
   }
   fOut->Close();
 
@@ -259,9 +313,20 @@ int ScopeManager::ApplyXMLFile(){
 	// open the XML file -------------------------------------------------------
 	XMLNode xMainNode=XMLNode::openFileHelper(m_XmlFileName,"settings");
 
+  XMLNode xNode=xMainNode.getChildNode("global");
+
+  //Path to write MCA plot
+  xstr=xNode.getChildNode("path").getText();
+  if (xstr) {
+    strcpy(txt,xstr); 
+		stringstream ss;
+    ss << txt;
+    ss >> m_path;
+  } else error((char*)"XML-path");
+
 
   // parse global ADC settings -----------------------------------------------
-  XMLNode xNode=xMainNode.getChildNode("adc").getChildNode("global");
+  xNode=xMainNode.getChildNode("adc").getChildNode("global");
   xstr=xNode.getChildNode("baseline").getText();
   if (xstr) {
     strcpy(txt,xstr);

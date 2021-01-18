@@ -104,6 +104,7 @@ int StorageManager::InitROOT(){
       //wfVec will be the size of the total active channels, 
       //one thing to be aware of is if channel 0,1, and 3 are active,
       //the indices will not match if relooping thus another wvCounter is used in further code
+      m_BufferSize = Event16->ChSize[i];
       wfVec.push_back( new int [m_BufferSize]); 
       (tree)->Branch(TString::Format("wf%i",i), wfVec[wfCounter], TString::Format("wf%i[%i]/I",i,m_BufferSize));
       wfCounter++;
@@ -209,7 +210,6 @@ int StorageManager::NewFile(){
 
 int StorageManager::FillContainer(){
 
-  //cout<<"Here?"<<endl;
   if(m_WriteToFile==1 && m_ZLE==0){
     FillROOTContainer();
   }
@@ -221,35 +221,52 @@ int StorageManager::FillContainer(){
 }
 
 bool StorageManager::FillROOTContainer(){
-  
-  //float wvf[m_nbCh][m_BufferSize];
-
-  //cout<<"making it into FillRooTContainer"<<endl;
- 
+  /*
   Int_t wvCounter = 0;
   for(int i = 0; i < m_nbCh; i++){
-    //cout<<"Checking channel "<<i<<endl;
     if(!channelActive[i]) continue;
-    //cout<<"Active channel "<<i<<" with event size of "<<Event16->ChSize[i]<<endl;
-
     //Simple Live Processing (Charge,Height,Position,Baseline,RMS) can be easly implemented here (alread looping over waveform) TODO
     for(int j = 0; j < Event16->ChSize[i]; j++){
-      if(channelActive[i]) wfVec[wvCounter][j] = Event16->DataChannel[i][j];
+      if(channelActive[i]){
+        wfVec[wvCounter][j] = Event16->DataChannel[i][j];
+        int data = Event16->DataChannel[i][j];
+        //cout<<"\t Reading data from channel "<<i<<", bin "<<j<<", data "<<data<<endl;
+      }
     }
     wvCounter++;
   }
-  m_time=GetUnixTime();
-  tree->Fill();
+  */
+  for(int i = 0; i < EventVector->size(); i++){
+    //cout<<"First for loop over i (EventVector size) "<<i<<endl;
+    Int_t wvCounter = 0;
+    for(int j = 0; j < m_nbCh; j++){
+    //cout<<"Second for loop over j (N channels) "<<j<<endl;
+      if(!channelActive[j]) continue;
+      //cout<<" Only loop over active channels "<<j;
+      CAEN_DGTZ_UINT16_EVENT_t event = EventVector->at(j);
+      //cout<<"...Successfully accessed EventVector"<<endl;
+      //Simple Live Processing (Charge,Height,Position,Baseline,RMS) can be easly implemented here (alread looping over waveform) TODO
+      for(int k = 0; k < event.ChSize[j]; k++){
+        //if(k == 0) cout<<"\tLooping over event"<<endl;
+        if(channelActive[j]){
+          int data = event.DataChannel[j][k];
+          //if(k < 10) cout<<"\t Reading data from channel "<<j<<", bin "<<k<<", data "<<data<<", waveCounter "<<wvCounter<<endl;
+          wfVec[wvCounter][k] = event.DataChannel[j][k];
+        }
+      }
+      //cout<<"...Finished reading event from CH-"<<wvCounter<<"..."<<endl;
+      wvCounter++;
+    }
+    m_time=GetUnixTime();
+    tree->Fill();
+    //cout<<"...Looped over all channels, looking at next Trigger"<<endl;
+  }
 }
 
 int StorageManager::SaveContainer(){
-
   if(m_WriteToFile==1){
     SaveROOTContainer();
   }
-
-
-	
 }
 
 void StorageManager::SaveROOTContainer(){
