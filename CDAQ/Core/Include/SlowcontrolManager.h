@@ -98,7 +98,7 @@ class SlowcontrolManager: public Common
   int m_PCILinkNum;
   ofstream m_DAQStatus;								//Stores the current DAQ rate
   ofstream m_DAQSummary;								//Stores all relevant parameters
-  bool m_useMCA = false;
+  bool m_useMCA;// = false;
 
 };
 

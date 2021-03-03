@@ -21,6 +21,7 @@ Author: Julien Wulf UZH
 ScopeManager::ScopeManager()
 {
 	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=m_save=m_counter=m_ZLE=m_Baseline=m_nbCh=0;
+    m_useMCA=m_logSwitch=0;
   g.resize(0);
 }
 
@@ -161,11 +162,11 @@ int ScopeManager::ShowEvent(){
 int ScopeManager::ShowEvent(){
   //cout<<"ScopeManager::"<<EventVector->size()<<endl;
 
-  for(int h = 0; h < EventVector->size(); h++){
-    CAEN_DGTZ_UINT16_EVENT_t event = EventVector->at(h);
+  //for(int h = 0; h < EventVector->size(); h++){
+    CAEN_DGTZ_UINT16_EVENT_t *event = Event16;//EventVector->at(h);
     for(int i = 0; i < m_nbCh; i++){
-      for(int j = 0; j < event.ChSize[i]; j++){
-        double binContent = event.DataChannel[i][j];
+      for(int j = 0; j < event->ChSize[i]; j++){
+        double binContent = event->DataChannel[i][j];
 //        if(j < 10) cout<<"\t Reading data from channel "<<i<<", Trigger num "<<h<<", bin "<<j<<", data "<<binContent<<endl;
         g[i]->SetBinContent(j, binContent);
       } 
@@ -184,7 +185,7 @@ int ScopeManager::ShowEvent(){
     graph_edit(g[m_channel]);
     g[m_channel]->Draw();
     if(m_triggertype==2)
-      g[m_channel]->SetTitle(Form("Channel:  %i , Trigger: %i, Threshold: %i",m_channel, h, m_thresh[m_channel]));
+      g[m_channel]->SetTitle(Form("Channel:  %i , Threshold: %i",m_channel,  m_thresh[m_channel]));
     else
       g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
     if(m_triggertype==2)
@@ -199,7 +200,7 @@ int ScopeManager::ShowEvent(){
     // single->cd(2);
     //hm->Draw();
     m_counter++;
-  }
+  //}
   return 0;
 }
 
@@ -223,7 +224,7 @@ void ScopeManager::ShowMCA(int counter){
     vecMCA[i].push_back(binSum);
     if(binSum > maxMCA[i]) maxMCA[i] = binSum;
    
-    if(counter-1 == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,300e3);//100 bins over full range//seems exseive
+    if(counter-1 == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,7e3);//100 bins over full range//seems exseive
     /*
     if(( (int)maxMCA[i]*1.0 ) > 0){
       delete gMCA[i];
@@ -368,7 +369,6 @@ int ScopeManager::ApplyXMLFile(){
     m_useMCA=(int)(atoi(txt));
     if(m_useMCA)    printf(" Using MCA plotting rather than waveform plotting \n");
   }
-	
 	xstr=xNode.getChildNode("ydisplay").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
@@ -447,7 +447,6 @@ int ScopeManager::graph_checkkey(char c){
    single->SetLogy();
    m_logSwitch = true;
  }
-
 
 	return 0;
 }

@@ -16,7 +16,8 @@ Author: Julien Wulf UZH
 SlowcontrolManager::SlowcontrolManager()
 {
   m_pmtNb,m_BoardInfo,m_baseline,m_errflag,m_graphics,m_lastevents,m_events,m_bytes,m_totalB,m_Nbmodule,m_triggertype=m_totalevents=m_type=m_numberChain=m_nbCh=0;
-	printf("\n");
+m_useMCA=false;	
+  printf("\n");
 	printf("%s*****************************************************************\n",KGRN);
   printf("%s                   DAQ  --  Data Aquistion Program 		    \n",KGRN); 
   printf("%s                       Written By Julien Wulf   (2017)                \n",KGRN);

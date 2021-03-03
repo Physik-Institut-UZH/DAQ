@@ -628,7 +628,7 @@ int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
       }
       //Pass number of bytes to SC
       blt_bytes += m_BufferSize;
-      EventVector->push_back(*Event16);
+      //EventVector->push_back(*Event16);
     }
     triggerCounter+=nEventsPerTrigger;
     if(triggerCounter >=m_NumEvents) Quit = true;

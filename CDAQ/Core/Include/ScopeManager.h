@@ -113,8 +113,9 @@ class ScopeManager: public Common
     uint16_t m_EnableMask;
     CAEN_DGTZ_UINT16_EVENT_t * Event16;
     std::vector<CAEN_DGTZ_UINT16_EVENT_t> * EventVector;
-    bool m_useMCA = false;
-    bool m_logSwitch = false;
+    //bool m_useMCA;// = false;
+    int m_useMCA;
+    int m_logSwitch;
     string m_path;
 };
 

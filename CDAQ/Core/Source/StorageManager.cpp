@@ -221,7 +221,7 @@ int StorageManager::FillContainer(){
 }
 
 bool StorageManager::FillROOTContainer(){
-  /*
+  ///*
   Int_t wvCounter = 0;
   for(int i = 0; i < m_nbCh; i++){
     if(!channelActive[i]) continue;
@@ -235,7 +235,11 @@ bool StorageManager::FillROOTContainer(){
     }
     wvCounter++;
   }
-  */
+  
+  m_time=GetUnixTime();
+  tree->Fill();
+  //*/
+    /*
   for(int i = 0; i < EventVector->size(); i++){
     //cout<<"First for loop over i (EventVector size) "<<i<<endl;
     Int_t wvCounter = 0;
@@ -261,6 +265,7 @@ bool StorageManager::FillROOTContainer(){
     tree->Fill();
     //cout<<"...Looped over all channels, looking at next Trigger"<<endl;
   }
+  */
 }
 
 int StorageManager::SaveContainer(){
