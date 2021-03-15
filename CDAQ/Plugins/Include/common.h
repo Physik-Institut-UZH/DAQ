@@ -11,7 +11,7 @@
 
 
 /*Author: Julien Wulf UZH
-  General functions and stuff for every Module. The function name describes it very good.
+  General functions and stuff for every Module. The function name describes it very well.
 */
 
 using namespace std;

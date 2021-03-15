@@ -41,8 +41,8 @@ int ScopeManager::Init(){
 
 
   //single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",800,800);
-  single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",600,800); //Optimized for a 4/3 height width ratio picture
-  //single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",300,400); //Optimized for a 4/3 height width ratio picture
+  //single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",600,800); //Optimized for a 4/3 height width ratio picture
+  single = new TCanvas("single","CDAQ -- DAQ for Zuerich (single)",768,455); //Optimized for a 4/3 height width ratio picture
   gStyle->SetOptStat(0000000);
   gStyle->SetOptFit(1100);
   gStyle->SetTitleFillColor(0);
@@ -86,7 +86,8 @@ int ScopeManager::Init(){
   // Startup Window
   single->cd();
 
-  TImage *img = TImage::Open("../Macro/Logo/splash.png");
+  //TImage *img = TImage::Open("../Macro/Logo/splash.png");
+  TImage *img = TImage::Open("../Macro/Logo/ArthurAsleep.jpeg");
 
   if (!img) {
     printf("Could not create an image... exit\n");

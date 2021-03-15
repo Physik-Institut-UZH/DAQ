@@ -46,11 +46,6 @@ ADCManager1730_16Ch::ADCManager1730_16Ch():ADCManager(0)
 	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=m_module=0;
   Event16=NULL; /* generic event struct with 16 bit data (10, 12, 14 and 16 bit digitizers */
   m_handle = -1;
-	for(int i=0;i<16;i++){
-		m_DACTarget[i]=0;
- 		m_DACLevel[i]=0;
-		m_DACFinished[i]=0;
-	}
 }
 
 ADCManager1730_16Ch::~ADCManager1730_16Ch()
@@ -59,15 +54,10 @@ ADCManager1730_16Ch::~ADCManager1730_16Ch()
 
 int ADCManager1730_16Ch::Init(){
 
-	
-	//printf(KYEL);
-	//printf("\nReset the ADC Module %i . . .\n\n",m_module);
-	//printf(RESET);
-
   //Reset the board first
-  m_hex=0x1;
-  adc_writereg(SoftwareResetReg,m_hex);
+  CAEN_DGTZ_Reset(m_handle);
   sleep(3);
+  CAENDGTZ_API CAEN_DGTZ_Calibrate(m_handle);
 
 
   //Set Register/other Settings from xml-file
@@ -76,18 +66,6 @@ int ADCManager1730_16Ch::Init(){
 	if(OpenDigitizer()) return 1;
 
   if(CalculateBaseline()) return 1;
-
-	//Read Settings
-	//RegisterReading();
-
-	printf(KYEL);
-	printf("Calibrate the ADC . . .\n");
-	printf(RESET);
-
-  //calibration of the Channels with the current Setting
-  m_hex=0x1;
-  adc_writereg(ChannelCalibrationReg,m_hex);
-  sleep(0.1);	
 
 	return 0;
 }
@@ -308,13 +286,13 @@ int ADCManager1730_16Ch::CalculateBaseline(){
   ///malloc
   m_ret = CAEN_DGTZ_MallocReadoutBuffer(m_handle, &buffer, &AllocatedSize);
   if (m_ret) {
-    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+    cout<<"Baseline Calculation::MallocReadoutBuffer "<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
     return m_ret;
   }
 
   m_ret = CAEN_DGTZ_AllocateEvent(m_handle, (void**)&Event16);		
   if (m_ret != CAEN_DGTZ_Success) {
-    cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+    cout<<"Baseline Calculation::AllocateEvent "<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
   }
 
   m_ret = CAEN_DGTZ_SWStartAcquisition(m_handle);
@@ -326,13 +304,13 @@ int ADCManager1730_16Ch::CalculateBaseline(){
 
   #define NPOINTS 2
   #define NACQS   50
-  float avg_value[NPOINTS] = { 0 };
 	
   uint32_t dc[NPOINTS] = {25,75}; //test values, baseline at 25% and 75% 
 
   m_DCoffset = new uint32_t[m_nbCh];
   printf("Calculating baseline...\n");
   for (ch = 0; ch < (int32_t)BoardInfo.Channels; ch++)    {
+    float avg_value[NPOINTS] = { 0 };
     if (m_EnableMask & (1 << ch)){
       m_ret = CAEN_DGTZ_SetChannelSelfTrigger(m_handle,CAEN_DGTZ_TRGMODE_DISABLED, (1 << ch));			
       if (m_ret)
@@ -340,6 +318,8 @@ int ADCManager1730_16Ch::CalculateBaseline(){
 
 
       for (p = 0; p < NPOINTS; p++){
+
+        int size = (int)pow(2, (double)BoardInfo.ADC_NBits);//returns 2^14 = 16384
         //Make a guess for the DC offset
         m_ret = CAEN_DGTZ_SetChannelDCOffset(m_handle, (uint32_t)ch, (uint32_t)((float)(fabs((int)dc[p] - 100))*(655.35)));
         if (m_ret)
@@ -347,34 +327,35 @@ int ADCManager1730_16Ch::CalculateBaseline(){
 
         //usleep(200000);
         usleep(50000);
-
         int value[NACQS] = { 0 };
         for (acq = 0; acq < NACQS; acq++){
           CAEN_DGTZ_SendSWtrigger(m_handle);
           m_ret = CAEN_DGTZ_ReadData(m_handle, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, buffer, &BufferSize);
           if (m_ret) {
-            cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+            cout<<"ReadData::"<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
             exit(0);
-            }
+          }
 
           m_ret = CAEN_DGTZ_GetEventInfo(m_handle, buffer, BufferSize, 0, &EventInfo, &EventPtr);
           if (m_ret) {
-            cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+            cout<<"GetEventInfo"<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
             return m_ret;
           }
           // decode the event //
           m_ret = CAEN_DGTZ_DecodeEvent(m_handle, EventPtr, (void**)&Event16);
 
           if (m_ret) {
-            cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+            cout<<"DecodeEvent"<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
             return m_ret;
           }
 
 
-          for (i = 1; i < 7; i++){ //mean over 6 samples
+          for (i = 1; i < 21; i++){ //mean over 6 samples
             value[acq] += (int)(Event16->DataChannel[ch][i]);
           }
-          value[acq] = (value[acq] / 6);
+          value[acq] = (value[acq] / 20);
+          avg_value[p] += 100.*value[acq]/NACQS/size;//in a fraction from 0 to 100
+          //cout<<"Baseline "<<100.*value[acq]/16384.<<" with dc set to "<<dc[p]<<", average value "<<avg_value[p] <<" for channel "<<ch<<endl;
         }//for acq
 
         //check for clean baselines
@@ -389,51 +370,23 @@ int ADCManager1730_16Ch::CalculateBaseline(){
         //set to 0xFFFF, the DC offset is Vpp and the range goes from 0 to +Vpp. 
         //When calculating the average baseline, ADC counts are used, this have to be converted into the accetable range to progem the DAQ
         //I have added a XML command to leave some fraction of baseline below the signal incase unexpected signals arrive
-        int max = 0;
-        int mpp = 0;
-        int size = (int)pow(2, (double)BoardInfo.ADC_NBits);//returns 2^14 = 16384
-        int *freq = (int*)calloc(size, sizeof(int));
-
-        for (k = 0; k < NACQS; k++){
-          if (value[k] > 0 && value[k] < size){
-            freq[value[k]]++;
-            if (freq[value[k]] > max) {
-              max = freq[value[k]]; 
-              mpp = value[k]; 
-            }
-          }
-        }
-
-        free(freq);
-        int ok = 0;
-        for (k = 0; k < NACQS; k++) {
-          if (value[k] == mpp || value[k] == (mpp + 1) || value[k] == (mpp - 1)){
-            avg_value[p] = avg_value[p] + (float)value[k]; ok++;
-          }
-        }
-        //Convert ADC counts into a percentage
-        avg_value[p] = (avg_value[p] / (float)ok)*100. / (float)size; 
 
       }//close for p
-      cal = ((float)(avg_value[1] - avg_value[0]) / (float)(dc[1] - dc[0]));
-      offset = (float)(dc[1] * avg_value[0] - dc[0] * avg_value[1]) / (float)(dc[1] - dc[0]);
-      //printf("Cal %f   offset %f\n", cal, offset);
+      cal = ((float)(avg_value[1] - avg_value[0]) / (float)(dc[1] - dc[0]));//slope
+      offset =avg_value[0] - cal*dc[0]; //intercept
+      //printf("Cal %f   offset %f baseline %f corrected %f \n", cal, offset,m_Baseline,cal*(100*m_Baseline)+offset);
 
 
       if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive){
-        //DCoffset[ch] = (uint32_t)((float)(fabs(( ((float)dc_file[ch] - offset )/ cal ) - 100.))*(655.35));
-        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( - offset )/ cal ) - 100.))*(655.35) - 65535*m_Baseline);
+        m_DCoffset[ch] = (uint32_t)(65535*(float)(1-(cal*100*m_Baseline+offset)/100));
         if (m_DCoffset[ch] > 65535) m_DCoffset[ch] = 65535;
         if (m_DCoffset[ch] < 0) m_DCoffset[ch] = 0;		      
       }
       else if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative){
-        //m_DCoffset[ch] = (uint32_t)((float)(fabs(( (fabs(dc_file[ch] - 100.) - offset) / cal ) - 100.))*(655.35));
-        m_DCoffset[ch] = (uint32_t)((float)(fabs(( ( 100. - offset) / cal ) - 100.))*(655.35) + 65535*m_Baseline);
+        m_DCoffset[ch] = (uint32_t)(65535*(float)(cal*100*m_Baseline+offset)/100);
         if (m_DCoffset[ch] < 0) m_DCoffset[ch] = 0;
         if (m_DCoffset[ch] > 65535) m_DCoffset[ch] = 65535;		      
       }
-
-      //cout<<"Calibrated DC offset (between 0 and 65535)"<<m_DCoffset[ch]<<", frac "<<m_DCoffset[ch]/65535.<<endl;
 
       m_ret = CAEN_DGTZ_SetChannelDCOffset(m_handle, (uint32_t)ch, m_DCoffset[ch]);
       if (m_ret)
@@ -442,59 +395,10 @@ int ADCManager1730_16Ch::CalculateBaseline(){
     }//if ch enabled
 
   }//loop ch
-
-  //printf("DAC Calibration ready\n");
-
-  CAEN_DGTZ_SWStopAcquisition(m_handle);  
-
-  ///free events e buffer
-  CAEN_DGTZ_FreeReadoutBuffer(&buffer);
-  CAEN_DGTZ_FreeEvent(m_handle, (void**)&Event16);
-
-  //TODO
-  SetCorrectThreshold();
-
-  //Restore previous settings
-  CAEN_DGTZ_SetPostTriggerSize(m_handle, m_PostTrigger);
-  CAEN_DGTZ_SetAcquisitionMode(m_handle, mem_mode);
-  CAEN_DGTZ_SetExtTriggerInputMode(m_handle, m_ExtTriggerMode);
-  CAEN_DGTZ_GetRecordLength(m_handle,&m_BufferSize);
-  if (m_ret)
-    printf("Warning: error setting recorded parameters\n");
-
-  //TODO
-  //CalibComplete=true;
-  
-  return CAEN_DGTZ_Success;
-}
-
-CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
-//Threshold needs to be adjusted for DC offset  
-  CAEN_DGTZ_UINT16_EVENT_t    *Event16;
-  int i = 0,ch=0;
-  CAEN_DGTZ_ErrorCode m_ret;
-  uint32_t  AllocatedSize;
-  
-  uint32_t BufferSize;
-  CAEN_DGTZ_EventInfo_t       EventInfo;
-  char *buffer = NULL;
-  char *EventPtr = NULL;
-  
-  ///malloc
-  m_ret = CAEN_DGTZ_MallocReadoutBuffer(m_handle, &buffer, &AllocatedSize);
-  if (m_ret) {
-    return m_ret;
-  }
-  
-  m_ret = CAEN_DGTZ_AllocateEvent(m_handle, (void**)&Event16);
-  if (m_ret != CAEN_DGTZ_Success) {
-    return m_ret;
-  }
-  
+ 
+  //Set Corrected Thresholds to compensate for baseline adjustments
   uint32_t mask;
   CAEN_DGTZ_GetChannelEnableMask(m_handle, &mask);
-
-  CAEN_DGTZ_SWStartAcquisition(m_handle);
   //For the 1730, channels are paired such that the trigger conditions are the same for channel N and channel N+1
   for (ch = 0; ch < (int32_t)BoardInfo.Channels; ch+=2){
     if (mask & (1 << ch)){
@@ -503,23 +407,22 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
 
       m_ret = CAEN_DGTZ_ReadData(m_handle, CAEN_DGTZ_SLAVE_TERMINATED_READOUT_MBLT, buffer, &BufferSize);
       if (m_ret) {
-        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        cout<<"ReadData"<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         exit(0);
       }
 
       m_ret = CAEN_DGTZ_GetEventInfo(m_handle, buffer, BufferSize, 0, &EventInfo, &EventPtr);
       if (m_ret) {
-        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        cout<<"GetEventInfo"<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         return m_ret;
       }
       // decode the event //
       m_ret = CAEN_DGTZ_DecodeEvent(m_handle, EventPtr, (void**)&Event16);
 
       if (m_ret) {
-        cout<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
+        cout<<"DecodeEvent"<<errors[abs((int)m_ret)]<<" (code "<<m_ret<<")"<<endl;
         return m_ret;
       }
-
 
       for (i = 1; i < 11; i++){ //mean over 10 samples
         baseline += (int)(Event16->DataChannel[ch][i]);
@@ -530,14 +433,12 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
         m_channelThresh[ch] += (uint32_t)baseline;
       }
       else 	if (m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityNegative){
-        //cout<<"Baseline calc "<<baseline<<", thesh "<<m_channelThresh[ch]<<endl;
-        m_channelThresh[ch] = (uint32_t)baseline - m_channelThresh[ch];
+        m_channelThresh[ch] = (uint32_t)baseline -  m_channelThresh[ch];
       }
 
       if (m_channelThresh[ch] < 0) m_channelThresh[ch] = 0;
       int size = (int)pow(2, (double)BoardInfo.ADC_NBits);
       if (m_channelThresh[ch] > (uint32_t)size) m_channelThresh[ch] = size;
-      //cout<<"Calibrated threshold: "<<m_channelThresh[ch]<<endl;
 
 
       m_ret = CAEN_DGTZ_SetChannelTriggerThreshold(m_handle, ch, m_channelThresh[ch]);
@@ -548,17 +449,27 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::SetCorrectThreshold(){
       if(m_SelfTriggerMode == CAEN_DGTZ_TRGMODE_ACQ_ONLY )
         CAEN_DGTZ_SetChannelSelfTrigger(m_handle, CAEN_DGTZ_TRGMODE_ACQ_ONLY, (1 << ch));
       else
-        CAEN_DGTZ_SetChannelSelfTrigger(m_handle, CAEN_DGTZ_TRGMODE_DISABLED, (1 << ch));
-
+        CAEN_DGTZ_SetChannelSelfTrigger(m_handle, CAEN_DGTZ_TRGMODE_DISABLED, (1 << ch));  
     }
-  }
-  CAEN_DGTZ_SWStopAcquisition(m_handle);
 
+  }
+  CAEN_DGTZ_SWStopAcquisition(m_handle);  
+
+  ///free events e buffer
   CAEN_DGTZ_FreeReadoutBuffer(&buffer);
   CAEN_DGTZ_FreeEvent(m_handle, (void**)&Event16);
-  
+
+  //Restore previous settings
+  CAEN_DGTZ_SetPostTriggerSize(m_handle, m_PostTrigger);
+  CAEN_DGTZ_SetAcquisitionMode(m_handle, mem_mode);
+  CAEN_DGTZ_SetExtTriggerInputMode(m_handle, m_ExtTriggerMode);
+  CAEN_DGTZ_GetRecordLength(m_handle,&m_BufferSize);
+  if (m_ret)
+    printf("Warning: error setting recorded parameters\n");
+
   return CAEN_DGTZ_Success;
 }
+
 
 int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
   //Do something
@@ -607,7 +518,8 @@ int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
       }
       else {
         if (lstatus & (0x1 << 19)) {
-          exit(0);
+          cout<<"Board is overheating!"<<endl;
+          exit(0); 
         }
       }
     }
@@ -628,7 +540,6 @@ int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
       }
       //Pass number of bytes to SC
       blt_bytes += m_BufferSize;
-      //EventVector->push_back(*Event16);
     }
     triggerCounter+=nEventsPerTrigger;
     if(triggerCounter >=m_NumEvents) Quit = true;
@@ -716,8 +627,6 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
       m_channelThresh[i]=temp;
       if(temp!=0){
         m_hex=m_hex+pow(2,i);
-        //adc_writereg(ThresholdRegN+(i*0x0100),temp);
-
         m_EnableMask += (1<<i);
       }
     } else error((char*)channel);
@@ -740,31 +649,6 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
   }
   cout<<"EnableMask is "<<m_EnableMask<<endl;
 
-	
-
-  //TODO what does this do? Seems like it is not needed here but when removed from the xml, things crash
-  //seems like I do not need it
-	xstr=xNode.getChildNode("memoryorganisation").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		switch (atoi(txt)) {
-			case 1: m_hex=0x0; break;
-			case 2: m_hex=0x1; break;
-			case 4: m_hex=0x2; break;
-			case 8: m_hex=0x3; break;
-			case 16: m_hex=0x4; break;
-			case 32: m_hex=0x5; break;
-			case 64: m_hex=0x6; break;
-			case 128: m_hex=0x7; break;
-			case 256: m_hex=0x8; break;
-			case 512: m_hex=0x9; break;
-			case 1024: m_hex=0xA; break;  // 0.5 k
-			default:  m_hex=0x4; 
-					  break; 
-		}
-	  adc_writereg(BlockOrganizationReg,m_hex);
-	} else error((char*)"XML-memoryorganisation");
-	
   xstr=xNode.getChildNode("custom_size").getText();
 	if (xstr) {
         strcpy(txt,xstr);
@@ -795,39 +679,12 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
 
   } else error((char*)"XML-baseline");
 
-/*
-	xstr=xNode.getChildNode("baselineiteration").getText();
-	if (xstr) {
-		strcpy(txt,xstr);
-		m_iteration=(int)atoi(txt); 
-	} else error((char*)"XML-baselineiteration");
-	
-*/
 	xstr=xNode.getChildNode("sampling_freq").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
 		m_Frequency=(int)atoi(txt); 
 	} else error((char*)"XML-sampling_freq");
 
-
-	//TODO, does not work
-  /*
-	xstr=xNode.getChildNode("voltage_range").getText();
-	if (xstr) {
-		strcpy(txt,xstr);
-    m_Voltage = stod(std::string(txt) );
-    if(m_Voltage == 2){
-      //Input Range 0-2V!
-      for(int i=0;i<m_nbCh;i++)adc_writereg(GainRegN+(i*0x0100),0);
-    }
-    else if(m_Voltage == 0.5){
-      //Input Range 0-0.5V! //TODO double check that this works
-      for(int i=0;i<m_nbCh;i++)adc_writereg(GainRegN+(i*0x0100),1);
-    }
-    else error((char*)"Wrong value for voltage range");
-	} else error((char*)"voltage_range");
-  */
-	
 	xstr=xNode.getChildNode("sample_size_ADC").getText();
 	if (xstr) {
 		strcpy(txt,xstr); 
@@ -840,106 +697,8 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
 		m_resDAC=(int)atoi(txt); 
 	} else error((char*)"sample_size_DAC");
   
-	//TODO rewrite in terms of Digitzer functions! -N.M.
   //ADC: parse ADC Trigger Settings
 	xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
-
-
-  /*
-	xstr=xNode.getChildNode("trigger").getText();
-  if (xstr) {
-    strcpy(txt,xstr); 
-    temp=atoi(txt);
-    m_triggertyp=temp;
-    if (temp==0) {
-      //External + Software Trigger always activated 
-      m_hex=0xC0000000;
-      adc_writereg(FrontPanelTriggerOutReg,m_hex);
-      adc_writereg(TriggerSourceMaskReg,m_hex);
-    }
-    else if (temp==1){ 
-      //External + Software Trigger always activated 
-      m_hex=0xC0000000;
-      adc_writereg(FrontPanelTriggerOutReg,m_hex);	
-      adc_writereg(TriggerSourceMaskReg,m_hex);
-
-      xstr=xNode.getChildNode("SoftwareRate").getText();;
-      if (xstr) {
-        strcpy(txt,xstr); 
-        m_SoftwareRate=atoi(txt);
-      }
-      else error((char*)"SoftwareRate");
-    }
-    //Channel Trigger
-    else if(temp=2){
-      m_hex=0;
-      uint32_t m_dat=0;
-
-      for(int i=0;i<4;i++){
-        char logic[300];
-        sprintf(logic,"logic%i",i+4*m_module);
-        xstr=xNode.getChildNode(logic).getText();
-
-        if (xstr) {
-          strcpy(txt,xstr); 
-          if(atoi(txt)>=0){
-            m_hex=m_hex+pow(2,i);
-            m_dat=m_dat+pow(2,i);
-            m_dat=m_dat+pow(2,i+1);
-            if(atoi(txt)==1){
-              adc_writereg(LogicRegN+(i*0x200),5);
-            }
-            else if(atoi(txt)==0){
-              adc_writereg(LogicRegN+(i*0x200),7);
-            }
-            else if(atoi(txt)==2){
-              adc_writereg(LogicRegN+(i*0x200),6);
-            }
-            else if(atoi(txt)==3){
-              adc_writereg(LogicRegN+(i*0x200),4);
-            }	
-          }
-        }
-        else error((char*)logic);
-      }
-
-      //Software + Channel Trigger by default 
-      m_hex=m_hex+pow(2,31);
-      m_dat=m_dat+pow(2,31);
-      adc_writereg(FrontPanelTriggerOutReg,m_dat);
-      adc_writereg(TriggerSourceMaskReg,m_hex);
-    }
-    //Coincidence Trigger
-    else{
-      m_hex=0;
-      uint32_t m_dat=0;
-
-      for(int i=0;i<4;i++){
-        char logic[300];
-        sprintf(logic,"logic%i",i+4*m_module);
-        xstr=xNode.getChildNode(logic).getText();
-
-        if (xstr) {
-          strcpy(txt,xstr); 
-          if(atoi(txt)>=0){
-            m_hex=m_hex+pow(2,i);
-            m_dat=m_dat+pow(2,i);
-            m_dat=m_dat+pow(2,i+1);
-          }
-          //Software + Channel Trigger by default 
-          m_hex=m_hex+pow(2,31);
-
-          m_hex=m_hex+pow(2,24);							//Means more than 1 channel above treshold
-
-          adc_writereg(FrontPanelTriggerOutReg,m_dat);
-          adc_writereg(TriggerSourceMaskReg,m_hex);
-        }
-        else error((char*)logic);
-      }
-    }
-  }
-  else error((char*)"XML-trigger");
-  */
   m_ExtTriggerMode = CAEN_DGTZ_TRGMODE_DISABLED;
   m_SWTriggerMode  = CAEN_DGTZ_TRGMODE_DISABLED;
   m_SelfTriggerMode = CAEN_DGTZ_TRGMODE_DISABLED;
@@ -970,11 +729,9 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
     strcpy(txt,xstr);
     temp=(int)(atoi(txt));
     if(temp==1){
-      //adc_writereg(FrontPanelIODataReg,m_hex);
       m_TriggerLogicType = CAEN_DGTZ_IOLevel_TTL;
 		}
 		else{
-      //adc_writereg(FrontPanelIODataReg,m_hex);
       m_TriggerLogicType = CAEN_DGTZ_IOLevel_NIM;
 		}
 	} else error((char*)"ADC-Manager-XML-TTL");
