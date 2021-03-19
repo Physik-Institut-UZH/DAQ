@@ -35,7 +35,7 @@ public:
     	int Init();
     
     //Inherieted from ADCManager and override the function to use Digitizer functions
-    int CheckEventBuffer();
+    int CheckEventBuffer(int eventCounter);
 
 private:
 	
@@ -45,8 +45,13 @@ private:
     int CalculateBaseline();
     CAEN_DGTZ_ErrorCode SetCorrectThreshold();
 		int ApplyXMLFile();
-    int RegisterReading();
-
+    inline CAEN_DGTZ_ErrorCode SetPostTriggerSize(int handle,uint32_t val){
+        return CAEN_DGTZ_WriteRegister(handle,0x8114,val);
+    };
+    inline uint32_t GetPostTriggerSize(int handle,uint32_t *val){
+        CAEN_DGTZ_ReadRegister(handle,0x8114,val);
+        return *val;
+    };
 
     u_int32_t m_DACLevel[8];							//DAC Level Current Value
 	  u_int32_t m_DACTarget[8];							//DAC Level Set Value

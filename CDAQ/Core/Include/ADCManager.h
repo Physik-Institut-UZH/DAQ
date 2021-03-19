@@ -8,6 +8,7 @@
 #include <time.h>
 #include "CAENVMElib.h"
 #include "CAENDigitizer.h"
+#include "ZLEManager.h"
 #include <vector>
 #include <memory>
 #include <typeinfo>
@@ -256,6 +257,7 @@ public:
 	
 	//Aquire Data if there is some in the eventbuffer
 	virtual int CheckEventBuffer(int);
+	virtual int CheckEventBufferZLE(int);
 	
 	//Enable ADC
 	int Enable();
@@ -382,6 +384,9 @@ protected:
 
   
   char * m_EventPtr;
+
+  ZLEManager * m_zleManager;
+  int m_zleEnable = 0;
 
 
 

@@ -350,13 +350,13 @@ int StorageManager::ApplyXMLFile(){
     } else error((char*)channel);
   }
   xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
-  xstr=xNode.getChildNode("ZLEActivated").getText();
+  xstr=xNode.getChildNode("zleEnable").getText();
   if (xstr) {
     strcpy(txt,xstr);
     temp=((int)atoi(txt));
     m_ZLE=temp;
   }
-  else error((char*)"ZLE");
+  else cout<<"ZLE is disabled"<<endl;
 
   return 0;
 }

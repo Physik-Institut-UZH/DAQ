@@ -14,6 +14,7 @@ set (CORE_HEADERFILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/ADCManager1720.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/ADCManager1724.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/DCManager.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Include/ZLEManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/util.h
 )
 
@@ -28,6 +29,7 @@ set (CORE_SOURCEFILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/ADCManager1720.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/ADCManager1724.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/DCManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/ZLEManager.cpp
 )
 
 

@@ -375,33 +375,6 @@ int SlowcontrolManager::ApplyXMLFile(){
     }
   }
 
-
-	xstr=xNode.getChildNode("memoryorganisation").getText();
-	if (xstr) {
-    strcpy(txt,xstr); 
-    int bufSize=atoi(txt);
-    float usec;
-    u_int32_t data;
-    switch (bufSize) {
-      case 512: data=0x0; break;
-      case 256: data=0x1; break;
-      case 128: data=0x2; break;
-      case  64: data=0x3; break;
-      case  32: data=0x4; break;
-      case  16: data=0x5; break;
-      case   8: data=0x6; break;
-			case   4: data=0x7; break;
-			case   2: data=0x8; break;
-			case   1: data=0x9; break;
-			case   0: data=0xA; break;  // 0.5 k
-			default:  data=0x4; 
-					  bufSize=32;
-					  break; 
-		}
-		printf("	Memory Organisation: %sk Samples/Evt\n",txt);
-	} else error((char*)"XML-memoryorganisation");
-  
-
 	xstr=xNode.getChildNode("custom_size").getText();
   if (xstr) {
     strcpy(txt,xstr);
@@ -425,13 +398,14 @@ int SlowcontrolManager::ApplyXMLFile(){
 		
 	} else error((char*)"XML-baseline");
 
+  /*
   xstr=xNode.getChildNode("baselineiteration").getText();
   if (xstr) {
     strcpy(txt,xstr);
     printf("	Baseline Iterations:	%s \n",txt);
 
 	} else error((char*)"XML-baselineiteration");
-
+  */
 
 	xstr=xNode.getChildNode("sampling_freq").getText();
   if (xstr) {

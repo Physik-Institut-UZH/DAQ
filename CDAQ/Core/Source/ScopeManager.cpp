@@ -20,8 +20,8 @@ Author: Julien Wulf UZH
 
 ScopeManager::ScopeManager()
 {
-	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=m_save=m_counter=m_ZLE=m_Baseline=m_nbCh=0;
-    m_useMCA=m_logSwitch=0;
+	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=m_save=m_counter=m_zleEnable=m_Baseline=m_nbCh=0;
+  m_useMCA=m_logSwitch=0;
   g.resize(0);
 }
 
@@ -352,13 +352,13 @@ int ScopeManager::ApplyXMLFile(){
 	} else error((char*)"XML-trigger");
 
   xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
-  xstr=xNode.getChildNode("ZLEActivated").getText();
+  xstr=xNode.getChildNode("zleEnable").getText();
   if (xstr) {
     strcpy(txt,xstr);
     temp=((int)atoi(txt));
-    m_ZLE=temp;
+    m_zleEnable=temp;
   }
-  else error((char*)"ZLE");
+  else cout<<"ZLE is disabled"<<endl; 
 
 
 	// ADC: parse waveform display options

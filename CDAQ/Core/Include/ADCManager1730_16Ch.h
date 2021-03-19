@@ -36,6 +36,7 @@ public:
     
     //Inherieted from ADCManager and override the function to use Digitizer functions
     int CheckEventBuffer(int eventCounter);
+    int CheckEventBufferZLE(int eventCounter);
 
 private:
 	
@@ -54,6 +55,7 @@ private:
     
     bool OpenDigitizer();
     bool startAcq();
+  	CAEN_DGTZ_730_ZLE_Event_t      *zleEvent = NULL;
 
 
 };

@@ -423,6 +423,9 @@ int ADCManager::CheckEventBuffer(int eventCounter){
 
   return 0;
 }
+int ADCManager::CheckEventBufferZLE(int eventCounter){
+return eventCounter;
+}
 
 
 //-------------------------------------------------------------------
@@ -470,7 +473,7 @@ int ADCManager::adc_readblt()		// the value to read
   //uint32_t bufferSize;
   //char* bufferTemp;
   
-    cout<<"Is this being used? readblt"<<endl; 
+    //cout<<"Is this being used? readblt"<<endl; 
   // read the event
   int nb, ret;     
   // Read data from module i in MBLT mode into buff     

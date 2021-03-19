@@ -104,7 +104,7 @@ class ScopeManager: public Common
 		double m_mean;
 		int m_save; 
 		int m_counter;
-		int m_ZLE;	
+		int m_zleEnable;	
 		int m_Baseline;
     int m_nbCh;
 
