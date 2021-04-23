@@ -1,5 +1,5 @@
-#ifndef _ADCManager1730_16Ch_H_
-#define _ADCManager1730_16Ch_H_
+#ifndef _ADCManager1730_ZLE16Ch_H_
+#define _ADCManager1730_ZLE16Ch_H_
 
 
 #include <string.h>
@@ -24,18 +24,19 @@ The ADC will be configurated over the register file and over XML File
 
 
 
-class ADCManager1730_16Ch: public Common, public ADCManager
+class ADCManager1730_ZLE16Ch: public Common, public ADCManager
 
 {
 public:
-    	ADCManager1730_16Ch();
-    	virtual ~ADCManager1730_16Ch();
+    	ADCManager1730_ZLE16Ch();
+    	virtual ~ADCManager1730_ZLE16Ch();
     
     	//Init Function
     	int Init();
     
     //Inherieted from ADCManager and override the function to use Digitizer functions
     int CheckEventBuffer(int eventCounter);
+    int CheckEventBufferZLE(int eventCounter);
 
 private:
 	

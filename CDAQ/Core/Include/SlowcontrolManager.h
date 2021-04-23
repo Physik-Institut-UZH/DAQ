@@ -67,6 +67,7 @@ class SlowcontrolManager: public Common
    int GetPCILinkNum(){return m_PCILinkNum;} //Return which PCI slot is used V3718 can have 1,2, or 4
    CAEN_DGTZ_ConnectionType GetConnectionType() {return m_ConnectionType;}
    bool UseMCA() {return m_useMCA;}
+   bool UseZLE(){return m_zleEnable;}
    
    //Interaction Functions
    int StartAquistion();
@@ -99,6 +100,7 @@ class SlowcontrolManager: public Common
   ofstream m_DAQStatus;								//Stores the current DAQ rate
   ofstream m_DAQSummary;								//Stores all relevant parameters
   bool m_useMCA;// = false;
+  int m_zleEnable;
 
 };
 

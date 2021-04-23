@@ -430,8 +430,15 @@ int SlowcontrolManager::ApplyXMLFile(){
 		strcpy(txt,xstr); 
 		printf("	Sample Size DAC: %s bit\n\n",txt); 
 	} else error((char*)"Sample_size_DAC");
-  
-	// ADC: parse ADC Trigger Settings
+ 
+  m_zleEnable = 0;
+  xstr=xNode.getChildNode("zleEnable").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+	  m_zleEnable=(int)atoi(txt); 
+	} else error((char*)"XML-zleEnable");
+
+  // ADC: parse ADC Trigger Settings
 	xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
 	printf("	ADC: Trigger Settings:\n\n");
 	

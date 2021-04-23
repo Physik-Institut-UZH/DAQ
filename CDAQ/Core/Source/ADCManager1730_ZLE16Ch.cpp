@@ -18,7 +18,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include "ADCManager1730_16Ch.h"
+#include "ADCManager1730_ZLE16Ch.h"
 #include "ADCManager.h"
 #include "global.h"
 
@@ -40,19 +40,21 @@ J.Wulf's code could not be converted from 8 channels to 16 channels. Maybe N.McF
 */
 
 //Note the dummy ADCManager class is intialized here
-ADCManager1730_16Ch::ADCManager1730_16Ch():ADCManager(0)
+ADCManager1730_ZLE16Ch::ADCManager1730_ZLE16Ch():ADCManager(0)
 {
 	m_CrateHandle= m_ADCaddr=m_EnableMask=0;
 	m_EnableVMEIrq=m_Align64=m_EnableBerr=m_EnableOLIrq=m_EnableInt=m_EvAlign=m_Frequency=m_Baseline=m_resDAC=m_Voltage=m_nbCh=m_triggertyp=m_SoftwareRate=m_module=0;
   Event16=NULL; /* generic event struct with 16 bit data (10, 12, 14 and 16 bit digitizers */
+  zleEvent=NULL;//CAEN_DGTZ_730_ZLE_Event_t
   m_handle = -1;
+  m_zleManager = new ZLEManager();
 }
 
-ADCManager1730_16Ch::~ADCManager1730_16Ch()
+ADCManager1730_ZLE16Ch::~ADCManager1730_ZLE16Ch()
 {
 }
 
-int ADCManager1730_16Ch::Init(){
+int ADCManager1730_ZLE16Ch::Init(){
 
   //Reset the board first
   CAEN_DGTZ_Reset(m_handle);
@@ -61,7 +63,7 @@ int ADCManager1730_16Ch::Init(){
   //Software Clear 
   CAEN_DGTZ_WriteRegister(m_handle,0xEF28,0x0001);
   sleep(3);
-  CAEN_DGTZ_Calibrate(m_handle);
+  //CAENDGTZ_API CAEN_DGTZ_Calibrate(m_handle);
 
 
   //Set Register/other Settings from xml-file
@@ -75,13 +77,24 @@ int ADCManager1730_16Ch::Init(){
 }
 
 
-bool ADCManager1730_16Ch::OpenDigitizer(){
+bool ADCManager1730_ZLE16Ch::OpenDigitizer(){
 	
   CAEN_DGTZ_ErrorCode m_Ret = CAEN_DGTZ_Success;
   
   /* *************************************************************************************** */
   /* Open the digitizer and read the board information                                       */
   /* *************************************************************************************** */
+
+  //Digitizer is opened in VMEManager
+  //m_Ret = CAEN_DGTZ_OpenDigitizer(CAEN_DGTZ_OpticalLink, 0 /*Link Num, (Link number in daisy Chain)*/, 0/*Conet Node, optical link number of PCI board */, 0/*VMEBaseAddress (only for USB)*/, &m_handle);
+  /*
+  if(abs((int)m_Ret) == 25) cout<<"Digitizer already open"<<endl;
+  else if (m_Ret) {
+    cout<<m_handle<<endl;
+    cout<<"Opening Digitizer, "<<errors[abs((int)m_Ret)]<<" (code "<<m_Ret<<")"<<endl;
+    return 1;
+  }
+  */
 
   m_Ret = CAEN_DGTZ_GetInfo(m_handle, &BoardInfo);
   if (m_Ret) {
@@ -146,13 +159,47 @@ bool ADCManager1730_16Ch::OpenDigitizer(){
   //EnableMask is a binary number that is used to turn on/off channels, i.e. if you want
   //channel 5 and 14 enables m_EnableMask would be 01000000000100000 but in decimal (32800) rather than binary
   m_Ret = CAEN_DGTZ_SetChannelEnableMask(m_handle, m_EnableMask);
-  
+ 
+  //Internal Test Pulser--Maybe does not work without ZLE
+  m_Ret = CAEN_DGTZ_WriteRegister(m_handle, 0x8064 , 0x0080);
+  if(m_Ret) cout<<"Failed to set the pulser"<<endl;
+
   //TODO
   ///*
   for (int ch = 0; ch < m_nbCh; ch++) {
     if (m_EnableMask & (1<<ch)) {
       m_Ret = CAEN_DGTZ_SetChannelTriggerThreshold(m_handle, ch, m_channelThresh[ch]);
       m_Ret = CAEN_DGTZ_SetTriggerPolarity(m_handle, ch, m_trigPolarity[ch]); //.TriggerEdge
+      int check = 0;
+      if(!m_zleEnable){
+        check = m_zleManager->XX2530_ZLE_NoThresholdEnable(m_handle,ch);//disable ZLE threshold
+        cout<<"ZLE is disabled using manager code"<<endl;
+        if(check) cout<<"Error 9"<<endl;
+        continue;
+      }
+      //ZLE TODO toggle this with XML
+      cout<<"Enabling ZLE info "<<endl;
+      check = m_zleManager->XX2530_ZLE_SetPreTrigger(m_handle,200,ch);
+      if(check) cout<<"Error 1"<<endl;
+      check = m_zleManager->XX2530_ZLE_SetBLineMode(m_handle,0,ch);//0 is automatic, 1 is static
+      if(check) cout<<"Error 2"<<endl;
+      check = m_zleManager->XX2530_ZLE_SetBLineNoise(m_handle,25,ch);
+      if(check) cout<<"Error 3"<<endl;
+      check = m_zleManager->XX2530_ZLE_SetPreSamples(m_handle, 50,ch);
+      if(check) cout<<"Error 4"<<endl;
+      check = m_zleManager->XX2530_ZLE_SetPostSamples(m_handle, 50,ch);
+      if(check) cout<<"Error 5"<<endl;
+      uint16_t threshold = 0;
+      check = m_zleManager->XX2530_ZLE_SetDataThreshold(m_handle,threshold,ch);
+      if(check) cout<<"Error 6"<<endl;
+      check = m_zleManager->XX2530_ZLE_SetTriggerThreshold(m_handle,threshold ,ch);
+      if(check) cout<<"Error 7"<<endl;
+      uint32_t pol = 0;
+      if(m_PulsePolarity[ch] == CAEN_DGTZ_PulsePolarityPositive) pol = 1; 
+      check = m_zleManager->XX2530_ZLE_SetPulsePolarity(m_handle,pol,ch);
+      if(check) cout<<"Error 8"<<endl;
+
+
     }
   }
   //*/
@@ -183,6 +230,15 @@ bool ADCManager1730_16Ch::OpenDigitizer(){
     return 1;
   }
 
+  //TODO ZLE flag needs to be added
+  if(m_zleEnable){
+    m_Ret = CAEN_DGTZ_MallocZLEEvents(m_handle, (void**)&zleEvent, &m_AllocatedSize);
+
+    for (int ch = 0; ch < m_nbCh; ch++) {
+      if (CAEN_DGTZ_MallocZLEWaveforms(m_handle, (void**)&(zleEvent[0].Channel[ch]->Waveforms),&m_AllocatedSize)) {cout<<"Error with MallocZLEWaveforms"<<endl;}
+    }
+  }
+  //TODO make sure to turn on 
   startAcq();
   
 
@@ -190,7 +246,7 @@ bool ADCManager1730_16Ch::OpenDigitizer(){
 }
 
 //setup for an 'OR' trigger
-CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::OrProgrammer(){
+CAEN_DGTZ_ErrorCode ADCManager1730_ZLE16Ch::OrProgrammer(){
   int m_ret=0;
   
   /*
@@ -244,7 +300,7 @@ CAEN_DGTZ_ErrorCode ADCManager1730_16Ch::OrProgrammer(){
 
 }
 
-int ADCManager1730_16Ch::CalculateBaseline(){
+int ADCManager1730_ZLE16Ch::CalculateBaseline(){
   //return CAEN_DGTZ_Success;
   
   float cal = 1;
@@ -465,7 +521,7 @@ int ADCManager1730_16Ch::CalculateBaseline(){
 }
 
 
-int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
+int ADCManager1730_ZLE16Ch::CheckEventBuffer(int eventCounter){
   //Do something
   if(eventCounter == 0) startAcq();
   blt_bytes = 0;
@@ -557,8 +613,12 @@ int ADCManager1730_16Ch::CheckEventBuffer(int eventCounter){
   return triggerCounter;
 }
 
+int ADCManager1730_ZLE16Ch::CheckEventBufferZLE(int eventCounter){
 
-bool ADCManager1730_16Ch::startAcq(){
+  return eventCounter;
+}
+
+bool ADCManager1730_ZLE16Ch::startAcq(){
       
   //if(!CalibComplete) Calibrate_DC_Offset();
 
@@ -580,7 +640,7 @@ bool ADCManager1730_16Ch::startAcq(){
   //AcqRun = 1;
 }
 
-int ADCManager1730_16Ch::ApplyXMLFile(){
+int ADCManager1730_ZLE16Ch::ApplyXMLFile(){
 	
 	int temp;  
 	char txt[100];
@@ -692,6 +752,12 @@ int ADCManager1730_16Ch::ApplyXMLFile(){
 		m_resDAC=(int)atoi(txt); 
 	} else error((char*)"sample_size_DAC");
  
+  xstr=xNode.getChildNode("zleEnable").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+	  m_zleEnable=(int)atoi(txt); 
+	} else error((char*)"XML-zleEnable");
+
   //ADC: parse ADC Trigger Settings
 	xNode=xMainNode.getChildNode("adc").getChildNode("triggerSettings");
   m_ExtTriggerMode = CAEN_DGTZ_TRGMODE_DISABLED;
