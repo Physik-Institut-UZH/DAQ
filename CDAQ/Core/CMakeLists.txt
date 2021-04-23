@@ -7,7 +7,7 @@ set (CORE_HEADERFILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/VMEManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/ADCManager.h 
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/ADCManager1730.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/Include/ADCManager1730_16Ch.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/Include/ADCManager1730_ZLE16Ch.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/ScopeManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/StorageManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/Include/SlowcontrolManager.h
@@ -22,7 +22,7 @@ set (CORE_SOURCEFILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/VMEManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/ADCManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/ADCManager1730.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/ADCManager1730_16Ch.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/ADCManager1730_ZLE16Ch.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/ScopeManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/StorageManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/SlowcontrolManager.cpp

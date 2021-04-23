@@ -34,14 +34,31 @@ public:
     	//Init Function
     	int Init();
     
+    //Inherieted from ADCManager and override the function to use Digitizer functions
+    int CheckEventBuffer(int eventCounter);
 
 private:
 	
 		//Read Register from ADC
-		int RegisterReading();
-
+		//int RegisterReading();
+    CAEN_DGTZ_ErrorCode OrProgrammer();
+    int CalculateBaseline();
+    CAEN_DGTZ_ErrorCode SetCorrectThreshold();
 		int ApplyXMLFile();
+
+    u_int32_t m_DACLevel[16];							//DAC Level Current Value
+	  u_int32_t m_DACTarget[16];							//DAC Level Set Value
+	  int m_DACFinished[16];
+    //TODO do not hard code the size
+    //uint32_t m_DCoffset[16];
+    
+    bool OpenDigitizer();
+    bool startAcq();
+  	CAEN_DGTZ_730_ZLE_Event_t      *zleEvent = NULL;
+
+
 };
+ 
 
 #endif
 

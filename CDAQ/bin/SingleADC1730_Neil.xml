@@ -18,9 +18,9 @@
   <adc>	
     <!-- global ADC settings -->
     <global>
-      <ADCType>3</ADCType>											 <!-- Which ADC 0: 1720 1: 1724 2:1730 3:1730-16ZLE channel -->
+      <ADCType>2</ADCType>											 <!-- Which ADC 0: 1720 1: 1724 2:1730  -->
       <nb_modules>1</nb_modules>
-      <nb_chs>8</nb_chs>  <!-- **Total number of channels -->
+      <nb_chs>16</nb_chs>  <!-- **Total number of channels -->
       <eventsTransferred>1</eventsTransferred> <!-- **Total number of events transferred per buffer read, more efficient at larger events. Currently code only works with 1 event per transfer...still testing N.M. 22/09/2020 -->
       <connectionType>1</connectionType>  <!-- CAEN_DGTZ_USB = 0, CAEN_DGTZ_OpticalLink = 1 -->
       <address_0>CCCC0000</address_0>				  						 <!-- Adress of the module-->
@@ -28,13 +28,13 @@
 	
       <!-- Activate channels to read out -->
       <ch_0>100</ch_0>             						 <!-- 0 = off, Number = treshold for trigger setting -->
-      <ch_1>100</ch_1>
-      <ch_2>10</ch_2>                            
-      <ch_3>10</ch_3>                           
-      <ch_4>10</ch_4>                          
-      <ch_5>10</ch_5>                         
-      <ch_6>10</ch_6>                        
-      <ch_7>10</ch_7>
+      <ch_1>00</ch_1>
+      <ch_2>0</ch_2>                            
+      <ch_3>0</ch_3>                           
+      <ch_4>0</ch_4>                          
+      <ch_5>0</ch_5>                         
+      <ch_6>0</ch_6>                        
+      <ch_7>0</ch_7>
       <ch_8>0</ch_8>
       <ch_9>0</ch_9>
       <ch_10>0</ch_10>
@@ -80,7 +80,7 @@
     <TTL>0</TTL>									<!-- **TTL On (1) or NIM On (0) -->
 
     <!-- Option Software Trig-->
-    <SoftwareRate>20</SoftwareRate>						<!-- **Rate of the Software Trigger in Hz -->
+    <SoftwareRate>600</SoftwareRate>						<!-- **Rate of the Software Trigger in Hz -->
 
   </triggerSettings>
  </adc>  

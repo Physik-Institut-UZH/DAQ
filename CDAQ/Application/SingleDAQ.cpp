@@ -30,7 +30,7 @@
 #include <signal.h>	// to catch for Ctrl-C 
 #include <global.h>
 #include <VMEManager.h>
-#include <ADCManager1730_16Ch.h>
+#include <ADCManager1730_ZLE16Ch.h>
 #include <ADCManager1730.h>
 #include <ADCManager1724.h>
 #include <ADCManager1720.h>
@@ -89,10 +89,11 @@ int main(int argc, char *argv[], char *envp[] )
 		adcManager = new ADCManager1720();
 	else if(slowcontrolManager->GetADCType()==1)
 		adcManager = new ADCManager1724();
-	else if(slowcontrolManager->GetADCType()==2)
-		adcManager = new ADCManager1730();
- 	else if(slowcontrolManager->GetADCType()==3)
-    adcManager = new ADCManager1730_16Ch();
+ 	else if(slowcontrolManager->GetADCType()==2)
+    if(slowcontrolManager->UseZLE())
+      adcManager = new ADCManager1730_ZLE16Ch();
+    else
+      adcManager = new ADCManager1730();
   else adcManager = new ADCManager();
 
 	adcManager->SetCrateHandle(vManager->GetCrateHandle());
