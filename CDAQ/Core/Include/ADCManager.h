@@ -386,7 +386,7 @@ protected:
   char * m_EventPtr;
 
   ZLEManager * m_zleManager;
-  int m_zleEnable = 0;
+  int m_zleEnable ;
 
 
 

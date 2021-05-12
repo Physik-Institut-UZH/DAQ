@@ -5,10 +5,10 @@
     <source>Shalu_and_Neil</source>       			 						<!-- What is measured? -->
     <notes>Muon100x40x1cmTest</notes>                  	    					 	<!-- Comments -->
     <user>NeilandShalu</user>                                     					 	<!-- Last user which used the ADC-->
-    <path>/data1/MuonPanelTests/</path>      							 <!-- Path -->
+    <path>/data/MuonPanelTests/</path>      							 <!-- Path -->
     <daq_version>6.0.0</daq_version>                        						 	 <!-- DAQ Version-->
-    <nb_evts>100000</nb_evts>                             							 <!-- Number of events-->
-    <nb_evts_per_file>100000</nb_evts_per_file>           							 <!-- Number of events/file-->
+    <nb_evts>10</nb_evts>                             							 <!-- Number of events-->
+    <nb_evts_per_file>10000</nb_evts_per_file>           							 <!-- Number of events/file-->
     <store_data>1</store_data>                             							 <!-- Store Data: 0: No, 1:ROOT, 2:.txt, 3: binary-->
     <displaytime>1</displaytime>                        							 <!-- Status output -->
   </global>
@@ -20,15 +20,15 @@
     <global>
       <ADCType>2</ADCType>											 <!-- Which ADC 0: 1720 1: 1724 2:1730  -->
       <nb_modules>1</nb_modules>
-      <nb_chs>16</nb_chs>  <!-- **Total number of channels -->
+      <nb_chs>8</nb_chs>  <!-- **Total number of channels -->
       <eventsTransferred>1</eventsTransferred> <!-- **Total number of events transferred per buffer read, more efficient at larger events. Currently code only works with 1 event per transfer...still testing N.M. 22/09/2020 -->
       <connectionType>1</connectionType>  <!-- CAEN_DGTZ_USB = 0, CAEN_DGTZ_OpticalLink = 1 -->
       <address_0>CCCC0000</address_0>				  						 <!-- Adress of the module-->
       <link_in_chain>0</link_in_chain>            		 <!-- Position of the board in the link, -1 if reading board through VME controller, 0 - N if using optical link / PCI -->
 	
       <!-- Activate channels to read out -->
-      <ch_0>100</ch_0>             						 <!-- 0 = off, Number = treshold for trigger setting -->
-      <ch_1>00</ch_1>
+      <ch_0>1</ch_0>             						 <!-- 0 = off, Number = treshold for trigger setting -->
+      <ch_1>0</ch_1>
       <ch_2>0</ch_2>                            
       <ch_3>0</ch_3>                           
       <ch_4>0</ch_4>                          
@@ -44,8 +44,8 @@
       <ch_14>0</ch_14>
       <ch_15>0</ch_15>
 
-      <polarity_0>-1</polarity_0>  <!-- Polarity of Channel N, +1 or -1 -->
-      <polarity_1>-1</polarity_1>
+      <polarity_0>1</polarity_0>  <!-- Polarity of Channel N, +1 or -1 -->
+      <polarity_1>1</polarity_1>
       <polarity_2>1</polarity_2>
       <polarity_3>1</polarity_3>
       <polarity_4>1</polarity_4>
@@ -61,29 +61,30 @@
       <polarity_14>1</polarity_14>
       <polarity_15>1</polarity_15>
 
-      <custom_size>1000</custom_size>      										 <!-- **Custom event size in samples (must be < nb_samples_per_event) -->
+      <custom_size>2000</custom_size>      										 <!-- **Custom event size in samples (must be < nb_samples_per_event) -->
       <posttrigger>50</posttrigger> 											 <!-- 0 - 100, size is expressed in percentage of the record length. 0 is end of waveform, 100, is begining of waveform -->
       <sampling_freq>500000000</sampling_freq>								     <!-- **sampling frequency -->
       <voltage_range>2</voltage_range>										 <!-- **voltage range of ADC/DAC, does not work -->
       <sample_size_ADC>14</sample_size_ADC>						 				 <!-- **sampling width in bits (ADC) -->
       <sample_size_DAC>16</sample_size_DAC>										 <!-- **sampling width in bits (DAC) -->
-      <baseline>50</baseline>  												 <!-- **position of baseline 0 to 100 -->	
+      <baseline>50</baseline>  												 <!-- **position of baseline 0 to 100 -->
+      <dataReduction>10</dataReduction>   <!-- how much do you want to reduce the data size by, i.e waveforms are sampled at DAQ rate but stored at a reduce sample size -->    
       <zleEnable>0</zleEnable>
     </global>
     
     <!--Trigger Settings -->
 	<triggerSettings>
 	
-    <trigger>1</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig (does not work) -->
+      <trigger>0</trigger>								<!-- **0:ext trig, 1:Software trig, 2: Channel trig, 3: Coincidence trig (does not work) -->
 
-    <!-- Option external trig and trg-out-->
-    <TTL>0</TTL>									<!-- **TTL On (1) or NIM On (0) -->
+      <!-- Option external trig and trg-out-->
+      <TTL>1</TTL>									<!-- **TTL On (1) or NIM On (0) -->
 
-    <!-- Option Software Trig-->
-    <SoftwareRate>600</SoftwareRate>						<!-- **Rate of the Software Trigger in Hz -->
+      <!-- Option Software Trig-->
+      <SoftwareRate>600</SoftwareRate>						<!-- **Rate of the Software Trigger in Hz -->
 
-  </triggerSettings>
- </adc>  
+    </triggerSettings>
+   </adc>  
  
    <!-- Settings for graphical display "Oscilloscope mode" -->
  <graphics>
@@ -91,5 +92,8 @@
    <yaxis_low>980</yaxis_low>								<!-- ** lower border of y-axis display -->
    <yaxis_high>5020</yaxis_high>							<!-- ** upper border -->           
    <useMCA>0</useMCA>         <!-- Use MCA plotting to show intergral of every waveform-->
+   <MCARangeHighBin>0</MCARangeHighBin> <!-- High bin for MCA histogram, Set to 0 if you want auto range -->
+   <MCARangeLowBin>0</MCARangeLowBin> <!-- Low bin for MCA histogram Set to 0 if you want auto range -->
+   <MCABins>200</MCABins> <!-- Number of Bins for MCA histogram, default is 1000 -->
  </graphics>
 </settings>

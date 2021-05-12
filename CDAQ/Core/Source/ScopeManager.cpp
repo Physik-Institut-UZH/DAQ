@@ -20,8 +20,10 @@ Author: Julien Wulf UZH
 
 ScopeManager::ScopeManager()
 {
-	m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=m_save=m_counter=m_zleEnable=m_Baseline=m_nbCh=0;
-  m_useMCA=m_logSwitch=0;
+  m_mode=m_channel=m_triggertype=m_module=m_nbmodule=m_mean=m_save=m_counter=m_zleEnable=m_Baseline=m_nbCh=0;
+  m_useMCA=m_logSwitch=m_MCAHighBin=m_MCALowBin=0;
+  m_dataReduction=1;
+  m_NbinsMCA = 1000;
   g.resize(0);
 }
 
@@ -59,10 +61,11 @@ int ScopeManager::Init(){
   gMCA.resize(m_nbCh);
   vecMCA.resize(m_nbCh);
   maxMCA.resize(m_nbCh);
+  minMCA.resize(m_nbCh);
   for(Int_t j=0; j<m_nbCh;j++){
     if(m_EnableMask & (1<<j)){
-      g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),Event16->ChSize[j]-1,0,Event16->ChSize[j]-1);
-      m_BufferSize = Event16->ChSize[j];
+      g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),(Event16->ChSize[j]/m_dataReduction)-1,0,(Event16->ChSize[j]/m_dataReduction)-1);
+      m_BufferSize = Event16->ChSize[j]/m_dataReduction;
     }
     else 
       g[j] = new TH1D(Form("Channel:  %i",j),Form("Channel:  %i",j),1,0,1);
@@ -116,48 +119,6 @@ int ScopeManager::Init(){
 }
 
 
-/*
-//Updated by Neil to make a much more simple code (Hopefully)
-int ScopeManager::ShowEvent(){
-
-  for(int i = 0; i < m_nbCh; i++){
-    for(int j = 0; j < Event16->ChSize[i]; j++){
-      double binContent = Event16->DataChannel[i][j];
-      g[i]->SetBinContent(j, binContent);
-    } 
-  }
-
-  for(int i=0;i<m_nbCh;i++){
-    graph_edit(g[i]);
-  }
-
-  TLine threshhigh = TLine(0, m_thresh[m_channel],m_BufferSize-1, m_thresh[m_channel]);
-  threshhigh.SetLineWidth(4);
-	threshhigh.SetLineStyle(3);
-  threshhigh.SetLineColor(kOrange);
-	
-  //Event
-  graph_edit(g[m_channel]);
-  g[m_channel]->Draw();
-  if(m_triggertype==2)
-    g[m_channel]->SetTitle(Form("Channel:  %i , Threshold: %i",m_channel,m_thresh[m_channel]));
-  else
-    g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
-  if(m_triggertype==2)
-    threshhigh.Draw("same");
-  single->Modified();
-  single->SetSelected(single);
-  single->Update();
-
-  if(m_save==1){
-    single->SaveAs(Form("Plots/Event_%i.png",m_counter));
-  }
-  // single->cd(2);
-  //hm->Draw();
-  m_counter++;
-  return 0;
-}
-*/
 
 //Updated by Neil to make a much more simple code (Hopefully)
 int ScopeManager::ShowEvent(){
@@ -166,10 +127,15 @@ int ScopeManager::ShowEvent(){
   //for(int h = 0; h < EventVector->size(); h++){
     CAEN_DGTZ_UINT16_EVENT_t *event = Event16;//EventVector->at(h);
     for(int i = 0; i < m_nbCh; i++){
+      double binSum = 0;
       for(int j = 0; j < event->ChSize[i]; j++){
         double binContent = event->DataChannel[i][j];
-//        if(j < 10) cout<<"\t Reading data from channel "<<i<<", Trigger num "<<h<<", bin "<<j<<", data "<<binContent<<endl;
-        g[i]->SetBinContent(j, binContent);
+        binSum += binContent;
+        if(j%m_dataReduction == 0){
+          binSum /= m_dataReduction;
+          g[i]->SetBinContent(j/m_dataReduction, binSum);
+          binSum = 0;
+        }
       } 
     }
 
@@ -191,6 +157,14 @@ int ScopeManager::ShowEvent(){
       g[m_channel]->SetTitle(Form("Channel:  %i , Module: %i",m_channel,m_module));
     if(m_triggertype==2)
       threshhigh.Draw("same");
+    else if(m_triggertype== 0 || m_triggertype== 1){
+      int triggerPosition = (m_posttrigger/100.)*m_BufferSize; 
+      TLine * extTriggerTime = new TLine(triggerPosition,g[m_channel]->GetMaximum(),triggerPosition,g[m_channel]->GetMinimum());
+      extTriggerTime->SetLineWidth(4);
+      extTriggerTime->SetLineStyle(3);
+      extTriggerTime->SetLineColor(kOrange);
+      extTriggerTime->Draw("same");
+    }
     single->Modified();
     single->SetSelected(single);
     single->Update();
@@ -212,11 +186,14 @@ void ScopeManager::ShowMCA(int counter){
   for(int i = 0; i < m_nbCh; i++){
     double binSum = 0;
     double baseline = 0;
-    for(int j = 1; j < 11; j++){
+    int baselineNorm = 0.5*m_posttrigger;
+    minMCA[i] = 999999;
+    if(baselineNorm <= 10) baselineNorm = 11;
+    for(int j = 1; j < baselineNorm; j++){
       if(Event16->ChSize[i] == 0) continue;
       baseline += Event16->DataChannel[i][j];
     }
-    baseline /= 10;
+    baseline /= baselineNorm;
 
     for(int j = 0; j < Event16->ChSize[i]; j++){
       double binContent = fabs(Event16->DataChannel[i][j] - baseline);
@@ -224,18 +201,16 @@ void ScopeManager::ShowMCA(int counter){
     } 
     vecMCA[i].push_back(binSum);
     if(binSum > maxMCA[i]) maxMCA[i] = binSum;
+    if(binSum < minMCA[i]) minMCA[i] = binSum;
    
-    if(counter-1 == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,7e3);//100 bins over full range//seems exseive
-    /*
-    if(( (int)maxMCA[i]*1.0 ) > 0){
-      delete gMCA[i];
-      gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),5000,1,100*16384);//100 bins over full range//seems exseive
+    //if(counter-1 == 0)  gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1000,1,7e3);
+    if(counter%20 == 0){
+        delete gMCA[i];
+        if(m_MCAHighBin > 0)
+            gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),m_NbinsMCA,m_MCALowBin,m_MCAHighBin);
+        else
+            gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),m_NbinsMCA,minMCA[i]*0.9,maxMCA[i]*1.10);
     }
-    else{
-      delete gMCA[i];
-      gMCA[i] = new TH1D(Form("MCA-Channel:  %i",i),Form("MCA-Channel:  %i",i),1,0,1);
-    }
-    */
   }
   if(counter%20 != 0) return;//don't update the MCA for every event, every 20th event seems modest
 
@@ -245,7 +220,7 @@ void ScopeManager::ShowMCA(int counter){
     }
 
     //clear vector
-    vecMCA[i].resize(0);
+    //vecMCA[i].resize(0);
   }
   for(int i = 0; i < m_nbCh; i++) graph_edit(gMCA[i]);
   graph_edit(gMCA[m_channel]);
@@ -267,7 +242,7 @@ void ScopeManager::WriteMCA(int nEvents){
   TDatime * datTime = new TDatime();
   TString fileName = "MCAPlot_"+to_string(nEvents)+"_"+to_string(datTime->GetDate()) + "-" + to_string(datTime->GetTime());
 
-  cout<<"Writing MCA file "<<fileName<<".root to Plots/"<<endl;
+  cout<<"Writing MCA file "<<fileName<<".root to "<<m_path<<endl;
   TFile* fOut = new TFile(m_path + fileName + TString(".root"),"RECREATE");
   fOut->cd();
   for(int i = 0; i < m_nbCh ; i++){
@@ -350,6 +325,23 @@ int ScopeManager::ApplyXMLFile(){
 		strcpy(txt,xstr); 
 		m_triggertype=atoi(txt);
 	} else error((char*)"XML-trigger");
+ 
+    xNode=xMainNode.getChildNode("adc").getChildNode("global");
+	xstr=xNode.getChildNode("posttrigger").getText();
+	if (xstr) {
+		strcpy(txt,xstr); 
+		m_posttrigger=atoi(txt);
+	} else error((char*)"XML-posttrigger");
+
+  xNode=xMainNode.getChildNode("adc").getChildNode("global");
+  xstr=xNode.getChildNode("dataReduction").getText();
+  if (xstr) {
+    strcpy(txt,xstr);
+    temp=((int)atoi(txt));
+    m_dataReduction=temp;
+    if(m_dataReduction > 1) cout<<"data reduction set to "<<m_dataReduction<<endl;
+  }
+
 
   xNode=xMainNode.getChildNode("adc").getChildNode("ZLE");
   xstr=xNode.getChildNode("zleEnable").getText();
@@ -362,7 +354,7 @@ int ScopeManager::ApplyXMLFile(){
 
 
 	// ADC: parse waveform display options
-	xNode=xMainNode.getChildNode("graphics");
+  xNode=xMainNode.getChildNode("graphics");
 
   xstr=xNode.getChildNode("useMCA").getText();
   if(xstr){
@@ -370,25 +362,44 @@ int ScopeManager::ApplyXMLFile(){
     m_useMCA=(int)(atoi(txt));
     if(m_useMCA)    printf(" Using MCA plotting rather than waveform plotting \n");
   }
-	xstr=xNode.getChildNode("ydisplay").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		m_mode=atoi(txt); 		
-	} else error((char*)"XML-ydisplay");
 
-	xstr=xNode.getChildNode("yaxis_low").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		m_min=atoi(txt); 
-	} else error((char*)"XML-yaxis_low");
-  
-	xstr=xNode.getChildNode("yaxis_high").getText();
-	if (xstr) {
-		strcpy(txt,xstr); 
-		m_max=atoi(txt); 
-	} else error((char*)"XML-yaxis_high");
-		
-	return 0;
+  xstr=xNode.getChildNode("MCARangeHighBin").getText();
+  if(xstr){
+    strcpy(txt,xstr);
+    m_MCAHighBin=(int)(atoi(txt));
+  }
+ 
+  xstr=xNode.getChildNode("MCARangeLowBin").getText();
+  if(xstr){
+    strcpy(txt,xstr);
+    m_MCALowBin=(int)(atoi(txt));
+  }
+ 
+  xstr=xNode.getChildNode("MCABins").getText();
+  if(xstr){
+    strcpy(txt,xstr);
+    m_NbinsMCA=(int)(atoi(txt));
+  }
+
+  xstr=xNode.getChildNode("ydisplay").getText();
+  if (xstr) {
+      strcpy(txt,xstr); 
+      m_mode=atoi(txt); 		
+  } else error((char*)"XML-ydisplay");
+
+  xstr=xNode.getChildNode("yaxis_low").getText();
+  if (xstr) {
+      strcpy(txt,xstr); 
+      m_min=atoi(txt); 
+  } else error((char*)"XML-yaxis_low");
+
+  xstr=xNode.getChildNode("yaxis_high").getText();
+  if (xstr) {
+      strcpy(txt,xstr); 
+      m_max=atoi(txt); 
+  } else error((char*)"XML-yaxis_high");
+
+  return 0;
 }
 
 

@@ -187,7 +187,9 @@ int main(int argc, char *argv[], char *envp[] )
         scopeManager->WriteMCA(counter);
       }
     }
-	
+
+    if(slowcontrolManager->UseMCA())   scopeManager->WriteMCA(counter);
+
 	slowcontrolManager->StopAquistion();
 	adcManager->Disable();
 	storageManager->SaveContainer();

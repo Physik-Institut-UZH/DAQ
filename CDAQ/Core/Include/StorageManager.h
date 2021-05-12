@@ -100,6 +100,7 @@ private:
  	int m_NoE,m_EventsPerFile,m_WriteToFile,m_nbCh,m_filenumber,m_module;			//Number of events
 	int m_custom_size;
  	int *channelActive;						//Channel active
+    int m_dataReduction;
 	int m_ZLE;							//ZLE active or not
   
   std::vector<std::vector<int>> m_zle_wfVec;

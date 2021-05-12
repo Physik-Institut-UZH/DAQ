@@ -88,7 +88,7 @@ class ScopeManager: public Common
 		std::vector<TH1D*> g; 				//Histogramm for Waveform
     std::vector<TH1D*> gMCA;
     std::vector<std::vector<double>> vecMCA;
-    std::vector<double> maxMCA;
+    std::vector<double> maxMCA, minMCA;
 
 		u_int32_t* buffer;					//Buffer of the data to visualize
 		int m_length;						//Set length of the waveform
@@ -99,12 +99,14 @@ class ScopeManager: public Common
 		int m_channel;						//Channel to visuliaze
 		int* m_thresh;
 		int m_triggertype;					//Triggertype
+		int m_posttrigger;					//postTrigger
 		int m_module;						//Module
 		int m_nbmodule;
 		double m_mean;
 		int m_save; 
 		int m_counter;
-		int m_zleEnable;	
+		int m_zleEnable;
+        int m_dataReduction;    
 		int m_Baseline;
     int m_nbCh;
 
@@ -115,6 +117,9 @@ class ScopeManager: public Common
     std::vector<CAEN_DGTZ_UINT16_EVENT_t> * EventVector;
     //bool m_useMCA;// = false;
     int m_useMCA;
+    int m_MCAHighBin;
+    int m_MCALowBin;
+    int m_NbinsMCA;
     int m_logSwitch;
     string m_path;
 };

@@ -54,7 +54,7 @@ private:
     
     bool OpenDigitizer();
     bool startAcq();
-  	CAEN_DGTZ_730_ZLE_Event_t      *zleEvent = NULL;
+  	CAEN_DGTZ_730_ZLE_Event_t      *zleEvent;
 
 
 };
